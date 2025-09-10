@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taskTemplates>
+<taskTemplate id="9f2a1c34-7b11-4c59-95ab-12cd34ef5678" name="Fraud X Report" comments="" type="FundingQC_Fraud_X_Report" required="true" priority="5" rank="8" created="2025-09-09T21:20:00.000Z" createdBy="calves" lastModified="2025-09-09T21:20:00.000Z" lastModifiedBy="calves" createdVia="API" taskGroupTemplateId="2ed4e38e-6db0-4490-9de1-0c34c995969e" taskGroupTemplateName="Funding QC" autocomplete="true" calendar="" autoCreate="false" duration="5" durationFormat="Minute">
+<associations>
+<association entityId="b2dd870b-5e16-487d-ab34-d495530e46bd" entityType="urn:elli:encompass:workspace" entityUID="Fraud X Review" relationship="workspace"/>
+</associations>
+<subTaskTemplates>
+<subTaskTemplate id="1a6c2e77-4b23-4c7f-9d01-67890abc1234" name="Sub-Task Name" description="Appraiser License pulled correctly. If not, appraiser license saved" type="Fraud X Report – Appraiser License" required="true" priority="1" rank="1" created="2025-09-09T21:20:00.000Z" createdBy="calves" lastModified="2025-09-09T21:20:00.000Z" lastModifiedBy="calves" autoCreate="true" category="Regular">
+<associations>
+<association entityId="bb67dc76-ccf6-450e-aa18-cf3e829f0338" entityType="urn:elli:encompass:document-workspaceoverride-0" entityUID="OFAC" relationship="document-workspaceoverride-0"/>
+<association entityId="a3fc886d-2519-40bb-9bc4-e2bc140d77c8" entityType="urn:elli:encompass:custom-tool-workspaceoverride-1" entityUID="Appraiser License Lookup" relationship="custom-tool-workspaceoverride-1"/>
+</associations>
+</subTaskTemplate>
+<subTaskTemplate id="2b7d3f88-5c34-4d8f-8e12-78901bcd2345" name="Sub-Task Name" description="Report is free from OFACs, Red Flags, and any other discrepancies" type="Fraud X Report – Red Flags" required="true" priority="2" rank="2" created="2025-09-09T21:20:00.000Z" createdBy="calves" lastModified="2025-09-09T21:20:00.000Z" lastModifiedBy="calves" autoCreate="true" category="Regular">
+<associations>
+<association entityId="bb67dc76-ccf6-450e-aa18-cf3e829f0338" entityType="urn:elli:encompass:document-workspaceoverride-0" entityUID="OFAC" relationship="document-workspaceoverride-0"/>
+</associations>
+</subTaskTemplate>
+<subTaskTemplate id="3c8e4f99-6d45-4e9f-9f23-89012cde3456" name="Sub-Task Name" description="All required parties present" type="Fraud X Report – All Parties" required="true" priority="3" rank="3" created="2025-09-09T21:20:00.000Z" createdBy="calves" lastModified="2025-09-09T21:20:00.000Z" lastModifiedBy="calves" autoCreate="true" category="Regular">
+<associations>
+<association entityId="bb67dc76-ccf6-450e-aa18-cf3e829f0338" entityType="urn:elli:encompass:document-workspaceoverride-0" entityUID="OFAC" relationship="document-workspaceoverride-0"/>
+<association entityId="4e4bb140-a4bb-4dfb-842e-05e6ca382934" entityType="urn:elli:encompass:document-workspaceoverride-1" entityUID="Closing Disclosure" relationship="document-workspaceoverride-1"/>
+</associations>
+</subTaskTemplate>
+</subTaskTemplates>
+</taskTemplate>
+</taskTemplates>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taskTemplates>
+<taskTemplate id="f42b91f1-8e34-4f9a-9d5e-1a8aaf3c1a01" name="Credit Refresh" comments="" type="FundingQC_Credit_Refresh" required="true" priority="5" rank="8" created="2025-09-09T21:10:00.000Z" createdBy="calves" lastModified="2025-09-09T21:10:00.000Z" lastModifiedBy="calves" createdVia="API" taskGroupTemplateId="2ed4e38e-6db0-4490-9de1-0c34c995969e" taskGroupTemplateName="Funding QC" autocomplete="true" calendar="" autoCreate="false" duration="5" durationFormat="Minute">
+<associations>
+<association entityId="b7c2d8d3-2a5f-41e9-9b73-17df52ac8d09" entityType="urn:elli:encompass:workspace" entityUID="Credit Refresh Review" relationship="workspace"/>
+</associations>
+<subTaskTemplates>
+<subTaskTemplate id="5db59f9a-73d9-4b5e-96c7-9d7d06d71f22" name="Sub-Task Name" description="Report is free from Red Flags and any other discrepancies" type="Credit Refresh – Red Flags" required="true" priority="1" rank="1" created="2025-09-09T21:10:00.000Z" createdBy="calves" lastModified="2025-09-09T21:10:00.000Z" lastModifiedBy="calves" autoCreate="true" category="Regular">
+<associations>
+<association entityId="bb67dc76-ccf6-450e-aa18-cf3e829f0338" entityType="urn:elli:encompass:document-workspaceoverride-0" entityUID="Credit Report" relationship="document-workspaceoverride-0"/>
+</associations>
+</subTaskTemplate>
+<subTaskTemplate id="c4a8df85-2f0f-41ce-91d3-8f21f2c69e31" name="Sub-Task Name" description="All Inquiries/New Credit Addressed (if applicable)" type="Credit Refresh – Inquiries/New Credit" required="true" priority="2" rank="2" created="2025-09-09T21:10:00.000Z" createdBy="calves" lastModified="2025-09-09T21:10:00.000Z" lastModifiedBy="calves" autoCreate="true" category="Regular">
+<associations>
+<association entityId="bb67dc76-ccf6-450e-aa18-cf3e829f0338" entityType="urn:elli:encompass:document-workspaceoverride-0" entityUID="Credit Report" relationship="document-workspaceoverride-0"/>
+</associations>
+</subTaskTemplate>
+</subTaskTemplates>
+</taskTemplate>
+</taskTemplates>
