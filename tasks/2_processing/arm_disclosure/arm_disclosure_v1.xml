@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<taskTemplates>
+<taskTemplate id="f42b91f1-8e34-4f9a-9d5e-1a8aaf3c1a03" name="ARM Disclosure" comments="" type="Processing_ARM_Disclosure" required="true" priority="5" rank="8" created="2025-09-29T07:27:54.221Z" createdBy="jules" lastModified="2025-09-29T07:27:54.221Z" lastModifiedBy="jules" createdVia="API" taskGroupTemplateId="2ed4e38e-6db0-4490-9de1-0c34c995969f" taskGroupTemplateName="Processing - ARM Disclosure" autocomplete="true" calendar="" autoCreate="false" duration="5" durationFormat="Minute">
+<subTaskTemplates>
+<subTaskTemplate id="a1b2c3d4-e5f6-7890-1234-567890abcde0" name="Send Adjustable Rate Disclosure" description="Adjustable Rate Disclosure" type="ARM - Adjustable Rate Disclosure" required="true" priority="1" rank="1" created="2025-09-29T07:27:54.221Z" createdBy="jules" lastModified="2025-09-29T07:27:54.221Z" lastModifiedBy="jules" autoCreate="true" category="Regular">
+</subTaskTemplate>
+<subTaskTemplate id="b2c3d4e5-f6a7-8901-2345-67890abcdef1" name="Send Consumer Handbook on Adjustable Rate Mortgage" description="Consumer Handbook on Adjustable Rate Mortgage" type="ARM - Consumer Handbook on Adjustable Rate Mortgage" required="true" priority="2" rank="2" created="2025-09-29T07:27:54.221Z" createdBy="jules" lastModified="2025-09-29T07:27:54.221Z" lastModifiedBy="jules" autoCreate="true" category="Regular">
+</subTaskTemplate>
+</subTaskTemplates>
+</taskTemplate>
+</taskTemplates>
