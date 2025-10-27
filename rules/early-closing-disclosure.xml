@@ -1,0 +1,55 @@
+<eventTriggers>
+<eventTrigger>
+<id>f8e3c1a0-5b3a-4b0e-8e3e-3e3e3e3e3e3e</id>
+<name>Task - Early Closing Disclosure - Send</name>
+<description>Send Early Closing Disclosure</description>
+<type>USER</type>
+<createdVia>API</createdVia>
+<execution>ALL</execution>
+<status>ACTIVE</status>
+<eventName>Manual</eventName>
+<highPriorityFlag>false</highPriorityFlag>
+<allowManualTrigger>true</allowManualTrigger>
+<isInvalid>false</isInvalid>
+<invalidCategory/>
+<created>2025-10-27T11:52:01.364316Z</created>
+<createdBy>Jules</createdBy>
+<lastModified>2025-10-27T11:52:01.364316Z</lastModified>
+<lastModifiedBy>Jules</lastModifiedBy>
+<tags>
+<tag>Closing</tag>
+<tag>Disclosure</tag>
+</tags>
+<workflowProcesses>
+<workflowProcess>
+<processId>a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6</processId>
+<processKey>process_early_closing_disclosure</processKey>
+<description>Create Task</description>
+<configurationDescription/>
+<steps>
+<taskCreate1>
+<stepType>action</stepType>
+<supportMultiResults>false</supportMultiResults>
+<invalidCategory/>
+<action>urn:elli:task:action:task:create</action>
+<isInvalid>false</isInvalid>
+<parameters>
+<userGroup>Closers - Tasks</userGroup>
+</parameters>
+</taskCreate1>
+</steps>
+<id>a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6</id>
+<created>2025-10-27T11:52:01.364316Z</created>
+<createdBy>Jules</createdBy>
+<lastModified>2025-10-27T11:52:01.364316Z</lastModified>
+<lastModifiedBy>Jules</lastModifiedBy>
+<clientId>3011200828</clientId>
+<isInvalid>false</isInvalid>
+<invalidCategory/>
+<initialSteps>
+<initialStep>taskCreate1</initialStep>
+</initialSteps>
+</workflowProcess>
+</workflowProcesses>
+</eventTrigger>
+</eventTriggers>
