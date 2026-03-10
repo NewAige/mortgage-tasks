@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2025-10-30T00:00:00Z",
+    "lastUpdated": "2026-03-05T00:00:00.000Z",
     "version": "1.0.0",
-    "totalTasks": 44,
-    "completedTasks": 4,
+    "totalTasks": 45,
+    "completedTasks": 12,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -57,7 +57,7 @@
           "name": "Review Credit",
           "order": 1,
           "subcategory": "file_setup",
-          "status": "planned",
+          "status": "completed",
           "priority": 9,
           "description": "Review borrower credit report for accuracy and issues",
           "notes": "Comprehensive credit review including red flags, OFAC, fraud alerts, and lien verification",
@@ -99,9 +99,9 @@
               "applicationLogic": "Always included when credit review task is created"
             }
           ],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-02-23T00:00:00.000Z"
         },
         {
           "id": "task_002",
@@ -218,30 +218,38 @@
           "name": "Order Title",
           "order": 2,
           "subcategory": "service_orders",
-          "status": "planned",
+          "status": "completed",
           "priority": 8,
           "description": "Order title search and examination",
           "notes": "Agent should create subtasks for: title search request, preliminary title report review, exception review, lien verification, title commitment",
           "applicationLogic": "Applied after loan is in processing. Triggers when property address is confirmed and purchase contract is received (for purchase loans) or after appraisal is ordered (for refinance).",
           "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "xmlFile": "tasks/2_processing/title/order_title_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-02-23T00:00:00.000Z"
         },
         {
           "id": "task_005",
           "name": "Order Flood Certificate",
           "order": 3,
           "subcategory": "service_orders",
-          "status": "planned",
+          "status": "completed",
           "priority": 7,
           "description": "Determine if property is in flood zone and order flood insurance if required",
           "notes": "Agent should create subtasks for: FEMA flood zone determination, flood certificate review, flood insurance verification (if in zone), community participation verification",
           "applicationLogic": "Applied after property address is confirmed. Triggers when appraisal is ordered or earlier if property details are available.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "subtasks": [
+            {
+              "name": "Resubmit with Supporting Documents",
+              "order": 1,
+              "description": "If flood determination fails, resubmit flood certificate request with supporting property documents",
+              "type": "conditional",
+              "applicationLogic": "Added when flood certificate determination fails"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-02-23T00:00:00.000Z"
         },
         {
           "id": "task_006",
@@ -293,7 +301,7 @@
           "name": "Withdraw Loan",
           "order": 3,
           "subcategory": "misc",
-          "status": "planned",
+          "status": "completed",
           "priority": 5,
           "description": "Process loan withdrawal at borrower request",
           "notes": "Loan withdrawn by borrower. Includes Massachusetts-specific disclosures when applicable.",
@@ -321,16 +329,16 @@
               "applicationLogic": "Added when credit report was pulled during application process"
             }
           ],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "xmlFile": "tasks/2_processing/misc/withdraw_loan_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
           "id": "task_037",
           "name": "Send Denial",
           "order": 4,
           "subcategory": "misc",
-          "status": "planned",
+          "status": "completed",
           "priority": 7,
           "description": "Send loan denial notice and adverse action disclosures",
           "notes": "Loan denied during processing. Includes Massachusetts-specific disclosures when applicable.",
@@ -365,39 +373,39 @@
               "applicationLogic": "Added when credit report was pulled during application process"
             }
           ],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "xmlFile": "tasks/2_processing/misc/send_denial_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
           "id": "task_007",
           "name": "Order SSA-89",
           "order": 4,
           "subcategory": "service_orders",
-          "status": "planned",
+          "status": "completed",
           "priority": 5,
           "description": "Request SSA-89 verification for Social Security income",
           "notes": "Agent should create subtasks for: borrower authorization, SSA-89 request submission, response review, income verification documentation. Only needed when borrower claims SS income.",
           "applicationLogic": "Applied conditionally when borrower income includes Social Security benefits. Triggers when income type 'Social Security' is selected on application.",
           "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "xmlFile": "tasks/2_processing/ssa89/order_ssa89_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
           "id": "task_008",
           "name": "Order Tax Transcripts",
           "order": 5,
           "subcategory": "service_orders",
-          "status": "planned",
+          "status": "completed",
           "priority": 7,
           "description": "Request IRS tax transcripts for income verification",
           "notes": "Agent should create subtasks for: 4506-C form completion, IRS transcript request (1040, W-2, 1099), transcript review, income verification against application, self-employed income analysis (if applicable)",
           "applicationLogic": "Applied for most loan types requiring income verification. Triggers after initial disclosures sent or when income documentation is needed. May be waived for certain automated underwriting approvals.",
           "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "xmlFile": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
           "id": "task_013",
@@ -893,6 +901,12 @@
           "name": "HMDA",
           "order": 2,
           "description": "HMDA reporting and compliance"
+        },
+        {
+          "id": "quality_assurance",
+          "name": "Quality Assurance",
+          "order": 3,
+          "description": "Initial and post-closing document quality assurance reviews"
         }
       ],
       "tasks": [
@@ -1030,6 +1044,52 @@
           "xmlFile": null,
           "createdBy": null,
           "createdAt": null
+        },
+        {
+          "id": "task_045",
+          "name": "Initial Document Quality Assurance",
+          "order": 1,
+          "subcategory": "quality_assurance",
+          "status": "completed",
+          "priority": 8,
+          "description": "Review initial disclosure documents for compliance and completeness",
+          "notes": "Covers 1003 review, eConsent, all state-specific disclosures (MA, RI), and conditional items (HELOC, ARM, ROV)",
+          "applicationLogic": "Applied after initial disclosures are sent. Reviews all required and conditional initial documents for completeness and compliance.",
+          "subtasks": [
+            {"name": "1003 – Signed at Top (Joint)", "description": "Verify 1003 signed at top if joint application", "type": "conditional"},
+            {"name": "1003 – Declarations Complete", "description": "Verify all Declarations sections filled out completely", "type": "standard"},
+            {"name": "1003 – Demographic Info Addendum", "description": "Demographic Information Addendum collected", "type": "conditional"},
+            {"name": "1003 – Demographic Info Addendum Signed", "description": "Demographic Information Addendum not collected; not marked on 1003", "type": "conditional"},
+            {"name": "1003 – MGL Disclosure Complete", "description": "MGL Disclosure complete", "type": "conditional"},
+            {"name": "ROV Sent with Initial Disclosures", "description": "Right to Request Reconsideration of Value sent with initial disclosures", "type": "conditional"},
+            {"name": "eConsent – Completed Prior to Electronic Send", "description": "eConsent completed before electronically sending disclosures", "type": "standard"},
+            {"name": "eConsent – Docs Mailed if No eConsent", "description": "If no eConsent, documents mailed prior to disclosure due date", "type": "conditional"},
+            {"name": "Supplemental Consumer Information Form", "description": "One Supplemental Consumer Information Form per URLA", "type": "standard"},
+            {"name": "HELOC Important Terms Disclosure", "description": "HELOC Important Terms Disclosure provided", "type": "conditional"},
+            {"name": "Your Home Loan Toolkit", "description": "Provided within 3 business days of application", "type": "conditional"},
+            {"name": "2015 Settlement Service List", "description": "Provided", "type": "conditional"},
+            {"name": "Acknowledgement of Intent to Proceed", "description": "Acknowledgement of Intent to Proceed obtained; date entered matches date on form", "type": "conditional"},
+            {"name": "CHARM Booklet", "description": "CHARM Booklet provided within 3 business days", "type": "conditional"},
+            {"name": "ARM Disclosure", "description": "ARM Disclosure sent same day as application; matches product and index as of day sent", "type": "conditional"},
+            {"name": "Credit Score Disclosure Completed", "description": "Information is complete and matches credit report with all scores present", "type": "standard"},
+            {"name": "Homeowner Counseling List and Acknowledgement", "description": "10 counselors provided based on borrower's address", "type": "standard"},
+            {"name": "Notice of Right to Copy of Appraisal (ECOA)", "description": "Notice of Right to Copy of Appraisal (ECOA) provided", "type": "conditional"},
+            {"name": "Privacy Notice Received", "description": "Privacy Notice provided and saved in folder", "type": "standard"},
+            {"name": "Privacy Policy – Opt Out Signed", "description": "Opt Out signed (if applicable)", "type": "conditional"},
+            {"name": "RI Appraisal Fee Notice", "description": "RI Appraisal Fee Notice provided", "type": "conditional"},
+            {"name": "RI Right to Copy of Appraisal", "description": "RI Right to Copy of Appraisal provided", "type": "conditional"},
+            {"name": "RI Notice of Non-Refundability", "description": "RI Notice of Non-Refundability provided", "type": "conditional"},
+            {"name": "RI Form 1", "description": "RI Form 1 completed and signed by Loan Originator", "type": "conditional"},
+            {"name": "RI Form 2", "description": "RI Form 2 completed and signed by Loan Originator", "type": "conditional"},
+            {"name": "RI Open-End Credit Disclosures", "description": "RI Open-End Credit Disclosures (Gen Laws 6-27-11, O/OC Only)", "type": "conditional"},
+            {"name": "RI Choice of Insurance", "description": "RI Choice of Insurance provided", "type": "conditional"},
+            {"name": "RI Title Insurance Disclosure", "description": "RI Title Insurance Disclosure executed with all boxes checked", "type": "conditional"},
+            {"name": "USA Patriot Act Info Disclosure", "description": "USA Patriot Act Info Disclosure provided", "type": "standard"},
+            {"name": "HELOC Booklet", "description": "HELOC Booklet provided within 3 business days", "type": "conditional"}
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-05T00:00:00.000Z"
         }
       ]
     }
@@ -1070,6 +1130,105 @@
       "taskName": "Fraud X Report",
       "details": "Manually created fraudx_v1.xml with 3 subtasks",
       "xmlFile": "tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T00:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_001",
+      "taskName": "Review Credit",
+      "details": "Created review_credit_v1.xml with 5 subtasks: Red Flags Review, OFAC, Fraud Alerts, Frozen Score, Review Liens",
+      "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_004",
+      "taskName": "Order Title",
+      "details": "Created order_title_v1.xml with 5 subtasks: Title Search Request, Preliminary Title Report Review, Exception Review, Lien Verification, Title Commitment. Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/title/order_title_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_005",
+      "taskName": "Order Flood Certificate",
+      "details": "Created order_flood_certificate_v1.xml with 4 subtasks: FEMA Flood Zone Determination, Flood Certificate Review, Flood Insurance Verification (conditional), Community Participation Verification (conditional). Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "exported",
+      "taskId": "task_004,task_005",
+      "taskName": "Order Title + Order Flood Certificate",
+      "details": "Exported task_004 and task_005 as a joined group to export/service_orders_title_flood_v1.xml (2 tasks).",
+      "xmlFile": "export/service_orders_title_flood_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_007",
+      "taskName": "Order SSA-89",
+      "details": "Created order_ssa89_v1.xml with no subtasks. Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/ssa89/order_ssa89_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_008",
+      "taskName": "Order Tax Transcripts",
+      "details": "Created order_tax_transcripts_v1.xml with no subtasks. Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "exported",
+      "taskId": "task_007,task_008",
+      "taskName": "Order SSA-89 + Order Tax Transcripts",
+      "details": "Exported task_007 and task_008 as a joined group to export/service_orders_ssa89_tax_transcripts_v1.xml (2 tasks).",
+      "xmlFile": "export/service_orders_ssa89_tax_transcripts_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_036",
+      "taskName": "Withdraw Loan",
+      "details": "Created withdraw_loan_v1.xml with 3 conditional subtasks: ECOA Right to Copy of Appraisal, Massachusetts MGL Disclosure, Credit Score Disclosure. Assigned to Loan Processor. taskGroupTemplateId: 2c2ef895-3109-4e47-bde2-ceae91119d9f.",
+      "xmlFile": "tasks/2_processing/misc/withdraw_loan_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_037",
+      "taskName": "Send Denial",
+      "details": "Created send_denial_v1.xml with 4 conditional subtasks: MA Review Board Form, ECOA Right to Copy of Appraisal, Massachusetts MGL Disclosure, Credit Score Disclosure. Assigned to Loan Processor. taskGroupTemplateId: 2c2ef895-3109-4e47-bde2-ceae91119d9f.",
+      "xmlFile": "tasks/2_processing/misc/send_denial_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "exported",
+      "taskId": "task_036,task_037",
+      "taskName": "Withdraw Loan + Send Denial",
+      "details": "Exported task_036 and task_037 as a joined group to export/processing_misc_withdraw_denial_v1.xml (2 tasks).",
+      "xmlFile": "export/processing_misc_withdraw_denial_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-05T00:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_045",
+      "taskName": "Initial Document Quality Assurance",
+      "details": "Created initial_document_quality_assurance_v1.xml with 29 subtasks: 1003 – Signed at Top (Joint), 1003 – Declarations Complete, 1003 – Demographic Info Addendum, MGL Disclosure Complete, ROV Sent with Initial Disclosures, eConsent – Completed Prior to Electronic Send, eConsent – Docs Mailed if No eConsent, Supplemental Consumer Information Form, HELOC Important Terms Disclosure, Your Home Loan Toolkit, 2015 Settlement Service List, Acknowledgement of Intent to Proceed, CHARM Booklet, ARM Disclosure, Credit Score Disclosure Completed, Homeowner Counseling List and Acknowledgement, Notice of Right to Copy of Appraisal (ECOA), Privacy Notice Received, Opt Out Signed, RI Appraisal Fee Notice, RI Right to Copy of Appraisal, RI Notice of Non-Refundability, RI Form 1 and 2, RI Open-End Credit Disclosures, RI Form 3 HLPA Refinance Only, RI Choice of Insurance, RI Title Insurance Disclosure, USA Patriot Act Info Disclosure, HELOC Booklet.",
+      "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml"
     }
   ]
 }
