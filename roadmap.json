@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-03-05T00:00:00.000Z",
+    "lastUpdated": "2026-03-10T14:04:19.000Z",
     "version": "1.0.0",
-    "totalTasks": 45,
-    "completedTasks": 12,
+    "totalTasks": 47,
+    "completedTasks": 16,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -64,36 +64,50 @@
           "applicationLogic": "Applied at loan application submission. Triggers when loan is created and borrower SSN is provided.",
           "subtasks": [
             {
-              "name": "Red Flags Review",
+              "name": "Name Discrepancy",
               "order": 1,
-              "description": "Review credit report for red flags: Name, Address, SSN discrepancies",
+              "description": "Review credit report for name discrepancies",
+              "type": "standard",
+              "applicationLogic": "Always included when credit review task is created"
+            },
+            {
+              "name": "Address Discrepancy",
+              "order": 2,
+              "description": "Review credit report for address discrepancies",
+              "type": "standard",
+              "applicationLogic": "Always included when credit review task is created"
+            },
+            {
+              "name": "SSN Discrepancy",
+              "order": 3,
+              "description": "Review credit report for Social Security Number discrepancies",
               "type": "standard",
               "applicationLogic": "Always included when credit review task is created"
             },
             {
               "name": "OFAC",
-              "order": 2,
+              "order": 4,
               "description": "Office of Foreign Assets Control screening for all parties",
               "type": "standard",
               "applicationLogic": "Always included when credit review task is created"
             },
             {
               "name": "Fraud Alerts",
-              "order": 3,
+              "order": 5,
               "description": "Review and address any fraud alerts on credit report",
               "type": "standard",
               "applicationLogic": "Always included when credit review task is created"
             },
             {
               "name": "Frozen Score",
-              "order": 4,
+              "order": 6,
               "description": "Identify and address frozen credit scores",
               "type": "standard",
               "applicationLogic": "Always included when credit review task is created"
             },
             {
               "name": "Review Liens",
-              "order": 5,
+              "order": 7,
               "description": "Review liens and ensure they are tied to all VOMs (Verification of Mortgage)",
               "type": "standard",
               "applicationLogic": "Always included when credit review task is created"
@@ -108,15 +122,186 @@
           "name": "Send Disclosures",
           "order": 2,
           "subcategory": "file_setup",
-          "status": "planned",
+          "status": "completed",
           "priority": 10,
           "description": "Send required loan disclosures to borrower",
-          "notes": "Agent should include subtasks for: Loan Estimate, Initial Disclosures, TRID compliance verification, borrower acknowledgment tracking",
+          "notes": "Includes index check, appraisal fee verification, FACT Act Disclosure review, and Home Counseling List",
           "applicationLogic": "Applied within 3 business days of loan application. Triggers after loan is created and borrower intent to proceed is confirmed.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "subtasks": [
+            {
+              "name": "Index",
+              "order": 1,
+              "description": "Index pulled as of today. Use 'Get Index' button.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Appraisal Fee Only",
+              "order": 2,
+              "description": "The only fee evidenced is the appraisal fee.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – All Scores",
+              "order": 3,
+              "description": "All scores for all borrowers from all credit bureaus evidenced on FACT Act Disclosure.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Checkboxes",
+              "order": 4,
+              "description": "Material Terms / Credit Score checkboxes checked when score available, unchecked when not.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Key Factors",
+              "order": 5,
+              "description": "Key Factors text present for every credit score for all borrowers and bureaus.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – eConsent",
+              "order": 6,
+              "description": "eConsent received before sending electronically.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Contact Info",
+              "order": 7,
+              "description": "Email and phone present before sending electronically.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Ready to Send",
+              "order": 8,
+              "description": "Ready to Send Disclosure. Mark Done to send electronically. Mark Issue to send via mail.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Home Counseling List",
+              "order": 9,
+              "description": "Provide Home Counseling List to borrower.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/disclosures/send_disclosures_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-10T00:00:00.000Z"
+        },
+        {
+          "id": "task_002b",
+          "name": "Send Disclosures (HELOC)",
+          "order": 3,
+          "subcategory": "file_setup",
+          "status": "completed",
+          "priority": 10,
+          "description": "Send required loan disclosures to borrower for HELOC loans",
+          "notes": "HELOC variant — includes all standard disclosure subtasks plus demographic addendum checks",
+          "applicationLogic": "Applied within 3 business days of HELOC loan application. Triggers after loan is created and borrower intent to proceed is confirmed.",
+          "subtasks": [
+            {
+              "name": "Index",
+              "order": 1,
+              "description": "Index pulled as of today. Use 'Get Index' button.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Appraisal Fee Only",
+              "order": 2,
+              "description": "The only fee evidenced is the appraisal fee.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – All Scores",
+              "order": 3,
+              "description": "All scores for all borrowers from all credit bureaus evidenced on FACT Act Disclosure.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Checkboxes",
+              "order": 4,
+              "description": "Material Terms / Credit Score checkboxes checked when score available, unchecked when not.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Key Factors",
+              "order": 5,
+              "description": "Key Factors text present for every credit score for all borrowers and bureaus.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – eConsent",
+              "order": 6,
+              "description": "eConsent received before sending electronically.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Contact Info",
+              "order": 7,
+              "description": "Email and phone present before sending electronically.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure – Ready to Send",
+              "order": 8,
+              "description": "Ready to Send Disclosure. Mark Done to send electronically. Mark Issue to send via mail.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Home Counseling List",
+              "order": 9,
+              "description": "Provide Home Counseling List to borrower.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "1003 – Demographic HELOC",
+              "order": 10,
+              "description": "Demographic information is collected only when the proceeds are used to pay off an existing lien-secured debt, qualifying the transaction as a refinancing for regulatory reporting purposes.",
+              "type": "standard",
+              "applicationLogic": "Always included when HELOC disclosure task is created"
+            },
+            {
+              "name": "Program Selection",
+              "order": 11,
+              "description": "Verify the program is marked appropriately for this loan.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Order AVM",
+              "order": 12,
+              "description": "Conditional: applies when loan amount is at or below $400,000. Completed automatically by the separate Order AVM task — do not complete manually.",
+              "type": "conditional",
+              "applicationLogic": "Added when loan amount is at or below $400,000"
+            },
+            {
+              "name": "Flood Cert",
+              "order": 13,
+              "description": "Completed automatically upon completion of the separate Order Flood Certificate task — do not complete manually.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created; auto-completed by Order Flood Certificate task"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-10T00:00:00.000Z"
         },
         {
           "id": "task_011",
@@ -406,6 +591,41 @@
           "xmlFile": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-02-23T12:00:00.000Z"
+        },
+        {
+          "id": "task_046",
+          "name": "Order AVM",
+          "order": 6,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Order Automated Valuation Model through Xactus portal for property value assessment",
+          "subtasks": [
+            {"name": "Order AVM in Xactus", "type": "standard", "description": "Submit AVM order through the Xactus portal for subject property"},
+            {"name": "Save AVM to eFolder", "type": "standard", "description": "Save the AVM document to the loan eFolder; if AVM hit is unsuccessful mark as issue to complete this task"},
+            {"name": "Enter AVM Data", "type": "standard", "description": "Enter property value and relevant data from AVM results into the loan file"},
+            {"name": "Ready to Send", "type": "standard", "description": "Loan is primed for initial document send; confirm all required items are in order before proceeding"}
+          ],
+          "xmlFile": "tasks/2_processing/avm/order_avm_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-10T14:04:19.000Z"
+        },
+        {
+          "id": "task_047",
+          "name": "Flood Certificate Review",
+          "order": 7,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Review flood certificate for accuracy against system data and verify life of loan coverage",
+          "subtasks": [
+            {"name": "Address Matches System", "type": "standard", "description": "Property address on flood certificate matches the address in the system; completing this task will copy the address to the flood order address to ensure accuracy in case of future address changes"},
+            {"name": "Flood Zone Matches System", "type": "standard", "description": "Flood zone designation on certificate matches the zone recorded in the system"},
+            {"name": "Life of Loan Coverage Obtained", "type": "standard", "description": "Life of loan flood zone monitoring coverage has been obtained"}
+          ],
+          "xmlFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-10T14:04:19.000Z"
         },
         {
           "id": "task_013",
@@ -1056,36 +1276,156 @@
           "notes": "Covers 1003 review, eConsent, all state-specific disclosures (MA, RI), and conditional items (HELOC, ARM, ROV)",
           "applicationLogic": "Applied after initial disclosures are sent. Reviews all required and conditional initial documents for completeness and compliance.",
           "subtasks": [
-            {"name": "1003 – Signed at Top (Joint)", "description": "Verify 1003 signed at top if joint application", "type": "conditional"},
-            {"name": "1003 – Declarations Complete", "description": "Verify all Declarations sections filled out completely", "type": "standard"},
-            {"name": "1003 – Demographic Info Addendum", "description": "Demographic Information Addendum collected", "type": "conditional"},
-            {"name": "1003 – Demographic Info Addendum Signed", "description": "Demographic Information Addendum not collected; not marked on 1003", "type": "conditional"},
-            {"name": "1003 – MGL Disclosure Complete", "description": "MGL Disclosure complete", "type": "conditional"},
-            {"name": "ROV Sent with Initial Disclosures", "description": "Right to Request Reconsideration of Value sent with initial disclosures", "type": "conditional"},
-            {"name": "eConsent – Completed Prior to Electronic Send", "description": "eConsent completed before electronically sending disclosures", "type": "standard"},
-            {"name": "eConsent – Docs Mailed if No eConsent", "description": "If no eConsent, documents mailed prior to disclosure due date", "type": "conditional"},
-            {"name": "Supplemental Consumer Information Form", "description": "One Supplemental Consumer Information Form per URLA", "type": "standard"},
-            {"name": "HELOC Important Terms Disclosure", "description": "HELOC Important Terms Disclosure provided", "type": "conditional"},
-            {"name": "Your Home Loan Toolkit", "description": "Provided within 3 business days of application", "type": "conditional"},
-            {"name": "2015 Settlement Service List", "description": "Provided", "type": "conditional"},
-            {"name": "Acknowledgement of Intent to Proceed", "description": "Acknowledgement of Intent to Proceed obtained; date entered matches date on form", "type": "conditional"},
-            {"name": "CHARM Booklet", "description": "CHARM Booklet provided within 3 business days", "type": "conditional"},
-            {"name": "ARM Disclosure", "description": "ARM Disclosure sent same day as application; matches product and index as of day sent", "type": "conditional"},
-            {"name": "Credit Score Disclosure Completed", "description": "Information is complete and matches credit report with all scores present", "type": "standard"},
-            {"name": "Homeowner Counseling List and Acknowledgement", "description": "10 counselors provided based on borrower's address", "type": "standard"},
-            {"name": "Notice of Right to Copy of Appraisal (ECOA)", "description": "Notice of Right to Copy of Appraisal (ECOA) provided", "type": "conditional"},
-            {"name": "Privacy Notice Received", "description": "Privacy Notice provided and saved in folder", "type": "standard"},
-            {"name": "Privacy Policy – Opt Out Signed", "description": "Opt Out signed (if applicable)", "type": "conditional"},
-            {"name": "RI Appraisal Fee Notice", "description": "RI Appraisal Fee Notice provided", "type": "conditional"},
-            {"name": "RI Right to Copy of Appraisal", "description": "RI Right to Copy of Appraisal provided", "type": "conditional"},
-            {"name": "RI Notice of Non-Refundability", "description": "RI Notice of Non-Refundability provided", "type": "conditional"},
-            {"name": "RI Form 1", "description": "RI Form 1 completed and signed by Loan Originator", "type": "conditional"},
-            {"name": "RI Form 2", "description": "RI Form 2 completed and signed by Loan Originator", "type": "conditional"},
-            {"name": "RI Open-End Credit Disclosures", "description": "RI Open-End Credit Disclosures (Gen Laws 6-27-11, O/OC Only)", "type": "conditional"},
-            {"name": "RI Choice of Insurance", "description": "RI Choice of Insurance provided", "type": "conditional"},
-            {"name": "RI Title Insurance Disclosure", "description": "RI Title Insurance Disclosure executed with all boxes checked", "type": "conditional"},
-            {"name": "USA Patriot Act Info Disclosure", "description": "USA Patriot Act Info Disclosure provided", "type": "standard"},
-            {"name": "HELOC Booklet", "description": "HELOC Booklet provided within 3 business days", "type": "conditional"}
+            {
+              "name": "1003 – Signed at Top (Joint)",
+              "description": "Verify 1003 signed at top if joint application",
+              "type": "conditional"
+            },
+            {
+              "name": "1003 – Declarations Complete",
+              "description": "Verify all Declarations sections filled out completely",
+              "type": "standard"
+            },
+            {
+              "name": "1003 – Demographic Info Addendum",
+              "description": "Demographic Information Addendum collected",
+              "type": "conditional"
+            },
+            {
+              "name": "1003 – Demographic Info Addendum Signed",
+              "description": "Demographic Information Addendum not collected; not marked on 1003",
+              "type": "conditional"
+            },
+            {
+              "name": "1003 – MGL Disclosure Complete",
+              "description": "MGL Disclosure complete",
+              "type": "conditional"
+            },
+            {
+              "name": "ROV Sent with Initial Disclosures",
+              "description": "Right to Request Reconsideration of Value sent with initial disclosures",
+              "type": "conditional"
+            },
+            {
+              "name": "eConsent – Completed Prior to Electronic Send",
+              "description": "eConsent completed before electronically sending disclosures",
+              "type": "standard"
+            },
+            {
+              "name": "eConsent – Docs Mailed if No eConsent",
+              "description": "If no eConsent, documents mailed prior to disclosure due date",
+              "type": "conditional"
+            },
+            {
+              "name": "Supplemental Consumer Information Form",
+              "description": "One Supplemental Consumer Information Form per URLA",
+              "type": "standard"
+            },
+            {
+              "name": "HELOC Important Terms Disclosure",
+              "description": "HELOC Important Terms Disclosure provided",
+              "type": "conditional"
+            },
+            {
+              "name": "Your Home Loan Toolkit",
+              "description": "Provided within 3 business days of application",
+              "type": "conditional"
+            },
+            {
+              "name": "2015 Settlement Service List",
+              "description": "Provided",
+              "type": "conditional"
+            },
+            {
+              "name": "Acknowledgement of Intent to Proceed",
+              "description": "Acknowledgement of Intent to Proceed obtained; date entered matches date on form",
+              "type": "conditional"
+            },
+            {
+              "name": "CHARM Booklet",
+              "description": "CHARM Booklet provided within 3 business days",
+              "type": "conditional"
+            },
+            {
+              "name": "ARM Disclosure",
+              "description": "ARM Disclosure sent same day as application; matches product and index as of day sent",
+              "type": "conditional"
+            },
+            {
+              "name": "Credit Score Disclosure Completed",
+              "description": "Information is complete and matches credit report with all scores present",
+              "type": "standard"
+            },
+            {
+              "name": "Homeowner Counseling List and Acknowledgement",
+              "description": "10 counselors provided based on borrower's address",
+              "type": "standard"
+            },
+            {
+              "name": "Notice of Right to Copy of Appraisal (ECOA)",
+              "description": "Notice of Right to Copy of Appraisal (ECOA) provided",
+              "type": "conditional"
+            },
+            {
+              "name": "Privacy Notice Received",
+              "description": "Privacy Notice provided and saved in folder",
+              "type": "standard"
+            },
+            {
+              "name": "Privacy Policy – Opt Out Signed",
+              "description": "Opt Out signed (if applicable)",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Appraisal Fee Notice",
+              "description": "RI Appraisal Fee Notice provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Right to Copy of Appraisal",
+              "description": "RI Right to Copy of Appraisal provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Notice of Non-Refundability",
+              "description": "RI Notice of Non-Refundability provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Form 1",
+              "description": "RI Form 1 completed and signed by Loan Originator",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Form 2",
+              "description": "RI Form 2 completed and signed by Loan Originator",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Open-End Credit Disclosures",
+              "description": "RI Open-End Credit Disclosures (Gen Laws 6-27-11, O/OC Only)",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Choice of Insurance",
+              "description": "RI Choice of Insurance provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Title Insurance Disclosure",
+              "description": "RI Title Insurance Disclosure executed with all boxes checked",
+              "type": "conditional"
+            },
+            {
+              "name": "USA Patriot Act Info Disclosure",
+              "description": "USA Patriot Act Info Disclosure provided",
+              "type": "standard"
+            },
+            {
+              "name": "HELOC Booklet",
+              "description": "HELOC Booklet provided within 3 business days",
+              "type": "conditional"
+            }
           ],
           "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml",
           "createdBy": "agent_claude",
@@ -1138,6 +1478,33 @@
       "taskId": "task_001",
       "taskName": "Review Credit",
       "details": "Created review_credit_v1.xml with 5 subtasks: Red Flags Review, OFAC, Fraud Alerts, Frozen Score, Review Liens",
+      "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_002",
+      "taskName": "Send Disclosures",
+      "details": "Created send_disclosures_v1.xml with 9 subtasks: Index, Appraisal Fee Only, FACT Act Disclosure – All Scores, FACT Act Disclosure – Checkboxes, FACT Act Disclosure – Key Factors, FACT Act Disclosure – eConsent, FACT Act Disclosure – Contact Info, FACT Act Disclosure – Ready to Send, Home Counseling List.",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_002b",
+      "taskName": "Send Disclosures (HELOC)",
+      "details": "Created send_disclosures_heloc_v1.xml with 10 subtasks: Index, Appraisal Fee Only, FACT Act Disclosure – All Scores, FACT Act Disclosure – Checkboxes, FACT Act Disclosure – Key Factors, FACT Act Disclosure – eConsent, FACT Act Disclosure – Contact Info, FACT Act Disclosure – Ready to Send, Home Counseling List, 1003 – Demographic HELOC (standard).",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "updated",
+      "taskId": "task_001",
+      "taskName": "Review Credit",
+      "details": "Split Red Flags Review into 3 separate subtasks: Name Discrepancy, Address Discrepancy, SSN Discrepancy. Total subtasks now 7: Name Discrepancy, Address Discrepancy, SSN Discrepancy, OFAC, Fraud Alerts, Frozen Score, Review Liens",
       "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
     },
     {
@@ -1229,6 +1596,33 @@
       "taskName": "Initial Document Quality Assurance",
       "details": "Created initial_document_quality_assurance_v1.xml with 29 subtasks: 1003 – Signed at Top (Joint), 1003 – Declarations Complete, 1003 – Demographic Info Addendum, MGL Disclosure Complete, ROV Sent with Initial Disclosures, eConsent – Completed Prior to Electronic Send, eConsent – Docs Mailed if No eConsent, Supplemental Consumer Information Form, HELOC Important Terms Disclosure, Your Home Loan Toolkit, 2015 Settlement Service List, Acknowledgement of Intent to Proceed, CHARM Booklet, ARM Disclosure, Credit Score Disclosure Completed, Homeowner Counseling List and Acknowledgement, Notice of Right to Copy of Appraisal (ECOA), Privacy Notice Received, Opt Out Signed, RI Appraisal Fee Notice, RI Right to Copy of Appraisal, RI Notice of Non-Refundability, RI Form 1 and 2, RI Open-End Credit Disclosures, RI Form 3 HLPA Refinance Only, RI Choice of Insurance, RI Title Insurance Disclosure, USA Patriot Act Info Disclosure, HELOC Booklet.",
       "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "agent": "agent_claude",
+      "action": "updated",
+      "taskId": "task_002b",
+      "taskName": "Send Disclosures (HELOC)",
+      "details": "Added 3 subtasks to send_disclosures_heloc_v1.xml: Program Selection (standard, rank 11), Order AVM (conditional, rank 12, applies when LA <= $400K), Flood Cert (standard, rank 13, auto-completed by Order Flood Certificate task)",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T14:04:19.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_046",
+      "taskName": "Order AVM",
+      "details": "Created order_avm_v1.xml with 4 subtasks: Order AVM in Xactus (standard), Save AVM to eFolder (standard — marks issue and ends task if hit unsuccessful), Enter AVM Data (conditional — skipped if AVM unsuccessful), Ready to Send (standard — primes loan for initial document send)",
+      "xmlFile": "tasks/2_processing/avm/order_avm_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T14:04:19.000Z",
+      "agent": "agent_claude",
+      "action": "created",
+      "taskId": "task_047",
+      "taskName": "Flood Certificate Review",
+      "details": "Created flood_certificate_review_v1.xml with 3 subtasks: Address Matches System (standard), Flood Zone Matches System (standard), Life of Loan Coverage Obtained (standard).",
+      "xmlFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml"
     }
   ]
 }
