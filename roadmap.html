@@ -458,13 +458,108 @@
                 align-items: stretch;
             }
         }
+
+        .export-btn {
+            margin-left: auto;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-btn:hover {
+            background: #2980b9;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                font-size: 11px;
+            }
+
+            .filters,
+            .export-btn {
+                display: none !important;
+            }
+
+            header {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+
+            .stage {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+                margin-bottom: 15px;
+            }
+
+            .task-card {
+                page-break-inside: avoid;
+                cursor: default;
+            }
+
+            .subtasks {
+                display: none;
+            }
+
+            .task-card:hover {
+                box-shadow: none;
+                transform: none;
+            }
+
+            .tasks-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .agent-log {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-before: always;
+            }
+
+            .progress-fill {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .task-card.planned,
+            .task-card.in-progress,
+            .task-card.completed,
+            .stage-badge,
+            .task-priority,
+            .status-badge,
+            .subtask-type-badge,
+            .log-agent,
+            .task-notes,
+            .task-logic {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Mortgage Workflow Roadmap</h1>
-            <p>Task visualization and AI agent coordination system</p>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                <div>
+                    <h1>Mortgage Workflow Roadmap</h1>
+                    <p>Task visualization and AI agent coordination system</p>
+                </div>
+                <button class="export-btn" onclick="window.print()">
+                    &#128438; Export PDF
+                </button>
+            </div>
             <div class="metadata">
                 <div class="metadata-item">
                     <span class="metadata-label">Total Tasks</span>

@@ -190,7 +190,7 @@ single XML declaration → single `<taskTemplates>` root → all `<taskTemplate>
 ## UI Visibility Rules
 
 - The subtask `description` is the **only field visible to end users** in the Encompass interface. The `name`, `type`, and other attributes are not displayed.
-- Because `type` serves as an internal ID/title but is hidden from users, always prefix the subtask `description` with the subtask `name` (the portion after `Initial Document Quality Assurance – ` in the type), followed by ` – `, then the actual description text.
+- Because `type` serves as an internal ID/title but is hidden from users, always prefix the subtask `description` with the subtask `name`, followed by ` – `, then the actual description text.
   - Example: `name="ARM Disclosure"` → `description="ARM Disclosure – ARM Disclosure sent same day as application; matches product and index as of day sent"`
 - The task-level `description` follows normal conventions and does not require this prefix.
 
@@ -252,9 +252,11 @@ Use `--roadmap-priority` with `create_task.py` and it maps automatically.
 | Type | XML `required` | XML `autoCreate` | XML `category` | When to use |
 |---|---|---|---|---|
 | `standard` | `true` | `true` | `Regular` | Always needed; created with the task |
-| `conditional` | `false` | `false` | `Regular` | Added only when specific loan/property/borrower conditions are met |
-| `later` | `false` | `false` | `Regular` | Added at a future workflow stage |
-| `informational` | `false` | `false` | `Informational` | Read-only reference subtask; not a work item |
+| `conditional` | `true` | `false` | `Regular` | Added only when specific loan/property/borrower conditions are met |
+| `later` | `true` | `false` | `Regular` | Added at a future workflow stage |
+| `informational` | `true` | `false` | `Informational` | Read-only reference subtask; not a work item |
+
+**`required` is always `true` for every subtask type.** It controls whether the user must complete the subtask before closing the task — set it to `true` so the subtask enforces completion. `autoCreate` is the real conditional field: `true` means the subtask is created automatically with the task; `false` means it is only added when the applicable condition is met.
 
 For `conditional` and `later` subtasks: include them in the XML even though `autoCreate="false"`. This makes them available for the system to add when conditions are met.
 
@@ -383,12 +385,41 @@ Highest-priority planned tasks (work these first):
 | Pretty-printing the XML | Keep everything inline — no newlines between tags |
 | Using the roadmap 1-10 priority in XML | Map to 1-5 scale (see Priority Mapping table above) |
 | Skipping `conditional`/`later` subtasks | Include them in XML with `autoCreate="false"` |
+| Setting `required="false"` on any subtask | Always use `required="true"` — `autoCreate` is the conditional field, not `required` |
 | Forgetting to update `metadata.completedTasks` | Always increment this counter |
 | Committing without updating agentLog | Always append a log entry |
 | Confusing `--workspace-uid` with `--associations` | `--workspace-uid` is a shorthand that appends one workspace entry; use `--associations` for role assignees or multiple association types |
 | Hardcoding a UUID for a role entityId | Role IDs are system integers (e.g. `"5"` for Loan Processor); do not generate a UUID for these |
 | Omitting `--task-group-id` when creating a group | Always generate one UUID and pass it to every `create_task.py` call in the same group — without it each task gets a random ID and Encompass will not group them |
 | Using a different `--task-group-id` per task in the same group | The ID must be **identical** across all tasks in the group; generate it once before the loop |
+
+---
+
+## Business Logic Notes
+
+These are domain rules learned from the actual workflow — apply them when building or reviewing tasks.
+
+### Appraisal Task (task_003 — Order Appraisal)
+
+**Invoice flow:**
+- `Create Invoice` — always standard; generates the backend invoice for the borrower to pay.
+- `Send Invoice` — conditional; added when intent to proceed is received **or** the product is a HELOC.
+
+**Payment recording:**
+- `Payment Recording` — conditional; added when appraisal payment is received.
+- Encompass and ValueLink **do not sync** — payment must be entered in **both systems separately**. Always note this in the description.
+
+**Ordering subtasks:**
+- `Automated Order` — conditional; added when automated ordering is set up for the loan. Marking **Done triggers the automated order** — note this in the description.
+- `Order 1004` — conditional; single-family property **and** automated ordering not available.
+- `Order 1025` — conditional; 2–4 unit property **and** automated ordering not available.
+- `Order 1073` — conditional; condo property **and** automated ordering not available.
+- The form order subtasks are mutually exclusive by property type. All three should be present in the XML as `autoCreate="false"`.
+
+### General Subtask Description Conventions
+
+- When a subtask's Done action triggers an automated system process (e.g., places an order, sends data), state that in the description: *"marking Done will [action]"*.
+- When two systems must be updated manually because they don't sync, always name both systems and note the lack of sync explicitly.
 
 ---
 
