@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-03-17T00:00:00.000Z",
+    "lastUpdated": "2026-03-19T00:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 49,
-    "completedTasks": 19,
+    "completedTasks": 25,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -113,7 +113,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-02-23T00:00:00.000Z"
         },
         {
@@ -192,7 +192,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/disclosures/send_disclosures_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-10T00:00:00.000Z"
         },
         {
@@ -293,7 +293,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-10T00:00:00.000Z"
         },
         {
@@ -327,7 +327,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/misc/Notice of Incomplete.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-12T00:00:00.000Z"
         },
         {
@@ -349,38 +349,8 @@
             }
           ],
           "xmlFile": "tasks/2_processing/misc/mailing_initial_disclosures_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-12T00:00:00.000Z"
-        },
-        {
-          "id": "task_011",
-          "name": "Run AUS",
-          "order": 3,
-          "subcategory": "file_setup",
-          "status": "planned",
-          "priority": 9,
-          "description": "Submit loan to Automated Underwriting System",
-          "notes": "Agent should create subtasks for: AUS submission (DU/LP), review findings, address cautions/warnings, generate certification",
-          "applicationLogic": "Applied after initial disclosures sent and minimum loan data is complete. Triggers when borrower info, property details, and income/asset estimates are entered.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
-        },
-        {
-          "id": "task_012",
-          "name": "Organize eFolder",
-          "order": 4,
-          "subcategory": "file_setup",
-          "status": "planned",
-          "priority": 7,
-          "description": "Organize and categorize loan documents in electronic folder",
-          "notes": "Agent should create subtasks for: create folder structure, categorize uploaded documents, verify document quality, index key documents",
-          "applicationLogic": "Applied after loan is created. Ongoing task that is updated as documents are received throughout the process.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
         },
         {
           "id": "task_003",
@@ -462,7 +432,7 @@
           "status": "completed",
           "priority": 8,
           "description": "Order title search and examination",
-          "notes": "Agent should create subtasks for: title search request, preliminary title report review, exception review, lien verification, title commitment",
+          "notes": "Subtasks needed: title search request, preliminary title report review, exception review, lien verification, title commitment",
           "applicationLogic": "Applied after loan is in processing. Triggers when property address is confirmed and purchase contract is received (for purchase loans) or after appraisal is ordered (for refinance).",
           "subtasks": [
             {
@@ -495,7 +465,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/title/order_title_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-02-23T00:00:00.000Z"
         },
         {
@@ -506,7 +476,7 @@
           "status": "completed",
           "priority": 7,
           "description": "Determine if property is in flood zone and order flood insurance if required",
-          "notes": "Agent should create subtasks for: FEMA flood zone determination, flood certificate review, flood insurance verification (if in zone), community participation verification",
+          "notes": "Subtasks needed: FEMA flood zone determination, flood certificate review, flood insurance verification (if in zone), community participation verification",
           "applicationLogic": "Applied after property address is confirmed. Triggers when appraisal is ordered or earlier if property details are available.",
           "subtasks": [
             {
@@ -518,7 +488,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-02-23T00:00:00.000Z"
         },
         {
@@ -556,15 +526,58 @@
           "name": "Credit Score Disclosure",
           "order": 2,
           "subcategory": "misc",
-          "status": "planned",
+          "status": "completed",
           "priority": 6,
-          "description": "Provide credit score disclosure when a new credit report is pulled",
-          "notes": "Agent should create subtasks for: generate disclosure notice, send to borrower, obtain acknowledgment",
-          "applicationLogic": "Applied conditionally when a new credit score is pulled. Triggers when credit is re-pulled during the loan process (e.g., credit refresh, AUS resubmission requiring new credit).",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "description": "Quality review and delivery of Credit Score Disclosure",
+          "notes": "Assigned automatically when a credit report is pulled on a pre-approval or if a subsequent report is received on a live file. Processor reviews FACT Act disclosures for accuracy, verifies eConsent and contact info, then sends electronically (or via mail if Issue is marked). Grouped under Disclosures task group.",
+          "applicationLogic": "Assigned automatically when a credit report is pulled on a pre-approval or when a subsequent credit report is received on a live file.",
+          "subtasks": [
+            {
+              "name": "FACT Act All Scores",
+              "order": 1,
+              "description": "FACT Act All Scores \u2013 All scores for all borrowers from all credit bureaus pulled on the credit report are evidenced on the FACT Act Disclosure (be sure to check second borrower pair as well)",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Checkboxes",
+              "order": 2,
+              "description": "FACT Act Checkboxes \u2013 Ensure the Material Terms of Credit set by Credit Score and Credit Score for Disclosure Notice check boxes on the Disclosure Notice are checked when a credit score is available and unchecked when a score is not available",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Key Factors",
+              "order": 3,
+              "description": "FACT Act Key Factors \u2013 Verify that the Key Factors informational text is present for every credit score to be disclosed for all borrowers and all bureaus pulled",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "eConsent",
+              "order": 4,
+              "description": "eConsent \u2013 Verify eConsent is received before sending electronically",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Contact Info",
+              "order": 5,
+              "description": "Contact Info \u2013 Verify email and phone are present before sending electronically",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Ready to Send",
+              "order": 6,
+              "description": "Ready to Send \u2013 Mark Done to send disclosure electronically; mark Issue to send via mail (must complete manually)",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml",
+          "createdBy": "calves",
+          "createdAt": "2026-02-23T17:36:40.241Z"
         },
         {
           "id": "task_036",
@@ -600,7 +613,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/misc/withdraw_loan_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
@@ -644,7 +657,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/misc/send_denial_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
@@ -655,11 +668,11 @@
           "status": "completed",
           "priority": 5,
           "description": "Request SSA-89 verification for Social Security income",
-          "notes": "Agent should create subtasks for: borrower authorization, SSA-89 request submission, response review, income verification documentation. Only needed when borrower claims SS income.",
+          "notes": "Subtasks needed: borrower authorization, SSA-89 request submission, response review, income verification documentation. Only needed when borrower claims SS income.",
           "applicationLogic": "Applied conditionally when borrower income includes Social Security benefits. Triggers when income type 'Social Security' is selected on application.",
           "subtasks": [],
           "xmlFile": "tasks/2_processing/ssa89/order_ssa89_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
@@ -670,11 +683,11 @@
           "status": "completed",
           "priority": 7,
           "description": "Request IRS tax transcripts for income verification",
-          "notes": "Agent should create subtasks for: 4506-C form completion, IRS transcript request (1040, W-2, 1099), transcript review, income verification against application, self-employed income analysis (if applicable)",
+          "notes": "Subtasks needed: 4506-C form completion, IRS transcript request (1040, W-2, 1099), transcript review, income verification against application, self-employed income analysis (if applicable)",
           "applicationLogic": "Applied for most loan types requiring income verification. Triggers after initial disclosures sent or when income documentation is needed. May be waived for certain automated underwriting approvals.",
           "subtasks": [],
           "xmlFile": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-02-23T12:00:00.000Z"
         },
         {
@@ -708,7 +721,7 @@
             }
           ],
           "xmlFile": "tasks/2_processing/avm/order_avm_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-10T14:04:19.000Z"
         },
         {
@@ -743,53 +756,174 @@
             }
           ],
           "xmlFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-10T14:04:19.000Z"
         },
         {
-          "id": "task_013",
-          "name": "Verify Assets",
-          "order": 1,
-          "subcategory": "pre_underwriting",
-          "status": "planned",
-          "priority": 8,
-          "description": "Verify borrower assets and source of funds",
-          "notes": "Agent should create subtasks for: collect bank statements, verify account ownership, source large deposits, calculate reserves, verify gift funds (if applicable)",
-          "applicationLogic": "Applied after AUS is run and asset requirements are identified. Triggers when loan is in processing and ready for documentation collection.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "id": "task_049",
+          "name": "Order PAR",
+          "order": 8,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Order Property Assessment Report through AppraisalX",
+          "subtasks": [
+            {
+              "name": "Place PAR Order",
+              "type": "standard",
+              "description": "Place PAR Order – Place an order for the Property Assessment Report under the AppraisalX platform"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/service_orders/order_par_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-19T00:00:00.000Z"
         },
         {
-          "id": "task_014",
-          "name": "Verify Income",
-          "order": 2,
+          "id": "task_048",
+          "name": "Pre-Underwriting Checklist",
+          "order": 1,
           "subcategory": "pre_underwriting",
-          "status": "planned",
-          "priority": 9,
-          "description": "Verify borrower income and employment",
-          "notes": "Agent should create subtasks for: collect paystubs, VOE (verbal/written), review tax returns, calculate qualifying income, verify employment history",
-          "applicationLogic": "Applied after AUS is run and income requirements are identified. Triggers when loan is in processing and ready for documentation collection.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "status": "completed",
+          "priority": 8,
+          "description": "Pre-underwriting checklist — organize documents, verify income, assets, insurance, and employment before submitting to underwriting",
+          "notes": "Unified pre-UW checklist for all loan types. Standard subtasks apply to every loan; conditional subtasks are assigned dynamically based on loan type. HELOCs skip AUS, assets, and employment but add Verify Purpose. First mortgages run AUS first to dictate doc requirements, then verify assets, employment, etc.",
+          "applicationLogic": "Applied for all loan types after borrower documents are returned and service orders are cleared.",
+          "subtasks": [
+            {
+              "name": "Organize eFolder",
+              "order": 1,
+              "description": "Organize eFolder – Park documents from file manager into the eFolder and ensure all items are labeled correctly; documents returned from borrower must be categorized and filed before verification begins",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Run AUS",
+              "order": 2,
+              "description": "Run AUS – Submit loan to Automated Underwriting System (DU/LP) and review findings; AUS findings dictate documentation requirements for the file",
+              "type": "conditional",
+              "applicationLogic": "Added for first mortgage loans (purchase, refinance); not applicable to HELOCs which are manually underwritten"
+            },
+            {
+              "name": "Verify Income",
+              "order": 3,
+              "description": "Verify Income – Verify borrower income documentation (paystubs, W-2s, tax docs) matches application and calculate qualifying income",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Verify Insurance",
+              "order": 4,
+              "description": "Verify Insurance – Determine if homeowners insurance (HOI) is on file and ready for underwriting review; marking Done confirms HOI is available and triggers insurance review; mark Issue to generate a condition for missing or insufficient coverage",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Verify Mortgage Statements",
+              "order": 5,
+              "description": "Verify Mortgage Statements – Verify current mortgage statements are on file showing existing loan balances, payments, and expenses that are part of the mortgage",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Verify Purpose",
+              "order": 6,
+              "description": "Verify Purpose – Verify the stated purpose of the HELOC is documented in a Letter of Explanation (LOE) or conversation log; mark Issue to trigger a condition for missing purpose documentation",
+              "type": "conditional",
+              "applicationLogic": "Added for HELOC loans only"
+            },
+            {
+              "name": "Verify Assets",
+              "order": 7,
+              "description": "Verify Assets – Verify borrower assets and source of funds; review bank statements, verify account ownership, source large deposits, and calculate reserves",
+              "type": "conditional",
+              "applicationLogic": "Added for first mortgage loans (purchase, refinance); not applicable to HELOCs"
+            },
+            {
+              "name": "Verify Employment",
+              "order": 8,
+              "description": "Verify Employment – Verify borrower employment status and history; complete verbal or written verification of employment",
+              "type": "conditional",
+              "applicationLogic": "Added for first mortgage loans (purchase, refinance)"
+            },
+            {
+              "name": "Self-Employed Income",
+              "order": 9,
+              "description": "Self-Employed Income – Review tax returns (personal and business) and profit and loss statements for self-employed borrower income",
+              "type": "conditional",
+              "applicationLogic": "Added when borrower income type includes self-employment"
+            },
+            {
+              "name": "Non-Traditional Income",
+              "order": 10,
+              "description": "Non-Traditional Income – Verify non-traditional income sources (Social Security, pension, disability) with award letters or other documentation",
+              "type": "conditional",
+              "applicationLogic": "Added when borrower has non-W-2 income sources (Social Security, pension, disability)"
+            },
+            {
+              "name": "Rental Income",
+              "order": 11,
+              "description": "Rental Income – Verify rental income with lease agreements, tax returns, and rental history; calculate net rental income for qualifying purposes",
+              "type": "conditional",
+              "applicationLogic": "Added when borrower has rental income from investment properties"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-19T00:00:00.000Z"
         },
         {
           "id": "task_015",
           "name": "Order HOI",
           "order": 1,
           "subcategory": "post_underwriting",
-          "status": "planned",
+          "status": "completed",
           "priority": 7,
-          "description": "Order homeowners insurance and verify coverage",
-          "notes": "Agent should create subtasks for: request insurance declaration, verify coverage amounts, verify lender named as mortgagee, confirm policy effective date, review deductibles",
+          "description": "Order homeowners insurance policy for the subject property",
           "applicationLogic": "Applied after loan receives conditional approval or clear to close. Triggers when loan is approved and property is identified.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "subtasks": [
+            {
+              "name": "Request Insurance Declaration",
+              "type": "standard",
+              "description": "Request Insurance Declaration – Contact the borrower or insurance agent to obtain the homeowners insurance declaration page"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/post_underwriting/order_hoi_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-19T00:00:00.000Z"
+        },
+        {
+          "id": "task_050",
+          "name": "HOI Review",
+          "order": 2,
+          "subcategory": "post_underwriting",
+          "status": "completed",
+          "priority": 7,
+          "description": "Review homeowners insurance policy for coverage adequacy and lender requirements",
+          "subtasks": [
+            {
+              "name": "Verify Coverage Amounts",
+              "type": "standard",
+              "description": "Verify Coverage Amounts – Confirm dwelling coverage meets or exceeds the loan amount and that liability and other required coverage amounts are sufficient"
+            },
+            {
+              "name": "Verify Lender Named as Mortgagee",
+              "type": "standard",
+              "description": "Verify Lender Named as Mortgagee – Confirm the lender is listed as the mortgagee on the policy; if not, request an updated declarations page from the insurance agent"
+            },
+            {
+              "name": "Confirm Policy Effective Date",
+              "type": "standard",
+              "description": "Confirm Policy Effective Date – Verify the policy effective date is on or before the loan closing date"
+            },
+            {
+              "name": "Review Deductibles",
+              "type": "standard",
+              "description": "Review Deductibles – Review deductible amounts to ensure they meet lender guidelines; flag any deductible exceeding the allowable threshold"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/post_underwriting/hoi_review_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-19T00:00:00.000Z"
         },
         {
           "id": "task_035",
@@ -799,7 +933,7 @@
           "status": "completed",
           "priority": 8,
           "description": "Send loan commitment letter to borrower with conditions",
-          "notes": "Agent should create subtasks for: generate commitment letter, document conditions, send to borrower, obtain borrower acknowledgment, set condition deadlines",
+          "notes": "Subtasks needed: generate commitment letter, document conditions, send to borrower, obtain borrower acknowledgment, set condition deadlines",
           "applicationLogic": "Applied after underwriting approval with conditions. Triggers when loan receives conditional approval and borrower needs to be notified of approval terms.",
           "subtasks": [
             {
@@ -822,7 +956,7 @@
             }
           ],
           "xmlFile": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-17T00:00:00.000Z"
         }
       ]
@@ -858,15 +992,44 @@
           "name": "Underwrite",
           "order": 1,
           "subcategory": "submittal",
-          "status": "planned",
+          "status": "completed",
           "priority": 10,
-          "description": "Submit loan file to underwriter for review and approval",
-          "notes": "Agent should create subtasks for: package file, submit to underwriter, track submission, initial review, generate findings",
-          "applicationLogic": "Applied when file is submitted to underwriting. Triggers when all required documentation is collected and loan is ready for underwriting review.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null
+          "description": "Underwriter reviews submitted loan file and renders approval, denial, or counteroffer decision",
+          "notes": "Task is triggered automatically when file is submitted to underwriting. Assigned to underwriter role. Approve subtask is auto-completed when underwriter approves in system. Deny/CounterOffer subtasks trigger their respective task flows (task_033 Deny Loan, task_034 CounterOffer). Return to Processor sends file back if not ready for a decision.",
+          "applicationLogic": "Triggered automatically at submittal milestone. Assigned to underwriter for review.",
+          "subtasks": [
+            {
+              "name": "Approve",
+              "order": 1,
+              "description": "Approve – Loan approved by underwriter; this subtask is auto-completed when the underwriter approves the loan in the system",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Deny",
+              "order": 2,
+              "description": "Deny – Loan denied by underwriter; marking Done triggers the denial task flow",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "CounterOffer",
+              "order": 3,
+              "description": "CounterOffer – Underwriter issues a counteroffer; marking Done triggers the counteroffer task flow",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Return to Processor",
+              "order": 4,
+              "description": "Return to Processor – File is not ready for underwriting decision; marking Done sends the file back to the processor for additional documentation or corrections",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/submittal/underwrite_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-19T00:00:00.000Z"
         },
         {
           "id": "task_018",
@@ -876,7 +1039,7 @@
           "status": "planned",
           "priority": 8,
           "description": "Review title commitment and address underwriting conditions",
-          "notes": "Agent should create subtasks for: review title commitment, identify exceptions, clear title conditions, verify vesting, review liens and encumbrances",
+          "notes": "Subtasks needed: review title commitment, identify exceptions, clear title conditions, verify vesting, review liens and encumbrances",
           "applicationLogic": "Applied during underwriting resubmittal. Triggers when title commitment is received and underwriter requires title review or conditions.",
           "subtasks": [],
           "xmlFile": null,
@@ -891,7 +1054,7 @@
           "status": "planned",
           "priority": 8,
           "description": "Review appraisal report and address underwriting conditions",
-          "notes": "Agent should create subtasks for: review appraisal value, verify property condition, address underwriter comments, verify comparable sales, review appraiser certifications",
+          "notes": "Subtasks needed: review appraisal value, verify property condition, address underwriter comments, verify comparable sales, review appraiser certifications",
           "applicationLogic": "Applied during underwriting resubmittal. Triggers when appraisal is received and underwriter requires appraisal review or conditions.",
           "subtasks": [],
           "xmlFile": null,
@@ -906,7 +1069,7 @@
           "status": "planned",
           "priority": 7,
           "description": "Review flood insurance documentation and address underwriting conditions",
-          "notes": "Agent should create subtasks for: verify flood zone determination, review flood insurance policy, verify coverage amounts, address underwriter conditions, confirm NFIP compliance",
+          "notes": "Subtasks needed: verify flood zone determination, review flood insurance policy, verify coverage amounts, address underwriter conditions, confirm NFIP compliance",
           "applicationLogic": "Applied during underwriting resubmittal. Triggers when flood documentation is required by underwriter or property is in flood zone.",
           "subtasks": [],
           "xmlFile": null,
@@ -921,7 +1084,7 @@
           "status": "planned",
           "priority": 10,
           "description": "Obtain final clear to close approval from underwriter",
-          "notes": "Agent should create subtasks for: verify all conditions cleared, final underwriting review, obtain CTC approval, send CTC notification, prepare for closing",
+          "notes": "Subtasks needed: verify all conditions cleared, final underwriting review, obtain CTC approval, send CTC notification, prepare for closing",
           "applicationLogic": "Applied after all underwriting conditions are cleared. Triggers when final documentation is complete and underwriter is ready to issue clear to close.",
           "subtasks": [],
           "xmlFile": null,
@@ -936,7 +1099,7 @@
           "status": "planned",
           "priority": 8,
           "description": "Process loan denial and send adverse action notice",
-          "notes": "Agent should create subtasks for: prepare denial letter, document denial reasons, send adverse action notice, provide FCRA disclosures, close loan file",
+          "notes": "Subtasks needed: prepare denial letter, document denial reasons, send adverse action notice, provide FCRA disclosures, close loan file",
           "applicationLogic": "Applied when loan is denied by underwriter. Triggers when underwriting determines loan does not meet approval criteria.",
           "subtasks": [],
           "xmlFile": null,
@@ -951,7 +1114,7 @@
           "status": "planned",
           "priority": 7,
           "description": "Present counteroffer terms to borrower",
-          "notes": "Agent should create subtasks for: prepare counteroffer letter, document revised terms, send to borrower, obtain borrower response, update loan file with decision",
+          "notes": "Subtasks needed: prepare counteroffer letter, document revised terms, send to borrower, obtain borrower response, update loan file with decision",
           "applicationLogic": "Applied when underwriter provides alternative loan terms. Triggers when loan doesn't meet original criteria but alternative terms are available.",
           "subtasks": [],
           "xmlFile": null,
@@ -988,7 +1151,7 @@
           "status": "planned",
           "priority": 8,
           "description": "Schedule closing appointment with all parties",
-          "notes": "Agent should create subtasks for: coordinate with title company, schedule borrower, confirm closing date/time, send appointment confirmations, verify closing location",
+          "notes": "Subtasks needed: coordinate with title company, schedule borrower, confirm closing date/time, send appointment confirmations, verify closing location",
           "applicationLogic": "Applied after clear to close is received. Triggers when loan is approved and ready for closing coordination.",
           "subtasks": [],
           "xmlFile": null,
@@ -1003,7 +1166,7 @@
           "status": "planned",
           "priority": 9,
           "description": "Send initial Closing Disclosure to borrower",
-          "notes": "Agent should create subtasks for: generate initial CD, review CD accuracy, send to borrower, obtain borrower acknowledgment, start 3-day waiting period",
+          "notes": "Subtasks needed: generate initial CD, review CD accuracy, send to borrower, obtain borrower acknowledgment, start 3-day waiting period",
           "applicationLogic": "Applied at least 3 business days before closing. Triggers when final loan terms are confirmed and clear to close is issued.",
           "subtasks": [],
           "xmlFile": null,
@@ -1018,7 +1181,7 @@
           "status": "planned",
           "priority": 9,
           "description": "Balance Closing Disclosure with final figures",
-          "notes": "Agent should create subtasks for: verify all fees, reconcile with LE, confirm payoff amounts, verify closing funds, finalize CD",
+          "notes": "Subtasks needed: verify all fees, reconcile with LE, confirm payoff amounts, verify closing funds, finalize CD",
           "applicationLogic": "Applied 1-2 days before closing. Triggers when final payoff statements and closing figures are received.",
           "subtasks": [],
           "xmlFile": null,
@@ -1033,7 +1196,7 @@
           "status": "planned",
           "priority": 8,
           "description": "Prepare complete closing document package",
-          "notes": "Agent should create subtasks for: generate closing docs, review all documents, send to title company, prepare funding package, organize final conditions",
+          "notes": "Subtasks needed: generate closing docs, review all documents, send to title company, prepare funding package, organize final conditions",
           "applicationLogic": "Applied 1 day before closing. Triggers after CD is balanced and all closing conditions are cleared.",
           "subtasks": [],
           "xmlFile": null,
@@ -1070,7 +1233,7 @@
           "status": "planned",
           "priority": 9,
           "description": "Confirm all funding figures and wire amounts",
-          "notes": "Agent should create subtasks for: verify final CD, confirm wire amounts, verify disbursements, review funding worksheet, obtain final approvals",
+          "notes": "Subtasks needed: verify final CD, confirm wire amounts, verify disbursements, review funding worksheet, obtain final approvals",
           "applicationLogic": "Applied after closing documents are signed. Triggers when closing is complete and ready for funding.",
           "subtasks": [],
           "xmlFile": null,
@@ -1085,7 +1248,7 @@
           "status": "planned",
           "priority": 10,
           "description": "Obtain approval for funding figures",
-          "notes": "Agent should create subtasks for: submit for approval, obtain department head approval, verify investor approval, final compliance review, authorize funding",
+          "notes": "Subtasks needed: submit for approval, obtain department head approval, verify investor approval, final compliance review, authorize funding",
           "applicationLogic": "Applied after funding figures are confirmed. Triggers when all figures are verified and ready for final approval.",
           "subtasks": [],
           "xmlFile": null,
@@ -1100,7 +1263,7 @@
           "status": "planned",
           "priority": 10,
           "description": "Execute funding and wire transfer",
-          "notes": "Agent should create subtasks for: initiate wire transfer, confirm funds received by title, record funding date/time, update loan status, send funding notifications",
+          "notes": "Subtasks needed: initiate wire transfer, confirm funds received by title, record funding date/time, update loan status, send funding notifications",
           "applicationLogic": "Applied after funding is approved. Triggers when final approval is received and within funding deadline.",
           "subtasks": [],
           "xmlFile": null,
@@ -1115,7 +1278,7 @@
           "status": "planned",
           "priority": 8,
           "description": "Board loan into servicing system",
-          "notes": "Agent should create subtasks for: prepare boarding package, submit to servicing, verify loan setup, confirm payment schedule, verify escrow setup",
+          "notes": "Subtasks needed: prepare boarding package, submit to servicing, verify loan setup, confirm payment schedule, verify escrow setup",
           "applicationLogic": "Applied after loan is funded. Triggers when funding is complete and loan needs to be set up for servicing.",
           "subtasks": [],
           "xmlFile": null,
@@ -1130,7 +1293,7 @@
           "status": "planned",
           "priority": 7,
           "description": "Run Uniform Closing Dataset (UCD) validation",
-          "notes": "Agent should create subtasks for: generate UCD file, validate UCD data, submit to investor, address validation errors, confirm acceptance",
+          "notes": "Subtasks needed: generate UCD file, validate UCD data, submit to investor, address validation errors, confirm acceptance",
           "applicationLogic": "Applied after loan is boarded. Triggers when loan is set up in servicing and ready for UCD submission.",
           "subtasks": [],
           "xmlFile": null,
@@ -1145,7 +1308,7 @@
           "status": "planned",
           "priority": 7,
           "description": "Activate loan in MERS (Mortgage Electronic Registration Systems)",
-          "notes": "Agent should create subtasks for: register loan in MERS, verify MERS MIN, update servicer information, confirm registration, generate MERS confirmation",
+          "notes": "Subtasks needed: register loan in MERS, verify MERS MIN, update servicer information, confirm registration, generate MERS confirmation",
           "applicationLogic": "Applied after loan is boarded. Triggers when loan setup is complete and MERS registration is required.",
           "subtasks": [],
           "xmlFile": null,
@@ -1160,7 +1323,7 @@
           "status": "planned",
           "priority": 6,
           "description": "Activate mortgage insurance policy",
-          "notes": "Agent should create subtasks for: submit loan to MI company, verify MI certificate, activate policy, confirm coverage, set up MI billing",
+          "notes": "Subtasks needed: submit loan to MI company, verify MI certificate, activate policy, confirm coverage, set up MI billing",
           "applicationLogic": "Applied conditionally after loan is boarded. Triggers when loan has mortgage insurance and policy needs activation.",
           "subtasks": [],
           "xmlFile": null,
@@ -1351,7 +1514,7 @@
           "status": "planned",
           "priority": 7,
           "description": "Image and upload paper documents to Encompass",
-          "notes": "Agent should create subtasks for: scan paper documents, review image quality, upload to Encompass eFolder, verify document indexing, dispose of paper per retention policy",
+          "notes": "Subtasks needed: scan paper documents, review image quality, upload to Encompass eFolder, verify document indexing, dispose of paper per retention policy",
           "applicationLogic": "Applied after closing when paper documents are received. Triggers when physical closing packages are returned and need to be digitized.",
           "subtasks": [],
           "xmlFile": null,
@@ -1366,7 +1529,7 @@
           "status": "planned",
           "priority": 6,
           "description": "Clean up and organize eFolder in Encompass",
-          "notes": "Agent should create subtasks for: remove duplicate documents, verify all documents properly indexed, organize folder structure, remove temporary/draft documents, final quality review",
+          "notes": "Subtasks needed: remove duplicate documents, verify all documents properly indexed, organize folder structure, remove temporary/draft documents, final quality review",
           "applicationLogic": "Applied after all post-closing documents are received and imaged. Triggers when loan file is ready for final organization before archival.",
           "subtasks": [],
           "xmlFile": null,
@@ -1381,7 +1544,7 @@
           "status": "planned",
           "priority": 5,
           "description": "Transfer completed loan file to cold storage/archive",
-          "notes": "Agent should create subtasks for: verify file completeness, export final loan package, transfer to archive system, verify successful transfer, update loan status to archived",
+          "notes": "Subtasks needed: verify file completeness, export final loan package, transfer to archive system, verify successful transfer, update loan status to archived",
           "applicationLogic": "Applied after eFolder cleanup is complete. Triggers when loan file is finalized and ready for long-term storage per retention requirements.",
           "subtasks": [],
           "xmlFile": null,
@@ -1396,7 +1559,7 @@
           "status": "planned",
           "priority": 7,
           "description": "Transfer loan data to HMDA reporting SaaS platform",
-          "notes": "Agent should create subtasks for: verify HMDA data accuracy, export loan data, upload to HMDA SaaS system, validate data transfer, confirm successful import",
+          "notes": "Subtasks needed: verify HMDA data accuracy, export loan data, upload to HMDA SaaS system, validate data transfer, confirm successful import",
           "applicationLogic": "Applied after loan closing for HMDA reportable loans. Triggers when loan needs to be reported for Home Mortgage Disclosure Act compliance.",
           "subtasks": [],
           "xmlFile": null,
@@ -1561,16 +1724,16 @@
             }
           ],
           "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml",
-          "createdBy": "agent_claude",
+          "createdBy": "system",
           "createdAt": "2026-03-05T00:00:00.000Z"
         }
       ]
     }
   ],
-  "agentLog": [
+  "activityLog": [
     {
       "timestamp": "2025-10-28T00:00:00Z",
-      "agent": "manual",
+      "author": "manual",
       "action": "created",
       "taskId": "task_003",
       "taskName": "Order Appraisal",
@@ -1579,7 +1742,7 @@
     },
     {
       "timestamp": "2026-03-12T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_003",
       "taskName": "Order Appraisal",
@@ -1588,7 +1751,7 @@
     },
     {
       "timestamp": "2025-10-29T00:00:00Z",
-      "agent": "manual",
+      "author": "manual",
       "action": "created",
       "taskId": "task_006",
       "taskName": "ARM Disclosure",
@@ -1597,7 +1760,7 @@
     },
     {
       "timestamp": "2025-10-27T00:00:00Z",
-      "agent": "manual",
+      "author": "manual",
       "action": "created",
       "taskId": "task_009",
       "taskName": "Credit Refresh",
@@ -1606,7 +1769,7 @@
     },
     {
       "timestamp": "2025-10-27T00:00:00Z",
-      "agent": "manual",
+      "author": "manual",
       "action": "created",
       "taskId": "task_010",
       "taskName": "Fraud X Report",
@@ -1615,7 +1778,7 @@
     },
     {
       "timestamp": "2026-02-23T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_001",
       "taskName": "Review Credit",
@@ -1624,7 +1787,7 @@
     },
     {
       "timestamp": "2026-03-12T12:55:00.446Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_001",
       "taskName": "Review Credit",
@@ -1633,7 +1796,7 @@
     },
     {
       "timestamp": "2026-03-10T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_002",
       "taskName": "Send Disclosures",
@@ -1642,7 +1805,7 @@
     },
     {
       "timestamp": "2026-03-10T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_002b",
       "taskName": "Send Disclosures (HELOC)",
@@ -1651,7 +1814,7 @@
     },
     {
       "timestamp": "2026-03-10T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_001",
       "taskName": "Review Credit",
@@ -1660,7 +1823,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_004",
       "taskName": "Order Title",
@@ -1669,7 +1832,7 @@
     },
     {
       "timestamp": "2026-03-12T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_004",
       "taskName": "Order Title",
@@ -1678,7 +1841,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_005",
       "taskName": "Order Flood Certificate",
@@ -1687,7 +1850,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "exported",
       "taskId": "task_004,task_005",
       "taskName": "Order Title + Order Flood Certificate",
@@ -1696,7 +1859,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_007",
       "taskName": "Order SSA-89",
@@ -1705,7 +1868,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_008",
       "taskName": "Order Tax Transcripts",
@@ -1714,7 +1877,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "exported",
       "taskId": "task_007,task_008",
       "taskName": "Order SSA-89 + Order Tax Transcripts",
@@ -1723,7 +1886,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_036",
       "taskName": "Withdraw Loan",
@@ -1732,7 +1895,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_037",
       "taskName": "Send Denial",
@@ -1741,7 +1904,7 @@
     },
     {
       "timestamp": "2026-02-23T12:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "exported",
       "taskId": "task_036,task_037",
       "taskName": "Withdraw Loan + Send Denial",
@@ -1750,7 +1913,7 @@
     },
     {
       "timestamp": "2026-03-05T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_045",
       "taskName": "Initial Document Quality Assurance",
@@ -1759,7 +1922,7 @@
     },
     {
       "timestamp": "2026-03-12T12:42:41.576Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_045",
       "taskName": "Initial Document Quality Assurance",
@@ -1768,7 +1931,7 @@
     },
     {
       "timestamp": "2026-03-10T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_002b",
       "taskName": "Send Disclosures (HELOC)",
@@ -1777,7 +1940,7 @@
     },
     {
       "timestamp": "2026-03-12T12:42:41.576Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_002b",
       "taskName": "Send Disclosures (HELOC)",
@@ -1786,7 +1949,7 @@
     },
     {
       "timestamp": "2026-03-10T14:04:19.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_046",
       "taskName": "Order AVM",
@@ -1795,7 +1958,7 @@
     },
     {
       "timestamp": "2026-03-10T14:04:19.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_047",
       "taskName": "Flood Certificate Review",
@@ -1804,7 +1967,7 @@
     },
     {
       "timestamp": "2026-03-12T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_003",
       "taskName": "Order Appraisal",
@@ -1813,7 +1976,7 @@
     },
     {
       "timestamp": "2026-03-12T12:42:41.576Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_047",
       "taskName": "Flood Certificate Review",
@@ -1822,7 +1985,7 @@
     },
     {
       "timestamp": "2026-03-12T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_002c",
       "taskName": "Notice of Incomplete",
@@ -1831,7 +1994,7 @@
     },
     {
       "timestamp": "2026-03-12T19:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "updated",
       "taskId": "task_002c",
       "taskName": "Notice of Incomplete",
@@ -1839,7 +2002,7 @@
     },
     {
       "timestamp": "2026-03-12T21:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_002d",
       "taskName": "Mailing Initial Disclosures",
@@ -1848,12 +2011,39 @@
     },
     {
       "timestamp": "2026-03-17T00:00:00.000Z",
-      "agent": "agent_claude",
+      "author": "system",
       "action": "created",
       "taskId": "task_035",
       "taskName": "Send Commitment Letter",
       "details": "Created send_commitment_letter_v1.xml with 3 subtasks: Send Commitment Letter, Confirm Letter Sent, Save to eFolder",
       "xmlFile": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-19T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_048",
+      "taskName": "Pre-Underwriting Checklist",
+      "details": "Created unified pre_uw_checklist_v1.xml with 11 subtasks: Organize eFolder (standard), Run AUS (conditional — first mortgages only, rank 2 to dictate doc requirements), Verify Income (standard), Verify Insurance (standard), Verify Mortgage Statements (standard), Verify Purpose (conditional — HELOCs only), Verify Assets (conditional — first mortgages only), Verify Employment (conditional — first mortgages), Self-Employed Income (conditional), Non-Traditional Income (conditional), Rental Income (conditional). Consolidated from separate HELOC and first mortgage tasks into one unified checklist. Removed task_011 (Run AUS), task_012 (Organize eFolder), task_013 (Verify Assets), task_014 (Verify Income), and task_049 (Pre-UW Checklist First Mortgage) as standalone tasks.",
+      "xmlFile": "tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-19T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_017",
+      "taskName": "Underwrite",
+      "details": "Created underwrite_v1.xml with 4 subtasks: Approve (standard — auto-completed when UW approves in system), Deny (standard — triggers denial task flow), CounterOffer (standard — triggers counteroffer task flow), Return to Processor (standard — sends file back to processor if not ready for decision). Task is assigned to Underwriter role and triggered automatically at submittal milestone.",
+      "xmlFile": "tasks/3_underwriting/submittal/underwrite_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-19T00:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_016",
+      "taskName": "Credit Score Disclosure",
+      "details": "Cleaned up existing Credit Score Disclosure from example file. Fixed subtask names from 'Sub-Task Name' to proper names (FACT Act All Scores, FACT Act Checkboxes, FACT Act Key Factors, eConsent, Contact Info, Ready to Send), added description prefixes, removed forbidden taskTemplateId from subtasks, added Disclosures task group, updated type to Processing_Disclosures_CreditScoreDisclosure, added Loan Processor assignee. Moved from dislosures/ to credit_score_disclosure/ directory. 6 standard subtasks.",
+      "xmlFile": "tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml"
     }
   ]
 }
