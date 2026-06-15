@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bibblin – Loading</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f7f2; display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+    #__bundler_loading { position: fixed; bottom: 20px; right: 20px; font: 13px/1.4 -apple-system, BlinkMacSystemFont, sans-serif; color: #666; background: #fff; padding: 8px 14px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); z-index: 10000; }
+    #__bundler_thumbnail { position: fixed; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f5f7f2; z-index: 9999; }
+    #__bundler_thumbnail svg { width: 100%; height: 100%; object-fit: contain; }
+    #__bundler_placeholder { color: #999; font-size: 14px; }
+  </style>
+  <noscript>
+    <style>#__bundler_loading { display: none; }</style>
+    <div style="position:fixed;bottom:12px;left:12px;font:13px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#999;background:rgba(255,255,255,0.9);padding:6px 12px;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.08);z-index:10000;">
+      This page requires JavaScript to display.
+    </div>
+  </noscript>
+</head>
+<body>
+  <div id="__bundler_thumbnail">
+  <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="280" fill="#f5f7f2"></rect>
+    <path d="M 50 44 Q 115 29 178 36 L 178 232 Q 115 225 64 232 Q 52 234 50 228 Z" fill="#eaf2ea" stroke="#8da88d" stroke-width="3"></path>
+    <path d="M 204 36 Q 270 29 336 36 Q 348 38 350 44 L 350 228 Q 348 234 336 232 Q 270 225 204 232 Z" fill="#eaf2ea" stroke="#8da88d" stroke-width="3"></path>
+    <rect x="178" y="33" width="26" height="202" rx="5" fill="#8da88d"></rect>
+    <path d="M 68,90 Q 120,78 170,88" fill="none" stroke="#b8d4e8" stroke-width="22" stroke-linecap="round" opacity="0.55"></path>
+    <path d="M 55,195 Q 100,162 178,185" fill="none" stroke="#8da88d" stroke-width="20" stroke-linecap="round" opacity="0.75"></path>
+    <path d="M 216,90 Q 278,78 342,88" fill="none" stroke="#b8d4e8" stroke-width="22" stroke-linecap="round" opacity="0.55"></path>
+    <path d="M 212,140 L 265,105 L 318,140" fill="none" stroke="#a05050" stroke-width="11" stroke-linecap="round"></path>
+  </svg>
+</div>
+  <div id="__bundler_loading">Unpacking...</div>
+
+  <script>
+    
+document.addEventListener('DOMContentLoaded', async function() {
+  const loading = document.getElementById('__bundler_loading');
+  function setStatus(msg) { if (loading) loading.textContent = msg; }
+
+  // Error sink persists across replaceWith since it's on window, not the DOM.
+  window.addEventListener('error', function(e) {
+    var p = document.body || document.documentElement;
+    var d = document.getElementById('__bundler_err') || p.appendChild(document.createElement('div'));
+    d.id = '__bundler_err';
+    d.style.cssText = 'position:fixed;bottom:12px;left:12px;right:12px;font:12px/1.4 ui-monospace,monospace;background:#2a1215;color:#ff8a80;padding:10px 14px;border-radius:8px;border:1px solid #5c2b2e;z-index:99999;white-space:pre-wrap;max-height:40vh;overflow:auto';
+    d.textContent = (d.textContent ? d.textContent + String.fromCharCode(10) : '') +
+      '[bundle] ' + (e.message || e.type) +
+      (e.filename ? ' (' + e.filename.slice(0, 60) + ':' + e.lineno + ')' : '');
+  }, true);
+
+  try {
+    const manifestEl = document.querySelector('script[type="__bundler/manifest"]');
+    const templateEl = document.querySelector('script[type="__bundler/template"]');
+    if (!manifestEl || !templateEl) {
+      setStatus('Error: missing bundle data');
+      console.error('[bundler] Missing script tags — manifestEl:', !!manifestEl, 'templateEl:', !!templateEl);
+      return;
+    }
+
+    const manifest = JSON.parse(manifestEl.textContent);
+    let template = JSON.parse(templateEl.textContent);
+
+    const uuids = Object.keys(manifest);
+    setStatus('Unpacking ' + uuids.length + ' assets...');
+
+    const blobUrls = {};
+    await Promise.all(uuids.map(async (uuid) => {
+      const entry = manifest[uuid];
+      try {
+        const binaryStr = atob(entry.data);
+        const bytes = new Uint8Array(binaryStr.length);
+        for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
+
+        let finalBytes = bytes;
+        if (entry.compressed) {
+          if (typeof DecompressionStream !== 'undefined') {
+            const ds = new DecompressionStream('gzip');
+            const writer = ds.writable.getWriter();
+            const reader = ds.readable.getReader();
+            writer.write(bytes);
+            writer.close();
+            const chunks = [];
+            let totalLen = 0;
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              chunks.push(value);
+              totalLen += value.length;
+            }
+            finalBytes = new Uint8Array(totalLen);
+            let offset = 0;
+            for (const chunk of chunks) { finalBytes.set(chunk, offset); offset += chunk.length; }
+          } else {
+            console.warn('DecompressionStream not available, asset ' + uuid + ' may not render');
+          }
+        }
+
+        blobUrls[uuid] = URL.createObjectURL(new Blob([finalBytes], { type: entry.mime }));
+      } catch (err) {
+        console.error('Failed to decode asset ' + uuid + ':', err);
+        blobUrls[uuid] = URL.createObjectURL(new Blob([], { type: entry.mime }));
+      }
+    }));
+
+    const extResEl = document.querySelector('script[type="__bundler/ext_resources"]');
+    const extResources = extResEl ? JSON.parse(extResEl.textContent) : [];
+    const resourceMap = {};
+    for (const entry of extResources) {
+      if (blobUrls[entry.uuid]) resourceMap[entry.id] = blobUrls[entry.uuid];
+    }
+
+    setStatus('Rendering...');
+    for (const uuid of uuids) template = template.split(uuid).join(blobUrls[uuid]);
+
+    // Strip integrity + crossorigin — blob URLs from a file:// document inherit
+    // a null origin, so crossorigin forces a CORS fetch that SRI then rejects.
+    // The manifest bytes are ours; SRI protects against CDN compromise, not this.
+    template = template.replace(/\s+integrity="[^"]*"/gi, '').replace(/\s+crossorigin="[^"]*"/gi, '');
+
+    const resourceScript = '<script>window.__resources = ' +
+      JSON.stringify(resourceMap).split('</' + 'script>').join('<\\/' + 'script>') +
+      ';</' + 'script>';
+    // Inject after <head> so the DOCTYPE stays first; prepending the script
+    // would push the parser into quirks mode. DOMParser always emits a <head>
+    // (synthesizing one if the source HTML omitted it) but may carry
+    // attributes through, so match the full opening tag. slice() rather than
+    // replace() keeps us clear of $-pattern substitution in resourceScript.
+    const headOpen = template.match(/<head[^>]*>/i);
+    if (headOpen) {
+      const i = headOpen.index + headOpen[0].length;
+      template = template.slice(0, i) + resourceScript + template.slice(i);
+    }
+
+    // Parse the template and swap the root element. Scripts inserted via
+    // DOMParser/replaceWith are inert per spec — re-create each with
+    // createElement so they execute, awaiting onload for src scripts to
+    // preserve ordering (React before ReactDOM before Babel before text/babel).
+    const doc = new DOMParser().parseFromString(template, 'text/html');
+    document.documentElement.replaceWith(doc.documentElement);
+    const dead = Array.from(document.scripts);
+    for (const old of dead) {
+      const s = document.createElement('script');
+      for (const a of old.attributes) s.setAttribute(a.name, a.value);
+      s.textContent = old.textContent;
+      // text/babel scripts with a src: fetch and inline. transformScriptTags
+      // does XHR against the src, but blob:null/ from a file:// origin is
+      // silently dropped. Inlining makes it a plain inline babel script,
+      // which transformScriptTags handles unconditionally.
+      if ((s.type === 'text/babel' || s.type === 'text/jsx') && s.src) {
+        const r = await fetch(s.src);
+        s.textContent = await r.text();
+        s.removeAttribute('src');
+      }
+      const p = s.src ? new Promise(function(r) { s.onload = s.onerror = r; }) : null;
+      old.replaceWith(s);
+      if (p) await p;
+    }
+    // Babel standalone auto-transforms type=text/babel on DOMContentLoaded,
+    // which fired before we swapped the document. Trigger manually if present.
+    if (window.Babel && typeof window.Babel.transformScriptTags === 'function') {
+      window.Babel.transformScriptTags();
+    }
+  } catch (err) {
+    setStatus('Error unpacking: ' + err.message);
+    console.error('Bundle unpack error:', err);
+  }
+});
+
+  </script>
+
+  <script type="__bundler/manifest">
+{}
+  </script>
+
+  <script type="__bundler/ext_resources">
+[]
+  </script>
+
+  <script type="__bundler/template">
+"<!DOCTYPE html>\n<html lang=\"en\"><head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Bibblin – Loading<\u002Ftitle>\n<style>\n  * { box-sizing: border-box; margin: 0; padding: 0; }\n  body {\n    background: #f5f7f2;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    min-height: 100vh;\n    font-family: 'Georgia', serif;\n    overflow: hidden;\n  }\n  .scene { position: relative; width: 400px; height: 280px; }\n  .loading-wrap {\n    margin-top: 28px;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 12px;\n  }\n  .loading-text {\n    font-size: 14px;\n    letter-spacing: 0.14em;\n    color: #8da88d;\n    text-transform: uppercase;\n    font-family: 'Georgia', serif;\n  }\n  .dots span {\n    display: inline-block;\n    width: 6px; height: 6px;\n    border-radius: 50%;\n    background: #8da88d;\n    margin: 0 3px;\n    animation: dotPop 1.4s ease-in-out infinite;\n  }\n  .dots span:nth-child(1) { animation-delay: 0s; }\n  .dots span:nth-child(2) { animation-delay: 0.2s; }\n  .dots span:nth-child(3) { animation-delay: 0.4s; }\n  @keyframes dotPop {\n    0%, 80%, 100% { transform: scale(1); opacity: 0.45; }\n    40%           { transform: scale(1.6); opacity: 1; }\n  }\n<\u002Fstyle>\n\n<\u002Fhead>\n<body>\n\n<div class=\"scene\">\n<svg id=\"mainSvg\" viewBox=\"0 0 400 280\" width=\"400\" height=\"280\" xmlns=\"http://www.w3.org/2000/svg\">\n\n  <defs>\n    <clipPath id=\"leftClip\">\n      <path d=\"M 50 44 Q 52 38 64 36 Q 115 29 178 36 L 178 232 Q 115 225 64 232 Q 52 234 50 228 Z\"><\u002Fpath>\n    <\u002FclipPath>\n    <clipPath id=\"rightClip\">\n      <path d=\"M 204 36 Q 270 29 336 36 Q 348 38 350 44 L 350 228 Q 348 234 336 232 Q 270 225 204 232 Z\"><\u002Fpath>\n    <\u002FclipPath>\n  <\u002Fdefs>\n\n  <!-- Shadow -->\n  <ellipse cx=\"200\" cy=\"268\" rx=\"120\" ry=\"7\" fill=\"#8da88d\" opacity=\"0.12\"><\u002Fellipse>\n\n  <!-- ── LEFT PAGE ── -->\n  <path d=\"M 50 44 Q 52 38 64 36 Q 115 29 178 36 L 178 232 Q 115 225 64 232 Q 52 234 50 228 Z\" fill=\"#faf8f4\" stroke=\"#8da88d\" stroke-width=\"3\" stroke-linejoin=\"round\"><\u002Fpath>\n\n  <!-- LEFT picture strokes — painted progressively -->\n  <g clip-path=\"url(#leftClip)\">\n  <!-- Sky wash -->\n  <path id=\"s_sky\" d=\"M 68,90 Q 120,78 170,88\" fill=\"none\" stroke=\"#b8d4e8\" stroke-width=\"22\" stroke-linecap=\"round\" opacity=\"0.55\"><\u002Fpath>\n  <!-- Sun -->\n  <path id=\"s_sun\" d=\"M 148,68 a 16,16 0 1,0 0.01,0\" fill=\"none\" stroke=\"#f5c842\" stroke-width=\"9\" stroke-linecap=\"round\" opacity=\"0.9\"><\u002Fpath>\n  <!-- Far hill -->\n  <path id=\"s_hill2\" d=\"M 58,165 Q 95,138 178,155\" fill=\"none\" stroke=\"#a8c89a\" stroke-width=\"18\" stroke-linecap=\"round\" opacity=\"0.65\"><\u002Fpath>\n  <!-- Near hill -->\n  <path id=\"s_hill1\" d=\"M 55,195 Q 100,162 178,185\" fill=\"none\" stroke=\"#8da88d\" stroke-width=\"20\" stroke-linecap=\"round\" opacity=\"0.75\"><\u002Fpath>\n  <!-- Tree trunk -->\n  <path id=\"s_trunk\" d=\"M 100,195 L 100,145\" fill=\"none\" stroke=\"#9a7040\" stroke-width=\"7\" stroke-linecap=\"round\"><\u002Fpath>\n  <!-- Tree canopy -->\n  <path id=\"s_canopy\" d=\"M 100,148 Q 72,138 70,118 Q 68,96 100,90 Q 132,96 130,118 Q 128,138 100,148\" fill=\"none\" stroke=\"#4a8a4a\" stroke-width=\"14\" stroke-linecap=\"round\" stroke-linejoin=\"round\" opacity=\"0.9\"><\u002Fpath>\n  <!-- Wildflower stems -->\n  <path id=\"s_fl1\" d=\"M 68,192 Q 68,180 72,172 M 78,194 Q 79,183 82,176 M 160,190 Q 161,179 164,171\" fill=\"none\" stroke=\"#7ab060\" stroke-width=\"3\" stroke-linecap=\"round\"><\u002Fpath>\n  <!-- Flower heads (separate) -->\n  <path id=\"s_fl2a\" d=\"M 72,172 a 5,5 0 1,0 0.01,0\" fill=\"none\" stroke=\"#e8608a\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\"0.85\"><\u002Fpath>\n  <path id=\"s_fl2b\" d=\"M 82,176 a 5,5 0 1,0 0.01,0\" fill=\"none\" stroke=\"#e8608a\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\"0.85\"><\u002Fpath>\n  <path id=\"s_fl2c\" d=\"M 164,171 a 5,5 0 1,0 0.01,0\" fill=\"none\" stroke=\"#e8608a\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\"0.85\"><\u002Fpath>\n\n  <\u002Fg><!-- /leftClip -->\n\n  <!-- ── RIGHT PAGE ── -->\n  <path d=\"M 204 36 Q 270 29 336 36 Q 348 38 350 44 L 350 228 Q 348 234 336 232 Q 270 225 204 232 Z\" fill=\"#faf8f4\" stroke=\"#8da88d\" stroke-width=\"3\" stroke-linejoin=\"round\"><\u002Fpath>\n\n  <!-- RIGHT picture strokes — cottage scene -->\n  <g clip-path=\"url(#rightClip)\">\n  <!-- Sky wash -->\n  <path id=\"r_sky\" d=\"M 216,90 Q 278,78 342,88\" fill=\"none\" stroke=\"#b8d4e8\" stroke-width=\"22\" stroke-linecap=\"round\" opacity=\"0.55\"><\u002Fpath>\n  <!-- House walls -->\n  <path id=\"r_house\" d=\"M 220,205 L 220,140 L 310,140 L 310,205\" fill=\"none\" stroke=\"#d4b88a\" stroke-width=\"12\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath>\n  <!-- Roof -->\n  <path id=\"r_roof\" d=\"M 212,140 L 265,105 L 318,140\" fill=\"none\" stroke=\"#a05050\" stroke-width=\"11\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath>\n  <!-- Chimney -->\n  <path id=\"r_chimney\" d=\"M 284,124 L 284,103 L 297,103 L 297,116\" fill=\"none\" stroke=\"#c07858\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath>\n  <!-- Smoke -->\n  <path id=\"r_smoke\" d=\"M 290,101 Q 284,90 290,81 Q 297,72 290,63\" fill=\"none\" stroke=\"#ccc8c0\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\"0.7\"><\u002Fpath>\n  <!-- Door -->\n  <path id=\"r_door\" d=\"M 252,205 L 252,172 Q 265,164 278,172 L 278,205\" fill=\"none\" stroke=\"#8b5030\" stroke-width=\"8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\u002Fpath>\n  <!-- Left window -->\n  <path id=\"r_winL\" d=\"M 224,170 L 224,152 L 240,152 L 240,170 Z M 224,161 L 240,161 M 232,152 L 232,170\" fill=\"none\" stroke=\"#6090b8\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\"0.8\"><\u002Fpath>\n  <!-- Right window -->\n  <path id=\"r_winR\" d=\"M 288,170 L 288,152 L 304,152 L 304,170 Z M 288,161 L 304,161 M 296,152 L 296,170\" fill=\"none\" stroke=\"#6090b8\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\"0.8\"><\u002Fpath>\n\n  <\u002Fg><!-- /rightClip -->\n\n  <!-- ── SPINE ── -->\n  <rect x=\"178\" y=\"33\" width=\"26\" height=\"202\" rx=\"5\" fill=\"#8da88d\"><\u002Frect>\n  <rect x=\"185\" y=\"37\" width=\"9\" height=\"194\" rx=\"3\" fill=\"#a8c4a8\" opacity=\"0.45\"><\u002Frect>\n\n  <!-- ── PAINTBRUSH ── -->\n  <g id=\"brush\">\n    <!-- Handle (wooden) -->\n    <rect x=\"-5\" y=\"-88\" width=\"10\" height=\"72\" rx=\"4\" fill=\"#c48848\"><\u002Frect>\n    <!-- Wood grain -->\n    <line x1=\"-2\" y1=\"-85\" x2=\"-2\" y2=\"-18\" stroke=\"#b07838\" stroke-width=\"1\" opacity=\"0.5\"><\u002Fline>\n    <!-- Ferrule (silver band) -->\n    <rect x=\"-6\" y=\"-18\" width=\"12\" height=\"10\" rx=\"2\" fill=\"#b8c0b8\"><\u002Frect>\n    <rect x=\"-6\" y=\"-18\" width=\"12\" height=\"3\" rx=\"1\" fill=\"#d0d8d0\"><\u002Frect>\n    <!-- Bristles (slightly tapered) -->\n    <path d=\"M -5,-8 Q -4,2 0,12 Q 4,2 5,-8 Z\" fill=\"#e8d8b0\"><\u002Fpath>\n    <!-- Bristle tip color (updated by JS) -->\n    <ellipse id=\"brushColor\" cx=\"0\" cy=\"11\" rx=\"3.5\" ry=\"2.5\" fill=\"#f5c842\"><\u002Fellipse>\n  <\u002Fg>\n\n<\u002Fsvg>\n<\u002Fdiv>\n\n<div class=\"loading-wrap\">\n  <span class=\"loading-text\" id=\"loadingText\">Illustrating your world<\u002Fspan>\n  <div class=\"dots\"><span><\u002Fspan><span><\u002Fspan><span><\u002Fspan><\u002Fdiv>\n<\u002Fdiv>\n\n<script>\nconst brush = document.getElementById('brush');\nconst brushColor = document.getElementById('brushColor');\n\n// Stroke definitions: id, color, duration(ms)\nconst strokeDefs = [\n  // Left page\n  { id: 's_sky',    color: '#b8d4e8', dur: 700 },\n  { id: 's_sun',    color: '#f5c842', dur: 900 },\n  { id: 's_hill2',  color: '#a8c89a', dur: 650 },\n  { id: 's_hill1',  color: '#8da88d', dur: 650 },\n  { id: 's_trunk',  color: '#9a7040', dur: 400 },\n  { id: 's_canopy', color: '#4a8a4a', dur: 900 },\n  { id: 's_fl1',    color: '#7ab060', dur: 500 },\n  { id: 's_fl2a',   color: '#e8608a', dur: 400 },\n  { id: 's_fl2b',   color: '#e8608a', dur: 400 },\n  { id: 's_fl2c',   color: '#e8608a', dur: 400 },\n  // Right page\n  { id: 'r_sky',     color: '#b8d4e8', dur: 700 },\n  { id: 'r_house',   color: '#d4b88a', dur: 800 },\n  { id: 'r_roof',    color: '#a05050', dur: 600 },\n  { id: 'r_chimney', color: '#c07858', dur: 400 },\n  { id: 'r_smoke',   color: '#ccc8c0', dur: 500 },\n  { id: 'r_door',    color: '#8b5030', dur: 500 },\n  { id: 'r_winL',    color: '#6090b8', dur: 500 },\n  { id: 'r_winR',    color: '#6090b8', dur: 500 },\n];\n\n// Build stroke objects with path lengths\nconst strokes = strokeDefs.map(def => {\n  const el = document.getElementById(def.id);\n  // Some paths have multiple sub-paths (M...M...) — we animate by total BBox length approx\n  // getTotalLength works on the whole path element\n  const len = el.getTotalLength ? el.getTotalLength() : 100;\n  el.style.strokeDasharray  = len;\n  el.style.strokeDashoffset = len;\n  return { ...def, el, len };\n});\n\nconst PAUSE_BETWEEN = 100;\nconst PAGE_PAUSE    = 600; // pause before switching to right page\n\nlet idx       = 0;\nlet phase     = 'writing'; // 'writing' | 'pause' | 'reset'\nlet strokeStart = null;\nlet pauseStart  = null;\nlet resetStart  = null;\n\nfunction lerp(a, b, t) { return a + (b - a) * t; }\nfunction easeInOut(t) {\n  return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;\n}\n\nfunction resetStrokes() {\n  strokes.forEach(s => {\n    s.el.style.strokeDashoffset = s.len;\n  });\n  idx = 0;\n}\n\n// Get the current drawn tip point of a stroke\nfunction getTip(stroke, t) {\n  const drawn = stroke.len * t;\n  try {\n    return stroke.el.getPointAtLength(drawn);\n  } catch(e) {\n    // Fallback\n    const bb = stroke.el.getBBox();\n    return { x: bb.x + bb.width * t, y: bb.y + bb.height * 0.5 };\n  }\n}\n\nconst BRUSH_ANGLE = -40;\n\nfunction placeBrush(x, y) {\n  brush.setAttribute('transform', `translate(${x},${y}) rotate(${BRUSH_ANGLE})`);\n}\n\nfunction tick(now) {\n  const s = strokes[idx];\n\n  if (phase === 'writing') {\n    if (!strokeStart) {\n      strokeStart = now;\n      brushColor.setAttribute('fill', s.color);\n    }\n    const elapsed = now - strokeStart;\n    const rawT = Math.min(elapsed / s.dur, 1);\n    const t = easeInOut(rawT);\n\n    s.el.style.strokeDashoffset = s.len * (1 - t);\n\n    // Move brush tip to current draw position\n    const pt = getTip(s, t);\n    // Subtle brush tremble\n    const tremble = Math.sin(rawT * Math.PI * 8) * 0.8;\n    placeBrush(pt.x, pt.y + tremble);\n\n    if (rawT >= 1) {\n      phase = 'pause';\n      pauseStart = now;\n    }\n\n  } else if (phase === 'pause') {\n    const next = strokes[idx + 1];\n    const isPageTurn = next && strokes[idx].id.startsWith('s_') && next.id.startsWith('r_');\n    const delay = isPageTurn ? PAGE_PAUSE : PAUSE_BETWEEN;\n\n    if (now - pauseStart > delay) {\n      idx++;\n      if (idx >= strokes.length) {\n        phase = 'reset';\n        resetStart = now;\n      } else {\n        // Sweep brush to next stroke start\n        phase = 'sweep';\n        pauseStart = now;\n      }\n    } else if (isPageTurn) {\n      // Lift brush off during page pause\n      const elapsed = now - pauseStart;\n      const liftT = Math.min(elapsed / PAGE_PAUSE, 1);\n      const fromPt = getTip(strokes[idx], 1);\n      placeBrush(fromPt.x, fromPt.y - Math.sin(liftT * Math.PI) * 35);\n    }\n\n  } else if (phase === 'sweep') {\n    // Quick sweep to next stroke's start point\n    const elapsed = now - pauseStart;\n    const dur = 250;\n    const t = easeInOut(Math.min(elapsed / dur, 1));\n    const fromPt = getTip(strokes[idx - 1], 1);\n    const toPt   = getTip(strokes[idx], 0);\n    const px = lerp(fromPt.x, toPt.x, t);\n    const py = lerp(fromPt.y, toPt.y, t) - Math.sin(t * Math.PI) * 18;\n    brushColor.setAttribute('fill', strokes[idx].color);\n    placeBrush(px, py);\n    if (elapsed >= dur) {\n      phase = 'writing';\n      strokeStart = null;\n    }\n\n  } else if (phase === 'reset') {\n    // Brush sweeps back to start, then lines reset\n    const elapsed = now - resetStart;\n    const dur = 900;\n    const t = easeInOut(Math.min(elapsed / dur, 1));\n    const fromPt = getTip(strokes[strokes.length - 1], 1);\n    const toPt   = getTip(strokes[0], 0);\n    const px = lerp(fromPt.x, toPt.x, t);\n    const py = lerp(fromPt.y, toPt.y, t) - Math.sin(t * Math.PI) * 50;\n    placeBrush(px, py);\n\n    if (elapsed >= dur) {\n      resetStrokes();\n      phase = 'writing';\n      strokeStart = null;\n    }\n  }\n\n  requestAnimationFrame(tick);\n}\n\n// Init: place brush at first stroke start\nconst firstPt = getTip(strokes[0], 0);\nplaceBrush(firstPt.x, firstPt.y);\nrequestAnimationFrame(tick);\n\n// Tweaks\nwindow.addEventListener('message', e => {\n  if (e.data?.type === '__activate_edit_mode') document.getElementById('tweakPanel').style.display = 'block';\n  if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweakPanel').style.display = 'none';\n});\nwindow.parent.postMessage({ type: '__edit_mode_available' }, '*');\n\nconst TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{\n  \"bgColor\": \"#f5f7f2\",\n  \"loadingText\": \"Illustrating your book\"\n}/*EDITMODE-END*/;\n\nfunction applyTweaks(t) {\n  document.body.style.background = t.bgColor;\n  document.getElementById('loadingText').textContent = t.loadingText;\n}\napplyTweaks(TWEAK_DEFAULTS);\n<\u002Fscript>\n\n<!-- Tweaks Panel -->\n<div id=\"tweakPanel\" style=\"display:none;position:fixed;bottom:20px;right:20px;background:white;border:1.5px solid #dde8dd;border-radius:12px;padding:18px 20px;width:220px;box-shadow:0 4px 20px rgba(0,0,0,0.1);font-family:sans-serif;font-size:13px;z-index:999;\">\n  <div style=\"font-weight:600;margin-bottom:14px;color:#4a6a4a;font-size:14px;\">Tweaks<\u002Fdiv>\n  <label style=\"display:block;margin-bottom:10px;color:#555\">\n    Background\n    <input type=\"color\" value=\"#f5f7f2\" style=\"margin-left:8px;cursor:pointer\" oninput=\"applyTweaks({bgColor:this.value,loadingText:document.getElementById('loadingText').textContent});window.parent.postMessage({type:'__edit_mode_set_keys',edits:{bgColor:this.value}},'*')\">\n  <\u002Flabel>\n  <label style=\"display:block;color:#555;margin-bottom:6px\">Loading text<\u002Flabel>\n  <input type=\"text\" value=\"Illustrating your world\" style=\"width:100%;border:1px solid #ccc;border-radius:6px;padding:5px 8px;font-size:12px\" oninput=\"applyTweaks({bgColor:document.body.style.background||'#f5f7f2',loadingText:this.value});window.parent.postMessage({type:'__edit_mode_set_keys',edits:{loadingText:this.value}},'*')\">\n<\u002Fdiv>\n\n\n\n<\u002Fbody><\u002Fhtml>"
+  </script>
+</body>
+</html>
