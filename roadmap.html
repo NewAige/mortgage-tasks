@@ -387,6 +387,47 @@
             color: #155724;
         }
 
+        .rule-status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .rule-status-badge.complete {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rule-status-badge.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .rule-status-badge.not-started {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .rule-status-badge.planned {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+
+        .hours-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #e8f4fd;
+            color: #1a6fa8;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
 
         .activity-log {
             background: white;
@@ -729,9 +770,28 @@
                 margin-bottom: 1px;
             }
 
-            /* ── Task meta — hide in print ── */
+            /* ── Task meta — show rule status + hours in print, hide the rest ── */
             .task-meta {
+                display: block !important;
+                margin-top: 4px;
+                padding-top: 4px;
+                border-top: 1px solid #eee;
+                font-size: 7pt;
+            }
+
+            .task-meta .status-badge,
+            .task-meta .task-created-by,
+            .task-meta .xml-link {
                 display: none !important;
+            }
+
+            .rule-status-badge,
+            .hours-chip {
+                display: inline-block !important;
+                font-size: 6.5pt !important;
+                padding: 1px 6px !important;
+                margin-right: 6px;
+                border-radius: 8px !important;
             }
 
             /* ── Subtasks — hide interactive version, show print table ── */
@@ -866,6 +926,10 @@
                     <span class="metadata-value" id="planned-tasks">0</span>
                 </div>
                 <div class="metadata-item">
+                    <span class="metadata-label">Hours Remaining</span>
+                    <span class="metadata-value" id="hours-remaining">--</span>
+                </div>
+                <div class="metadata-item">
                     <span class="metadata-label">Last Updated</span>
                     <span class="metadata-value" id="last-updated" style="font-size: 1em;">--</span>
                 </div>
@@ -900,6 +964,16 @@
                     <option value="low">Low (1-4)</option>
                 </select>
             </div>
+            <div class="filter-group">
+                <label>Rule Status:</label>
+                <select id="rule-status-filter">
+                    <option value="all">All Rule Statuses</option>
+                    <option value="Complete">Complete</option>
+                    <option value="Partial">Partial</option>
+                    <option value="Not Started">Not Started</option>
+                    <option value="Planned">Planned</option>
+                </select>
+            </div>
         </div>
 
         <div id="stages-container"></div>
@@ -917,7 +991,8 @@
         let currentFilters = {
             stage: 'all',
             status: 'all',
-            priority: 'all'
+            priority: 'all',
+            ruleStatus: 'all'
         };
 
         // Load roadmap data
@@ -973,6 +1048,13 @@
                     }
                 }
 
+                // Rule status filter
+                if (currentFilters.ruleStatus !== 'all') {
+                    if ((task.ruleStatus || '') !== currentFilters.ruleStatus) {
+                        return false;
+                    }
+                }
+
                 return true;
             });
         }
@@ -1001,6 +1083,18 @@
 
             document.getElementById('inprogress-tasks').textContent = inProgressCount;
             document.getElementById('planned-tasks').textContent = plannedCount;
+
+            // Sum estimated hours remaining
+            let totalHrs = 0;
+            roadmapData.stages.forEach(stage => {
+                stage.tasks.forEach(task => {
+                    if (typeof task.estimatedHrsRemaining === 'number') {
+                        totalHrs += task.estimatedHrsRemaining;
+                    }
+                });
+            });
+            document.getElementById('hours-remaining').textContent = totalHrs + ' hrs';
+
             document.getElementById('last-updated').textContent = new Date(roadmapData.metadata.lastUpdated).toLocaleDateString();
 
             const progressFill = document.getElementById('progress-fill');
@@ -1171,9 +1265,25 @@
                             logicHtml = `<div class="task-logic"><strong>Application Logic:</strong> ${task.applicationLogic}</div>`;
                         }
 
+                        // Rule status badge
+                        let ruleStatusHtml = '';
+                        if (task.ruleStatus) {
+                            const ruleClass = task.ruleStatus.toLowerCase().replace(' ', '-');
+                            ruleStatusHtml = `<span class="rule-status-badge ${ruleClass}" title="Rule Status">⚙️ ${task.ruleStatus}</span>`;
+                        }
+
+                        // Hours chip
+                        let hoursHtml = '';
+                        if (task.estimatedHrsRemaining !== null && task.estimatedHrsRemaining !== undefined) {
+                            const hrs = task.estimatedHrsRemaining;
+                            hoursHtml = `<span class="hours-chip" title="Estimated hours remaining">🕐 ${hrs === 0 ? '0 hrs left' : hrs + ' hrs left'}</span>`;
+                        }
+
                         let metaHtml = `
                             <div class="task-meta">
                                 <span class="status-badge ${task.status}">${task.status.replace('-', ' ')}</span>
+                                ${ruleStatusHtml}
+                                ${hoursHtml}
                         `;
 
                         if (task.xmlFile) {
@@ -1270,6 +1380,11 @@
 
         document.getElementById('priority-filter').addEventListener('change', (e) => {
             currentFilters.priority = e.target.value;
+            renderRoadmap();
+        });
+
+        document.getElementById('rule-status-filter').addEventListener('change', (e) => {
+            currentFilters.ruleStatus = e.target.value;
             renderRoadmap();
         });
 
