@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage Workflow Roadmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #1a252f;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .metadata {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metadata-label {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metadata-value {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 0.9em;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:hover {
+            border-color: #3498db;
+        }
+
+        .stage {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ecf0f1;
+        }
+
+        .stage-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1a252f;
+        }
+
+        .stage-badge {
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .task-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .task-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .task-card.planned {
+            border-left: 5px solid #95a5a6;
+            background: #fafafa;
+        }
+
+        .task-card.in-progress {
+            border-left: 5px solid #f39c12;
+            background: #fffbf0;
+        }
+
+        .task-card.completed {
+            border-left: 5px solid #2ecc71;
+            background: #f0fdf4;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .task-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #1a252f;
+            flex: 1;
+        }
+
+        .task-priority {
+            background: #e74c3c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .task-priority.high {
+            background: #e74c3c;
+        }
+
+        .task-priority.medium {
+            background: #f39c12;
+        }
+
+        .task-priority.low {
+            background: #95a5a6;
+        }
+
+        .task-description {
+            color: #5a6c7d;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+        }
+
+        .task-notes {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-bottom: 12px;
+            border-left: 3px solid #3498db;
+        }
+
+        .task-logic {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            color: #856404;
+            margin-bottom: 12px;
+            border-left: 3px solid #ffc107;
+        }
+
+        .task-logic strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #664d03;
+        }
+
+        .subtasks {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .subtasks-title {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subtask-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .subtask-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        .subtask-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .subtask-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .subtask-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .subtask-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+
+        .subtask-type-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .subtask-type-badge.standard {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .subtask-type-badge.conditional {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .subtask-type-badge.later {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .subtask-description {
+            font-size: 0.85em;
+            color: #5a6c7d;
+            margin-bottom: 5px;
+        }
+
+        .subtask-logic {
+            font-size: 0.8em;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+
+        .xml-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .xml-link:hover {
+            text-decoration: underline;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.planned {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+
+        .status-badge.in-progress {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rule-status-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .rule-status-badge.complete {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rule-status-badge.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .rule-status-badge.not-started {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .rule-status-badge.planned {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+
+        .hours-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #e8f4fd;
+            color: #1a6fa8;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+
+        .activity-log {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .activity-log h2 {
+            margin-bottom: 20px;
+            color: #1a252f;
+        }
+
+        .log-entry {
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .log-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .log-timestamp {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .log-details {
+            color: #2c3e50;
+        }
+
+        .log-author {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #95a5a6;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .tasks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metadata {
+                gap: 15px;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .export-btn {
+            margin-left: auto;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-btn:hover {
+            background: #2980b9;
+        }
+
+        .print-footer,
+        .print-subtask-summary {
+            display: none;
+        }
+
+        .subtasks-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            user-select: none;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .subtasks-toggle:hover {
+            color: #3498db;
+        }
+
+        .subtasks-toggle .toggle-arrow {
+            transition: transform 0.2s ease;
+            font-size: 0.9em;
+        }
+
+        .subtasks-toggle .toggle-arrow.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .subtasks-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .subtasks-content.collapsed {
+            max-height: 0 !important;
+        }
+
+        @media print {
+
+            /* ══════════════════════════════════════
+               NUCLEAR RESET — kill every flex/grid
+               so the browser uses pure block flow.
+               This prevents all overlap issues.
+               ══════════════════════════════════════ */
+
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                float: none !important;
+                position: static !important;
+                overflow: visible !important;
+                transition: none !important;
+                animation: none !important;
+                max-height: none !important;
+            }
+
+            @page {
+                margin: 0.6in;
+                size: letter;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                font-size: 9pt;
+                line-height: 1.45;
+                color: #1a252f;
+            }
+
+            .container {
+                max-width: 100%;
+                display: block !important;
+            }
+
+            /* ── Hide non-print elements ── */
+            .filters,
+            .export-btn,
+            .task-created-by,
+            .activity-log,
+            .xml-link,
+            .empty-state-icon {
+                display: none !important;
+            }
+
+            /* ── Force block layout on everything ── */
+            header,
+            .metadata,
+            .metadata-item,
+            .stage,
+            .stage-header,
+            .tasks-grid,
+            .task-card,
+            .task-header,
+            .task-meta,
+            .subtasks,
+            .subtasks-content,
+            .subtasks-toggle,
+            .subtask-item,
+            .subtask-header,
+            .subtask-list {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            /* ── Header ── */
+            header {
+                box-shadow: none;
+                border: none;
+                border-bottom: 2px solid #2c3e50;
+                border-radius: 0;
+                padding: 0 0 12px 0;
+                margin-bottom: 16px;
+                page-break-inside: avoid;
+            }
+
+            header h1 {
+                font-size: 16pt;
+                margin-bottom: 2px;
+            }
+
+            header p {
+                font-size: 8pt;
+                color: #5a6c7d;
+            }
+
+            .metadata {
+                margin-top: 8px;
+                padding: 6px 0;
+            }
+
+            .metadata-item {
+                display: inline-block !important;
+                width: auto !important;
+                margin-right: 24px;
+                margin-bottom: 4px;
+            }
+
+            .metadata-label {
+                font-size: 6pt;
+            }
+
+            .metadata-value {
+                font-size: 10pt !important;
+                margin-top: 1px;
+            }
+
+            .progress-bar {
+                height: 12px;
+                border-radius: 6px;
+                margin-top: 8px;
+            }
+
+            .progress-fill {
+                font-size: 7pt;
+                display: flex !important;
+                width: auto;
+            }
+
+            /* ── Stages ── */
+            .stage {
+                box-shadow: none;
+                border: none;
+                border-radius: 0;
+                padding: 0;
+                margin-bottom: 14px;
+            }
+
+            .stage-header {
+                border-bottom: 2px solid #34495e;
+                padding-bottom: 4px;
+                margin-bottom: 8px;
+            }
+
+            .stage-title {
+                font-size: 12pt;
+                font-weight: 700;
+            }
+
+            .stage-badge {
+                display: inline !important;
+                font-size: 7pt;
+                padding: 2px 8px;
+                border-radius: 8px;
+                margin-left: 8px;
+                width: auto !important;
+            }
+
+            /* ── Task cards ── */
+            .task-card {
+                border: 1px solid #ccc;
+                border-radius: 0;
+                padding: 8px 10px;
+                margin-bottom: 6px;
+                cursor: default;
+            }
+
+            .task-card:hover {
+                box-shadow: none;
+                transform: none;
+            }
+
+            .task-card.planned { border-left: 4px solid #95a5a6; }
+            .task-card.in-progress { border-left: 4px solid #f39c12; }
+            .task-card.completed { border-left: 4px solid #2ecc71; }
+
+            .task-card.planned,
+            .task-card.in-progress,
+            .task-card.completed {
+                background: white;
+            }
+
+            .task-title {
+                font-size: 10pt;
+                font-weight: 700;
+                display: inline !important;
+            }
+
+            .task-priority {
+                display: inline !important;
+                font-size: 6.5pt;
+                padding: 1px 5px;
+                margin-left: 6px;
+                width: auto !important;
+                vertical-align: middle;
+            }
+
+            .task-description {
+                font-size: 8pt;
+                margin: 3px 0 5px 0;
+            }
+
+            .task-notes,
+            .task-logic {
+                font-size: 7.5pt;
+                padding: 5px 8px;
+                margin-bottom: 5px;
+            }
+
+            .task-logic strong {
+                display: block;
+                margin-bottom: 1px;
+            }
+
+            /* ── Task meta — show rule status + hours in print, hide the rest ── */
+            .task-meta {
+                display: block !important;
+                margin-top: 4px;
+                padding-top: 4px;
+                border-top: 1px solid #eee;
+                font-size: 7pt;
+            }
+
+            .task-meta .status-badge,
+            .task-meta .task-created-by,
+            .task-meta .xml-link {
+                display: none !important;
+            }
+
+            .rule-status-badge,
+            .hours-chip {
+                display: inline-block !important;
+                font-size: 6.5pt !important;
+                padding: 1px 6px !important;
+                margin-right: 6px;
+                border-radius: 8px !important;
+            }
+
+            /* ── Subtasks — hide interactive version, show print table ── */
+            .subtasks {
+                display: none !important;
+            }
+
+            .print-subtask-summary {
+                display: block !important;
+                margin-top: 5px;
+                padding-top: 5px;
+                border-top: 1px solid #ddd;
+            }
+
+            .print-st-header {
+                font-size: 7pt;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #555;
+                margin-bottom: 3px;
+            }
+
+            .print-st-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 7.5pt;
+            }
+
+            .print-st-table td {
+                padding: 2px 4px;
+                border-bottom: 1px solid #eee;
+                vertical-align: middle;
+            }
+
+            .print-st-name {
+                font-weight: 600;
+                color: #2c3e50;
+            }
+
+            .print-st-type {
+                text-align: right;
+                width: 70px;
+            }
+
+            .print-st-badge {
+                font-size: 6pt;
+                font-weight: 600;
+                text-transform: uppercase;
+                padding: 1px 4px;
+                border-radius: 3px;
+            }
+
+            .print-st-badge.standard {
+                background: #d4edda;
+                color: #155724;
+            }
+
+            .print-st-badge.conditional {
+                background: #fff3cd;
+                color: #856404;
+            }
+
+            .print-st-badge.later {
+                background: #cfe2ff;
+                color: #084298;
+            }
+
+            .print-st-desc {
+                font-weight: 400;
+                font-size: 6.5pt;
+                color: #666;
+                margin-top: 1px;
+            }
+
+            .print-st-tag {
+                display: inline-block;
+                font-size: 7pt;
+                padding: 1px 5px;
+                margin: 1px 2px;
+                background: #e3f2fd;
+                color: #1976d2;
+                border-radius: 2px;
+            }
+
+            /* ── Empty states ── */
+            .empty-state {
+                padding: 10px;
+                font-size: 8pt;
+            }
+
+            /* ── Print footer ── */
+            .print-footer {
+                display: block !important;
+                text-align: center;
+                font-size: 7pt;
+                color: #999;
+                padding-top: 12px;
+                margin-top: 16px;
+                border-top: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                <div>
+                    <h1>Mortgage Workflow Roadmap</h1>
+                    <p>Task visualization and workflow coordination system</p>
+                </div>
+                <button class="export-btn" onclick="window.print()">
+                    &#128438; Export PDF
+                </button>
+            </div>
+            <div class="metadata">
+                <div class="metadata-item">
+                    <span class="metadata-label">Total Tasks</span>
+                    <span class="metadata-value" id="total-tasks">0</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Completed</span>
+                    <span class="metadata-value" id="completed-tasks">0</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">In Progress</span>
+                    <span class="metadata-value" id="inprogress-tasks">0</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Planned</span>
+                    <span class="metadata-value" id="planned-tasks">0</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Hours Remaining</span>
+                    <span class="metadata-value" id="hours-remaining">--</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Last Updated</span>
+                    <span class="metadata-value" id="last-updated" style="font-size: 1em;">--</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%">0%</div>
+            </div>
+        </header>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label>Stage:</label>
+                <select id="stage-filter">
+                    <option value="all">All Stages</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Status:</label>
+                <select id="status-filter">
+                    <option value="all">All Status</option>
+                    <option value="planned">Planned</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Priority:</label>
+                <select id="priority-filter">
+                    <option value="all">All Priorities</option>
+                    <option value="high">High (8-10)</option>
+                    <option value="medium">Medium (5-7)</option>
+                    <option value="low">Low (1-4)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Rule Status:</label>
+                <select id="rule-status-filter">
+                    <option value="all">All Rule Statuses</option>
+                    <option value="Complete">Complete</option>
+                    <option value="Partial">Partial</option>
+                    <option value="Not Started">Not Started</option>
+                    <option value="Planned">Planned</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="stages-container"></div>
+
+        <div class="activity-log">
+            <h2>Activity Log</h2>
+            <div id="activity-log-container"></div>
+        </div>
+
+        <div class="print-footer" id="print-footer"></div>
+    </div>
+
+    <script>
+        let roadmapData = null;
+        let currentFilters = {
+            stage: 'all',
+            status: 'all',
+            priority: 'all',
+            ruleStatus: 'all'
+        };
+
+        // Load roadmap data
+        async function loadRoadmap() {
+            try {
+                const response = await fetch('roadmap.json');
+                roadmapData = await response.json();
+                populateFilters();
+                renderRoadmap();
+            } catch (error) {
+                console.error('Error loading roadmap:', error);
+                document.getElementById('stages-container').innerHTML =
+                    '<div class="empty-state"><div class="empty-state-icon">⚠️</div><p>Error loading roadmap.json. Make sure the file is in the same directory as this HTML file.</p></div>';
+            }
+        }
+
+        // Populate filter dropdowns
+        function populateFilters() {
+            const stageFilter = document.getElementById('stage-filter');
+            roadmapData.stages.forEach(stage => {
+                const option = document.createElement('option');
+                option.value = stage.id;
+                option.textContent = stage.name;
+                stageFilter.appendChild(option);
+            });
+        }
+
+        // Get priority class
+        function getPriorityClass(priority) {
+            if (priority >= 8) return 'high';
+            if (priority >= 5) return 'medium';
+            return 'low';
+        }
+
+        // Filter tasks
+        function filterTasks(tasks, stageId) {
+            return tasks.filter(task => {
+                // Stage filter
+                if (currentFilters.stage !== 'all' && currentFilters.stage !== stageId) {
+                    return false;
+                }
+
+                // Status filter
+                if (currentFilters.status !== 'all' && task.status !== currentFilters.status) {
+                    return false;
+                }
+
+                // Priority filter
+                if (currentFilters.priority !== 'all') {
+                    const priorityClass = getPriorityClass(task.priority);
+                    if (priorityClass !== currentFilters.priority) {
+                        return false;
+                    }
+                }
+
+                // Rule status filter
+                if (currentFilters.ruleStatus !== 'all') {
+                    if ((task.ruleStatus || '') !== currentFilters.ruleStatus) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        // Render roadmap
+        function renderRoadmap() {
+            if (!roadmapData) return;
+
+            // Update metadata
+            const totalTasks = roadmapData.metadata.totalTasks;
+            const completedTasks = roadmapData.metadata.completedTasks;
+            const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+            document.getElementById('total-tasks').textContent = totalTasks;
+            document.getElementById('completed-tasks').textContent = completedTasks;
+
+            // Count in-progress and planned
+            let inProgressCount = 0;
+            let plannedCount = 0;
+            roadmapData.stages.forEach(stage => {
+                stage.tasks.forEach(task => {
+                    if (task.status === 'in-progress') inProgressCount++;
+                    if (task.status === 'planned') plannedCount++;
+                });
+            });
+
+            document.getElementById('inprogress-tasks').textContent = inProgressCount;
+            document.getElementById('planned-tasks').textContent = plannedCount;
+
+            // Sum estimated hours remaining
+            let totalHrs = 0;
+            roadmapData.stages.forEach(stage => {
+                stage.tasks.forEach(task => {
+                    if (typeof task.estimatedHrsRemaining === 'number') {
+                        totalHrs += task.estimatedHrsRemaining;
+                    }
+                });
+            });
+            document.getElementById('hours-remaining').textContent = totalHrs + ' hrs';
+
+            document.getElementById('last-updated').textContent = new Date(roadmapData.metadata.lastUpdated).toLocaleDateString();
+
+            const progressFill = document.getElementById('progress-fill');
+            progressFill.style.width = progressPercent + '%';
+            progressFill.textContent = progressPercent + '%';
+
+            // Render stages
+            const container = document.getElementById('stages-container');
+            container.innerHTML = '';
+
+            roadmapData.stages.forEach(stage => {
+                let filteredTasks = filterTasks(stage.tasks, stage.id);
+
+                // Skip empty stages if filtering
+                if (currentFilters.stage === 'all' && filteredTasks.length === 0 && stage.tasks.length === 0) {
+                    return;
+                }
+
+                // Sort tasks by order field
+                filteredTasks = filteredTasks.sort((a, b) => (a.order || 999) - (b.order || 999));
+
+                const stageDiv = document.createElement('div');
+                stageDiv.className = 'stage';
+
+                const stageHeader = document.createElement('div');
+                stageHeader.className = 'stage-header';
+                stageHeader.innerHTML = `
+                    <div>
+                        <div class="stage-title">${stage.order}. ${stage.name}</div>
+                        <div style="color: #7f8c8d; font-size: 0.9em; margin-top: 5px;">${stage.description}</div>
+                    </div>
+                    <span class="stage-badge">${filteredTasks.length} task${filteredTasks.length !== 1 ? 's' : ''}</span>
+                `;
+                stageDiv.appendChild(stageHeader);
+
+                if (filteredTasks.length === 0) {
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'empty-state';
+                    emptyState.innerHTML = '<div class="empty-state-icon">📋</div><p>No tasks in this stage</p>';
+                    stageDiv.appendChild(emptyState);
+                } else {
+                    // Group tasks by subcategory if subcategories exist
+                    if (stage.subcategories && stage.subcategories.length > 0) {
+                        // Sort subcategories by order
+                        const sortedSubcategories = [...stage.subcategories].sort((a, b) => a.order - b.order);
+
+                        sortedSubcategories.forEach(subcategory => {
+                            const subcategoryTasks = filteredTasks.filter(t => t.subcategory === subcategory.id);
+
+                            if (subcategoryTasks.length > 0) {
+                                // Create subcategory section
+                                const subcategoryDiv = document.createElement('div');
+                                subcategoryDiv.style.marginBottom = '30px';
+
+                                const subcategoryHeader = document.createElement('div');
+                                subcategoryHeader.style.cssText = 'font-weight: 600; font-size: 1.1em; color: #2c3e50; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #e0e0e0;';
+                                subcategoryHeader.innerHTML = `
+                                    ${subcategory.name}
+                                    <span style="font-weight: 400; font-size: 0.85em; color: #7f8c8d; margin-left: 10px;">${subcategory.description}</span>
+                                `;
+                                subcategoryDiv.appendChild(subcategoryHeader);
+
+                                const tasksGrid = document.createElement('div');
+                                tasksGrid.className = 'tasks-grid';
+
+                                subcategoryTasks.forEach(task => {
+                                    renderTask(task, tasksGrid);
+                                });
+
+                                subcategoryDiv.appendChild(tasksGrid);
+                                stageDiv.appendChild(subcategoryDiv);
+                            }
+                        });
+                    } else {
+                        // No subcategories, render tasks directly
+                        const tasksGrid = document.createElement('div');
+                        tasksGrid.className = 'tasks-grid';
+
+                        filteredTasks.forEach(task => {
+                            renderTask(task, tasksGrid);
+                        });
+
+                        stageDiv.appendChild(tasksGrid);
+                    }
+                }
+
+                container.appendChild(stageDiv);
+            });
+
+            // Render activity log
+            renderActivityLog();
+        }
+
+        // Render a single task card
+        function renderTask(task, container) {
+                        const taskCard = document.createElement('div');
+                        taskCard.className = `task-card ${task.status}`;
+
+                        const priorityClass = getPriorityClass(task.priority);
+
+                        let subtasksHtml = '';
+                        if (task.subtasks && task.subtasks.length > 0) {
+                            // Check if subtasks are objects (new format) or strings (old format)
+                            const firstSubtask = task.subtasks[0];
+                            const isDetailedSubtasks = typeof firstSubtask === 'object' && firstSubtask.name;
+
+                            if (isDetailedSubtasks) {
+                                // Sort subtasks by order field
+                                const sortedSubtasks = [...task.subtasks].sort((a, b) => (a.order || 999) - (b.order || 999));
+
+                                // New detailed format with type and logic
+                                const standardCount = sortedSubtasks.filter(st => st.type === 'standard').length;
+                                const conditionalCount = sortedSubtasks.filter(st => st.type === 'conditional').length;
+                                const laterCount = sortedSubtasks.filter(st => st.type === 'later').length;
+
+                                let countBadges = '';
+                                if (standardCount > 0) countBadges += `<span style="font-size: 0.8em; color: #155724;">✓ ${standardCount} standard</span>`;
+                                if (conditionalCount > 0) countBadges += `<span style="font-size: 0.8em; color: #856404; margin-left: 10px;">⚡ ${conditionalCount} conditional</span>`;
+                                if (laterCount > 0) countBadges += `<span style="font-size: 0.8em; color: #084298; margin-left: 10px;">⏰ ${laterCount} later</span>`;
+
+                                const toggleId = `subtasks-${task.id || Math.random().toString(36).substr(2, 9)}`;
+                                subtasksHtml = `
+                                    <div class="subtasks">
+                                        <button class="subtasks-toggle" onclick="toggleSubtasks('${toggleId}', this, event)">
+                                            <span class="toggle-arrow collapsed">▼</span>
+                                            Subtasks (${sortedSubtasks.length}) ${countBadges}
+                                        </button>
+                                        <div id="${toggleId}" class="subtasks-content collapsed" style="max-height: 0;">
+                                        ${sortedSubtasks.map(st => `
+                                            <div class="subtask-item">
+                                                <div class="subtask-header">
+                                                    <span class="subtask-name">${st.name}</span>
+                                                    <span class="subtask-type-badge ${st.type}">${st.type}</span>
+                                                </div>
+                                                ${st.description ? `<div class="subtask-description">${st.description}</div>` : ''}
+                                                ${st.applicationLogic ? `<div class="subtask-logic">⚙️ ${st.applicationLogic}</div>` : ''}
+                                            </div>
+                                        `).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            } else {
+                                // Old simple string format
+                                const toggleIdSimple = `subtasks-${task.id || Math.random().toString(36).substr(2, 9)}`;
+                                subtasksHtml = `
+                                    <div class="subtasks">
+                                        <button class="subtasks-toggle" onclick="toggleSubtasks('${toggleIdSimple}', this, event)">
+                                            <span class="toggle-arrow collapsed">▼</span>
+                                            Subtasks (${task.subtasks.length})
+                                        </button>
+                                        <div id="${toggleIdSimple}" class="subtasks-content collapsed" style="max-height: 0;">
+                                            <div class="subtask-list">
+                                                ${task.subtasks.map(st => `<span class="subtask-tag">${st}</span>`).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        }
+
+                        let notesHtml = '';
+                        if (task.notes) {
+                            notesHtml = `<div class="task-notes"><strong>Notes:</strong> ${task.notes}</div>`;
+                        }
+
+                        let logicHtml = '';
+                        if (task.applicationLogic) {
+                            logicHtml = `<div class="task-logic"><strong>Application Logic:</strong> ${task.applicationLogic}</div>`;
+                        }
+
+                        // Rule status badge
+                        let ruleStatusHtml = '';
+                        if (task.ruleStatus) {
+                            const ruleClass = task.ruleStatus.toLowerCase().replace(' ', '-');
+                            ruleStatusHtml = `<span class="rule-status-badge ${ruleClass}" title="Rule Status">⚙️ ${task.ruleStatus}</span>`;
+                        }
+
+                        // Hours chip
+                        let hoursHtml = '';
+                        if (task.estimatedHrsRemaining !== null && task.estimatedHrsRemaining !== undefined) {
+                            const hrs = task.estimatedHrsRemaining;
+                            hoursHtml = `<span class="hours-chip" title="Estimated hours remaining">🕐 ${hrs === 0 ? '0 hrs left' : hrs + ' hrs left'}</span>`;
+                        }
+
+                        let metaHtml = `
+                            <div class="task-meta">
+                                <span class="status-badge ${task.status}">${task.status.replace('-', ' ')}</span>
+                                ${ruleStatusHtml}
+                                ${hoursHtml}
+                        `;
+
+                        if (task.xmlFile) {
+                            metaHtml += `<a href="${task.xmlFile}" class="xml-link" target="_blank">📄 View XML</a>`;
+                        }
+
+                        if (task.createdBy) {
+                            metaHtml += `<span class="task-created-by">Created by: ${task.createdBy}</span>`;
+                        }
+
+                        metaHtml += '</div>';
+
+                        // Print-only subtask summary (hidden on screen, shown in PDF)
+                        let printSummaryHtml = '';
+                        if (task.subtasks && task.subtasks.length > 0) {
+                            const first = task.subtasks[0];
+                            if (typeof first === 'object' && first.name) {
+                                const sorted = [...task.subtasks].sort((a, b) => (a.order || 999) - (b.order || 999));
+                                const rows = sorted.map(st => {
+                                    const typeClass = st.type || 'standard';
+                                    const desc = st.description ? `<div class="print-st-desc">${st.description}</div>` : '';
+                                    return `<tr class="print-subtask-row">
+                                        <td class="print-st-name">${st.name}${desc}</td>
+                                        <td class="print-st-type"><span class="print-st-badge ${typeClass}">${st.type}</span></td>
+                                    </tr>`;
+                                }).join('');
+                                printSummaryHtml = `<div class="print-subtask-summary">
+                                    <div class="print-st-header">Subtasks (${sorted.length})</div>
+                                    <table class="print-st-table">${rows}</table>
+                                </div>`;
+                            } else {
+                                const tags = task.subtasks.map(st => `<span class="print-st-tag">${st}</span>`).join(' ');
+                                printSummaryHtml = `<div class="print-subtask-summary">
+                                    <div class="print-st-header">Subtasks (${task.subtasks.length})</div>
+                                    <div>${tags}</div>
+                                </div>`;
+                            }
+                        }
+
+                        taskCard.innerHTML = `
+                            <div class="task-header">
+                                <div class="task-title">${task.name}</div>
+                                <span class="task-priority ${priorityClass}">P${task.priority}</span>
+                            </div>
+                            <div class="task-description">${task.description}</div>
+                            ${notesHtml}
+                            ${logicHtml}
+                            ${subtasksHtml}
+                            ${printSummaryHtml}
+                            ${metaHtml}
+                        `;
+
+                        container.appendChild(taskCard);
+        }
+
+
+        // Render activity log
+        function renderActivityLog() {
+            const logContainer = document.getElementById('activity-log-container');
+
+            if (!roadmapData.activityLog || roadmapData.activityLog.length === 0) {
+                logContainer.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📝</div><p>No activity yet</p></div>';
+                return;
+            }
+
+            // Sort by timestamp descending
+            const sortedLog = [...roadmapData.activityLog].sort((a, b) =>
+                new Date(b.timestamp) - new Date(a.timestamp)
+            );
+
+            logContainer.innerHTML = sortedLog.map(entry => `
+                <div class="log-entry">
+                    <div class="log-timestamp">${new Date(entry.timestamp).toLocaleString()}</div>
+                    <div class="log-details">
+                        <span class="log-author">${entry.author || 'system'}</span>
+                        <strong>${entry.action}</strong> - ${entry.taskName}
+                        ${entry.details ? `<br><span style="font-size: 0.9em; color: #5a6c7d;">${entry.details}</span>` : ''}
+                        ${entry.xmlFile ? `<br><a href="${entry.xmlFile}" class="xml-link" target="_blank">📄 ${entry.xmlFile}</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Set up filter listeners
+        document.getElementById('stage-filter').addEventListener('change', (e) => {
+            currentFilters.stage = e.target.value;
+            renderRoadmap();
+        });
+
+        document.getElementById('status-filter').addEventListener('change', (e) => {
+            currentFilters.status = e.target.value;
+            renderRoadmap();
+        });
+
+        document.getElementById('priority-filter').addEventListener('change', (e) => {
+            currentFilters.priority = e.target.value;
+            renderRoadmap();
+        });
+
+        document.getElementById('rule-status-filter').addEventListener('change', (e) => {
+            currentFilters.ruleStatus = e.target.value;
+            renderRoadmap();
+        });
+
+        // Toggle subtasks expand/collapse
+        function toggleSubtasks(id, btn, event) {
+            event.stopPropagation();
+            const content = document.getElementById(id);
+            const arrow = btn.querySelector('.toggle-arrow');
+            if (content.classList.contains('collapsed')) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.classList.remove('collapsed');
+                arrow.classList.remove('collapsed');
+            } else {
+                content.style.maxHeight = '0';
+                content.classList.add('collapsed');
+                arrow.classList.add('collapsed');
+            }
+        }
+
+        // Populate print footer
+        document.getElementById('print-footer').textContent =
+            'Mortgage Workflow Roadmap — Exported ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Load on page load
+        loadRoadmap();
+    </script>
+</body>
+</html>

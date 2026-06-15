@@ -1,0 +1,2785 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-06-11T20:02:45.000Z",
+    "version": "1.0.0",
+    "totalTasks": 51,
+    "completedTasks": 35,
+    "description": "Mortgage workflow task roadmap for LOS import"
+  },
+  "stages": [
+    {
+      "id": "1_origination",
+      "name": "Origination",
+      "order": 1,
+      "description": "Initial loan application and setup",
+      "tasks": []
+    },
+    {
+      "id": "2_processing",
+      "name": "Processing",
+      "order": 2,
+      "description": "Loan processing and documentation gathering",
+      "subcategories": [
+        {
+          "id": "file_setup",
+          "name": "File Setup",
+          "order": 1,
+          "description": "Initial loan setup and disclosure tasks"
+        },
+        {
+          "id": "service_orders",
+          "name": "Service Orders",
+          "order": 2,
+          "description": "Third-party service orders and verifications"
+        },
+        {
+          "id": "pre_underwriting",
+          "name": "Pre-Underwriting",
+          "order": 3,
+          "description": "Documentation verification before underwriting"
+        },
+        {
+          "id": "post_underwriting",
+          "name": "Post-Underwriting",
+          "order": 4,
+          "description": "Tasks after underwriting approval"
+        },
+        {
+          "id": "misc",
+          "name": "Misc",
+          "order": 5,
+          "description": "Conditional and miscellaneous tasks"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "task_001",
+          "name": "Review Credit",
+          "order": 1,
+          "subcategory": "file_setup",
+          "status": "completed",
+          "priority": 9,
+          "description": "Review borrower credit report for accuracy and issues",
+          "notes": "Comprehensive credit review including red flags, OFAC, fraud alerts, and lien verification",
+          "applicationLogic": "Applied at loan application submission. Triggers when loan is created and borrower SSN is provided.",
+          "subtasks": [
+            {
+              "name": "Name Discrepancy",
+              "order": 1,
+              "description": "Name Discrepancy � Review credit report for name discrepancies",
+              "type": "standard"
+            },
+            {
+              "name": "Name AKA's",
+              "order": 2,
+              "description": "Name AKA's � Input AKA's listed on credit report",
+              "type": "standard"
+            },
+            {
+              "name": "Address Discrepancy",
+              "order": 3,
+              "description": "Address Discrepancy � Review credit report for address discrepancies",
+              "type": "standard"
+            },
+            {
+              "name": "SSN Discrepancy",
+              "order": 4,
+              "description": "SSN Discrepancy � Review credit report for Social Security Number discrepancies",
+              "type": "standard"
+            },
+            {
+              "name": "OFAC",
+              "order": 5,
+              "description": "OFAC � Office of Foreign Assets Control screening for all parties",
+              "type": "standard"
+            },
+            {
+              "name": "Fraud Alerts",
+              "order": 6,
+              "description": "Fraud Alerts � Review and address any fraud alerts on credit report",
+              "type": "standard"
+            },
+            {
+              "name": "Frozen Score",
+              "order": 7,
+              "description": "Frozen Score � Identify and address frozen credit scores",
+              "type": "standard"
+            },
+            {
+              "name": "Review Liens",
+              "order": 8,
+              "description": "Review Liens � Review liens and ensure they are tied to all VOMs (Verification of Mortgage)",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-02-23T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_002",
+          "name": "Send Disclosures",
+          "order": 2,
+          "subcategory": "file_setup",
+          "status": "completed",
+          "priority": 10,
+          "description": "Send required loan disclosures to borrower",
+          "notes": "Includes index check, appraisal fee verification, FACT Act Disclosure review, and Home Counseling List",
+          "applicationLogic": "Applied within 3 business days of loan application. Triggers after loan is created and borrower intent to proceed is confirmed.",
+          "subtasks": [
+            {
+              "name": "Index",
+              "order": 1,
+              "description": "Index pulled as of today. Use 'Get Index' button.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Appraisal Fee Only",
+              "order": 2,
+              "description": "The only fee evidenced is the appraisal fee.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure � All Scores",
+              "order": 3,
+              "description": "All scores for all borrowers from all credit bureaus evidenced on FACT Act Disclosure.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure � Checkboxes",
+              "order": 4,
+              "description": "Material Terms / Credit Score checkboxes checked when score available, unchecked when not.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure � Key Factors",
+              "order": 5,
+              "description": "Key Factors text present for every credit score for all borrowers and bureaus.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure � eConsent",
+              "order": 6,
+              "description": "eConsent received before sending electronically.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure � Contact Info",
+              "order": 7,
+              "description": "Email and phone present before sending electronically.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Disclosure � Ready to Send",
+              "order": 8,
+              "description": "Ready to Send Disclosure. Mark Done to send electronically. Mark Issue to send via mail.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Home Counseling List",
+              "order": 9,
+              "description": "Provide Home Counseling List to borrower.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/disclosures/send_disclosures_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-10T00:00:00.000Z"
+        },
+        {
+          "id": "task_002b",
+          "name": "Send Disclosures (HELOC)",
+          "order": 3,
+          "subcategory": "file_setup",
+          "status": "completed",
+          "priority": 10,
+          "description": "Send required loan disclosures to borrower for HELOC loans",
+          "notes": "HELOC variant � includes all standard disclosure subtasks plus demographic addendum checks",
+          "applicationLogic": "Applied within 3 business days of HELOC loan application. Triggers after loan is created and borrower intent to proceed is confirmed.",
+          "subtasks": [
+            {
+              "name": "Program Selection",
+              "order": 1,
+              "description": "Program Selection � Verify the program is marked appropriately for this loan.",
+              "type": "standard"
+            },
+            {
+              "name": "Index",
+              "order": 2,
+              "description": "Index � Index pulled as of today. Use \"Get Index\" button.",
+              "type": "standard"
+            },
+            {
+              "name": "Plan Code",
+              "order": 3,
+              "description": "Plan Code � Set Plan code to HELOC Adjustable (00007005)",
+              "type": "standard"
+            },
+            {
+              "name": "Appraisal Fee Only",
+              "order": 4,
+              "description": "Appraisal Fee Only � The only fee evidenced is the appraisal fee.",
+              "type": "standard"
+            },
+            {
+              "name": "1003 � Demographic HELOC",
+              "order": 5,
+              "description": "1003 � Demographic HELOC � Demographic information is collected only when the proceeds are used to pay off an existing lien-secured debt, qualifying the transaction as a refinancing for regulatory reporting purposes.",
+              "type": "standard"
+            },
+            {
+              "name": "FACT Act Disclosure � All Scores",
+              "order": 6,
+              "description": "FACT Act Disclosure � All Scores � All scores for all borrowers from all credit bureaus pulled on the credit report are evidenced on the FACT Act Disclosure. (Be sure to check second borrower pair as well).",
+              "type": "standard"
+            },
+            {
+              "name": "FACT Act Disclosure � Checkboxes",
+              "order": 7,
+              "description": "FACT Act Disclosure � Checkboxes � Ensure the 'Material Terms of Credit set by Credit Score' and 'Credit Score for Disclosure Notice' check boxes on the Disclosure Notice are checked when a credit score is available and unchecked when a score is not available.",
+              "type": "standard"
+            },
+            {
+              "name": "FACT Act Disclosure � Key Factors",
+              "order": 8,
+              "description": "FACT Act Disclosure � Key Factors � Verify that the Key Factors informational text is present for every credit score to be disclosed for all borrowers and all bureaus pulled.",
+              "type": "standard"
+            },
+            {
+              "name": "Home Counseling List",
+              "order": 9,
+              "description": "Home Counseling List � Import Home Counseling List",
+              "type": "standard"
+            },
+            {
+              "name": "Order AVM",
+              "order": 10,
+              "description": "Order AVM � This subtask is completed automatically by the separate Order AVM task � do not complete manually.",
+              "type": "conditional",
+              "applicationLogic": "Added when loan amount is at or below $400,000"
+            },
+            {
+              "name": "Flood Cert",
+              "order": 11,
+              "description": "Flood Cert � This subtask is completed automatically upon completion of the separate Order Flood Certificate task � do not complete manually.",
+              "type": "standard"
+            },
+            {
+              "name": "eConsent",
+              "order": 12,
+              "description": "eConsent � Verify eConsent is received before sending electronically.",
+              "type": "standard"
+            },
+            {
+              "name": "FACT Act Disclosure � Contact Info",
+              "order": 13,
+              "description": "Contact Info � Verify email and phone are present before sending electronically.",
+              "type": "standard"
+            },
+            {
+              "name": "Ready to Send",
+              "order": 14,
+              "description": "Ready to Send � Ready to Send Disclosure. Mark Done to send electronically. Mark Issue to send via mail (must complete manually).",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-10T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_002c",
+          "name": "Notice of Incomplete",
+          "order": 3,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 5,
+          "description": "Send Notice of Incomplete to borrower for missing application items",
+          "notes": "Cleaned up from Example files/Notice of Incomplete.xml",
+          "applicationLogic": "Applied when borrower application is missing required items. Processor adds conditions and sends NOI electronically.",
+          "subtasks": [
+            {
+              "name": "Add Conditions",
+              "order": 1,
+              "description": "Add conditions for NOI",
+              "type": "standard"
+            },
+            {
+              "name": "NOI Not Needed",
+              "order": 2,
+              "description": "Mark N/A if an NOI is not needed; an underwriting decision will be produced soon.",
+              "type": "standard"
+            },
+            {
+              "name": "Send Notice of Incomplete",
+              "order": 3,
+              "description": "Mark Done to send Notice of Incomplete electronically.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/Notice of Incomplete.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-12T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_002d",
+          "name": "Mailing Initial Disclosures",
+          "order": 4,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 5,
+          "description": "Mail initial disclosure package when eConsent was not received on or before the disclosure due date",
+          "notes": "Conditional task — only needed when eConsent was not obtained before the disclosure due date. Mark NA if eConsent was received and mailing is not needed.",
+          "applicationLogic": "Applied when initial disclosures must be mailed because eConsent was not received on or before the due date of the disclosures.",
+          "subtasks": [
+            {
+              "name": "Mail Disclosures and Mark Disclosure Tracking",
+              "order": 1,
+              "description": "Mail Disclosures and Mark Disclosure Tracking – Mail initial disclosure package to borrower and mark as mailed in disclosure tracking. Mark Done when complete. Mark NA if eConsent was obtained and mailing is not needed.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/mailing_initial_disclosures_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-12T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_003",
+          "name": "Order Appraisal",
+          "order": 1,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 8,
+          "description": "Order property appraisal and collect required forms",
+          "notes": "Task can be reopened when new subtasks are assigned based on conditions",
+          "applicationLogic": "Applied after disclosures sent and appraisal fee collected. Triggers when property address is confirmed and borrower has signed appraisal authorization.",
+          "subtasks": [
+            {
+              "name": "Obtain Quote",
+              "order": 1,
+              "description": "Obtain Quote � Obtain appraisal fee quote (conditional: property value over $1M or unique/complex property type)",
+              "type": "conditional",
+              "applicationLogic": "Added when property value is over $1M or property is unique/complex"
+            },
+            {
+              "name": "Create Invoice",
+              "order": 2,
+              "description": "Generate the appraisal invoice for the borrower to pay",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Send Invoice",
+              "order": 3,
+              "description": "Send the appraisal invoice to the borrower",
+              "type": "conditional",
+              "applicationLogic": "Added when intent to proceed is received OR product is a HELOC"
+            },
+            {
+              "name": "Payment Recording",
+              "order": 4,
+              "description": "Record appraisal payment received in Encompass and ValueLink (systems do not sync � must be entered in both separately)",
+              "type": "conditional",
+              "applicationLogic": "Added when appraisal payment is received"
+            },
+            {
+              "name": "Automated Order",
+              "order": 5,
+              "description": "Place automated appraisal order via integrated system; marking Done will place the automated order",
+              "type": "conditional",
+              "applicationLogic": "Added when automated ordering is enabled/set up for this loan"
+            },
+            {
+              "name": "Order 1004",
+              "order": 6,
+              "description": "Order 1004 appraisal form for single-family property",
+              "type": "conditional",
+              "applicationLogic": "Added when property type is single-family AND automated ordering is not available"
+            },
+            {
+              "name": "Order 1025",
+              "order": 7,
+              "description": "Order 1025 appraisal form for 2�4 unit property",
+              "type": "conditional",
+              "applicationLogic": "Added when property type is 2�4 unit AND automated ordering is not available"
+            },
+            {
+              "name": "Order 1073",
+              "order": 8,
+              "description": "Order 1073 appraisal form for condo property",
+              "type": "conditional",
+              "applicationLogic": "Added when property type is condo AND automated ordering is not available"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml",
+          "createdBy": "calves",
+          "createdAt": "2025-10-28T00:00:00Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_004",
+          "name": "Order Title",
+          "order": 2,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 8,
+          "description": "Order title search and examination",
+          "notes": "Subtasks needed: title search request, preliminary title report review, exception review, lien verification, title commitment",
+          "applicationLogic": "Applied after loan is in processing. Triggers when property address is confirmed and purchase contract is received (for purchase loans) or after appraisal is ordered (for refinance).",
+          "subtasks": [
+            {
+              "name": "Order Title Ownership Report � Old Republic",
+              "order": 1,
+              "description": "Order Title Ownership Report with Old Republic through their web portal",
+              "type": "conditional",
+              "applicationLogic": "Added when equity product and property is not in a trust"
+            },
+            {
+              "name": "Order Title Ownership Report � Equity Attorney (Trust)",
+              "order": 2,
+              "description": "Order Title Ownership Report with designated equity product attorney; specify in order we are looking for a title rundown, trust review, and trustee cert preparation. No title insurance or closing services.",
+              "type": "conditional",
+              "applicationLogic": "Added when equity product and property is in a trust"
+            },
+            {
+              "name": "Obtain Quote � New Deed Prep",
+              "order": 3,
+              "description": "Obtain quote with selected bank attorney for new deed preparation",
+              "type": "conditional",
+              "applicationLogic": "Added when property is not a purchase and title vesting on 1003 doesn't match"
+            },
+            {
+              "name": "Order Title � Bank Attorney",
+              "order": 4,
+              "description": "Order title with selected bank attorney",
+              "type": "conditional",
+              "applicationLogic": "Added when property is not an equity product"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/title/order_title_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-02-23T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_005",
+          "name": "Order Flood Certificate",
+          "order": 3,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Determine if property is in flood zone and order flood insurance if required",
+          "notes": "Subtasks needed: FEMA flood zone determination, flood certificate review, flood insurance verification (if in zone), community participation verification",
+          "applicationLogic": "Applied after property address is confirmed. Triggers when appraisal is ordered or earlier if property details are available.",
+          "subtasks": [
+            {
+              "name": "Resubmit with Supporting Documents",
+              "order": 1,
+              "description": "If flood determination fails, resubmit flood certificate request with supporting property documents",
+              "type": "conditional",
+              "applicationLogic": "Added when flood certificate determination fails"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-02-23T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_006",
+          "name": "ARM Disclosure",
+          "order": 1,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 6,
+          "description": "Provide ARM-specific disclosures for adjustable rate mortgages",
+          "notes": "Conditional task only for ARM loans",
+          "applicationLogic": "Applied only for ARM loan products. Triggers when loan type is set to ARM/Adjustable Rate.",
+          "subtasks": [
+            {
+              "name": "Adjustable Rate Disclosure",
+              "order": 1,
+              "description": "Provide ARM disclosure document to borrower",
+              "type": "standard",
+              "applicationLogic": "Always included when ARM disclosure task is created"
+            },
+            {
+              "name": "Consumer Handbook on ARM",
+              "order": 2,
+              "description": "Provide CHARM booklet to borrower",
+              "type": "standard",
+              "applicationLogic": "Always included when ARM disclosure task is created"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml",
+          "createdBy": "manual",
+          "createdAt": "2025-10-29T00:00:00Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 3
+        },
+        {
+          "id": "task_016",
+          "name": "Credit Score Disclosure",
+          "order": 2,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 6,
+          "description": "Quality review and delivery of Credit Score Disclosure",
+          "notes": "Assigned automatically when a credit report is pulled on a pre-approval or if a subsequent report is received on a live file. Processor reviews FACT Act disclosures for accuracy, verifies eConsent and contact info, then sends electronically (or via mail if Issue is marked). Grouped under Disclosures task group.",
+          "applicationLogic": "Assigned automatically when a credit report is pulled on a pre-approval or when a subsequent credit report is received on a live file.",
+          "subtasks": [
+            {
+              "name": "FACT Act All Scores",
+              "order": 1,
+              "description": "FACT Act All Scores � All scores for all borrowers from all credit bureaus pulled on the credit report are evidenced on the FACT Act Disclosure (be sure to check second borrower pair as well)",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Checkboxes",
+              "order": 2,
+              "description": "FACT Act Checkboxes � Ensure the Material Terms of Credit set by Credit Score and Credit Score for Disclosure Notice check boxes on the Disclosure Notice are checked when a credit score is available and unchecked when a score is not available",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "FACT Act Key Factors",
+              "order": 3,
+              "description": "FACT Act Key Factors � Verify that the Key Factors informational text is present for every credit score to be disclosed for all borrowers and all bureaus pulled",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "eConsent",
+              "order": 4,
+              "description": "eConsent � Verify eConsent is received before sending electronically",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Contact Info",
+              "order": 5,
+              "description": "Contact Info � Verify email and phone are present before sending electronically",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Ready to Send",
+              "order": 6,
+              "description": "Ready to Send � Mark Done to send disclosure electronically; mark Issue to send via mail (must complete manually)",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml",
+          "createdBy": "calves",
+          "createdAt": "2026-02-23T17:36:40.241Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_036",
+          "name": "Withdraw Loan",
+          "order": 3,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 5,
+          "description": "Process loan withdrawal at borrower request",
+          "notes": "Loan withdrawn by borrower. Includes Massachusetts-specific disclosures when applicable.",
+          "applicationLogic": "Applied when borrower requests to withdraw application. Triggers when borrower cancels loan before closing.",
+          "subtasks": [
+            {
+              "name": "Borrower Withdrawal Documented",
+              "order": 1,
+              "description": "Borrower's express withdrawal is documented in the conversation log; borrower must give clear indication they no longer wish to continue with the transaction",
+              "type": "standard"
+            },
+            {
+              "name": "Withdrawal Date Entered",
+              "order": 2,
+              "description": "Enter the date the customer withdrew into the system, matching the date documented in correspondence; withdrawal letter must be sent within 3 business days of this date",
+              "type": "standard"
+            },
+            {
+              "name": "Send Withdrawal Notice",
+              "order": 3,
+              "description": "Mark Done to send electronically to all borrowers; mark Issue to mail withdrawal letter",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/withdraw_loan_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-02-23T12:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_037",
+          "name": "Send Denial",
+          "order": 4,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 7,
+          "description": "Send loan denial notice and adverse action disclosures",
+          "notes": "Loan denied during processing. Includes Massachusetts-specific disclosures when applicable.",
+          "applicationLogic": "Applied when loan is denied before underwriting submission. Triggers when processing determines loan cannot proceed to underwriting.",
+          "subtasks": [
+            {
+              "name": "MA Review Board Form",
+              "order": 1,
+              "description": "Send Massachusetts Review Board form for appeals process",
+              "type": "conditional",
+              "applicationLogic": "Added when property is located in Massachusetts"
+            },
+            {
+              "name": "ECOA Right to Copy of Appraisal",
+              "order": 2,
+              "description": "Send ECOA notice of right to receive copy of appraisal",
+              "type": "conditional",
+              "applicationLogic": "Added when property is located in Massachusetts"
+            },
+            {
+              "name": "Massachusetts MGL Disclosure",
+              "order": 3,
+              "description": "Send Massachusetts General Laws disclosure",
+              "type": "conditional",
+              "applicationLogic": "Added when property is located in Massachusetts"
+            },
+            {
+              "name": "Credit Score Disclosure",
+              "order": 4,
+              "description": "Provide credit score disclosure with adverse action notice",
+              "type": "conditional",
+              "applicationLogic": "Added when credit report was pulled during application process"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/send_denial_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-02-23T12:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 6
+        },
+        {
+          "id": "task_052",
+          "name": "File Closure Documents",
+          "order": 5,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 5,
+          "description": "Verify required documents are added to the eFolder to close the file",
+          "notes": "Applies to both closed and adverse loans. Each subtask auto-completes when the applicable document is added to the eFolder.",
+          "applicationLogic": "Applied when a loan file is being closed, whether the outcome is a funded loan or an adverse action.",
+          "subtasks": [
+            {
+              "name": "Conversation Log",
+              "order": 1,
+              "description": "Add the conversation log to the eFolder; auto-completes when the applicable document is added to the eFolder",
+              "type": "standard"
+            },
+            {
+              "name": "Disclosure Tracking",
+              "order": 2,
+              "description": "Add the disclosure tracking document to the eFolder; auto-completes when the applicable document is added to the eFolder",
+              "type": "standard"
+            },
+            {
+              "name": "eConsent",
+              "order": 3,
+              "description": "Add the eConsent document to the eFolder; auto-completes when the applicable document is added to the eFolder",
+              "type": "standard"
+            },
+            {
+              "name": "Initial Disclosures",
+              "order": 4,
+              "description": "Initial Disclosures – Save the initial disclosure package; this subtask will auto-complete once the initial disclosure package is saved.",
+              "type": "conditional",
+              "applicationLogic": "Added when initial disclosure package must be saved to file"
+            },
+            {
+              "name": "1003",
+              "order": 5,
+              "description": "1003 – Save a copy of the 1003; this subtask will auto-complete once the initial disclosure package is saved.",
+              "type": "conditional",
+              "applicationLogic": "Added when 1003 copy must be saved to file"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/file_closure_documents_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-10T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_053",
+          "name": "Cancel Flood Certificate",
+          "order": 6,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 5,
+          "description": "Cancel the flood certificate order for adverse loan files",
+          "notes": "Adverse loans only. Cancel via the Xactus website.",
+          "applicationLogic": "Applied when a loan file results in an adverse action and a flood certificate was previously ordered.",
+          "subtasks": [
+            {
+              "name": "Cancel Flood Certificate on Xactus Website",
+              "order": 1,
+              "description": "Log into the Xactus website and cancel the flood certificate order for this loan",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/cancel_flood_certificate_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-10T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_054",
+          "name": "Appraisal Refund",
+          "order": 7,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 5,
+          "description": "Process appraisal fee refund for adverse loan files",
+          "notes": "Adverse loans only. Refund check must be made payable to all borrowers on the loan. Fee must have been received at least 5 business days prior.",
+          "applicationLogic": "Applied when a loan file results in an adverse action and an appraisal fee was collected.",
+          "subtasks": [
+            {
+              "name": "Confirm Appraisal Fee Received",
+              "order": 1,
+              "description": "Verify appraisal fee was received at least 5 business days prior to allow sufficient time for payment processing before issuing refund",
+              "type": "standard"
+            },
+            {
+              "name": "Prepare Refund Check and Letter",
+              "order": 2,
+              "description": "Prepare the appraisal refund check and accompanying refund letter; refund check must be made payable to all borrowers on the loan",
+              "type": "standard"
+            },
+            {
+              "name": "Scan Letter and Check to Loan File",
+              "order": 3,
+              "description": "Scan the signed refund letter and authorized check to the loan file before mailing",
+              "type": "standard"
+            },
+            {
+              "name": "Mail Check",
+              "order": 4,
+              "description": "Mail the refund check and letter to the borrower(s)",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-10T00:00:00.000Z",
+          "ruleStatus": "Not Started",
+          "estimatedHrsRemaining": 3
+        },
+        {
+          "id": "task_007",
+          "name": "Order SSA-89",
+          "order": 4,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 5,
+          "description": "Request SSA-89 verification for Social Security income",
+          "notes": "Subtasks needed: borrower authorization, SSA-89 request submission, response review, income verification documentation. Only needed when borrower claims SS income.",
+          "applicationLogic": "Applied conditionally when borrower income includes Social Security benefits. Triggers when income type 'Social Security' is selected on application.",
+          "subtasks": [],
+          "xmlFile": "tasks/2_processing/ssa89/order_ssa89_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-02-23T12:00:00.000Z",
+          "ruleStatus": "Not Started",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_008",
+          "name": "Order Tax Transcripts",
+          "order": 5,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Request IRS tax transcripts for income verification",
+          "notes": "Subtasks needed: 4506-C form completion, IRS transcript request (1040, W-2, 1099), transcript review, income verification against application, self-employed income analysis (if applicable)",
+          "applicationLogic": "Applied for most loan types requiring income verification. Triggers after initial disclosures sent or when income documentation is needed. May be waived for certain automated underwriting approvals.",
+          "subtasks": [],
+          "xmlFile": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-02-23T12:00:00.000Z",
+          "ruleStatus": "Not Started",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_046",
+          "name": "Order AVM",
+          "order": 6,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Order Automated Valuation Model through Xactus portal for property value assessment",
+          "subtasks": [
+            {
+              "name": "Order AVM in Xactus",
+              "type": "standard",
+              "description": "Submit AVM order through the Xactus portal for subject property"
+            },
+            {
+              "name": "Save AVM to eFolder",
+              "type": "standard",
+              "description": "Save the AVM document to the loan eFolder; if AVM hit is unsuccessful mark as issue to complete this task"
+            },
+            {
+              "name": "Enter AVM Data",
+              "type": "standard",
+              "description": "Enter property value and relevant data from AVM results into the loan file"
+            },
+            {
+              "name": "Ready to Send",
+              "type": "standard",
+              "description": "Loan is primed for initial document send; confirm all required items are in order before proceeding"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/avm/order_avm_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-10T14:04:19.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_047",
+          "name": "Flood Certificate Review",
+          "order": 7,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Review flood certificate for accuracy against system data and verify life of loan coverage",
+          "subtasks": [
+            {
+              "name": "Address Matches System",
+              "type": "standard",
+              "description": "Address Matches System � Property address on flood certificate matches the address in the system; completing this task will copy the address to the flood order address checker to ensure accuracy in case of future address changes"
+            },
+            {
+              "name": "Flood Zone Matches System",
+              "type": "standard",
+              "description": "Flood Zone Matches System � Flood zone designation on certificate matches the zone recorded in the system"
+            },
+            {
+              "name": "Life of Loan Coverage Obtained",
+              "type": "standard",
+              "description": "Life of Loan Coverage Obtained � Life of loan flood zone monitoring coverage has been obtained"
+            },
+            {
+              "name": "Address Mismatch Detected",
+              "type": "conditional",
+              "description": "Address Mismatch Detected � The property address on the flood certificate does not match the address in the system. Selecting Done will confirm that the discrepancy is a non-material variation and the certificate is acceptable as is. Selecting Issue will trigger a task to request an updated flood certificate reflecting the correct address.",
+              "applicationLogic": "Added when the property address on the flood certificate does not match the address in the system"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-10T14:04:19.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_049",
+          "name": "Order PAR",
+          "order": 8,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 7,
+          "description": "Order Property Assessment Report through AppraisalX",
+          "subtasks": [
+            {
+              "name": "Place PAR Order",
+              "type": "standard",
+              "description": "Place PAR Order – Place an order for the Property Assessment Report under the AppraisalX platform"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/service_orders/order_par_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-19T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_055",
+          "name": "Recheck Flood",
+          "order": 9,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 5,
+          "description": "Recheck flood certificate for updated flood zone determination",
+          "notes": "No subtasks. Applied when flood zone must be re-verified prior to closing.",
+          "applicationLogic": "Applied conditionally when flood zone determination needs to be updated before closing.",
+          "subtasks": [],
+          "xmlFile": "tasks/2_processing/service_orders/recheck_flood_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-16T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 1
+        },
+        {
+          "id": "task_048",
+          "name": "Pre-Underwriting Checklist",
+          "order": 1,
+          "subcategory": "pre_underwriting",
+          "status": "completed",
+          "priority": 8,
+          "description": "Pre-underwriting checklist — organize documents, verify income, assets, insurance, and employment before submitting to underwriting",
+          "notes": "Unified pre-UW checklist for all loan types. Standard subtasks apply to every loan; conditional subtasks are assigned dynamically based on loan type. HELOCs skip AUS, assets, and employment but add Verify Purpose. First mortgages run AUS first to dictate doc requirements, then verify assets, employment, etc.",
+          "applicationLogic": "Applied for all loan types after borrower documents are returned and service orders are cleared.",
+          "subtasks": [
+            {
+              "name": "Organize eFolder",
+              "order": 1,
+              "description": "Organize eFolder – Park documents from file manager into the eFolder and ensure all items are labeled correctly; documents returned from borrower must be categorized and filed before verification begins",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Run AUS",
+              "order": 2,
+              "description": "Run AUS – Submit loan to Automated Underwriting System (DU/LP) and review findings; AUS findings dictate documentation requirements for the file",
+              "type": "conditional",
+              "applicationLogic": "Added for first mortgage loans (purchase, refinance); not applicable to HELOCs which are manually underwritten"
+            },
+            {
+              "name": "Verify Income",
+              "order": 3,
+              "description": "Verify Income – Verify borrower income documentation (paystubs, W-2s, tax docs) matches application and calculate qualifying income",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Verify Insurance",
+              "order": 4,
+              "description": "Verify Insurance – Determine if homeowners insurance (HOI) is on file and ready for underwriting review; marking Done confirms HOI is available and triggers insurance review; mark Issue to generate a condition for missing or insufficient coverage",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Verify Mortgage Statements",
+              "order": 5,
+              "description": "Verify Mortgage Statements – Verify current mortgage statements are on file showing existing loan balances, payments, and expenses that are part of the mortgage",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Verify Purpose",
+              "order": 6,
+              "description": "Verify Purpose – Verify the stated purpose of the HELOC is documented in a Letter of Explanation (LOE) or conversation log; mark Issue to trigger a condition for missing purpose documentation",
+              "type": "conditional",
+              "applicationLogic": "Added for HELOC loans only"
+            },
+            {
+              "name": "Verify Assets",
+              "order": 7,
+              "description": "Verify Assets – Verify borrower assets and source of funds; review bank statements, verify account ownership, source large deposits, and calculate reserves",
+              "type": "conditional",
+              "applicationLogic": "Added for first mortgage loans (purchase, refinance); not applicable to HELOCs"
+            },
+            {
+              "name": "Verify Employment",
+              "order": 8,
+              "description": "Verify Employment – Verify borrower employment status and history; complete verbal or written verification of employment",
+              "type": "conditional",
+              "applicationLogic": "Added for first mortgage loans (purchase, refinance)"
+            },
+            {
+              "name": "Self-Employed Income",
+              "order": 9,
+              "description": "Self-Employed Income – Review tax returns (personal and business) and profit and loss statements for self-employed borrower income",
+              "type": "conditional",
+              "applicationLogic": "Added when borrower income type includes self-employment"
+            },
+            {
+              "name": "Non-Traditional Income",
+              "order": 10,
+              "description": "Non-Traditional Income – Verify non-traditional income sources (Social Security, pension, disability) with award letters or other documentation",
+              "type": "conditional",
+              "applicationLogic": "Added when borrower has non-W-2 income sources (Social Security, pension, disability)"
+            },
+            {
+              "name": "Rental Income",
+              "order": 11,
+              "description": "Rental Income – Verify rental income with lease agreements, tax returns, and rental history; calculate net rental income for qualifying purposes",
+              "type": "conditional",
+              "applicationLogic": "Added when borrower has rental income from investment properties"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-19T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 8
+        },
+        {
+          "id": "task_015",
+          "name": "Order HOI",
+          "order": 1,
+          "subcategory": "post_underwriting",
+          "status": "completed",
+          "priority": 7,
+          "description": "Order homeowners insurance policy for the subject property",
+          "applicationLogic": "Applied after loan receives conditional approval or clear to close. Triggers when loan is approved and property is identified.",
+          "subtasks": [
+            {
+              "name": "Request Insurance Declaration",
+              "type": "standard",
+              "description": "Request Insurance Declaration – Contact the borrower or insurance agent to obtain the homeowners insurance declaration page"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/post_underwriting/order_hoi_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-19T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_050",
+          "name": "HOI Review",
+          "order": 2,
+          "subcategory": "post_underwriting",
+          "status": "completed",
+          "priority": 7,
+          "description": "Review homeowners insurance policy for coverage adequacy and lender requirements",
+          "subtasks": [
+            {
+              "name": "Verify Named Insured",
+              "type": "standard",
+              "description": "Verify Named Insured – All owners, including Name of Trust are listed on policy. See title report"
+            },
+            {
+              "name": "Verify Address",
+              "type": "standard",
+              "description": "Verify Address – Address listed matches subject and includes unit number if applicable"
+            },
+            {
+              "name": "Unit Number",
+              "type": "standard",
+              "description": "Unit Number – Unit number included if applicable"
+            },
+            {
+              "name": "Dwelling Coverage",
+              "type": "standard",
+              "description": "Dwelling Coverage – Dwelling coverage should cover the minimum of the loan amount or the cost to rebuild new appraisal"
+            },
+            {
+              "name": "Builders Risk",
+              "type": "conditional",
+              "description": "Builders Risk – If the file is a construction loan, does the binder state that it is a Builders Risk include and Under Construction Endorsement"
+            },
+            {
+              "name": "Replacement Cost Value",
+              "type": "standard",
+              "description": "Replacement Cost Value – Coverage should equal lesser of 100% replacement cost value or unpaid balance provided it is not less than 80% of RCV"
+            },
+            {
+              "name": "Effective Date",
+              "type": "standard",
+              "description": "Effective Date – Effective date is not after closing date"
+            },
+            {
+              "name": "Policy Term",
+              "type": "standard",
+              "description": "Policy Term – Policy term has not expired and is in effect on date of closing"
+            },
+            {
+              "name": "Annual Premium",
+              "type": "standard",
+              "description": "Annual Premium – Annual premium needs to be listed and state whether or not it has been paid"
+            },
+            {
+              "name": "Deductible Amount",
+              "type": "standard",
+              "description": "Deductible Amount – Deductible amount may not exceed 5% of insurance coverage amount"
+            },
+            {
+              "name": "Mortgagee Clause",
+              "type": "standard",
+              "description": "Mortgagee Clause – If sold, follow investor mortgagee clause requirements"
+            },
+            {
+              "name": "Binder Signature",
+              "type": "standard",
+              "description": "Binder Signature – Binder must be signed"
+            },
+            {
+              "name": "Name of Trust",
+              "type": "conditional",
+              "description": "Name of Trust – Name of Trust added in addition to all borrower(s) and owner(s)"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/post_underwriting/hoi_review_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-19T00:00:00.000Z",
+          "lastModified": "2026-04-02T00:00:00.000Z",
+          "lastModifiedBy": "agent_claude",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 8
+        },
+        {
+          "id": "task_035",
+          "name": "Send Commitment Letter",
+          "order": 2,
+          "subcategory": "post_underwriting",
+          "status": "completed",
+          "priority": 8,
+          "description": "Send loan commitment letter to borrower with conditions",
+          "notes": "Subtasks needed: generate commitment letter, document conditions, send to borrower, obtain borrower acknowledgment, set condition deadlines",
+          "applicationLogic": "Applied after underwriting approval with conditions. Triggers when loan receives conditional approval and borrower needs to be notified of approval terms.",
+          "subtasks": [
+            {
+              "name": "Send Commitment Letter",
+              "order": 1,
+              "description": "Send Commitment Letter � Click Done to send the commitment letter electronically to the borrower; marking Done will trigger the electronic send",
+              "type": "standard"
+            },
+            {
+              "name": "Confirm Letter Sent",
+              "order": 2,
+              "description": "Confirm Letter Sent � Confirm the commitment letter has been successfully sent to the borrower",
+              "type": "standard"
+            },
+            {
+              "name": "Save to eFolder",
+              "order": 3,
+              "description": "Save to eFolder � Ensure the commitment letter is saved to the eFolder",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-17T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        }
+      ]
+    },
+    {
+      "id": "3_underwriting",
+      "name": "Underwriting",
+      "order": 3,
+      "description": "Loan underwriting and approval process",
+      "subcategories": [
+        {
+          "id": "submittal",
+          "name": "Submittal",
+          "order": 1,
+          "description": "Initial underwriting submission"
+        },
+        {
+          "id": "resubmittal",
+          "name": "Resubmittal",
+          "order": 2,
+          "description": "Resubmission and condition clearance tasks"
+        },
+        {
+          "id": "post_underwriting",
+          "name": "Post-Underwriting",
+          "order": 3,
+          "description": "Tasks completed after underwriting approval"
+        },
+        {
+          "id": "uw_misc",
+          "name": "Misc",
+          "order": 3,
+          "description": "Miscellaneous underwriting tasks"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "task_017",
+          "name": "Underwrite",
+          "order": 1,
+          "subcategory": "submittal",
+          "status": "completed",
+          "priority": 10,
+          "description": "Underwriter reviews submitted loan file and renders approval, denial, or counteroffer decision",
+          "notes": "Task is triggered automatically when file is submitted to underwriting. Assigned to underwriter role. Approve subtask is auto-completed when underwriter approves in system. Deny/CounterOffer subtasks trigger their respective task flows (task_033 Deny Loan, task_034 CounterOffer). Return to Processor sends file back if not ready for a decision.",
+          "applicationLogic": "Triggered automatically at submittal milestone. Assigned to underwriter for review.",
+          "subtasks": [
+            {
+              "name": "Approve",
+              "order": 1,
+              "description": "Approve – Loan approved by underwriter; this subtask is auto-completed when the underwriter approves the loan in the system",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Deny",
+              "order": 2,
+              "description": "Deny – Loan denied by underwriter; marking Done triggers the denial task flow",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "CounterOffer",
+              "order": 3,
+              "description": "CounterOffer – Underwriter issues a counteroffer; marking Done triggers the counteroffer task flow",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Return to Processor",
+              "order": 4,
+              "description": "Return to Processor – File is not ready for underwriting decision; marking Done sends the file back to the processor for additional documentation or corrections",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/submittal/underwrite_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-19T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 8
+        },
+        {
+          "id": "task_018",
+          "name": "Title (Ownership Report)",
+          "order": 1,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 8,
+          "description": "Review title ownership report for correct vesting, liens, judgments, and legal description",
+          "applicationLogic": "Applied during underwriting resubmittal. Triggers when title commitment is received and underwriter requires title review or conditions.",
+          "subtasks": [
+            {
+              "name": "Customer Name & Property Address",
+              "type": "standard",
+              "description": "Customer Name & Property Address – Correct customer name and subject property address reflected on title report"
+            },
+            {
+              "name": "Vesting / Ownership",
+              "type": "standard",
+              "description": "Vesting / Ownership – Title vested in all loan borrowers; any additional owners not on the loan are identified and must be added as non-borrowing owners"
+            },
+            {
+              "name": "Deed Review",
+              "type": "standard",
+              "description": "Deed Review – Current deed matches vested owners; ownership aligns with borrowers and/or required non-borrowing owners"
+            },
+            {
+              "name": "Mortgages / Liens",
+              "type": "standard",
+              "description": "Mortgages / Liens – Mortgages shown are consistent with the loan application; any additional liens identified must be reviewed and cleared by underwriting"
+            },
+            {
+              "name": "Judgments",
+              "type": "standard",
+              "description": "Judgments – Title report reflects no outstanding judgments"
+            },
+            {
+              "name": "Legal Description",
+              "type": "standard",
+              "description": "Legal Description – Exhibit A is present"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/resubmittal/title_ownership_report_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-02T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_019",
+          "name": "Review Appraisal",
+          "order": 2,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 8,
+          "description": "Review appraisal report and address underwriting conditions",
+          "notes": "Transfer appraisal from ValueLink and send to borrower. CrossCheck results must be saved before marking complete.",
+          "applicationLogic": "Applied during underwriting resubmittal. Triggers when appraisal is received and underwriter requires appraisal review.",
+          "subtasks": [
+            {
+              "name": "Transfer Appraisal from Value Link",
+              "order": 1,
+              "description": "Transfer Appraisal from Value Link – Transfer Appraisal from Value Link; save CrossCheck results in ValueLink prior to marking complete.",
+              "type": "standard"
+            },
+            {
+              "name": "External Review",
+              "order": 2,
+              "description": "Document external review of appraisal. If external review was not completed, mark as Issue — triggers need for internal second review. Auto-completes when external review is confirmed completed.",
+              "type": "standard",
+              "applicationLogic": "Always included; mark Issue if external review not completed to trigger Second Review"
+            },
+            {
+              "name": "Second Review",
+              "order": 3,
+              "description": "Document internal second review of appraisal. Added when external review was not completed.",
+              "type": "conditional",
+              "applicationLogic": "Added only when External Review subtask is marked as an Issue (external review not completed)"
+            },
+            {
+              "name": "Attach Appraisal Review Form",
+              "order": 4,
+              "description": "Attach completed appraisal review form to the file. Added once second review is complete.",
+              "type": "conditional",
+              "applicationLogic": "Added once second review is complete"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-16T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_057",
+          "name": "Send Appraisal",
+          "order": 3,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 8,
+          "description": "Send appraisal report to borrower",
+          "notes": "Extracted from Review Appraisal (task_019) as a standalone task. Clicking Done sends appraisal and acknowledgement to borrower.",
+          "applicationLogic": "Applied after appraisal is reviewed and ready for delivery to borrower.",
+          "subtasks": [
+            {
+              "name": "Send Appraisal",
+              "order": 1,
+              "description": "Send appraisal to customer; ensure all documents are saved in the appraisal folder. Clicking Done will send the appraisal and acknowledgement to the borrower.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/resubmittal/send_appraisal_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-16T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_058",
+          "name": "Review Appraisal – Second Review",
+          "order": 4,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 8,
+          "description": "Internal second review of appraisal when no external review was completed",
+          "notes": "Used when no external review was obtained. Separate standalone task from Review Appraisal (task_019).",
+          "applicationLogic": "Applied when an internal second review is required due to no external review being completed.",
+          "subtasks": [
+            {
+              "name": "Document Second Review",
+              "order": 1,
+              "description": "Document findings of the internal second review of the appraisal. Confirm all review notes and findings are recorded before marking complete.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            },
+            {
+              "name": "Attach Appraisal Review Form",
+              "order": 2,
+              "description": "Attach completed appraisal review form to the file. Added once second review is complete.",
+              "type": "conditional",
+              "applicationLogic": "Added once second review is complete"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-16T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 3
+        },
+        {
+          "id": "task_020",
+          "name": "Review Flood Insurance",
+          "order": 3,
+          "subcategory": "resubmittal",
+          "status": "planned",
+          "priority": 7,
+          "description": "Review flood insurance documentation and address underwriting conditions",
+          "notes": "Subtasks needed: verify flood zone determination, review flood insurance policy, verify coverage amounts, address underwriter conditions, confirm NFIP compliance",
+          "applicationLogic": "Applied during underwriting resubmittal. Triggers when flood documentation is required by underwriter or property is in flood zone.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 8
+        },
+        {
+          "id": "task_051",
+          "name": "Review PAR",
+          "order": 4,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 7,
+          "description": "Review Property Assessment Report and address underwriting conditions",
+          "applicationLogic": "Applied during underwriting resubmittal. Triggers when the PAR is received from AppraisalX and underwriter requires property assessment review.",
+          "subtasks": [
+            {
+              "name": "Address Verification",
+              "type": "standard",
+              "description": "Address Verification – Verify that the house number and street on the PAR match the loan file and property photos"
+            },
+            {
+              "name": "Visible Deferred Maintenance",
+              "type": "standard",
+              "description": "Visible Deferred Maintenance – Review PAR for any visible deferred maintenance issues noted on the property"
+            },
+            {
+              "name": "Occupancy Confirmation",
+              "type": "standard",
+              "description": "Occupancy Confirmation – Confirm the occupancy status of the property as reported in the PAR"
+            },
+            {
+              "name": "Repair Costs",
+              "type": "standard",
+              "description": "Repair Costs – Review and document any repair costs noted in the PAR"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/resubmittal/review_par_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-03-24T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 1
+        },
+        {
+          "id": "task_021",
+          "name": "Clear to Close",
+          "order": 5,
+          "subcategory": "resubmittal",
+          "status": "planned",
+          "priority": 10,
+          "description": "Obtain final clear to close approval from underwriter",
+          "notes": "Subtasks needed: verify all conditions cleared, final underwriting review, obtain CTC approval, send CTC notification, prepare for closing",
+          "applicationLogic": "Applied after all underwriting conditions are cleared. Triggers when final documentation is complete and underwriter is ready to issue clear to close.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_056",
+          "name": "Master Property Insurance Review",
+          "order": 1,
+          "subcategory": "post_underwriting",
+          "status": "completed",
+          "priority": 8,
+          "description": "Review condominium or project master property insurance for FNMA compliance and determine if HO6 review is required.",
+          "notes": "Assigned to Underwriter. Per-Unit Deductible Amount is conditional (only if per-unit deductible exists). Mortgagee Clause is conditional (investor/insurer guidelines). Triggers HO6 Policy Review if per-unit deductible or interior coverage gap found.",
+          "applicationLogic": "Applied during underwriting post-underwriting for condo or project loans. Triggers when a master property insurance policy must be reviewed for FNMA compliance.",
+          "subtasks": [
+            {
+              "name": "Project Insured Confirmation",
+              "order": 1,
+              "description": "Project Insured Confirmation – Confirm the master property insurance policy insures the subject condominium or project development.",
+              "type": "standard"
+            },
+            {
+              "name": "Unit Within Project Confirmation",
+              "order": 2,
+              "description": "Unit Within Project Confirmation – Confirm the subject unit is located within the insured project development shown on the master policy.",
+              "type": "standard"
+            },
+            {
+              "name": "Policy Effective Before Closing",
+              "order": 3,
+              "description": "Policy Effective Before Closing – Confirm the master policy effective date is on or before the loan closing.",
+              "type": "standard"
+            },
+            {
+              "name": "Policy Active at Closing",
+              "order": 4,
+              "description": "Policy Active at Closing – Confirm the master policy term is active and not expired as of the loan closing date.",
+              "type": "standard"
+            },
+            {
+              "name": "Replacement Cost Coverage Sufficiency",
+              "order": 5,
+              "description": "Replacement Cost Coverage Sufficiency – Confirm the master policy coverage equals at least 100% of the estimated replacement cost value of project improvements, including common elements and residential structures.",
+              "type": "standard"
+            },
+            {
+              "name": "Coverage Documentation Present",
+              "order": 6,
+              "description": "Coverage Documentation Present – Confirm the file contains acceptable documentation supporting master policy coverage sufficiency. Mark Issue to trigger Insurance Documentation Condition.",
+              "type": "standard"
+            },
+            {
+              "name": "Replacement Cost Loss Settlement",
+              "order": 7,
+              "description": "Replacement Cost Loss Settlement – Confirm the master policy provides replacement cost coverage for required building and property coverage, except roofs.",
+              "type": "standard"
+            },
+            {
+              "name": "Roof Coverage Confirmation",
+              "order": 8,
+              "description": "Roof Coverage Confirmation – Confirm roofs are insured under the master policy, even if not insured on a replacement cost basis.",
+              "type": "standard"
+            },
+            {
+              "name": "ACV Language Review",
+              "order": 9,
+              "description": "ACV Language Review – If actual cash value language is present, confirm ACV treatment is limited to personal property or specific elements and does not reduce required building coverage below FNMA standards.",
+              "type": "standard"
+            },
+            {
+              "name": "Master Policy Deductible Review",
+              "order": 10,
+              "description": "Master Policy Deductible Review – Confirm the deductible for all required property insurance perils does not exceed 5% of the total master property coverage amount.",
+              "type": "standard"
+            },
+            {
+              "name": "Per-Unit Deductible Exists",
+              "order": 11,
+              "description": "Per-Unit Deductible Exists – Determine whether the master policy includes a per-unit deductible. If exists, mark Issue to trigger HO6 Policy Review task.",
+              "type": "standard"
+            },
+            {
+              "name": "Per-Unit Deductible Amount Review",
+              "order": 12,
+              "description": "Per-Unit Deductible Amount Review – If a per-unit deductible exists, confirm the amount does not exceed $50,000 per unit.",
+              "type": "conditional",
+              "applicationLogic": "Added only if a per-unit deductible exists on the master policy"
+            },
+            {
+              "name": "Interior Coverage Gap",
+              "order": 13,
+              "description": "Interior Coverage Gap – Determine whether any portion of the interior of the unit or unit improvements are not covered by the master policy. If gap exists, mark Issue to trigger HO6 Policy Review task.",
+              "type": "standard"
+            },
+            {
+              "name": "Mortgagee Clause Review",
+              "order": 14,
+              "description": "Mortgagee Clause Review – Review mortgagee clause requirements based on investor, insurer, or internal policy guidelines, if applicable.",
+              "type": "conditional",
+              "applicationLogic": "Added when investor, insurer, or internal policy guidelines require a mortgagee clause review"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-04-16T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_033",
+          "name": "Deny Loan",
+          "order": 1,
+          "subcategory": "uw_misc",
+          "status": "planned",
+          "priority": 8,
+          "description": "Process loan denial and send adverse action notice",
+          "notes": "Subtasks needed: prepare denial letter, document denial reasons, send adverse action notice, provide FCRA disclosures, close loan file",
+          "applicationLogic": "Applied when loan is denied by underwriter. Triggers when underwriting determines loan does not meet approval criteria.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 4
+        },
+        {
+          "id": "task_034",
+          "name": "Send Counteroffer",
+          "order": 2,
+          "subcategory": "uw_misc",
+          "status": "completed",
+          "priority": 7,
+          "description": "Send counteroffer notice to borrower with revised loan terms",
+          "notes": "Triggered when underwriter issues a counteroffer. MA first-position purchase/refi loans require the MA Review Board form and must be mailed; all other loans send electronically with documents in the Counteroffer eFolder.",
+          "applicationLogic": "Applied when underwriter provides alternative loan terms. Triggers when loan doesn't meet original criteria but alternative terms are available.",
+          "subtasks": [
+            {
+              "name": "MA Review Form Board Required",
+              "order": 1,
+              "description": "Complete and include the Massachusetts Review Board form; required for MA first-position purchase or refinance loans before sending counteroffer",
+              "type": "conditional",
+              "applicationLogic": "Added when property is in MA AND loan is first position AND loan purpose is purchase or refinance"
+            },
+            {
+              "name": "Send Counteroffer Electronically",
+              "order": 2,
+              "description": "Send counteroffer to borrower electronically; ensure all required documents are saved in the Counteroffer eFolder document before sending",
+              "type": "conditional",
+              "applicationLogic": "Added when NOT (MA AND first position AND purchase or refinance)"
+            },
+            {
+              "name": "Mail Counteroffer",
+              "order": 3,
+              "description": "Mail the counteroffer package to the borrower; required for MA first-position purchase or refinance loans in lieu of electronic delivery",
+              "type": "conditional",
+              "applicationLogic": "Added when property is in MA AND loan is first position AND loan purpose is purchase or refinance"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-06-11T20:02:45.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        }
+      ]
+    },
+    {
+      "id": "4_closing",
+      "name": "Closing",
+      "order": 4,
+      "description": "Loan closing preparation and execution",
+      "subcategories": [
+        {
+          "id": "pre_closing",
+          "name": "Pre-Closing",
+          "order": 1,
+          "description": "Tasks before closing appointment"
+        },
+        {
+          "id": "doc_prep",
+          "name": "Doc Prep",
+          "order": 2,
+          "description": "Closing document preparation"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "task_022",
+          "name": "Scheduling",
+          "order": 1,
+          "subcategory": "pre_closing",
+          "status": "completed",
+          "priority": 8,
+          "description": "Obtain closing date and time from branch",
+          "notes": "Single subtask: obtain closing date and time from branch.",
+          "applicationLogic": "Applied after clear to close is received. Triggers when loan is approved and ready for closing coordination.",
+          "subtasks": [
+            {
+              "name": "Obtain Closing Date and Time from Branch",
+              "order": 1,
+              "description": "Contact the branch to obtain the confirmed closing date and time for this loan",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/4_closing/pre_closing/scheduling_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-06-11T20:02:45.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 1
+        },
+        {
+          "id": "task_023",
+          "name": "Send Initial CD",
+          "order": 2,
+          "subcategory": "pre_closing",
+          "status": "planned",
+          "priority": 9,
+          "description": "Send initial Closing Disclosure to borrower",
+          "notes": "Subtasks needed: generate initial CD, review CD accuracy, send to borrower, obtain borrower acknowledgment, start 3-day waiting period",
+          "applicationLogic": "Applied at least 3 business days before closing. Triggers when final loan terms are confirmed and clear to close is issued.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_024",
+          "name": "Balance CD",
+          "order": 1,
+          "subcategory": "doc_prep",
+          "status": "planned",
+          "priority": 9,
+          "description": "Balance Closing Disclosure with final figures",
+          "notes": "Subtasks needed: verify all fees, reconcile with LE, confirm payoff amounts, verify closing funds, finalize CD",
+          "applicationLogic": "Applied 1-2 days before closing. Triggers when final payoff statements and closing figures are received.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_025",
+          "name": "Create Closing Package",
+          "order": 2,
+          "subcategory": "doc_prep",
+          "status": "completed",
+          "priority": 8,
+          "description": "Prepare and send complete closing document package",
+          "notes": "Single subtask: create closing package.",
+          "applicationLogic": "Applied 1 day before closing. Triggers after CD is balanced and all closing conditions are cleared.",
+          "subtasks": [
+            {
+              "name": "Create Closing Package",
+              "order": 1,
+              "description": "Generate and assemble the complete closing document package for this loan",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/4_closing/doc_prep/create_closing_package_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-06-11T20:02:45.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        }
+      ]
+    },
+    {
+      "id": "5_funding",
+      "name": "Funding",
+      "order": 5,
+      "description": "Loan funding and disbursement",
+      "subcategories": [
+        {
+          "id": "funding",
+          "name": "Funding",
+          "order": 1,
+          "description": "Loan funding process"
+        },
+        {
+          "id": "boarding",
+          "name": "Boarding",
+          "order": 2,
+          "description": "Loan boarding and servicing setup"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "task_026",
+          "name": "Confirm Funding Figures",
+          "order": 1,
+          "subcategory": "funding",
+          "status": "planned",
+          "priority": 9,
+          "description": "Confirm all funding figures and wire amounts",
+          "notes": "Subtasks needed: verify final CD, confirm wire amounts, verify disbursements, review funding worksheet, obtain final approvals",
+          "applicationLogic": "Applied after closing documents are signed. Triggers when closing is complete and ready for funding.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 3
+        },
+        {
+          "id": "task_027",
+          "name": "Approve Funding Figures",
+          "order": 2,
+          "subcategory": "funding",
+          "status": "planned",
+          "priority": 10,
+          "description": "Obtain approval for funding figures",
+          "notes": "Subtasks needed: submit for approval, obtain department head approval, verify investor approval, final compliance review, authorize funding",
+          "applicationLogic": "Applied after funding figures are confirmed. Triggers when all figures are verified and ready for final approval.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_028",
+          "name": "Fund Loan",
+          "order": 3,
+          "subcategory": "funding",
+          "status": "planned",
+          "priority": 10,
+          "description": "Execute funding and wire transfer",
+          "notes": "Subtasks needed: initiate wire transfer, confirm funds received by title, record funding date/time, update loan status, send funding notifications",
+          "applicationLogic": "Applied after funding is approved. Triggers when final approval is received and within funding deadline.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_029",
+          "name": "Board Loan",
+          "order": 1,
+          "subcategory": "boarding",
+          "status": "planned",
+          "priority": 8,
+          "description": "Board loan into servicing system",
+          "notes": "Subtasks needed: prepare boarding package, submit to servicing, verify loan setup, confirm payment schedule, verify escrow setup",
+          "applicationLogic": "Applied after loan is funded. Triggers when funding is complete and loan needs to be set up for servicing.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 8
+        },
+        {
+          "id": "task_030",
+          "name": "Run UCD",
+          "order": 2,
+          "subcategory": "boarding",
+          "status": "planned",
+          "priority": 7,
+          "description": "Run Uniform Closing Dataset (UCD) validation",
+          "notes": "Subtasks needed: generate UCD file, validate UCD data, submit to investor, address validation errors, confirm acceptance",
+          "applicationLogic": "Applied after loan is boarded. Triggers when loan is set up in servicing and ready for UCD submission.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_031",
+          "name": "Activate MERS",
+          "order": 3,
+          "subcategory": "boarding",
+          "status": "planned",
+          "priority": 7,
+          "description": "Activate loan in MERS (Mortgage Electronic Registration Systems)",
+          "notes": "Subtasks needed: register loan in MERS, verify MERS MIN, update servicer information, confirm registration, generate MERS confirmation",
+          "applicationLogic": "Applied after loan is boarded. Triggers when loan setup is complete and MERS registration is required.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_032",
+          "name": "Activate MI",
+          "order": 4,
+          "subcategory": "boarding",
+          "status": "planned",
+          "priority": 6,
+          "description": "Activate mortgage insurance policy",
+          "notes": "Subtasks needed: submit loan to MI company, verify MI certificate, activate policy, confirm coverage, set up MI billing",
+          "applicationLogic": "Applied conditionally after loan is boarded. Triggers when loan has mortgage insurance and policy needs activation.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
+        }
+      ]
+    },
+    {
+      "id": "6_pre-closing-qc",
+      "name": "Pre-Closing QC",
+      "order": 6,
+      "description": "Quality control before closing",
+      "tasks": [
+        {
+          "id": "task_009",
+          "name": "Credit Refresh",
+          "order": 1,
+          "status": "completed",
+          "priority": 8,
+          "description": "Pull updated credit report before closing",
+          "notes": "Pre-closing quality control task",
+          "applicationLogic": "Applied within 5 days before closing. Triggers automatically based on closing date or when Clear to Close is issued.",
+          "subtasks": [
+            {
+              "name": "Red Flags Review",
+              "order": 1,
+              "description": "Review refreshed credit report for red flags",
+              "type": "standard",
+              "applicationLogic": "Always included when credit refresh task is created"
+            },
+            {
+              "name": "Inquiries/New Credit Review",
+              "order": 2,
+              "description": "Review new credit inquiries and accounts since initial pull",
+              "type": "standard",
+              "applicationLogic": "Always included when credit refresh task is created"
+            }
+          ],
+          "xmlFile": "tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml",
+          "createdBy": "manual",
+          "createdAt": "2025-10-27T00:00:00Z",
+          "ruleStatus": null,
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_010",
+          "name": "Fraud X Report",
+          "order": 2,
+          "status": "completed",
+          "priority": 7,
+          "description": "Run fraud detection report",
+          "notes": "Fraud detection and verification",
+          "applicationLogic": "Applied before final approval. Triggers when loan is in underwriting review or before Clear to Close.",
+          "subtasks": [
+            {
+              "name": "Appraiser License",
+              "order": 1,
+              "description": "Verify appraiser license on Fraud X report. If not successfully verified, license must be saved to the file before completing.",
+              "type": "conditional",
+              "applicationLogic": "Added only when an appraisal was obtained on the loan"
+            },
+            {
+              "name": "Red Flags",
+              "order": 2,
+              "description": "Review Fraud X report for red flags including Address, Name, SSN discrepancies and OFAC hits. Review summary grid for overall indications. Mark as Issue and notify management if found.",
+              "type": "standard",
+              "applicationLogic": "Always included when fraud report task is created"
+            },
+            {
+              "name": "All Borrowers",
+              "order": 3,
+              "description": "Verify all borrowers are present on the Fraud X report with no unresolved discrepancies.",
+              "type": "standard",
+              "applicationLogic": "Always included when fraud report task is created"
+            },
+            {
+              "name": "Non-Borrowing Owners",
+              "order": 4,
+              "description": "Verify all non-borrowing owners are present on the Fraud X report with no unresolved discrepancies.",
+              "type": "conditional",
+              "applicationLogic": "Added only if non-borrowing owners are present on the loan"
+            },
+            {
+              "name": "Buyer Agent",
+              "order": 5,
+              "description": "Verify the buyer's agent is present on the Fraud X report with no unresolved discrepancies.",
+              "type": "conditional",
+              "applicationLogic": "Added only for purchase transactions"
+            },
+            {
+              "name": "Seller Agent",
+              "order": 6,
+              "description": "Verify the seller's agent is present on the Fraud X report with no unresolved discrepancies.",
+              "type": "conditional",
+              "applicationLogic": "Added only for purchase transactions"
+            }
+          ],
+          "xmlFile": "tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml",
+          "createdBy": "manual",
+          "createdAt": "2025-10-27T00:00:00Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        }
+      ]
+    },
+    {
+      "id": "7_post-closing-qc",
+      "name": "Post-Closing QC",
+      "order": 7,
+      "description": "Quality control after closing",
+      "subcategories": [
+        {
+          "id": "document_processing",
+          "name": "Document Processing",
+          "order": 1,
+          "description": "Post-closing document delivery and recording"
+        },
+        {
+          "id": "hmda",
+          "name": "HMDA",
+          "order": 2,
+          "description": "HMDA reporting and compliance"
+        },
+        {
+          "id": "quality_assurance",
+          "name": "Quality Assurance",
+          "order": 3,
+          "description": "Initial and post-closing document quality assurance reviews"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "task_038",
+          "name": "Deliver Note",
+          "order": 1,
+          "subcategory": "document_processing",
+          "status": "planned",
+          "priority": 8,
+          "description": "Deliver promissory note to appropriate party",
+          "notes": "Deliver note based on loan disposition - secondary market or portfolio",
+          "applicationLogic": "Applied after loan closing and funding. Triggers when closing documents are executed and note needs to be delivered.",
+          "subtasks": [
+            {
+              "name": "Deliver to Secondary",
+              "order": 1,
+              "description": "Deliver note to secondary market investor",
+              "type": "conditional",
+              "applicationLogic": "Added when loan is sold to secondary market"
+            },
+            {
+              "name": "Deliver to Operations",
+              "order": 2,
+              "description": "Deliver note to operations for portfolio retention",
+              "type": "conditional",
+              "applicationLogic": "Added when loan is retained in portfolio"
+            }
+          ],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": null,
+          "estimatedHrsRemaining": 3
+        },
+        {
+          "id": "task_039",
+          "name": "Record Mortgage",
+          "order": 2,
+          "subcategory": "document_processing",
+          "status": "planned",
+          "priority": 9,
+          "description": "Record mortgage at registry of deeds",
+          "notes": "Required for equity loans and MassHousing second mortgages",
+          "applicationLogic": "Applied conditionally after closing. Triggers when loan type is home equity or MassHousing second mortgage requiring recording.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": null,
+          "estimatedHrsRemaining": 6
+        },
+        {
+          "id": "task_040",
+          "name": "Deliver Mortgage",
+          "order": 3,
+          "subcategory": "document_processing",
+          "status": "planned",
+          "priority": 8,
+          "description": "Deliver recorded mortgage to appropriate party",
+          "notes": "Deliver mortgage based on loan disposition - secondary market or portfolio",
+          "applicationLogic": "Applied after mortgage is recorded (if applicable) or closing is complete. Triggers when mortgage document needs to be delivered.",
+          "subtasks": [
+            {
+              "name": "Deliver to Secondary",
+              "order": 1,
+              "description": "Deliver mortgage to secondary market investor",
+              "type": "conditional",
+              "applicationLogic": "Added when loan is sold to secondary market"
+            },
+            {
+              "name": "Deliver to Operations",
+              "order": 2,
+              "description": "Deliver mortgage to operations for portfolio retention",
+              "type": "conditional",
+              "applicationLogic": "Added when loan is retained in portfolio"
+            }
+          ],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": null,
+          "estimatedHrsRemaining": 3
+        },
+        {
+          "id": "task_041",
+          "name": "Image Documents",
+          "order": 4,
+          "subcategory": "document_processing",
+          "status": "planned",
+          "priority": 7,
+          "description": "Image and upload paper documents to Encompass",
+          "notes": "Subtasks needed: scan paper documents, review image quality, upload to Encompass eFolder, verify document indexing, dispose of paper per retention policy",
+          "applicationLogic": "Applied after closing when paper documents are received. Triggers when physical closing packages are returned and need to be digitized.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": null,
+          "estimatedHrsRemaining": 8
+        },
+        {
+          "id": "task_042",
+          "name": "eFolder Cleanup",
+          "order": 5,
+          "subcategory": "document_processing",
+          "status": "planned",
+          "priority": 6,
+          "description": "Clean up and organize eFolder in Encompass",
+          "notes": "Subtasks needed: remove duplicate documents, verify all documents properly indexed, organize folder structure, remove temporary/draft documents, final quality review",
+          "applicationLogic": "Applied after all post-closing documents are received and imaged. Triggers when loan file is ready for final organization before archival.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": null,
+          "estimatedHrsRemaining": 8
+        },
+        {
+          "id": "task_043",
+          "name": "Transfer to Cold Storage",
+          "order": 6,
+          "subcategory": "document_processing",
+          "status": "planned",
+          "priority": 5,
+          "description": "Transfer completed loan file to cold storage/archive",
+          "notes": "Subtasks needed: verify file completeness, export final loan package, transfer to archive system, verify successful transfer, update loan status to archived",
+          "applicationLogic": "Applied after eFolder cleanup is complete. Triggers when loan file is finalized and ready for long-term storage per retention requirements.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": null,
+          "estimatedHrsRemaining": 3
+        },
+        {
+          "id": "task_044",
+          "name": "Transfer to SaaS",
+          "order": 1,
+          "subcategory": "hmda",
+          "status": "planned",
+          "priority": 7,
+          "description": "Transfer loan data to HMDA reporting SaaS platform",
+          "notes": "Subtasks needed: verify HMDA data accuracy, export loan data, upload to HMDA SaaS system, validate data transfer, confirm successful import",
+          "applicationLogic": "Applied after loan closing for HMDA reportable loans. Triggers when loan needs to be reported for Home Mortgage Disclosure Act compliance.",
+          "subtasks": [],
+          "xmlFile": null,
+          "createdBy": null,
+          "createdAt": null,
+          "ruleStatus": null,
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_045",
+          "name": "Initial Document Quality Assurance",
+          "order": 1,
+          "subcategory": "quality_assurance",
+          "status": "completed",
+          "priority": 8,
+          "description": "Review initial disclosure documents for compliance and completeness",
+          "notes": "Covers 1003 review, eConsent, all state-specific disclosures (MA, RI), and conditional items (HELOC, ARM, ROV)",
+          "applicationLogic": "Applied after initial disclosures are sent. Reviews all required and conditional initial documents for completeness and compliance.",
+          "subtasks": [
+            {
+              "name": "1003 � Declarations Complete",
+              "description": "1003 � Declarations Complete � 1003 returned for all borrowers",
+              "type": "standard"
+            },
+            {
+              "name": "1003 � Demographic Info Addendum",
+              "description": "1003 � Demographic Info Addendum � Demographic Information Addendum collected",
+              "type": "conditional"
+            },
+            {
+              "name": "1003 � Demographic Info Addendum Signed",
+              "description": "1003 � Demographic Info Addendum Signed � Demographic Information Addendum not collected; not marked on 1003",
+              "type": "conditional"
+            },
+            {
+              "name": "1003 � Demographic HELOC",
+              "description": "1003 � Demographic HELOC � Demographic information is collected only when the proceeds are used to pay off an existing lien-secured debt, qualifying the transaction as a refinancing for regulatory reporting purposes.",
+              "type": "conditional"
+            },
+            {
+              "name": "ROV Sent with Initial Disclosures",
+              "description": "ROV Sent with Initial Disclosures � Right to Request Reconsideration of Value sent with initial disclosures",
+              "type": "standard"
+            },
+            {
+              "name": "eConsent � Completed Prior to Electronic Send",
+              "description": "eConsent � Completed Prior to Electronic Send � eConsent completed before electronically sending disclosures",
+              "type": "standard"
+            },
+            {
+              "name": "eConsent � Docs Mailed if No eConsent",
+              "description": "eConsent � Docs Mailed if No eConsent � If no eConsent, documents mailed prior to disclosure due date",
+              "type": "conditional"
+            },
+            {
+              "name": "Supplemental Consumer Information Form",
+              "description": "Supplemental Consumer Information Form � One Supplemental Consumer Information Form per URLA",
+              "type": "standard"
+            },
+            {
+              "name": "HELOC Important Terms Disclosure",
+              "description": "HELOC Important Terms Disclosure � HELOC Important Terms Disclosure provided",
+              "type": "conditional"
+            },
+            {
+              "name": "Your Home Loan Toolkit",
+              "description": "Your Home Loan Toolkit � Provided within 3 business days of application",
+              "type": "conditional"
+            },
+            {
+              "name": "2015 Settlement Service List",
+              "description": "2015 Settlement Service List � Provided",
+              "type": "conditional"
+            },
+            {
+              "name": "Acknowledgement of Intent to Proceed",
+              "description": "Acknowledgement of Intent to Proceed � Acknowledgement of Intent to Proceed obtained; date entered matches date on form",
+              "type": "conditional"
+            },
+            {
+              "name": "CHARM Booklet",
+              "description": "CHARM Booklet � CHARM Booklet provided within 3 business days",
+              "type": "conditional"
+            },
+            {
+              "name": "ARM Disclosure",
+              "description": "ARM Disclosure � ARM Disclosure sent same day as application; matches product and index as of day sent",
+              "type": "conditional"
+            },
+            {
+              "name": "Credit Score Disclosure Completed",
+              "description": "Credit Score Disclosure Completed � Information is complete and matches credit report with all scores present",
+              "type": "standard"
+            },
+            {
+              "name": "Homeowner Counseling List and Acknowledgement",
+              "description": "Homeowner Counseling List and Acknowledgement � 10 counselors provided based on borrower's address",
+              "type": "standard"
+            },
+            {
+              "name": "Notice of Right to Copy of Appraisal (ECOA)",
+              "description": "Notice of Right to Copy of Appraisal (ECOA) � Notice of Right to Copy of Appraisal (ECOA) provided",
+              "type": "conditional"
+            },
+            {
+              "name": "Privacy Notice Received",
+              "description": "Privacy Notice Received � Privacy Notice provided and saved in folder",
+              "type": "standard"
+            },
+            {
+              "name": "Privacy Policy � Opt Out Signed",
+              "description": "Privacy Policy � Opt Out Signed � Opt Out signed (if applicable)",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Appraisal Fee Notice",
+              "description": "RI Appraisal Fee Notice � RI Appraisal Fee Notice provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Right to Copy of Appraisal",
+              "description": "RI Right to Copy of Appraisal � RI Right to Copy of Appraisal provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Notice of Non-Refundability",
+              "description": "RI Notice of Non-Refundability � RI Notice of Non-Refundability provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Form 1",
+              "description": "RI Form 1 � RI Form 1 completed and signed by Loan Originator",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Form 2",
+              "description": "RI Form 2 � RI Form 2 completed and signed by Loan Originator",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Open-End Credit Disclosures",
+              "description": "RI Open-End Credit Disclosures � RI Open-End Credit Disclosures (Gen Laws 6-27-11, O/OC Only)",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Choice of Insurance",
+              "description": "RI Choice of Insurance � RI Choice of Insurance provided",
+              "type": "conditional"
+            },
+            {
+              "name": "RI Title Insurance Disclosure",
+              "description": "RI Title Insurance Disclosure � RI Title Insurance Disclosure executed with all boxes checked",
+              "type": "conditional"
+            },
+            {
+              "name": "USA Patriot Act Info Disclosure",
+              "description": "USA Patriot Act Info Disclosure � USA Patriot Act Info Disclosure provided",
+              "type": "standard"
+            },
+            {
+              "name": "HELOC Booklet",
+              "description": "HELOC Booklet � HELOC Booklet provided within 3 business days",
+              "type": "conditional"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml",
+          "createdBy": "system",
+          "createdAt": "2026-03-05T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        }
+      ]
+    }
+  ],
+  "activityLog": [
+    {
+      "timestamp": "2025-10-28T00:00:00Z",
+      "author": "manual",
+      "action": "created",
+      "taskId": "task_003",
+      "taskName": "Order Appraisal",
+      "details": "Manually created order_appraisal_v1.xml with 4 subtasks",
+      "xmlFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T00:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_003",
+      "taskName": "Order Appraisal",
+      "details": "Revised subtasks to 7: Create Invoice (standard), Send Invoice (standard), Payment Recording (conditional � appraisal payment received; recorded in Encompass and ValueLink separately), Automated Order (conditional � automated ordering enabled), Order 1004 (conditional � single-family, no auto order), Order 1025 (conditional � 2�4 unit, no auto order), Order 1073 (conditional � condo, no auto order)",
+      "xmlFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2025-10-29T00:00:00Z",
+      "author": "manual",
+      "action": "created",
+      "taskId": "task_006",
+      "taskName": "ARM Disclosure",
+      "details": "Manually created arm_disclosure_v1.xml with 2 subtasks",
+      "xmlFile": "tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2025-10-27T00:00:00Z",
+      "author": "manual",
+      "action": "created",
+      "taskId": "task_009",
+      "taskName": "Credit Refresh",
+      "details": "Manually created credit-refresh_v1.xml with 2 subtasks",
+      "xmlFile": "tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml"
+    },
+    {
+      "timestamp": "2025-10-27T00:00:00Z",
+      "author": "manual",
+      "action": "created",
+      "taskId": "task_010",
+      "taskName": "Fraud X Report",
+      "details": "Manually created fraudx_v1.xml with 3 subtasks",
+      "xmlFile": "tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-10T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_010",
+      "taskName": "Fraud X Report",
+      "details": "Expanded subtasks from 3 to 6: Appraiser License (conditional – appraisal obtained; clarified failed-verification save requirement), Red Flags (enhanced with Address/Name/SSN/OFAC specifics, summary grid review, Issue flag + management notification), All Borrowers (standard), Non-Borrowing Owners (conditional – if present), Buyer Agent (conditional – purchase only), Seller Agent (conditional – purchase only).",
+      "xmlFile": "tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_001",
+      "taskName": "Review Credit",
+      "details": "Created review_credit_v1.xml with 5 subtasks: Red Flags Review, OFAC, Fraud Alerts, Frozen Score, Review Liens",
+      "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T12:55:00.446Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_001",
+      "taskName": "Review Credit",
+      "details": "Synced roadmap.json subtasks from XML: added Name AKA's (standard, rank 2); reordered Address Discrepancy through Review Liens to ranks 3�8; updated all descriptions with Name � prefix.",
+      "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_002",
+      "taskName": "Send Disclosures",
+      "details": "Created send_disclosures_v1.xml with 9 subtasks: Index, Appraisal Fee Only, FACT Act Disclosure � All Scores, FACT Act Disclosure � Checkboxes, FACT Act Disclosure � Key Factors, FACT Act Disclosure � eConsent, FACT Act Disclosure � Contact Info, FACT Act Disclosure � Ready to Send, Home Counseling List.",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_002b",
+      "taskName": "Send Disclosures (HELOC)",
+      "details": "Created send_disclosures_heloc_v1.xml with 10 subtasks: Index, Appraisal Fee Only, FACT Act Disclosure � All Scores, FACT Act Disclosure � Checkboxes, FACT Act Disclosure � Key Factors, FACT Act Disclosure � eConsent, FACT Act Disclosure � Contact Info, FACT Act Disclosure � Ready to Send, Home Counseling List, 1003 � Demographic HELOC (standard).",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_001",
+      "taskName": "Review Credit",
+      "details": "Split Red Flags Review into 3 separate subtasks: Name Discrepancy, Address Discrepancy, SSN Discrepancy. Total subtasks now 7: Name Discrepancy, Address Discrepancy, SSN Discrepancy, OFAC, Fraud Alerts, Frozen Score, Review Liens",
+      "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_004",
+      "taskName": "Order Title",
+      "details": "Created order_title_v1.xml with 5 subtasks: Title Search Request, Preliminary Title Report Review, Exception Review, Lien Verification, Title Commitment. Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/title/order_title_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T00:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_004",
+      "taskName": "Order Title",
+      "details": "Added 4 conditional subtasks: Order Title Ownership Report � Old Republic (equity product, not in trust), Order Title Ownership Report � Equity Attorney (Trust) (equity product in trust, title rundown/trust review/trustee cert prep, no title insurance or closing services), Obtain Quote � New Deed Prep (not a purchase and title vesting on 1003 doesn't match), Order Title � Bank Attorney (not an equity product).",
+      "xmlFile": "tasks/2_processing/title/order_title_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_005",
+      "taskName": "Order Flood Certificate",
+      "details": "Created order_flood_certificate_v1.xml with 4 subtasks: FEMA Flood Zone Determination, Flood Certificate Review, Flood Insurance Verification (conditional), Community Participation Verification (conditional). Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "exported",
+      "taskId": "task_004,task_005",
+      "taskName": "Order Title + Order Flood Certificate",
+      "details": "Exported task_004 and task_005 as a joined group to export/service_orders_title_flood_v1.xml (2 tasks).",
+      "xmlFile": "export/service_orders_title_flood_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_007",
+      "taskName": "Order SSA-89",
+      "details": "Created order_ssa89_v1.xml with no subtasks. Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/ssa89/order_ssa89_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_008",
+      "taskName": "Order Tax Transcripts",
+      "details": "Created order_tax_transcripts_v1.xml with no subtasks. Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "exported",
+      "taskId": "task_007,task_008",
+      "taskName": "Order SSA-89 + Order Tax Transcripts",
+      "details": "Exported task_007 and task_008 as a joined group to export/service_orders_ssa89_tax_transcripts_v1.xml (2 tasks).",
+      "xmlFile": "export/service_orders_ssa89_tax_transcripts_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_036",
+      "taskName": "Withdraw Loan",
+      "details": "Created withdraw_loan_v1.xml with 3 conditional subtasks: ECOA Right to Copy of Appraisal, Massachusetts MGL Disclosure, Credit Score Disclosure. Assigned to Loan Processor. taskGroupTemplateId: 2c2ef895-3109-4e47-bde2-ceae91119d9f.",
+      "xmlFile": "tasks/2_processing/misc/withdraw_loan_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_037",
+      "taskName": "Send Denial",
+      "details": "Created send_denial_v1.xml with 4 conditional subtasks: MA Review Board Form, ECOA Right to Copy of Appraisal, Massachusetts MGL Disclosure, Credit Score Disclosure. Assigned to Loan Processor. taskGroupTemplateId: 2c2ef895-3109-4e47-bde2-ceae91119d9f.",
+      "xmlFile": "tasks/2_processing/misc/send_denial_v1.xml"
+    },
+    {
+      "timestamp": "2026-02-23T12:00:00.000Z",
+      "author": "system",
+      "action": "exported",
+      "taskId": "task_036,task_037",
+      "taskName": "Withdraw Loan + Send Denial",
+      "details": "Exported task_036 and task_037 as a joined group to export/processing_misc_withdraw_denial_v1.xml (2 tasks).",
+      "xmlFile": "export/processing_misc_withdraw_denial_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-05T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_045",
+      "taskName": "Initial Document Quality Assurance",
+      "details": "Created initial_document_quality_assurance_v1.xml with 29 subtasks: 1003 � Signed at Top (Joint), 1003 � Declarations Complete, 1003 � Demographic Info Addendum, MGL Disclosure Complete, ROV Sent with Initial Disclosures, eConsent � Completed Prior to Electronic Send, eConsent � Docs Mailed if No eConsent, Supplemental Consumer Information Form, HELOC Important Terms Disclosure, Your Home Loan Toolkit, 2015 Settlement Service List, Acknowledgement of Intent to Proceed, CHARM Booklet, ARM Disclosure, Credit Score Disclosure Completed, Homeowner Counseling List and Acknowledgement, Notice of Right to Copy of Appraisal (ECOA), Privacy Notice Received, Opt Out Signed, RI Appraisal Fee Notice, RI Right to Copy of Appraisal, RI Notice of Non-Refundability, RI Form 1 and 2, RI Open-End Credit Disclosures, RI Form 3 HLPA Refinance Only, RI Choice of Insurance, RI Title Insurance Disclosure, USA Patriot Act Info Disclosure, HELOC Booklet.",
+      "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T12:42:41.576Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_045",
+      "taskName": "Initial Document Quality Assurance",
+      "details": "Synced roadmap.json subtasks from XML: removed 1003 � Signed at Top (Joint) and 1003 � MGL Disclosure Complete (not in XML); added 1003 � Demographic HELOC (conditional); changed ROV Sent with Initial Disclosures from conditional to standard (autoCreate=true in XML); added Name � prefix to all subtask descriptions to match UI visibility convention.",
+      "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T00:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_002b",
+      "taskName": "Send Disclosures (HELOC)",
+      "details": "Added 3 subtasks to send_disclosures_heloc_v1.xml: Program Selection (standard, rank 11), Order AVM (conditional, rank 12, applies when LA <= $400K), Flood Cert (standard, rank 13, auto-completed by Order Flood Certificate task)",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T12:42:41.576Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_002b",
+      "taskName": "Send Disclosures (HELOC)",
+      "details": "Synced roadmap.json subtasks from XML: reordered to match XML ranks; added Plan Code (standard, rank 3); renamed 'FACT Act Disclosure � eConsent' to 'eConsent' (type moved out of FACT Act grouping in XML); renamed 'FACT Act Disclosure � Ready to Send' to 'Ready to Send'; updated all descriptions with Name � prefix; updated descriptions to match XML text exactly.",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T14:04:19.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_046",
+      "taskName": "Order AVM",
+      "details": "Created order_avm_v1.xml with 4 subtasks: Order AVM in Xactus (standard), Save AVM to eFolder (standard � marks issue and ends task if hit unsuccessful), Enter AVM Data (conditional � skipped if AVM unsuccessful), Ready to Send (standard � primes loan for initial document send)",
+      "xmlFile": "tasks/2_processing/avm/order_avm_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-10T14:04:19.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_047",
+      "taskName": "Flood Certificate Review",
+      "details": "Created flood_certificate_review_v1.xml with 3 subtasks: Address Matches System (standard), Flood Zone Matches System (standard), Life of Loan Coverage Obtained (standard).",
+      "xmlFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T00:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_003",
+      "taskName": "Order Appraisal",
+      "details": "Added Obtain Quote as rank 1 conditional subtask (triggers when property value over $1M or unique/complex property); shifted all existing subtasks up by one rank (now ranks 2�8)",
+      "xmlFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T12:42:41.576Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_047",
+      "taskName": "Flood Certificate Review",
+      "details": "Synced roadmap.json subtasks from XML: updated description prefixes on Address Matches System, Flood Zone Matches System, Life of Loan Coverage Obtained; added conditional subtask Address Mismatch Detected (autoCreate=false) � triggers when property address on flood certificate does not match system address.",
+      "xmlFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_002c",
+      "taskName": "Notice of Incomplete",
+      "details": "Cleaned up and added Notice of Incomplete from Example files. Fixed: proper type naming (Processing_Disclosures_NoticeOfIncomplete), corrected subtask names from 'Sub-Task Name' to 'Add Conditions' and 'Send Notice of Incomplete', added description prefixes, removed forbidden taskTemplateId from subtasks, added taskGroupTemplateId matching Processing group. 2 subtasks: Add Conditions (standard), Send Notice of Incomplete (standard).",
+      "xmlFile": "tasks/2_processing/disclosures/notice_of_incomplete_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-12T19:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_002c",
+      "taskName": "Notice of Incomplete",
+      "details": "Added subtask \"NOI Not Needed\" at rank 2; updated xmlFile path to tasks/2_processing/misc/Notice of Incomplete.xml"
+    },
+    {
+      "timestamp": "2026-03-12T21:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_002d",
+      "taskName": "Mailing Initial Disclosures",
+      "details": "Created mailing_initial_disclosures_v1.xml with 1 subtask: Mail Disclosures and Mark Disclosure Tracking (standard). Task is for when initial disclosures must be mailed because eConsent was not received on or before the disclosure due date. Mark Done when complete, Mark NA if eConsent was obtained and mailing is not needed.",
+      "xmlFile": "tasks/2_processing/misc/mailing_initial_disclosures_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-17T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_035",
+      "taskName": "Send Commitment Letter",
+      "details": "Created send_commitment_letter_v1.xml with 3 subtasks: Send Commitment Letter, Confirm Letter Sent, Save to eFolder",
+      "xmlFile": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-19T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_048",
+      "taskName": "Pre-Underwriting Checklist",
+      "details": "Created unified pre_uw_checklist_v1.xml with 11 subtasks: Organize eFolder (standard), Run AUS (conditional — first mortgages only, rank 2 to dictate doc requirements), Verify Income (standard), Verify Insurance (standard), Verify Mortgage Statements (standard), Verify Purpose (conditional — HELOCs only), Verify Assets (conditional — first mortgages only), Verify Employment (conditional — first mortgages), Self-Employed Income (conditional), Non-Traditional Income (conditional), Rental Income (conditional). Consolidated from separate HELOC and first mortgage tasks into one unified checklist. Removed task_011 (Run AUS), task_012 (Organize eFolder), task_013 (Verify Assets), task_014 (Verify Income), and task_049 (Pre-UW Checklist First Mortgage) as standalone tasks.",
+      "xmlFile": "tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-19T00:00:00.000Z",
+      "author": "system",
+      "action": "created",
+      "taskId": "task_017",
+      "taskName": "Underwrite",
+      "details": "Created underwrite_v1.xml with 4 subtasks: Approve (standard — auto-completed when UW approves in system), Deny (standard — triggers denial task flow), CounterOffer (standard — triggers counteroffer task flow), Return to Processor (standard — sends file back to processor if not ready for decision). Task is assigned to Underwriter role and triggered automatically at submittal milestone.",
+      "xmlFile": "tasks/3_underwriting/submittal/underwrite_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-19T00:00:00.000Z",
+      "author": "system",
+      "action": "updated",
+      "taskId": "task_016",
+      "taskName": "Credit Score Disclosure",
+      "details": "Cleaned up existing Credit Score Disclosure from example file. Fixed subtask names from 'Sub-Task Name' to proper names (FACT Act All Scores, FACT Act Checkboxes, FACT Act Key Factors, eConsent, Contact Info, Ready to Send), added description prefixes, removed forbidden taskTemplateId from subtasks, added Disclosures task group, updated type to Processing_Disclosures_CreditScoreDisclosure, added Loan Processor assignee. Moved from dislosures/ to credit_score_disclosure/ directory. 6 standard subtasks.",
+      "xmlFile": "tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-03-24T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_051",
+      "taskName": "Review PAR",
+      "details": "Created review_par_v1.xml with 4 subtasks: Address Verification (standard), Visible Deferred Maintenance (standard), Occupancy Confirmation (standard), Repair Costs (standard). Task is under Underwriting Resubmittal for reviewing the Property Assessment Report received from AppraisalX.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_par_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-10T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_052",
+      "taskName": "File Closure Documents",
+      "details": "Created file_closure_documents_v1.xml with 3 standard subtasks: Conversation Log, Disclosure Tracking, eConsent. Each subtask auto-completes when the applicable document is added to the eFolder. Applies to both funded and adverse loan file closures.",
+      "xmlFile": "tasks/2_processing/misc/file_closure_documents_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-10T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_053",
+      "taskName": "Cancel Flood Certificate",
+      "details": "Created cancel_flood_certificate_v1.xml with 1 standard subtask: Cancel Flood Certificate on Xactus Website. Adverse loans only.",
+      "xmlFile": "tasks/2_processing/misc/cancel_flood_certificate_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-10T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_054",
+      "taskName": "Appraisal Refund",
+      "details": "Created appraisal_refund_v1.xml with 4 standard subtasks: Confirm Appraisal Fee Received, Prepare Refund Check and Letter, Scan Letter and Check to Loan File, Mail Check. Adverse loans only. Refund made payable to all borrowers.",
+      "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_019",
+      "taskName": "Review Appraisal",
+      "details": "Created review_appraisal_v1.xml from import. 2 standard subtasks: Transfer Appraisal from Value Link (save CrossCheck in ValueLink before completing), Send Appraisal (clicking Done sends appraisal + acknowledgement to borrower). Underwriting Resubmittal stage.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_019",
+      "taskName": "Review Appraisal",
+      "details": "Updated review_appraisal_v1.xml: removed Send Appraisal subtask (extracted to task_057); added External Review (standard – mark Issue if not completed, auto-completes when external review confirmed); added Second Review (conditional – added when External Review marked as Issue).",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_057",
+      "taskName": "Send Appraisal",
+      "details": "Created send_appraisal_v1.xml as standalone task extracted from Review Appraisal (task_019). 1 standard subtask: Send Appraisal (clicking Done sends appraisal and acknowledgement to borrower). Underwriting Resubmittal stage.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/send_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_019",
+      "taskName": "Review Appraisal",
+      "details": "Added Attach Appraisal Review Form (conditional – added once second review is complete) as rank 4 subtask.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_058",
+      "taskName": "Review Appraisal – Second Review",
+      "details": "Created review_appraisal_second_review_v1.xml as standalone task for loans without an external review. 2 subtasks: Document Second Review (standard), Attach Appraisal Review Form (conditional – added once second review is complete). Underwriting Resubmittal stage.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_052",
+      "taskName": "File Closure Documents",
+      "details": "Added 2 conditional subtasks from import: Initial Disclosures (rank 4, autoCreate=false — save initial disclosure package) and 1003 (rank 5, autoCreate=false — save copy of 1003). Total subtasks now 5.",
+      "xmlFile": "tasks/2_processing/misc/file_closure_documents_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_055",
+      "taskName": "Recheck Flood",
+      "details": "Created recheck_flood_v1.xml from import. No subtasks. Processing / Service Orders. Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/service_orders/recheck_flood_v1.xml"
+    },
+    {
+      "timestamp": "2026-04-16T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_056",
+      "taskName": "Master Property Insurance Review",
+      "details": "Created master_property_insurance_review_v1.xml from import. 14 subtasks: Project Insured Confirmation, Unit Within Project Confirmation, Policy Effective Before Closing, Policy Active at Closing, Replacement Cost Coverage Sufficiency, Coverage Documentation Present, Replacement Cost Loss Settlement, Roof Coverage Confirmation, ACV Language Review, Master Policy Deductible Review, Per-Unit Deductible Exists, Per-Unit Deductible Amount Review (conditional), Interior Coverage Gap, Mortgagee Clause Review (conditional). Assigned to Underwriter. Underwriting / Post-Underwriting.",
+      "xmlFile": "tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-11T20:02:45.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_034",
+      "taskName": "Send Counteroffer",
+      "details": "Created send_counteroffer_v1.xml with 3 conditional subtasks: MA Review Form Board Required (conditional — MA + first position + purchase or refi), Send Counteroffer Electronically (conditional — NOT MA/first position/purchase or refi; documents must be in Counteroffer eFolder), Mail Counteroffer (conditional — MA + first position + purchase or refi). Underwriting / Misc stage. Assigned to Loan Processor.",
+      "xmlFile": "tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-11T20:02:45.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_022",
+      "taskName": "Scheduling",
+      "details": "Created scheduling_v1.xml. 1 standard subtask: Obtain Closing Date and Time from Branch. Closing / Pre-Closing stage. Assigned to Loan Processor.",
+      "xmlFile": "tasks/4_closing/pre_closing/scheduling_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-11T20:02:45.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_025",
+      "taskName": "Create Closing Package",
+      "details": "Created create_closing_package_v1.xml. 1 standard subtask: Create Closing Package. Closing / Doc Prep stage. Assigned to Loan Processor.",
+      "xmlFile": "tasks/4_closing/doc_prep/create_closing_package_v1.xml"
+    }
+  ]
+}
