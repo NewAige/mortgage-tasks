@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-06-17T20:29:31.000Z",
+    "lastUpdated": "2026-06-17T20:45:00.000Z",
     "version": "1.0.0",
     "totalTasks": 56,
     "completedTasks": 43,
@@ -322,6 +322,13 @@
               "order": 2,
               "description": "Ownership Screen – Complete the ownership screen and compare how the deed is to be held (new vesting) against how the property is currently held per the pulled deed; document any differences.",
               "type": "standard"
+            },
+            {
+              "name": "Add Non-Borrowing Owner",
+              "order": 3,
+              "description": "Add Non-Borrowing Owner – If an owner on the deed is not a borrower on the loan, add them to the file contacts as a non-borrowing owner.",
+              "type": "conditional",
+              "applicationLogic": "Added when an owner on the deed is not a borrower on the loan"
             }
           ],
           "xmlFile": "tasks/2_processing/pull_deed/pull_deed_v1.xml",
@@ -3021,6 +3028,15 @@
       "taskId": "task_063",
       "taskName": "Pull Deed",
       "details": "Created pull_deed_v1.xml with 2 standard subtasks: Pull Deed from Registry (pull the current recorded deed from the applicable registry of deeds for the subject property), Ownership Screen (complete the ownership screen and compare how the deed is to be held / new vesting against how the property is currently held per the pulled deed). Processing / File Setup stage, grouped with Send Disclosures (Processing task group). Assigned to Loan Processor.",
+      "xmlFile": "tasks/2_processing/pull_deed/pull_deed_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-17T20:45:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_063",
+      "taskName": "Pull Deed",
+      "details": "Added 1 conditional subtask to pull_deed_v1.xml: Add Non-Borrowing Owner (autoCreate=false) – if an owner on the deed is not a borrower on the loan, add them to the file contacts as a non-borrowing owner. Added when an owner on the deed is not a borrower on the loan.",
       "xmlFile": "tasks/2_processing/pull_deed/pull_deed_v1.xml"
     }
   ]
