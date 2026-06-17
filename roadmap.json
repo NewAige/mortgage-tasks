@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-06-11T20:02:45.000Z",
+    "lastUpdated": "2026-06-16T18:00:00.000Z",
     "version": "1.0.0",
-    "totalTasks": 51,
-    "completedTasks": 35,
+    "totalTasks": 55,
+    "completedTasks": 42,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -754,9 +754,33 @@
           "estimatedHrsRemaining": 2
         },
         {
+          "id": "task_060",
+          "name": "Notice of Incomplete Expiration",
+          "order": 7,
+          "subcategory": "misc",
+          "status": "completed",
+          "priority": 4,
+          "description": "Handle expiration of a Notice of Incomplete — mark done to proceed with closing out the file",
+          "notes": "Assigned to Loan Processor. Duration 24 hours. Has 1 standard subtask (autoCreate=true). Parsed from taskbundle.xml import (rank 28, type Processing_Misc_NOIExpiration).",
+          "applicationLogic": "Applied when a Notice of Incomplete expires without borrower response. Triggers when NOI deadline passes.",
+          "subtasks": [
+            {
+              "name": "NOI Expired",
+              "order": 1,
+              "description": "NOI Expired – Mark Done to proceed with closing out file.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml",
+          "createdBy": "admin",
+          "createdAt": "2026-06-16T16:12:11.909Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
+        },
+        {
           "id": "task_054",
           "name": "Appraisal Refund",
-          "order": 7,
+          "order": 8,
           "subcategory": "misc",
           "status": "completed",
           "priority": 5,
@@ -1173,8 +1197,8 @@
           "xmlFile": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml",
           "createdBy": "system",
           "createdAt": "2026-03-17T00:00:00.000Z",
-          "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 2
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         }
       ]
     },
@@ -1254,7 +1278,7 @@
           "createdBy": "system",
           "createdAt": "2026-03-19T00:00:00.000Z",
           "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 8
+          "estimatedHrsRemaining": 4
         },
         {
           "id": "task_018",
@@ -1345,8 +1369,8 @@
           "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-04-16T00:00:00.000Z",
-          "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 2
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_057",
@@ -1370,8 +1394,8 @@
           "xmlFile": "tasks/3_underwriting/resubmittal/send_appraisal_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-04-16T00:00:00.000Z",
-          "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 2
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_058",
@@ -1402,8 +1426,8 @@
           "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-04-16T00:00:00.000Z",
-          "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 3
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_020",
@@ -1651,9 +1675,15 @@
           "description": "Tasks before closing appointment"
         },
         {
+          "id": "closing_setup",
+          "name": "Closing Setup",
+          "order": 2,
+          "description": "System setup and preparation tasks for closing"
+        },
+        {
           "id": "doc_prep",
           "name": "Doc Prep",
-          "order": 2,
+          "order": 3,
           "description": "Closing document preparation"
         }
       ],
@@ -1739,6 +1769,84 @@
           "createdAt": "2026-06-11T20:02:45.000Z",
           "ruleStatus": "Partial",
           "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_061",
+          "name": "Closing Setup",
+          "order": 1,
+          "subcategory": "closing_setup",
+          "status": "completed",
+          "priority": 9,
+          "description": "Configure loan file in the system for closing — names, vesting, fees, and plan code",
+          "notes": "Must be completed before closing documents are prepared. Appraisal fee is the only fee that should be listed.",
+          "applicationLogic": "Applied after clear to close and before closing document preparation.",
+          "subtasks": [
+            {
+              "name": "Adjust Names",
+              "order": 1,
+              "description": "Adjust Names – Adjust names in file to match title report. Enter AKAs as needed if changes are required.",
+              "type": "standard"
+            },
+            {
+              "name": "Build Vesting",
+              "order": 2,
+              "description": "Build Vesting – Build vesting in the system to match the title report.",
+              "type": "standard"
+            },
+            {
+              "name": "Reconcile Fees",
+              "order": 3,
+              "description": "Reconcile Fees – Reconcile fees in the system. If appraisal was obtained, enter the appraisal fee and mark it as paid outside of closing if the fee was received prior to closing. Remove the appraisal fee if no appraisal was used. The appraisal fee should be the only fee listed.",
+              "type": "standard"
+            },
+            {
+              "name": "Enter Plan Code",
+              "order": 4,
+              "description": "Enter Plan Code – Enter the plan code in the system.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/4_closing/closing_setup/closing_setup_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-06-16T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_062",
+          "name": "Prepare Payoff Letters",
+          "order": 2,
+          "subcategory": "closing_setup",
+          "status": "completed",
+          "priority": 8,
+          "description": "Prepare and send payoff letters for existing liens being paid off at closing",
+          "notes": "Reconcile payoff letters to VOL entries. Use Payoff Letters Button in system to obtain letters.",
+          "applicationLogic": "Applied when existing liens must be paid off at closing.",
+          "subtasks": [
+            {
+              "name": "Reconcile Payoff Letters",
+              "order": 1,
+              "description": "Reconcile Payoff Letters – Reconcile payoff letters to VOL entries. Adjust account numbers and mailing address as needed. Enter Certified Mail Tracking number in the Other Comments field. Use the Payoff Letters Button to obtain the letters and print them.",
+              "type": "standard"
+            },
+            {
+              "name": "Save Payoff Letters to eFolder",
+              "order": 2,
+              "description": "Save Payoff Letters to eFolder – Save all payoff letters to the loan eFolder.",
+              "type": "standard"
+            },
+            {
+              "name": "Prepare Envelopes",
+              "order": 3,
+              "description": "Prepare Envelopes – Prepare envelopes with the recipient address and certified mail stickers for each payoff letter.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-06-16T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
         }
       ]
     },
@@ -1764,54 +1872,86 @@
       "tasks": [
         {
           "id": "task_026",
-          "name": "Confirm Funding Figures",
+          "name": "Confirm Funding",
           "order": 1,
           "subcategory": "funding",
-          "status": "planned",
+          "status": "completed",
           "priority": 9,
-          "description": "Confirm all funding figures and wire amounts",
-          "notes": "Subtasks needed: verify final CD, confirm wire amounts, verify disbursements, review funding worksheet, obtain final approvals",
-          "applicationLogic": "Applied after closing documents are signed. Triggers when closing is complete and ready for funding.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
+          "description": "Confirm funding is ready by adding the funding worksheet and marking the confirm funding amount in the system",
+          "notes": "Funding worksheet subtask auto-completes when sheet is received. Confirm Funding Amount subtask auto-completes when the button is pushed in system.",
+          "applicationLogic": "Applied after closing is complete and loan is ready for funding confirmation.",
+          "subtasks": [
+            {
+              "name": "Add Funding Worksheet to eFolder",
+              "order": 1,
+              "description": "Add Funding Worksheet to eFolder – Add the funding worksheet to the eFolder; this subtask auto-completes when the funding worksheet is received.",
+              "type": "standard",
+              "applicationLogic": "Auto-completes when funding worksheet is received and added to eFolder"
+            },
+            {
+              "name": "Confirm Funding Amount",
+              "order": 2,
+              "description": "Confirm Funding Amount – Mark the confirm funding amount in the system; this subtask auto-completes when the Confirm Funding button is pushed in the system.",
+              "type": "standard",
+              "applicationLogic": "Auto-completes when the Confirm Funding button is pushed in the system"
+            }
+          ],
+          "xmlFile": "tasks/5_funding/funding/confirm_funding_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-06-16T18:30:00.000Z",
           "ruleStatus": "Planned",
-          "estimatedHrsRemaining": 3
+          "estimatedHrsRemaining": null
+        },
+        {
+          "id": "task_059",
+          "name": "Approve Wire",
+          "order": 2,
+          "subcategory": "funding",
+          "status": "completed",
+          "priority": 2,
+          "description": "Approve wire transfer for loan funding disbursement",
+          "notes": "No subtasks. Duration 20 minutes. Parsed from taskbundle.xml import (rank 14, type Funding_Wire_Approval).",
+          "applicationLogic": "Applied before Fund Loan when wire transfer is the disbursement method. Triggers when wire approval is required prior to funding.",
+          "subtasks": [],
+          "xmlFile": "tasks/5_funding/funding/approve_wire_v1.xml",
+          "createdBy": "admin",
+          "createdAt": "2026-06-16T16:17:46.312Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
         },
         {
           "id": "task_027",
           "name": "Approve Funding Figures",
-          "order": 2,
+          "order": 3,
           "subcategory": "funding",
-          "status": "planned",
+          "status": "completed",
           "priority": 10,
           "description": "Obtain approval for funding figures",
-          "notes": "Subtasks needed: submit for approval, obtain department head approval, verify investor approval, final compliance review, authorize funding",
+          "notes": "No subtasks. Duration 2 hours. Parsed from taskbundle.xml import (rank 15, type Funding_Funding_Approval). Originally created by calves 2026-02-27.",
           "applicationLogic": "Applied after funding figures are confirmed. Triggers when all figures are verified and ready for final approval.",
           "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 2
+          "xmlFile": "tasks/5_funding/funding/approve_funding_v1.xml",
+          "createdBy": "calves",
+          "createdAt": "2026-02-27T17:23:42.406Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
         },
         {
           "id": "task_028",
           "name": "Fund Loan",
-          "order": 3,
+          "order": 4,
           "subcategory": "funding",
-          "status": "planned",
+          "status": "completed",
           "priority": 10,
-          "description": "Execute funding and wire transfer",
-          "notes": "Subtasks needed: initiate wire transfer, confirm funds received by title, record funding date/time, update loan status, send funding notifications",
-          "applicationLogic": "Applied after funding is approved. Triggers when final approval is received and within funding deadline.",
+          "description": "Complete funding of loan. Funds will be sent to BCSB account.",
+          "notes": "No subtasks. Duration 90 minutes. Conditional description: when wire vendor field [VEND.X398] is populated, description changes to 'Funds will be sent via Wire'. Parsed from taskbundle.xml import (rank 16, type Funding_FundLoan).",
+          "applicationLogic": "Applied after funding is approved. Description changes conditionally when wire vendor is set ([VEND.X398] <> '').",
           "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 2
+          "xmlFile": "tasks/5_funding/funding/fund_loan_v1.xml",
+          "createdBy": "admin",
+          "createdAt": "2026-06-16T16:17:46.312Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": null
         },
         {
           "id": "task_029",
@@ -2780,6 +2920,69 @@
       "taskName": "Create Closing Package",
       "details": "Created create_closing_package_v1.xml. 1 standard subtask: Create Closing Package. Closing / Doc Prep stage. Assigned to Loan Processor.",
       "xmlFile": "tasks/4_closing/doc_prep/create_closing_package_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-16T16:17:46.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_059",
+      "taskName": "Approve Wire",
+      "details": "Parsed from taskbundle.xml import. Created approve_wire_v1.xml. No subtasks. Funding / Funding stage. Duration 20 minutes. Type: Funding_Wire_Approval (rank 14).",
+      "xmlFile": "tasks/5_funding/funding/approve_wire_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-16T16:17:46.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_027",
+      "taskName": "Approve Funding",
+      "details": "Parsed from taskbundle.xml import. Created approve_funding_v1.xml. No subtasks. Funding / Funding stage. Duration 2 hours. Type: Funding_Funding_Approval (rank 15). Originally created by calves 2026-02-27.",
+      "xmlFile": "tasks/5_funding/funding/approve_funding_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-16T16:17:46.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_028",
+      "taskName": "Fund Loan",
+      "details": "Parsed from taskbundle.xml import. Created fund_loan_v1.xml. No subtasks. Funding / Funding stage. Duration 90 minutes. Type: Funding_FundLoan (rank 16). Conditional description: when [VEND.X398] is populated, description changes to 'Funds will be sent via Wire'.",
+      "xmlFile": "tasks/5_funding/funding/fund_loan_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-16T18:30:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_026",
+      "taskName": "Confirm Funding",
+      "details": "Replaced Confirm Funding Figures (planned, no XML) with Confirm Funding. Created confirm_funding_v1.xml with 2 standard subtasks: Add Funding Worksheet to eFolder (auto-completes when funding worksheet is received), Confirm Funding Amount (auto-completes when Confirm Funding button is pushed in system). Funding / Funding stage.",
+      "xmlFile": "tasks/5_funding/funding/confirm_funding_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-16T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_061",
+      "taskName": "Closing Setup",
+      "details": "Created closing_setup_v1.xml with 4 standard subtasks: Adjust Names (match title report, enter AKAs), Build Vesting, Reconcile Fees (enter appraisal fee and mark paid outside closing if received prior; remove if no appraisal used; appraisal fee is the only fee listed), Enter Plan Code. Closing / Closing Setup stage.",
+      "xmlFile": "tasks/4_closing/closing_setup/closing_setup_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-16T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_062",
+      "taskName": "Prepare Payoff Letters",
+      "details": "Created prepare_payoff_letters_v1.xml with 3 standard subtasks: Reconcile Payoff Letters (reconcile to VOL entries, adjust account numbers and mailing address, enter Certified Mail Tracking in Other Comments field, use Payoff Letters Button to obtain and print), Save Payoff Letters to eFolder, Prepare Envelopes (address and certified mail stickers). Closing / Closing Setup stage.",
+      "xmlFile": "tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml"
+    },
+    {
+      "timestamp": "2026-06-16T16:12:11.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_060",
+      "taskName": "Notice of Incomplete Expiration",
+      "details": "Parsed from taskbundle.xml import. Created notice_of_incomplete_expiration_v1.xml. 1 standard subtask: NOI Expired (autoCreate=true) – Mark Done to proceed with closing out file. Processing / Misc stage. Assigned to Loan Processor. Duration 24 hours. Type: Processing_Misc_NOIExpiration (rank 28).",
+      "xmlFile": "tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml"
     }
   ]
 }
