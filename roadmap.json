@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-06-17T20:45:00.000Z",
+    "lastUpdated": "2026-07-01T14:14:02.000Z",
     "version": "1.0.0",
-    "totalTasks": 56,
-    "completedTasks": 43,
+    "totalTasks": 57,
+    "completedTasks": 45,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -1750,21 +1750,52 @@
           "estimatedHrsRemaining": 1
         },
         {
-          "id": "task_023",
-          "name": "Send Initial CD",
+          "id": "task_064",
+          "name": "Request Closing Disclosure",
           "order": 2,
           "subcategory": "pre_closing",
-          "status": "planned",
+          "status": "completed",
+          "priority": 9,
+          "description": "Request Closing Disclosure be sent to borrower",
+          "notes": "Single subtask: mark Done to request the CD be sent out.",
+          "applicationLogic": "Applied at least 3 business days before closing. Triggers when final loan terms are confirmed and clear to close is issued.",
+          "subtasks": [
+            {
+              "name": "Request CD",
+              "order": 1,
+              "description": "Request CD – Mark Done to request the Closing Disclosure be sent out to the borrower.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-01T14:14:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_023",
+          "name": "Send Initial Closing Disclosure",
+          "order": 3,
+          "subcategory": "pre_closing",
+          "status": "completed",
           "priority": 9,
           "description": "Send initial Closing Disclosure to borrower",
-          "notes": "Subtasks needed: generate initial CD, review CD accuracy, send to borrower, obtain borrower acknowledgment, start 3-day waiting period",
+          "notes": "Single subtask: auto-completes when the initial CD is sent to the borrower.",
           "applicationLogic": "Applied at least 3 business days before closing. Triggers when final loan terms are confirmed and clear to close is issued.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": "Planned",
-          "estimatedHrsRemaining": null
+          "subtasks": [
+            {
+              "name": "Send Initial CD",
+              "order": 1,
+              "description": "Send Initial CD – This subtask auto-completes when the initial Closing Disclosure is sent to the borrower; do not complete manually.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-01T14:14:02.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_024",
@@ -3038,6 +3069,24 @@
       "taskName": "Pull Deed",
       "details": "Added 1 conditional subtask to pull_deed_v1.xml: Add Non-Borrowing Owner (autoCreate=false) – if an owner on the deed is not a borrower on the loan, add them to the file contacts as a non-borrowing owner. Added when an owner on the deed is not a borrower on the loan.",
       "xmlFile": "tasks/2_processing/pull_deed/pull_deed_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-01T14:14:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_064",
+      "taskName": "Request Closing Disclosure",
+      "details": "Created request_closing_disclosure_v1.xml with 1 standard subtask: Request CD – mark Done to request the Closing Disclosure be sent out to the borrower. Closing / Pre-Closing stage, grouped with Scheduling / Send Initial Closing Disclosure (Closing task group). Assigned to Loan Processor.",
+      "xmlFile": "tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-01T14:14:02.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_023",
+      "taskName": "Send Initial Closing Disclosure",
+      "details": "Created send_initial_closing_disclosure_v1.xml with 1 standard subtask: Send Initial CD – auto-completes when the initial Closing Disclosure is sent to the borrower; do not complete manually. Closing / Pre-Closing stage, grouped with Scheduling / Request Closing Disclosure (Closing task group). Assigned to Loan Processor. Renamed from planned entry \"Send Initial CD\".",
+      "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml"
     }
   ]
 }
