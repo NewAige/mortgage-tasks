@@ -5,6 +5,7 @@ This repository contains task templates for the mortgage process, organized by s
 ## Structure
 - `docs/` – conventions and import guides
 - `tasks/` – active XML task templates, organized by category
+- `rules/` – workflow rule definitions (phase 2) used to auto-assign tasks
 - `archive/` – retired/old versions
 - `roadmap.json` – task planning and tracking data
 - `roadmap.html` – visual dashboard for roadmap
@@ -51,3 +52,4 @@ Tasks can be reopened when new conditional or later subtasks are assigned. See [
 2. Update the task name, type, UUIDs, and timestamps.
 3. Namespace subtask `type` with the parent name to avoid cross-parent conflicts.
 4. Keep formatting inline (no pretty-print).
+5. Plan for a corresponding workflow rule in `rules/` (added during phase 2) to automate assignment.
