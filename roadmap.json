@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-01T14:14:02.000Z",
+    "lastUpdated": "2026-07-17T16:09:10.000Z",
     "version": "1.0.0",
-    "totalTasks": 57,
-    "completedTasks": 45,
+    "totalTasks": 58,
+    "completedTasks": 46,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -1696,6 +1696,30 @@
           "createdAt": "2026-06-11T20:02:45.000Z",
           "ruleStatus": "Partial",
           "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_065",
+          "name": "Extend Expired Approval",
+          "order": 3,
+          "subcategory": "uw_misc",
+          "status": "completed",
+          "priority": 6,
+          "description": "Extend an expired underwriting approval to keep the loan active",
+          "notes": "Assigned to Loan Processor. Duration 1 day. Grouped under the Underwriting task group. Single standard subtask (autoCreate=true).",
+          "applicationLogic": "Applied when an existing underwriting approval has expired and must be extended so the loan can continue toward closing.",
+          "subtasks": [
+            {
+              "name": "Extend Expired Approval",
+              "order": 1,
+              "description": "Extend Expired Approval – Mark Done to extend the expired underwriting approval and keep the loan active.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/uw_misc/extend_expired_approval_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-17T16:09:10.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         }
       ]
     },
@@ -3087,6 +3111,15 @@
       "taskName": "Send Initial Closing Disclosure",
       "details": "Created send_initial_closing_disclosure_v1.xml with 1 standard subtask: Send Initial CD – auto-completes when the initial Closing Disclosure is sent to the borrower; do not complete manually. Closing / Pre-Closing stage, grouped with Scheduling / Request Closing Disclosure (Closing task group). Assigned to Loan Processor. Renamed from planned entry \"Send Initial CD\".",
       "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-17T16:09:10.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_065",
+      "taskName": "Extend Expired Approval",
+      "details": "Created extend_expired_approval_v1.xml with 1 standard subtask: Extend Expired Approval (autoCreate=true) – Mark Done to extend the expired underwriting approval and keep the loan active. Underwriting / Misc stage, grouped under the Underwriting task group. Assigned to Loan Processor. Duration 1 day. Type: Underwriting_Misc_ExtendExpiredApproval.",
+      "xmlFile": "tasks/3_underwriting/uw_misc/extend_expired_approval_v1.xml"
     }
   ]
 }
