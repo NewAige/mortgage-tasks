@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-22T18:30:00.000Z",
+    "lastUpdated": "2026-07-22T19:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 66,
-    "completedTasks": 58,
+    "completedTasks": 59,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -1279,7 +1279,7 @@
           "status": "completed",
           "priority": 10,
           "description": "Underwriter reviews submitted loan file and renders approval, denial, or counteroffer decision",
-          "notes": "Task is triggered automatically when file is submitted to underwriting. Assigned to underwriter role. Approve subtask is auto-completed when underwriter approves in system. Deny/CounterOffer subtasks trigger their respective task flows (task_033 Deny Loan, task_034 CounterOffer). Return to Processor sends file back if not ready for a decision.",
+          "notes": "Task is triggered automatically when file is submitted to underwriting. Assigned to underwriter role. Approve subtask is auto-completed when underwriter approves in system. Deny/CounterOffer subtasks trigger their respective task flows (task_037 Send Denial, task_034 CounterOffer). Return to Processor sends file back if not ready for a decision.",
           "applicationLogic": "Triggered automatically at submittal milestone. Assigned to underwriter for review.",
           "subtasks": [
             {
@@ -1431,6 +1431,31 @@
           "xmlFile": "tasks/3_underwriting/resubmittal/send_appraisal_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-04-16T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_070",
+          "name": "Send AVM",
+          "order": 3,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 8,
+          "description": "Send AVM report to borrower",
+          "notes": "Modeled on Send Appraisal (task_057) as a standalone task for the AVM. Clicking Done sends the AVM and acknowledgement to the borrower.",
+          "applicationLogic": "Applied when the AVM is received in the eFolder after initial disclosures have been sent.",
+          "subtasks": [
+            {
+              "name": "Send AVM",
+              "order": 1,
+              "description": "Send AVM to customer; ensure all documents are saved in the appraisal folder. Clicking Done will send the AVM and acknowledgement to the borrower.",
+              "type": "standard",
+              "applicationLogic": "Always included when task is created"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/resubmittal/send_avm_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T00:00:00.000Z",
           "ruleStatus": "Complete",
           "estimatedHrsRemaining": 0
         },
@@ -1639,23 +1664,6 @@
           "createdBy": "agent_claude",
           "createdAt": "2026-04-16T00:00:00.000Z",
           "ruleStatus": "Partial",
-          "estimatedHrsRemaining": 4
-        },
-        {
-          "id": "task_033",
-          "name": "Deny Loan",
-          "order": 1,
-          "subcategory": "uw_misc",
-          "status": "planned",
-          "priority": 8,
-          "description": "Process loan denial and send adverse action notice",
-          "notes": "Subtasks needed: prepare denial letter, document denial reasons, send adverse action notice, provide FCRA disclosures, close loan file",
-          "applicationLogic": "Applied when loan is denied by underwriter. Triggers when underwriting determines loan does not meet approval criteria.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": "Planned",
           "estimatedHrsRemaining": 4
         },
         {
@@ -2758,6 +2766,24 @@
     }
   ],
   "activityLog": [
+    {
+      "timestamp": "2026-07-22T19:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_070",
+      "taskName": "Send AVM",
+      "details": "Created send_avm_v1.xml with 1 standard subtask: Send AVM – send AVM and acknowledgement to the borrower; ensure all documents are saved in the appraisal folder. Modeled on Send Appraisal (task_057). Applied when the AVM is received in the eFolder after initial disclosures have been sent.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/send_avm_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T19:00:00.000Z",
+      "author": "agent_claude",
+      "action": "deleted",
+      "taskId": "task_033",
+      "taskName": "Deny Loan",
+      "details": "Deleted the planned Deny Loan task from Underwriting / Misc (uw_misc); it had no XML file. Denial is handled by Send Denial (task_037). Updated the Underwrite (task_017) note to reference task_037 in place of task_033.",
+      "xmlFile": null
+    },
     {
       "timestamp": "2026-07-22T18:30:00.000Z",
       "author": "agent_claude",
