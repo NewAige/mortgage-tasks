@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-22T18:00:00.000Z",
+    "lastUpdated": "2026-07-22T18:15:00.000Z",
     "version": "1.0.0",
-    "totalTasks": 61,
-    "completedTasks": 52,
+    "totalTasks": 65,
+    "completedTasks": 57,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -2027,17 +2027,25 @@
           "name": "Board Loan",
           "order": 1,
           "subcategory": "boarding",
-          "status": "planned",
+          "status": "completed",
           "priority": 8,
           "description": "Board loan into servicing system",
-          "notes": "Subtasks needed: prepare boarding package, submit to servicing, verify loan setup, confirm payment schedule, verify escrow setup",
+          "notes": "Single subtask that auto-completes once the loan is boarded via eLink. First task in the Boarding task group.",
           "applicationLogic": "Applied after loan is funded. Triggers when funding is complete and loan needs to be set up for servicing.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": "Planned",
-          "estimatedHrsRemaining": 8
+          "subtasks": [
+            {
+              "name": "Board Loan via eLink",
+              "order": 1,
+              "description": "Board Loan via eLink – This subtask auto-completes once the loan is boarded via eLink.",
+              "type": "standard",
+              "applicationLogic": "Auto-completes once the loan is boarded via eLink"
+            }
+          ],
+          "xmlFile": "tasks/5_funding/boarding/board_loan_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T18:15:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_030",
@@ -2383,55 +2391,29 @@
           "estimatedHrsRemaining": 0
         },
         {
-          "id": "task_041",
-          "name": "Image Documents",
-          "order": 7,
-          "subcategory": "document_processing",
-          "status": "planned",
-          "priority": 7,
-          "description": "Image and upload paper documents to Encompass",
-          "notes": "Subtasks needed: scan paper documents, review image quality, upload to Encompass eFolder, verify document indexing, dispose of paper per retention policy",
-          "applicationLogic": "Applied after closing when paper documents are received. Triggers when physical closing packages are returned and need to be digitized.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": null,
-          "estimatedHrsRemaining": 8
-        },
-        {
-          "id": "task_042",
-          "name": "eFolder Cleanup",
-          "order": 8,
-          "subcategory": "document_processing",
-          "status": "planned",
-          "priority": 6,
-          "description": "Clean up and organize eFolder in Encompass",
-          "notes": "Subtasks needed: remove duplicate documents, verify all documents properly indexed, organize folder structure, remove temporary/draft documents, final quality review",
-          "applicationLogic": "Applied after all post-closing documents are received and imaged. Triggers when loan file is ready for final organization before archival.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": null,
-          "estimatedHrsRemaining": 8
-        },
-        {
           "id": "task_043",
           "name": "Transfer to Cold Storage",
           "order": 9,
           "subcategory": "document_processing",
-          "status": "planned",
+          "status": "completed",
           "priority": 5,
           "description": "Transfer completed loan file to cold storage/archive",
-          "notes": "Subtasks needed: verify file completeness, export final loan package, transfer to archive system, verify successful transfer, update loan status to archived",
-          "applicationLogic": "Applied after eFolder cleanup is complete. Triggers when loan file is finalized and ready for long-term storage per retention requirements.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": null,
-          "estimatedHrsRemaining": 3
+          "notes": "Single subtask. Marking Done queues the file to be transferred to cold storage overnight.",
+          "applicationLogic": "Applied after post-closing document processing is complete. Triggers when loan file is finalized and ready for long-term storage per retention requirements.",
+          "subtasks": [
+            {
+              "name": "Transfer to Cold Storage",
+              "order": 1,
+              "description": "Transfer to Cold Storage – Marking Done will queue this file to be transferred to cold storage overnight.",
+              "type": "standard",
+              "applicationLogic": "Marking Done queues the file for overnight transfer to cold storage"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/transfer_to_cold_storage_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T18:15:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_044",
@@ -3365,6 +3347,32 @@
       "taskId": "task_024, task_030, task_031, task_032, task_044",
       "taskName": "Balance CD, Run UCD, Activate MERS, Activate MI, Transfer to SaaS",
       "details": "Marked 5 tasks as out of scope for the current project (added \"outOfScope\": true flag and prepended an OUT OF SCOPE note to each). Tasks retained in the roadmap; status left unchanged."
+    },
+    {
+      "timestamp": "2026-07-22T18:15:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_043",
+      "taskName": "Transfer to Cold Storage",
+      "details": "Created transfer_to_cold_storage_v1.xml with 1 standard subtask: Transfer to Cold Storage – marking Done will queue the file to be transferred to cold storage overnight. Post-Closing QC / Document Processing (Document Processing task group).",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/transfer_to_cold_storage_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T18:15:00.000Z",
+      "author": "agent_claude",
+      "action": "removed",
+      "taskId": "task_041, task_042",
+      "taskName": "Image Documents, eFolder Cleanup",
+      "details": "Removed the Image Documents and eFolder Cleanup tasks from the roadmap (Post-Closing QC / Document Processing) — no longer needed per request."
+    },
+    {
+      "timestamp": "2026-07-22T18:15:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_029",
+      "taskName": "Board Loan",
+      "details": "Created board_loan_v1.xml with 1 standard subtask: Board Loan via eLink – auto-completes once the loan is boarded via eLink. Task-level autocomplete enabled. Established the Boarding task group (Funding / Boarding).",
+      "xmlFile": "tasks/5_funding/boarding/board_loan_v1.xml"
     }
   ]
 }
