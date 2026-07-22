@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-01T14:14:02.000Z",
+    "lastUpdated": "2026-07-22T17:31:39.000Z",
     "version": "1.0.0",
-    "totalTasks": 57,
-    "completedTasks": 45,
+    "totalTasks": 61,
+    "completedTasks": 52,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -2218,9 +2218,9 @@
         {
           "id": "task_038",
           "name": "Deliver Note",
-          "order": 1,
+          "order": 3,
           "subcategory": "document_processing",
-          "status": "planned",
+          "status": "completed",
           "priority": 8,
           "description": "Deliver promissory note to appropriate party",
           "notes": "Deliver note based on loan disposition - secondary market or portfolio",
@@ -2229,47 +2229,115 @@
             {
               "name": "Deliver to Secondary",
               "order": 1,
-              "description": "Deliver note to secondary market investor",
+              "description": "Deliver to Secondary – Deliver the note to the secondary market investor per delivery instructions.",
               "type": "conditional",
               "applicationLogic": "Added when loan is sold to secondary market"
             },
             {
-              "name": "Deliver to Operations",
+              "name": "Add Loan Number to First Page",
               "order": 2,
-              "description": "Deliver note to operations for portfolio retention",
+              "description": "Add Loan Number to First Page – Add the loan number to the first page of the note before delivery to operations.",
               "type": "conditional",
-              "applicationLogic": "Added when loan is retained in portfolio"
+              "applicationLogic": "Added when note is sent to operations for portfolio retention"
+            },
+            {
+              "name": "Upload to Identifi",
+              "order": 3,
+              "description": "Upload to Identifi – Upload the note to Identifi.",
+              "type": "conditional",
+              "applicationLogic": "Added when note is sent to operations for portfolio retention"
+            },
+            {
+              "name": "Send to Operations",
+              "order": 4,
+              "description": "Send to Operations – Send the note to operations for portfolio retention.",
+              "type": "conditional",
+              "applicationLogic": "Added when note is sent to operations for portfolio retention"
             }
           ],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": null,
-          "estimatedHrsRemaining": 3
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/deliver_note_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T17:31:39.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_039",
           "name": "Record Mortgage",
-          "order": 2,
+          "order": 4,
           "subcategory": "document_processing",
-          "status": "planned",
+          "status": "completed",
           "priority": 9,
           "description": "Record mortgage at registry of deeds",
           "notes": "Required for equity loans and MassHousing second mortgages",
           "applicationLogic": "Applied conditionally after closing. Triggers when loan type is home equity or MassHousing second mortgage requiring recording.",
-          "subtasks": [],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": null,
-          "estimatedHrsRemaining": 6
+          "subtasks": [
+            {
+              "name": "HELOC Rider",
+              "order": 1,
+              "description": "HELOC Rider – Attach the HELOC Rider to the mortgage.",
+              "type": "conditional",
+              "applicationLogic": "Added when loan type is HELOC"
+            },
+            {
+              "name": "Condo Rider",
+              "order": 2,
+              "description": "Condo Rider – Attach the Condominium Rider to the mortgage.",
+              "type": "conditional",
+              "applicationLogic": "Added when the property is a condominium"
+            },
+            {
+              "name": "1-to-4 Family Rider",
+              "order": 3,
+              "description": "1-to-4 Family Rider – Attach the 1-to-4 Family Rider to the mortgage.",
+              "type": "conditional",
+              "applicationLogic": "Added when property type is Multi-Family (1-to-4 units)"
+            },
+            {
+              "name": "PUD Rider",
+              "order": 4,
+              "description": "PUD Rider – Attach the Planned Unit Development (PUD) Rider to the mortgage.",
+              "type": "conditional",
+              "applicationLogic": "Added when the property is in a Planned Unit Development (PUD)"
+            },
+            {
+              "name": "Second Home Rider",
+              "order": 5,
+              "description": "Second Home Rider – Attach the Second Home Rider to the mortgage.",
+              "type": "conditional",
+              "applicationLogic": "Added when occupancy is a second home"
+            },
+            {
+              "name": "Save Exhibit A",
+              "order": 6,
+              "description": "Save Exhibit A – Save Exhibit A (legal description) with the mortgage package.",
+              "type": "standard"
+            },
+            {
+              "name": "Scan & Email Package",
+              "order": 7,
+              "description": "Scan & Email Package – Scan the package with the mortgage riders and Exhibit A, then email it to Old Republic.",
+              "type": "standard"
+            },
+            {
+              "name": "FedEx Package",
+              "order": 8,
+              "description": "FedEx Package – Send the physical package to Old Republic for recording via FedEx.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/record_mortgage_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T17:31:39.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_040",
           "name": "Deliver Mortgage",
-          "order": 3,
+          "order": 6,
           "subcategory": "document_processing",
-          "status": "planned",
+          "status": "completed",
           "priority": 8,
           "description": "Deliver recorded mortgage to appropriate party",
           "notes": "Deliver mortgage based on loan disposition - secondary market or portfolio",
@@ -2278,28 +2346,42 @@
             {
               "name": "Deliver to Secondary",
               "order": 1,
-              "description": "Deliver mortgage to secondary market investor",
+              "description": "Deliver to Secondary – Deliver the recorded mortgage to the secondary market investor per delivery instructions.",
               "type": "conditional",
               "applicationLogic": "Added when loan is sold to secondary market"
             },
             {
-              "name": "Deliver to Operations",
+              "name": "Add Loan Number to First Page",
               "order": 2,
-              "description": "Deliver mortgage to operations for portfolio retention",
+              "description": "Add Loan Number to First Page – Add the loan number to the first page of the mortgage before delivery to operations.",
               "type": "conditional",
-              "applicationLogic": "Added when loan is retained in portfolio"
+              "applicationLogic": "Added when mortgage is sent to operations for portfolio retention"
+            },
+            {
+              "name": "Upload to Identifi",
+              "order": 3,
+              "description": "Upload to Identifi – Upload the mortgage to Identifi.",
+              "type": "conditional",
+              "applicationLogic": "Added when mortgage is sent to operations for portfolio retention"
+            },
+            {
+              "name": "Send to Operations",
+              "order": 4,
+              "description": "Send to Operations – Send the mortgage to operations for portfolio retention.",
+              "type": "conditional",
+              "applicationLogic": "Added when mortgage is sent to operations for portfolio retention"
             }
           ],
-          "xmlFile": null,
-          "createdBy": null,
-          "createdAt": null,
-          "ruleStatus": null,
-          "estimatedHrsRemaining": 3
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/deliver_mortgage_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T17:31:39.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         },
         {
           "id": "task_041",
           "name": "Image Documents",
-          "order": 4,
+          "order": 7,
           "subcategory": "document_processing",
           "status": "planned",
           "priority": 7,
@@ -2316,7 +2398,7 @@
         {
           "id": "task_042",
           "name": "eFolder Cleanup",
-          "order": 5,
+          "order": 8,
           "subcategory": "document_processing",
           "status": "planned",
           "priority": 6,
@@ -2333,7 +2415,7 @@
         {
           "id": "task_043",
           "name": "Transfer to Cold Storage",
-          "order": 6,
+          "order": 9,
           "subcategory": "document_processing",
           "status": "planned",
           "priority": 5,
@@ -2524,6 +2606,126 @@
           "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml",
           "createdBy": "system",
           "createdAt": "2026-03-05T00:00:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_065",
+          "name": "Document Receipt",
+          "order": 1,
+          "subcategory": "document_processing",
+          "status": "completed",
+          "priority": 8,
+          "description": "Receive and confirm executed closing documents from settlement",
+          "notes": "Both subtasks auto-complete when the applicable documents are received; task auto-completes.",
+          "applicationLogic": "Applied after closing when executed documents are returned from settlement.",
+          "subtasks": [
+            {
+              "name": "E-Sign Documents",
+              "order": 1,
+              "description": "E-Sign Documents – E-signed closing documents received; this subtask auto-completes when the applicable e-signed documents are received.",
+              "type": "standard"
+            },
+            {
+              "name": "Wet Sign Documents",
+              "order": 2,
+              "description": "Wet Sign Documents – Wet-signed closing documents received; this subtask auto-completes when the applicable wet-signed documents are received.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/document_receipt_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T17:31:39.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_066",
+          "name": "Physical Package Receipt",
+          "order": 2,
+          "subcategory": "document_processing",
+          "status": "completed",
+          "priority": 7,
+          "description": "Confirm receipt of the physical closing package from the settlement agent",
+          "notes": "Single subtask confirming the physical package has arrived from the settlement agent.",
+          "applicationLogic": "Applied after closing when the physical closing package is expected from the settlement agent.",
+          "subtasks": [
+            {
+              "name": "Receipt of Physical Package",
+              "order": 1,
+              "description": "Receipt of Physical Package – Confirm receipt of the physical closing package from the settlement agent.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/physical_package_receipt_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T17:31:39.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_067",
+          "name": "Recording Confirmation",
+          "order": 5,
+          "subcategory": "document_processing",
+          "status": "completed",
+          "priority": 8,
+          "description": "Confirm the mortgage recording is complete and save the confirmation to the e-folder",
+          "notes": "Task auto-completes upon saving the recording confirmation to the e-folder.",
+          "applicationLogic": "Applied after the mortgage is submitted for recording; confirms recording is completed.",
+          "subtasks": [
+            {
+              "name": "Confirm Recording Completed",
+              "order": 1,
+              "description": "Confirm Recording Completed – Confirm recording is completed and save the recording confirmation into the e-folder; this subtask auto-completes upon saving the recording confirmation to the e-folder.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/recording_confirmation_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T17:31:39.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_068",
+          "name": "Closing Document Quality Assurance",
+          "order": 2,
+          "subcategory": "quality_assurance",
+          "status": "completed",
+          "priority": 8,
+          "description": "Quality assurance review of executed closing documents",
+          "notes": "Reviews notary sections, signatures, witnessed addendums, and CIP completeness on executed closing documents.",
+          "applicationLogic": "Applied after closing documents are received to verify execution quality before final filing.",
+          "subtasks": [
+            {
+              "name": "Check Notary Sections",
+              "order": 1,
+              "description": "Check Notary Sections – Check the notary sections on all wet sign documents.",
+              "type": "standard"
+            },
+            {
+              "name": "Verify Signatures",
+              "order": 2,
+              "description": "Verify Signatures – Verify documents are signed properly.",
+              "type": "standard"
+            },
+            {
+              "name": "Confirm Addendums Witnessed",
+              "order": 3,
+              "description": "Confirm Addendums Witnessed – Confirm addendums are witnessed.",
+              "type": "standard"
+            },
+            {
+              "name": "Ensure CIP Complete",
+              "order": 4,
+              "description": "Ensure CIP Complete – Ensure the Customer Identification Program (CIP) is complete.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/quality_assurance/closing_document_quality_assurance_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T17:31:39.000Z",
           "ruleStatus": "Complete",
           "estimatedHrsRemaining": 0
         }
@@ -3087,6 +3289,69 @@
       "taskName": "Send Initial Closing Disclosure",
       "details": "Created send_initial_closing_disclosure_v1.xml with 1 standard subtask: Send Initial CD – auto-completes when the initial Closing Disclosure is sent to the borrower; do not complete manually. Closing / Pre-Closing stage, grouped with Scheduling / Request Closing Disclosure (Closing task group). Assigned to Loan Processor. Renamed from planned entry \"Send Initial CD\".",
       "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_065",
+      "taskName": "Document Receipt",
+      "details": "Created document_receipt_v1.xml with 2 standard subtasks: E-Sign Documents, Wet Sign Documents. Both auto-complete when applicable documents are received; task-level autocomplete enabled. Post-Closing QC / Document Processing (Document Processing task group).",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/document_receipt_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_066",
+      "taskName": "Physical Package Receipt",
+      "details": "Created physical_package_receipt_v1.xml with 1 standard subtask: Receipt of Physical Package – confirm receipt of the physical closing package from the settlement agent. Post-Closing QC / Document Processing (Document Processing task group).",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/physical_package_receipt_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_038",
+      "taskName": "Deliver Note",
+      "details": "Created deliver_note_v1.xml and fleshed out task scope with 4 conditional subtasks: Deliver to Secondary (secondary market), and the operations workflow Add Loan Number to First Page, Upload to Identifi, Send to Operations. Post-Closing QC / Document Processing (Document Processing task group).",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/deliver_note_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_039",
+      "taskName": "Record Mortgage",
+      "details": "Created record_mortgage_v1.xml with 5 conditional riders (HELOC, Condo, 1-to-4 Family, PUD, Second Home) plus 3 standard subtasks: Save Exhibit A, Scan & Email Package (email to Old Republic), FedEx Package (physical package to Old Republic for recording). Post-Closing QC / Document Processing (Document Processing task group).",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/record_mortgage_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_067",
+      "taskName": "Recording Confirmation",
+      "details": "Created recording_confirmation_v1.xml with 1 standard subtask: Confirm Recording Completed – confirm recording is completed and save the recording confirmation into the e-folder; auto-completes on save. Task-level autocomplete enabled. Post-Closing QC / Document Processing (Document Processing task group).",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/recording_confirmation_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_040",
+      "taskName": "Deliver Mortgage",
+      "details": "Created deliver_mortgage_v1.xml with 4 conditional subtasks: Deliver to Secondary (secondary market), and the operations workflow Add Loan Number to First Page, Upload to Identifi, Send to Operations. Post-Closing QC / Document Processing (Document Processing task group).",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/deliver_mortgage_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_068",
+      "taskName": "Closing Document Quality Assurance",
+      "details": "Created closing_document_quality_assurance_v1.xml with 4 standard subtasks: Check Notary Sections, Verify Signatures, Confirm Addendums Witnessed, Ensure CIP Complete. Post-Closing QC / Quality Assurance (Quality Assurance task group).",
+      "xmlFile": "tasks/7_post-closing-qc/quality_assurance/closing_document_quality_assurance_v1.xml"
     }
   ]
 }
