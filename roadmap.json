@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-22T17:31:39.000Z",
+    "lastUpdated": "2026-07-22T18:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 61,
     "completedTasks": 52,
@@ -1805,7 +1805,8 @@
           "status": "planned",
           "priority": 9,
           "description": "Balance Closing Disclosure with final figures",
-          "notes": "Subtasks needed: verify all fees, reconcile with LE, confirm payoff amounts, verify closing funds, finalize CD",
+          "notes": "OUT OF SCOPE for current project — retained for future reference. Subtasks needed: verify all fees, reconcile with LE, confirm payoff amounts, verify closing funds, finalize CD",
+          "outOfScope": true,
           "applicationLogic": "Applied 1-2 days before closing. Triggers when final payoff statements and closing figures are received.",
           "subtasks": [],
           "xmlFile": null,
@@ -2046,7 +2047,8 @@
           "status": "planned",
           "priority": 7,
           "description": "Run Uniform Closing Dataset (UCD) validation",
-          "notes": "Subtasks needed: generate UCD file, validate UCD data, submit to investor, address validation errors, confirm acceptance",
+          "notes": "OUT OF SCOPE for current project — retained for future reference. Subtasks needed: generate UCD file, validate UCD data, submit to investor, address validation errors, confirm acceptance",
+          "outOfScope": true,
           "applicationLogic": "Applied after loan is boarded. Triggers when loan is set up in servicing and ready for UCD submission.",
           "subtasks": [],
           "xmlFile": null,
@@ -2063,7 +2065,8 @@
           "status": "planned",
           "priority": 7,
           "description": "Activate loan in MERS (Mortgage Electronic Registration Systems)",
-          "notes": "Subtasks needed: register loan in MERS, verify MERS MIN, update servicer information, confirm registration, generate MERS confirmation",
+          "notes": "OUT OF SCOPE for current project — retained for future reference. Subtasks needed: register loan in MERS, verify MERS MIN, update servicer information, confirm registration, generate MERS confirmation",
+          "outOfScope": true,
           "applicationLogic": "Applied after loan is boarded. Triggers when loan setup is complete and MERS registration is required.",
           "subtasks": [],
           "xmlFile": null,
@@ -2080,7 +2083,8 @@
           "status": "planned",
           "priority": 6,
           "description": "Activate mortgage insurance policy",
-          "notes": "Subtasks needed: submit loan to MI company, verify MI certificate, activate policy, confirm coverage, set up MI billing",
+          "notes": "OUT OF SCOPE for current project — retained for future reference. Subtasks needed: submit loan to MI company, verify MI certificate, activate policy, confirm coverage, set up MI billing",
+          "outOfScope": true,
           "applicationLogic": "Applied conditionally after loan is boarded. Triggers when loan has mortgage insurance and policy needs activation.",
           "subtasks": [],
           "xmlFile": null,
@@ -2437,7 +2441,8 @@
           "status": "planned",
           "priority": 7,
           "description": "Transfer loan data to HMDA reporting SaaS platform",
-          "notes": "Subtasks needed: verify HMDA data accuracy, export loan data, upload to HMDA SaaS system, validate data transfer, confirm successful import",
+          "notes": "OUT OF SCOPE for current project — retained for future reference. Subtasks needed: verify HMDA data accuracy, export loan data, upload to HMDA SaaS system, validate data transfer, confirm successful import",
+          "outOfScope": true,
           "applicationLogic": "Applied after loan closing for HMDA reportable loans. Triggers when loan needs to be reported for Home Mortgage Disclosure Act compliance.",
           "subtasks": [],
           "xmlFile": null,
@@ -3352,6 +3357,14 @@
       "taskName": "Closing Document Quality Assurance",
       "details": "Created closing_document_quality_assurance_v1.xml with 4 standard subtasks: Check Notary Sections, Verify Signatures, Confirm Addendums Witnessed, Ensure CIP Complete. Post-Closing QC / Quality Assurance (Quality Assurance task group).",
       "xmlFile": "tasks/7_post-closing-qc/quality_assurance/closing_document_quality_assurance_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-22T17:31:39.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_024, task_030, task_031, task_032, task_044",
+      "taskName": "Balance CD, Run UCD, Activate MERS, Activate MI, Transfer to SaaS",
+      "details": "Marked 5 tasks as out of scope for the current project (added \"outOfScope\": true flag and prepended an OUT OF SCOPE note to each). Tasks retained in the roadmap; status left unchanged."
     }
   ]
 }
