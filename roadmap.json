@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-22T18:15:00.000Z",
+    "lastUpdated": "2026-07-22T18:30:00.000Z",
     "version": "1.0.0",
-    "totalTasks": 65,
-    "completedTasks": 57,
+    "totalTasks": 66,
+    "completedTasks": 58,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -2715,11 +2715,58 @@
           "createdAt": "2026-07-22T17:31:39.000Z",
           "ruleStatus": "Complete",
           "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_069",
+          "name": "Pre-Closing Document Quality Assurance",
+          "order": 3,
+          "subcategory": "quality_assurance",
+          "status": "completed",
+          "priority": 8,
+          "description": "Quality assurance review of pre-closing documents",
+          "notes": "Verifies commitment letters, the RI HLPA-3 form (when applicable), and counteroffers with the corresponding 1008 are saved to the file.",
+          "applicationLogic": "Applied before closing to verify required pre-closing documents are saved to the file.",
+          "subtasks": [
+            {
+              "name": "Commitment Letters",
+              "order": 1,
+              "description": "Commitment Letters – Ensure all commitment letters that were sent to the borrower are saved to the file.",
+              "type": "standard"
+            },
+            {
+              "name": "RI HLPA 3 Form",
+              "order": 2,
+              "description": "RI HLPA 3 Form – Ensure the Rhode Island HLPA-3 form is saved to the file when applicable to the loan.",
+              "type": "conditional",
+              "applicationLogic": "Added when the RI HLPA-3 form is applicable to the loan"
+            },
+            {
+              "name": "Counteroffer",
+              "order": 3,
+              "description": "Counteroffer – Ensure the counteroffer is saved along with the corresponding 1008.",
+              "type": "conditional",
+              "applicationLogic": "Added when a counteroffer is present in the file"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/quality_assurance/pre_closing_document_quality_assurance_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-22T18:30:00.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         }
       ]
     }
   ],
   "activityLog": [
+    {
+      "timestamp": "2026-07-22T18:30:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_069",
+      "taskName": "Pre-Closing Document Quality Assurance",
+      "details": "Created pre_closing_document_quality_assurance_v1.xml with 3 subtasks: Commitment Letters (standard), RI HLPA 3 Form (conditional – applicable to loan), Counteroffer (conditional – counteroffer present in file; ensures counteroffer and corresponding 1008 are saved). Added to the Quality Assurance task group under Post-Closing QC.",
+      "xmlFile": "tasks/7_post-closing-qc/quality_assurance/pre_closing_document_quality_assurance_v1.xml"
+    },
     {
       "timestamp": "2025-10-28T00:00:00Z",
       "author": "manual",
