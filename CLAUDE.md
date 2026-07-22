@@ -49,7 +49,7 @@ mortgage-tasks/
 2. Pick one task (highest priority first)
 3. Generate XML via create_task.py  OR  write it directly
 4. Write the file to the correct path (see Path Rules below)
-5. Update roadmap.json (status, xmlFile, createdBy, createdAt, metadata, agentLog)
+5. Update roadmap.json (status, xmlFile, createdBy, createdAt, metadata, activityLog)
 6. Commit with the standard message format
 ```
 
@@ -258,6 +258,15 @@ Use `--roadmap-priority` with `create_task.py` and it maps automatically.
 
 **`required` is always `true` for every subtask type.** It controls whether the user must complete the subtask before closing the task — set it to `true` so the subtask enforces completion. `autoCreate` is the real conditional field: `true` means the subtask is created automatically with the task; `false` means it is only added when the applicable condition is met.
 
+> ⚠️ **`create_task.py` does NOT apply this rule automatically.** In the
+> script, a subtask's `required` defaults to `true` only for `standard`
+> types and `false` for `conditional` / `later` / `informational`
+> (`create_task.py` line ~289). To honour the "always `true`" convention you
+> **must** pass `"required": true` explicitly on every non-standard subtask
+> object, e.g. `{"name":"Send Invoice","type":"conditional","required":true,...}`.
+> If you omit it, the generated XML will contain `required="false"` — the
+> exact mistake the table below warns against.
+
 For `conditional` and `later` subtasks: include them in the XML even though `autoCreate="false"`. This makes them available for the system to add when conditions are met.
 
 Override `category` directly on any subtask object with `"category": "Informational"` (or any valid string) to bypass the type-derived default.
@@ -294,10 +303,13 @@ Use `mkdir -p` (or let `create_task.py` handle it) before writing the file.
 
 ## roadmap.json Update Checklist
 
-After creating an XML file, update `roadmap.json` with **all** of these:
+After creating an XML file, update `roadmap.json` with **all** of these.
+Tasks are **not** a flat top-level array — each task lives under
+`stages[].tasks[]` (top-level keys are `metadata`, `stages`, `activityLog`).
+Find your task inside the correct stage before editing it.
 
 ```json
-// On the task object:
+// On the task object (under stages[].tasks[]):
 "status":    "completed",
 "xmlFile":   "tasks/2_processing/credit_review/review_credit_v1.xml",
 "createdBy": "agent_claude",
@@ -308,10 +320,10 @@ After creating an XML file, update `roadmap.json` with **all** of these:
 "lastUpdated":    "2025-10-30T12:00:00.000Z",
 "completedTasks": /* increment by 1 */
 
-// Append to agentLog array:
+// Append to activityLog array (top-level key; NOT "agentLog"):
 {
   "timestamp": "2025-10-30T12:00:00.000Z",
-  "agent":     "agent_claude",
+  "author":    "agent_claude",
   "action":    "created",
   "taskId":    "task_001",
   "taskName":  "Review Credit",
@@ -338,26 +350,42 @@ Stage the XML file and `roadmap.json` together. Do not stage unrelated files.
 
 ---
 
-## Current Task Status (as of last roadmap sync)
+## Current Task Status (snapshot — this section drifts; always re-check `roadmap.json`)
 
-39 of 44 tasks remain **planned**. 5 are completed:
-- `task_001` Review Credit — `tasks/2_processing/credit_review/review_credit_v1.xml`
-- `task_003` Order Appraisal — `tasks/2_processing/appraisal/order_appraisal_v1.xml`
-- `task_006` ARM Disclosure — `tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml`
-- `task_009` Credit Refresh — `tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml`
-- `task_010` Fraud X Report — `tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml`
+> This is a point-in-time snapshot and goes stale as work lands. `roadmap.json`
+> is the source of truth. For an exact current count, walk `stages[].tasks[]`:
+>
+> ```bash
+> python3 -c "import json;d=json.load(open('roadmap.json'));\
+> ts=[t for s in d['stages'] for t in s['tasks']];\
+> from collections import Counter;c=Counter(t['status'] for t in ts);\
+> print('total',len(ts),dict(c))"
+> ```
+>
+> Note: `metadata.totalTasks` / `metadata.completedTasks` are hand-maintained
+> counters and can lag the real per-task counts above — trust the walk.
 
-Highest-priority planned tasks (work these first):
-1. `task_002` Send Disclosures — priority 10, Processing / File Setup
-2. `task_017` Underwrite — priority 10, Underwriting / Submittal
-3. `task_027` Approve Funding Figures — priority 10, Funding
-4. `task_028` Fund Loan — priority 10, Funding
-5. `task_021` Clear to Close — priority 10, Underwriting / Resubmittal
-6. `task_011` Run AUS — priority 9, Processing / File Setup
-7. `task_014` Verify Income — priority 9, Processing / Pre-Underwriting
-8. `task_023` Send Initial CD — priority 9, Closing
-9. `task_024` Balance CD — priority 9, Closing
-10. `task_039` Record Mortgage — priority 9, Post-Closing QC
+As of the last sync: **63 tasks total — 48 completed, 15 planned.**
+
+The 15 remaining **planned** tasks (highest priority first — work these first):
+
+| Priority | Task | Stage / Subcategory |
+|---|---|---|
+| 10 | `task_021` Clear to Close | Underwriting / Resubmittal |
+| 9 | `task_024` Balance CD | Closing / Doc Prep |
+| 9 | `task_039` Record Mortgage | Post-Closing QC / Document Processing |
+| 8 | `task_033` Deny Loan | Underwriting / UW Misc |
+| 8 | `task_029` Board Loan | Funding / Boarding |
+| 8 | `task_038` Deliver Note | Post-Closing QC / Document Processing |
+| 8 | `task_040` Deliver Mortgage | Post-Closing QC / Document Processing |
+| 7 | `task_020` Review Flood Insurance | Underwriting / Resubmittal |
+| 7 | `task_030` Run UCD | Funding / Boarding |
+| 7 | `task_031` Activate MERS | Funding / Boarding |
+| 7 | `task_041` Image Documents | Post-Closing QC / Document Processing |
+| 7 | `task_044` Transfer to SaaS | Post-Closing QC / HMDA |
+| 6 | `task_032` Activate MI | Funding / Boarding |
+| 6 | `task_042` eFolder Cleanup | Post-Closing QC / Document Processing |
+| 5 | `task_043` Transfer to Cold Storage | Post-Closing QC / Document Processing |
 
 ---
 
@@ -369,8 +397,8 @@ Highest-priority planned tasks (work these first):
 - [ ] No `taskTemplateId` attribute inside any `<subTaskTemplate>`
 - [ ] Timestamps are ISO 8601 with `.000Z` suffix
 - [ ] Priority is 1-5 (XML scale), not the roadmap 1-10 scale
-- [ ] `roadmap.json` updated: status, xmlFile, createdBy, createdAt, subtasks, metadata, agentLog
-- [ ] `agentLog` entry is descriptive (lists subtask names in `details`)
+- [ ] `roadmap.json` updated: status, xmlFile, createdBy, createdAt, subtasks, metadata, activityLog
+- [ ] `activityLog` entry is descriptive (lists subtask names in `details`)
 - [ ] XML parses cleanly: `python -c "from xml.etree import ElementTree as ET; ET.parse('path/to/file.xml'); print('OK')"`
 
 ---
@@ -387,7 +415,7 @@ Highest-priority planned tasks (work these first):
 | Skipping `conditional`/`later` subtasks | Include them in XML with `autoCreate="false"` |
 | Setting `required="false"` on any subtask | Always use `required="true"` — `autoCreate` is the conditional field, not `required` |
 | Forgetting to update `metadata.completedTasks` | Always increment this counter |
-| Committing without updating agentLog | Always append a log entry |
+| Committing without updating activityLog | Always append a log entry (the array is `activityLog`, entries use an `author` field — there is no `agentLog`) |
 | Confusing `--workspace-uid` with `--associations` | `--workspace-uid` is a shorthand that appends one workspace entry; use `--associations` for role assignees or multiple association types |
 | Hardcoding a UUID for a role entityId | Role IDs are system integers (e.g. `"5"` for Loan Processor); do not generate a UUID for these |
 | Omitting `--task-group-id` when creating a group | Always generate one UUID and pass it to every `create_task.py` call in the same group — without it each task gets a random ID and Encompass will not group them |
