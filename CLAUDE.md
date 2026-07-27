@@ -38,7 +38,9 @@ mortgage-tasks/
 │   └── ExampleJoined.xml      ← merged export example
 ├── create_task.py             ← script: create a single task XML
 ├── export_joined.py           ← script: merge XMLs into one joined file
-└── compare_configured.py      ← script: diff this repo against live Encompass exports
+├── compare_configured.py      ← script: diff this repo against live Encompass exports
+├── reconcile_adopt.py         ← script: adopt the Encompass side of a ledger row
+└── reconcile_refresh.py       ← script: refresh the reconciliation artefacts without exports
 ```
 
 ---
@@ -220,6 +222,28 @@ Tasks are joined on `type`, the Encompass import key, with a normalised-name fal
 surfaces tasks living on both sides under *different* types — those would import as duplicates
 rather than updates. Volatile attributes (`id`, `created*`, `lastModified*`, `createdVia`) are
 excluded from the diff.
+
+---
+
+### reconcile_adopt.py / reconcile_refresh.py — resolve a ledger row
+
+When the user walks the reconciliation ledger and calls which side wins for a task,
+**read `docs/RECONCILIATION_RUNBOOK.md` first** — it is the full procedure plus the
+non-obvious rules (keep Encompass's subtask type keys verbatim, role `entityId`s are
+system integers, Encompass values may violate these conventions, and so on).
+
+```bash
+# apply the Encompass side of a row; --dry-run first, always
+python reconcile_adopt.py --types Processing_FileSetup_PullDeed --dry-run
+python reconcile_adopt.py --types Processing_FileSetup_PullDeed
+
+# regenerate the artefacts when ../import/Configured Task/ is unavailable
+python reconcile_refresh.py --resolved Processing_FileSetup_PullDeed
+```
+
+`reconcile_adopt.py` self-verifies after writing and exits non-zero if any recorded delta
+is left unresolved. Decisions and open items go in `docs/reconciliation_resolutions.json`.
+If the raw exports *are* present, `compare_configured.py` supersedes `reconcile_refresh.py`.
 
 ---
 
@@ -498,5 +522,7 @@ These are domain rules learned from the actual workflow — apply them when buil
 | `tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml` | Real task with subtask associations |
 | `tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml` | Real task with multiple subtask associations |
 | `docs/conventions.md` | Authoritative XML rules |
+| `docs/RECONCILIATION_RUNBOOK.md` | How to resolve an Encompass ↔ repo ledger row |
+| `docs/reconciliation_resolutions.json` | Which side won each resolved row, and why |
 | `AGENT_INSTRUCTIONS.md` | Full agent workflow with examples |
 | `SUBTASK_TYPES.md` | Subtask type decision tree |

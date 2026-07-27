@@ -6,10 +6,9 @@ Per-row detail lives in `comparison_deltas.csv`.
 
 > **Partial refresh — 2026-07-27.** `import/Configured Task/` was not available when this
 > was regenerated, so the Encompass columns are carried forward from the previous run's
-> recorded snapshot; only the repo side was re-read from `tasks/`. Five shared tasks were
-> reconciled this pass by adopting the Encompass definition into the repo — see
-> `docs/reconciliation_resolutions.json`. Re-run `python compare_configured.py` against a
-> fresh export to confirm.
+> recorded snapshot; only the repo side was re-read from `tasks/`. Rows resolved this
+> pass are recorded in `docs/reconciliation_resolutions.json`. Re-run
+> `python compare_configured.py` against a fresh export to confirm.
 
 
 ## 1. Baseline
