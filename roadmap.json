@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-22T19:00:00.000Z",
+    "lastUpdated": "2026-07-27T00:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 66,
     "completedTasks": 59,
@@ -66,49 +66,55 @@
             {
               "name": "Name Discrepancy",
               "order": 1,
-              "description": "Name Discrepancy � Review credit report for name discrepancies",
+              "description": "Name Discrepancy – Review credit report for name discrepancies. Marking Issue will add condition.",
               "type": "standard"
             },
             {
               "name": "Name AKA's",
               "order": 2,
-              "description": "Name AKA's � Input AKA's listed on credit report",
+              "description": "Name AKA's - Input AKA's listed on credit report",
               "type": "standard"
             },
             {
               "name": "Address Discrepancy",
               "order": 3,
-              "description": "Address Discrepancy � Review credit report for address discrepancies",
+              "description": "Address Discrepancy – Review credit report for address discrepancies. Marking Issue will add condition.",
               "type": "standard"
             },
             {
               "name": "SSN Discrepancy",
               "order": 4,
-              "description": "SSN Discrepancy � Review credit report for Social Security Number discrepancies",
+              "description": "SSN Discrepancy – Review credit report for Social Security Number discrepancies. Marking Issue will add a condition to order an Social Security Verification.",
               "type": "standard"
             },
             {
               "name": "OFAC",
               "order": 5,
-              "description": "OFAC � Office of Foreign Assets Control screening for all parties",
+              "description": "OFAC – Review credit report for OFAC hits. Marking Issue will add condition.",
               "type": "standard"
             },
             {
               "name": "Fraud Alerts",
               "order": 6,
-              "description": "Fraud Alerts � Review and address any fraud alerts on credit report",
+              "description": "Fraud Alerts – Review and address any fraud alerts on credit report. Marking Issue will add condition.",
               "type": "standard"
             },
             {
               "name": "Frozen Score",
               "order": 7,
-              "description": "Frozen Score � Identify and address frozen credit scores",
+              "description": "Frozen Score – Identify and address frozen credit scores. Marking Issue will add condition.",
+              "type": "standard"
+            },
+            {
+              "name": "Red Flag Form",
+              "order": 8,
+              "description": "Red Flag Form– Review Red Flag form for completeness and accuracy. Mark Issue if Red Flag is not able to be resolved at this time. This will add condition.",
               "type": "standard"
             },
             {
               "name": "Review Liens",
-              "order": 8,
-              "description": "Review Liens � Review liens and ensure they are tied to all VOMs (Verification of Mortgage)",
+              "order": 9,
+              "description": "Review Liens – Review liens and ensure they are tied to all VOMs (Verification of Mortgage)",
               "type": "standard"
             }
           ],
@@ -349,20 +355,26 @@
           "applicationLogic": "Applied when borrower application is missing required items. Processor adds conditions and sends NOI electronically.",
           "subtasks": [
             {
-              "name": "Add Conditions",
+              "name": "NOI Not Needed",
               "order": 1,
-              "description": "Add conditions for NOI",
+              "description": "NOI Not Needed – Mark NA if an NOI is not needed; an underwriting decision will be produced soon.",
               "type": "standard"
             },
             {
-              "name": "NOI Not Needed",
+              "name": "Add Conditions",
               "order": 2,
-              "description": "Mark N/A if an NOI is not needed; an underwriting decision will be produced soon.",
+              "description": "Conditions - Add conditions for NOI. All external Prior to Approval Conditions will be listed on the form.",
+              "type": "standard"
+            },
+            {
+              "name": "Dates",
+              "order": 3,
+              "description": "Date - Add dates for NOI sent and Expiration. Use button in Workspace to set them. (Expiration will populate on next save).",
               "type": "standard"
             },
             {
               "name": "Send Notice of Incomplete",
-              "order": 3,
+              "order": 4,
               "description": "Mark Done to send Notice of Incomplete electronically.",
               "type": "standard"
             }
@@ -399,7 +411,7 @@
         },
         {
           "id": "task_003",
-          "name": "Order Appraisal",
+          "name": "Appraisal Invoice",
           "order": 1,
           "subcategory": "service_orders",
           "status": "completed",
@@ -411,58 +423,23 @@
             {
               "name": "Obtain Quote",
               "order": 1,
-              "description": "Obtain Quote � Obtain appraisal fee quote (conditional: property value over $1M or unique/complex property type)",
+              "description": "Obtain Quote – Obtain appraisal fee quote (Property value over $1M or unique/complex property type). Save Quote in file and override fee in system. Marking Done will mark Order Type as quote.",
               "type": "conditional",
               "applicationLogic": "Added when property value is over $1M or property is unique/complex"
             },
             {
               "name": "Create Invoice",
               "order": 2,
-              "description": "Generate the appraisal invoice for the borrower to pay",
+              "description": "Create Invoice – Generate the appraisal invoice for the borrower to pay",
               "type": "standard",
               "applicationLogic": "Always included when task is created"
             },
             {
               "name": "Send Invoice",
               "order": 3,
-              "description": "Send the appraisal invoice to the borrower",
+              "description": "Send Invoice – Send the appraisal invoice to the borrower",
               "type": "conditional",
               "applicationLogic": "Added when intent to proceed is received OR product is a HELOC"
-            },
-            {
-              "name": "Payment Recording",
-              "order": 4,
-              "description": "Record appraisal payment received in Encompass and ValueLink (systems do not sync � must be entered in both separately)",
-              "type": "conditional",
-              "applicationLogic": "Added when appraisal payment is received"
-            },
-            {
-              "name": "Automated Order",
-              "order": 5,
-              "description": "Place automated appraisal order via integrated system; marking Done will place the automated order",
-              "type": "conditional",
-              "applicationLogic": "Added when automated ordering is enabled/set up for this loan"
-            },
-            {
-              "name": "Order 1004",
-              "order": 6,
-              "description": "Order 1004 appraisal form for single-family property",
-              "type": "conditional",
-              "applicationLogic": "Added when property type is single-family AND automated ordering is not available"
-            },
-            {
-              "name": "Order 1025",
-              "order": 7,
-              "description": "Order 1025 appraisal form for 2�4 unit property",
-              "type": "conditional",
-              "applicationLogic": "Added when property type is 2�4 unit AND automated ordering is not available"
-            },
-            {
-              "name": "Order 1073",
-              "order": 8,
-              "description": "Order 1073 appraisal form for condo property",
-              "type": "conditional",
-              "applicationLogic": "Added when property type is condo AND automated ordering is not available"
             }
           ],
           "xmlFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml",
@@ -2004,9 +1981,22 @@
           "status": "completed",
           "priority": 10,
           "description": "Obtain approval for funding figures",
-          "notes": "No subtasks. Duration 2 hours. Parsed from taskbundle.xml import (rank 15, type Funding_Funding_Approval). Originally created by calves 2026-02-27.",
+          "notes": "Two subtasks (FraudX Review, Funding Sign Off) adopted from the live Encompass definition. Duration 2 hours, task group Funding, assignee 'Funding Approval - Task'. Parsed from taskbundle.xml import (rank 15, type Funding_Funding_Approval). Originally created by calves 2026-02-27.",
           "applicationLogic": "Applied after funding figures are confirmed. Triggers when all figures are verified and ready for final approval.",
-          "subtasks": [],
+          "subtasks": [
+            {
+              "name": "FraudX Review",
+              "order": 1,
+              "description": "FraudX Review – Review FraudX Report. Ensure all parties to transaction are evidenced and free of findings.",
+              "type": "standard"
+            },
+            {
+              "name": "Funding Sign Off",
+              "order": 2,
+              "description": "Approve Funding –Task will auto-complete when marked in system.",
+              "type": "standard"
+            }
+          ],
           "xmlFile": "tasks/5_funding/funding/approve_funding_v1.xml",
           "createdBy": "calves",
           "createdAt": "2026-02-27T17:23:42.406Z",
@@ -2453,148 +2443,143 @@
           "applicationLogic": "Applied after initial disclosures are sent. Reviews all required and conditional initial documents for completeness and compliance.",
           "subtasks": [
             {
-              "name": "1003 � Declarations Complete",
-              "description": "1003 � Declarations Complete � 1003 returned for all borrowers",
+              "name": "eConsent – Completed Prior to Electronic Send",
+              "description": "eConsent – Completed Prior to Electronic Send – eConsent completed before electronically sending disclosures",
               "type": "standard"
             },
             {
-              "name": "1003 � Demographic Info Addendum",
-              "description": "1003 � Demographic Info Addendum � Demographic Information Addendum collected",
+              "name": "eConsent – Docs Mailed if No eConsent",
+              "description": "eConsent – Docs Mailed if No eConsent – If no eConsent, documents mailed prior to disclosure due date",
               "type": "conditional"
             },
             {
-              "name": "1003 � Demographic Info Addendum Signed",
-              "description": "1003 � Demographic Info Addendum Signed � Demographic Information Addendum not collected; not marked on 1003",
+              "name": "1003 – Declarations Complete",
+              "description": "1003 – Returned for all borrowers",
+              "type": "standard"
+            },
+            {
+              "name": "1003 – Demographic Info Addendum",
+              "description": "1003 – Demographic Info Addendum – Demographic Information Addendum collected",
               "type": "conditional"
             },
             {
-              "name": "1003 � Demographic HELOC",
-              "description": "1003 � Demographic HELOC � Demographic information is collected only when the proceeds are used to pay off an existing lien-secured debt, qualifying the transaction as a refinancing for regulatory reporting purposes.",
+              "name": "1003 – Demographic Info Addendum Signed",
+              "description": "1003 – Demographic Info Addendum Signed – Demographic Information Addendum not collected; not marked on 1003",
+              "type": "conditional"
+            },
+            {
+              "name": "1003 – Demographic HELOC",
+              "description": "1003 – Demographic HELOC - Demographic information is collected only when the proceeds are used to pay off an existing lien-secured debt, qualifying the transaction as a refinancing for regulatory reporting purposes.",
               "type": "conditional"
             },
             {
               "name": "ROV Sent with Initial Disclosures",
-              "description": "ROV Sent with Initial Disclosures � Right to Request Reconsideration of Value sent with initial disclosures",
+              "description": "ROV Sent with Initial Disclosures – Right to Request Reconsideration of Value sent with initial disclosures",
               "type": "standard"
-            },
-            {
-              "name": "eConsent � Completed Prior to Electronic Send",
-              "description": "eConsent � Completed Prior to Electronic Send � eConsent completed before electronically sending disclosures",
-              "type": "standard"
-            },
-            {
-              "name": "eConsent � Docs Mailed if No eConsent",
-              "description": "eConsent � Docs Mailed if No eConsent � If no eConsent, documents mailed prior to disclosure due date",
-              "type": "conditional"
             },
             {
               "name": "Supplemental Consumer Information Form",
-              "description": "Supplemental Consumer Information Form � One Supplemental Consumer Information Form per URLA",
+              "description": "Supplemental Consumer Information Form – One Supplemental Consumer Information Form per URLA",
               "type": "standard"
             },
             {
               "name": "HELOC Important Terms Disclosure",
-              "description": "HELOC Important Terms Disclosure � HELOC Important Terms Disclosure provided",
+              "description": "HELOC Important Terms Disclosure – HELOC Important Terms Disclosure provided",
               "type": "conditional"
             },
             {
               "name": "Your Home Loan Toolkit",
-              "description": "Your Home Loan Toolkit � Provided within 3 business days of application",
+              "description": "Your Home Loan Toolkit – Provided within 3 business days of application",
               "type": "conditional"
             },
             {
               "name": "2015 Settlement Service List",
-              "description": "2015 Settlement Service List � Provided",
+              "description": "2015 Settlement Service List – Provided",
               "type": "conditional"
             },
             {
               "name": "Acknowledgement of Intent to Proceed",
-              "description": "Acknowledgement of Intent to Proceed � Acknowledgement of Intent to Proceed obtained; date entered matches date on form",
+              "description": "Acknowledgement of Intent to Proceed – Acknowledgement of Intent to Proceed obtained; date entered matches date on form",
               "type": "conditional"
             },
             {
               "name": "CHARM Booklet",
-              "description": "CHARM Booklet � CHARM Booklet provided within 3 business days",
+              "description": "CHARM Booklet – CHARM Booklet provided within 3 business days",
               "type": "conditional"
             },
             {
               "name": "ARM Disclosure",
-              "description": "ARM Disclosure � ARM Disclosure sent same day as application; matches product and index as of day sent",
+              "description": "ARM Disclosure – ARM Disclosure sent same day as application; matches product and index as of day sent",
               "type": "conditional"
             },
             {
               "name": "Credit Score Disclosure Completed",
-              "description": "Credit Score Disclosure Completed � Information is complete and matches credit report with all scores present",
+              "description": "Credit Score Disclosure Completed – Information is complete and matches credit report with all scores present",
               "type": "standard"
             },
             {
               "name": "Homeowner Counseling List and Acknowledgement",
-              "description": "Homeowner Counseling List and Acknowledgement � 10 counselors provided based on borrower's address",
+              "description": "Homeowner Counseling List and Acknowledgement – 10 counselors provided based on borrower's address",
               "type": "standard"
             },
             {
               "name": "Notice of Right to Copy of Appraisal (ECOA)",
-              "description": "Notice of Right to Copy of Appraisal (ECOA) � Notice of Right to Copy of Appraisal (ECOA) provided",
+              "description": "Notice of Right to Copy of Appraisal (ECOA) – Notice of Right to Copy of Appraisal (ECOA) provided",
               "type": "conditional"
             },
             {
               "name": "Privacy Notice Received",
-              "description": "Privacy Notice Received � Privacy Notice provided and saved in folder",
+              "description": "Privacy Notice Received – Privacy Notice provided and saved in folder",
               "type": "standard"
             },
             {
-              "name": "Privacy Policy � Opt Out Signed",
-              "description": "Privacy Policy � Opt Out Signed � Opt Out signed (if applicable)",
+              "name": "Privacy Policy – Opt Out Signed",
+              "description": "Privacy Policy – Opt Out Signed – Opt Out signed (if applicable)",
               "type": "conditional"
             },
             {
               "name": "RI Appraisal Fee Notice",
-              "description": "RI Appraisal Fee Notice � RI Appraisal Fee Notice provided",
+              "description": "RI Appraisal Fee Notice – RI Appraisal Fee Notice provided",
               "type": "conditional"
             },
             {
               "name": "RI Right to Copy of Appraisal",
-              "description": "RI Right to Copy of Appraisal � RI Right to Copy of Appraisal provided",
+              "description": "RI Right to Copy of Appraisal – RI Right to Copy of Appraisal provided",
               "type": "conditional"
             },
             {
               "name": "RI Notice of Non-Refundability",
-              "description": "RI Notice of Non-Refundability � RI Notice of Non-Refundability provided",
+              "description": "RI Notice of Non-Refundability – RI Notice of Non-Refundability provided",
               "type": "conditional"
             },
             {
               "name": "RI Form 1",
-              "description": "RI Form 1 � RI Form 1 completed and signed by Loan Originator",
+              "description": "RI Form 1 – RI Form 1 completed and signed by Loan Originator",
               "type": "conditional"
             },
             {
               "name": "RI Form 2",
-              "description": "RI Form 2 � RI Form 2 completed and signed by Loan Originator",
-              "type": "conditional"
-            },
-            {
-              "name": "RI Open-End Credit Disclosures",
-              "description": "RI Open-End Credit Disclosures � RI Open-End Credit Disclosures (Gen Laws 6-27-11, O/OC Only)",
+              "description": "RI Form 2 – RI Form 2 completed and signed by Loan Originator",
               "type": "conditional"
             },
             {
               "name": "RI Choice of Insurance",
-              "description": "RI Choice of Insurance � RI Choice of Insurance provided",
+              "description": "RI Choice of Insurance – RI Choice of Insurance provided",
               "type": "conditional"
             },
             {
               "name": "RI Title Insurance Disclosure",
-              "description": "RI Title Insurance Disclosure � RI Title Insurance Disclosure executed with all boxes checked",
+              "description": "RI Title Insurance Disclosure – Verify borrower's election for Title Insurance. Mark Complete if not selecting non-BCSB approved attorney. Mark Issue if opting for non-BCSB approved attorney.",
               "type": "conditional"
             },
             {
               "name": "USA Patriot Act Info Disclosure",
-              "description": "USA Patriot Act Info Disclosure � USA Patriot Act Info Disclosure provided",
+              "description": "USA Patriot Act Info Disclosure – USA Patriot Act Info Disclosure provided",
               "type": "standard"
             },
             {
               "name": "HELOC Booklet",
-              "description": "HELOC Booklet � HELOC Booklet provided within 3 business days",
+              "description": "HELOC Booklet – HELOC Booklet provided within 3 business days",
               "type": "conditional"
             }
           ],
@@ -3446,6 +3431,51 @@
       "taskName": "Board Loan",
       "details": "Created board_loan_v1.xml with 1 standard subtask: Board Loan via eLink – auto-completes once the loan is boarded via eLink. Task-level autocomplete enabled. Established the Boarding task group (Funding / Boarding).",
       "xmlFile": "tasks/5_funding/boarding/board_loan_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-27T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_001",
+      "taskName": "Review Credit",
+      "details": "Adopted the live Encompass definition: SLA 1 Day -> 2 Hour, task group set to Quality Assurance, workspace 'Credit Report Review' bound, new Red Flag Form subtask added at rank 8 (Review Liens moves to 9), and six subtask descriptions updated to the Encompass wording that spells out the 'Marking Issue will add condition' behaviour.",
+      "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-27T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_002c",
+      "taskName": "Notice of Incomplete",
+      "details": "Adopted the live Encompass definition: priority 5 -> 6, SLA 5 Minute -> 8 Hour on the Business calendar, task group set to Disclosures, workspace 'NOI' bound, new Dates subtask added, and subtasks reordered to NOI Not Needed / Conditions / Dates / Send.",
+      "xmlFile": "tasks/2_processing/misc/Notice of Incomplete.xml"
+    },
+    {
+      "timestamp": "2026-07-27T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_003",
+      "taskName": "Appraisal Invoice",
+      "details": "Adopted the live Encompass definition: renamed Order Appraisal -> Appraisal Invoice, SLA 5 Minute -> 1 Day, task group Processing - Appraisal -> Service Orders, workspace 'Appraisal Order Workspace' -> 'Appraisal Fee _1', Loan Processor assignee added, and the five ordering subtasks (Payment Recording, Automated Order, Order 1004/1025/1073) removed — Encompass keeps those under the separate Processing_Appraisal_Ordering task, which is still untracked in this repo.",
+      "xmlFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-27T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_027",
+      "taskName": "Approve Funding Figures",
+      "details": "Adopted the live Encompass definition: filled the empty stub with the FraudX Review and Funding Sign Off subtasks, set autocomplete false, task group Funding, assignee 'Funding Approval - Task', and the Funding_SignOff workspace with its three overrides.",
+      "xmlFile": "tasks/5_funding/funding/approve_funding_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-27T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_045",
+      "taskName": "Initial Document Quality Assurance",
+      "details": "Adopted the live Encompass definition: task group set to Quality Assurance, Loan Processor assignee and seven document workspace overrides added, subtasks reordered to the Encompass sequence (eConsent pair first), RI Title Insurance Disclosure description replaced with the Encompass wording, and the repo-only RI Open-End Credit Disclosures subtask removed.",
+      "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml"
     }
   ]
 }
