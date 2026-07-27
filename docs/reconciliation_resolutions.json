@@ -1,0 +1,113 @@
+{
+  "description": "Ledger rows resolved by an explicit call on which side wins. Each entry records the decision so a later compare_configured.py run against a fresh export can be read against intent rather than re-litigated.",
+  "resolutions": [
+    {
+      "date": "2026-07-27",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "QualityAssurance_InitialDocReview",
+      "taskName": "Initial Document Quality Assurance",
+      "repoFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml",
+      "roadmapTaskId": "task_045",
+      "applied": [
+        "taskGroupTemplateName set to Quality Assurance",
+        "Loan Processor assignee added",
+        "seven document workspace overrides added at task level and on their owning subtasks",
+        "subtasks reordered to the Encompass sequence (eConsent pair moves to ranks 1-2)",
+        "RI Title Insurance Disclosure description replaced with the Encompass wording",
+        "repo-only subtask 'RI Open-End Credit Disclosures' removed",
+        "RI Appraisal Fee Notice required=false corrected to true per docs/conventions.md"
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Appraisal_Order",
+      "taskName": "Appraisal Invoice",
+      "previousRepoName": "Order Appraisal",
+      "repoFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml",
+      "roadmapTaskId": "task_003",
+      "applied": [
+        "renamed Order Appraisal to Appraisal Invoice",
+        "SLA 5 Minute to 1 Day",
+        "taskGroupTemplateName Processing - Appraisal to Service Orders",
+        "workspace 'Appraisal Order Workspace' replaced with 'Appraisal Fee _1'",
+        "Loan Processor assignee added",
+        "Obtain Quote and Send Invoice descriptions replaced with the Encompass wording",
+        "repo-only subtasks removed: Payment Recording, Automated Order, Order 1004, Order 1025, Order 1073"
+      ],
+      "openItems": [
+        "Encompass keeps the ordering subtasks under a separate task, Processing_Appraisal_Ordering ('Order Appraisal', 7 subtasks, tasks1.xml), which is still untracked in this repo. The business logic in CLAUDE.md for task_003 now describes that task, not this one.",
+        "Filename order_appraisal_v1.xml no longer matches the task name; renaming it would also touch CLAUDE.md and AGENT_INSTRUCTIONS.md, which cite it as a reference example.",
+        "Subtask types still read 'Order Appraisal - ...' against a task named Appraisal Invoice. This mirrors Encompass exactly; changing them would break the import key."
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_NoticeOfIncomplete",
+      "taskName": "Notice of Incomplete",
+      "repoFile": "tasks/2_processing/misc/Notice of Incomplete.xml",
+      "roadmapTaskId": "task_002c",
+      "applied": [
+        "priority 5 to 6",
+        "SLA 5 Minute to 8 Hour on the Business calendar",
+        "taskGroupTemplateName set to Disclosures",
+        "workspace 'NOI' bound",
+        "new subtask 'Notice of Incomplete - Dates' added",
+        "Conditions and NOI Not Needed descriptions replaced with the Encompass wording",
+        "subtasks reordered to NOI Not Needed / Conditions / Dates / Send"
+      ],
+      "openItems": [
+        "Encompass stores priority 6, outside the 1-5 XML scale documented in CLAUDE.md. Copied verbatim as the live value.",
+        "Three subtask types use a hyphen rather than the en-dash the conventions require. These are Encompass's own import keys, so they were left alone.",
+        "Three subtasks still carry the placeholder label name=\"Sub-Task Name\"."
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_FileSetup_ReviewCredit",
+      "taskName": "Review Credit",
+      "repoFile": "tasks/2_processing/credit_review/review_credit_v1.xml",
+      "roadmapTaskId": "task_001",
+      "applied": [
+        "SLA 1 Day to 2 Hour",
+        "taskGroupTemplateName set to Quality Assurance",
+        "workspace 'Credit Report Review' bound",
+        "new subtask 'Review Credit - Red Flag Form' added at rank 8, Review Liens moves to 9",
+        "six subtask descriptions replaced with the Encompass wording, which spells out the 'Marking Issue will add condition' behaviour"
+      ],
+      "openItems": [
+        "The new Red Flag Form subtask has no document workspace override. The recorded delta does not say whether Encompass gives it one, because association rows are deduplicated by UID and 'Credit Report' already matched."
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Funding_Funding_Approval",
+      "taskName": "Approve Funding",
+      "repoFile": "tasks/5_funding/funding/approve_funding_v1.xml",
+      "roadmapTaskId": "task_027",
+      "applied": [
+        "autocomplete true to false",
+        "taskGroupTemplateName set to Funding",
+        "assignee role 'Funding Approval - Task' added",
+        "workspace 'Funding_SignOff' bound with three field overrides: Funding Sign Off (custom form), OFAC (document), Borrower Information - Vesting (react coded form)",
+        "subtasks FraudX Review and Funding Sign Off added to what was an empty stub"
+      ],
+      "openItems": [
+        "The assignee association carries entityId=\"\". Role entityIds are system integers and the integer for 'Funding Approval - Task' is not recorded in any repo artefact; it needs to be read off a live export before this task is imported.",
+        "roadmap.json still calls this task 'Approve Funding Figures' while the template name is 'Approve Funding'. Pre-existing, left as-is."
+      ]
+    }
+  ],
+  "provenance": {
+    "encompassSide": "docs/comparison_deltas.csv and the payload embedded in docs/reconciliation.html, both produced by the previous compare_configured.py run",
+    "note": "import/Configured Task/ was not present in the checkout where these edits were made, so no raw export was read. Re-run compare_configured.py against a fresh export to confirm each resolved row now shows zero deltas."
+  }
+}
