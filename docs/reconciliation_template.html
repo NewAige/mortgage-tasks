@@ -1,0 +1,979 @@
+<title>Encompass ↔ Repo Task Reconciliation</title>
+
+<style>
+  /* ---- tokens: light ---------------------------------------------------- */
+  :root {
+    --ground:      #E9EDF1;
+    --surface:     #FDFEFF;
+    --surface-alt: #F3F6F9;
+    --rule:        #CBD5DE;
+    --rule-soft:   #DFE6EC;
+    --ink:         #141D26;
+    --ink-mid:     #4A5B6B;
+    --ink-soft:    #6F8091;
+
+    /* side identity */
+    --enc:         #A2661A;   /* live in Encompass */
+    --enc-wash:    #F4E7D2;
+    --repo:        #1F5F66;   /* versioned in repo  */
+    --repo-wash:   #D9EAEB;
+    --drift:       #97323F;   /* both sides, disagreeing */
+    --drift-wash:  #F5DFE1;
+
+    --focus:       #1F5F66;
+    --shadow:      0 1px 2px rgba(20, 29, 38, .07), 0 8px 24px -12px rgba(20, 29, 38, .18);
+
+    --mono: ui-monospace, "SFMono-Regular", "SF Mono", "Cascadia Mono", "Roboto Mono",
+            Menlo, Consolas, "Liberation Mono", monospace;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue",
+            Arial, sans-serif;
+  }
+
+  /* ---- tokens: dark (OS preference) ------------------------------------- */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground:      #0D1319;
+      --surface:     #141C24;
+      --surface-alt: #1A242E;
+      --rule:        #2C3A47;
+      --rule-soft:   #222E39;
+      --ink:         #E2E9F0;
+      --ink-mid:     #A3B2C0;
+      --ink-soft:    #7A8B9B;
+
+      --enc:         #E0A550;
+      --enc-wash:    #3A2B14;
+      --repo:        #5EB8BF;
+      --repo-wash:   #113034;
+      --drift:       #E0808C;
+      --drift-wash:  #3A1E22;
+
+      --focus:       #5EB8BF;
+      --shadow:      0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+    }
+  }
+
+  /* ---- tokens: explicit toggle (must beat the media query both ways) ----- */
+  :root[data-theme="dark"] {
+    --ground:      #0D1319;
+    --surface:     #141C24;
+    --surface-alt: #1A242E;
+    --rule:        #2C3A47;
+    --rule-soft:   #222E39;
+    --ink:         #E2E9F0;
+    --ink-mid:     #A3B2C0;
+    --ink-soft:    #7A8B9B;
+    --enc:         #E0A550;
+    --enc-wash:    #3A2B14;
+    --repo:        #5EB8BF;
+    --repo-wash:   #113034;
+    --drift:       #E0808C;
+    --drift-wash:  #3A1E22;
+    --focus:       #5EB8BF;
+    --shadow:      0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+  }
+  :root[data-theme="light"] {
+    --ground:      #E9EDF1;
+    --surface:     #FDFEFF;
+    --surface-alt: #F3F6F9;
+    --rule:        #CBD5DE;
+    --rule-soft:   #DFE6EC;
+    --ink:         #141D26;
+    --ink-mid:     #4A5B6B;
+    --ink-soft:    #6F8091;
+    --enc:         #A2661A;
+    --enc-wash:    #F4E7D2;
+    --repo:        #1F5F66;
+    --repo-wash:   #D9EAEB;
+    --drift:       #97323F;
+    --drift-wash:  #F5DFE1;
+    --focus:       #1F5F66;
+    --shadow:      0 1px 2px rgba(20, 29, 38, .07), 0 8px 24px -12px rgba(20, 29, 38, .18);
+  }
+
+  /* ---- base ------------------------------------------------------------- */
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 64px) clamp(16px, 4vw, 40px) 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  a { color: var(--repo); }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ---- masthead --------------------------------------------------------- */
+  .masthead { display: flex; flex-direction: column; gap: 14px; }
+  .masthead h1 {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    font-weight: 650;
+  }
+  .masthead .lede {
+    max-width: 62ch;
+    color: var(--ink-mid);
+    font-size: 17px;
+  }
+  .provenance {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+  }
+
+  /* ---- balance strip ---------------------------------------------------- */
+  .balance {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .balance-side { padding: 22px 26px; display: flex; flex-direction: column; gap: 4px; }
+  .balance-side.enc  { border-top: 3px solid var(--enc); }
+  .balance-side.repo { border-top: 3px solid var(--repo); text-align: right; align-items: flex-end; }
+  .balance-side .label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .balance-side .figure {
+    font-family: var(--mono); font-size: clamp(34px, 6vw, 52px); font-weight: 600;
+    line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+  }
+  .balance-side.enc  .figure { color: var(--enc); }
+  .balance-side.repo .figure { color: var(--repo); }
+  .balance-side .sub { font-family: var(--mono); font-size: 12px; color: var(--ink-mid); }
+
+  .balance-mid {
+    padding: 22px 26px;
+    border-left: 1px solid var(--rule-soft);
+    border-right: 1px solid var(--rule-soft);
+    background: var(--surface-alt);
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: center; gap: 4px; text-align: center; min-width: 190px;
+  }
+  .balance-mid .figure {
+    font-family: var(--mono); font-size: 30px; font-weight: 600;
+    color: var(--drift); font-variant-numeric: tabular-nums; line-height: 1;
+  }
+  .balance-mid .label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .balance-mid .note { font-size: 12.5px; color: var(--ink-mid); max-width: 22ch; }
+
+  @media (max-width: 720px) {
+    .balance { grid-template-columns: 1fr; }
+    .balance-side.repo { text-align: left; align-items: flex-start; }
+    .balance-mid { border-left: 0; border-right: 0; border-top: 1px solid var(--rule-soft);
+                   border-bottom: 1px solid var(--rule-soft); align-items: flex-start; text-align: left; }
+  }
+
+  /* ---- tiles ------------------------------------------------------------ */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 1px;
+           background: var(--rule-soft); border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .tile { background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 3px; }
+  .tile .n { font-family: var(--mono); font-size: 26px; font-weight: 600; line-height: 1.1;
+             font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .tile .k { font-size: 12.5px; color: var(--ink-mid); line-height: 1.35; }
+  .tile.is-enc   .n { color: var(--enc); }
+  .tile.is-repo  .n { color: var(--repo); }
+  .tile.is-drift .n { color: var(--drift); }
+
+  /* ---- sections --------------------------------------------------------- */
+  section { display: flex; flex-direction: column; gap: 18px; }
+  .sec-head { display: flex; flex-direction: column; gap: 6px; }
+  .sec-head h2 { font-size: 22px; letter-spacing: -.01em; font-weight: 640; }
+  .sec-head p { color: var(--ink-mid); font-size: 14.5px; max-width: 68ch; }
+
+  /* ---- callout ---------------------------------------------------------- */
+  .callout {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-left: 3px solid var(--drift); border-radius: 3px;
+    padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .callout h3 { font-size: 16px; font-weight: 640; }
+  .callout p { font-size: 14.5px; color: var(--ink-mid); max-width: 72ch; }
+  .pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px 14px; align-items: center;
+          font-family: var(--mono); font-size: 12.5px; padding: 10px 0; border-top: 1px solid var(--rule-soft); }
+  .pair .side-repo { color: var(--repo); word-break: break-all; }
+  .pair .side-enc  { color: var(--enc);  word-break: break-all; text-align: right; }
+  .pair .arrow { color: var(--ink-soft); font-size: 14px; }
+  .pair .nm { display: block; color: var(--ink-mid); font-family: var(--sans); font-size: 12px; }
+  @media (max-width: 620px) {
+    .pair { grid-template-columns: 1fr; }
+    .pair .side-enc { text-align: left; }
+    .pair .arrow { display: none; }
+  }
+
+  /* ---- controls --------------------------------------------------------- */
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .02em;
+    padding: 7px 13px; border-radius: 2px; cursor: pointer;
+    background: var(--surface); color: var(--ink-mid);
+    border: 1px solid var(--rule);
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+  }
+  .chip:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .chip .cnt { font-variant-numeric: tabular-nums; opacity: .65; }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .chip[aria-pressed="true"].c-enc   { background: var(--enc);   border-color: var(--enc);   color: #FFF8EC; }
+  .chip[aria-pressed="true"].c-repo  { background: var(--repo);  border-color: var(--repo);  color: #EFFBFB; }
+  .chip[aria-pressed="true"].c-drift { background: var(--drift); border-color: var(--drift); color: #FFF1F2; }
+  :root[data-theme="dark"] .chip[aria-pressed="true"] { color: #0D1319; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .chip[aria-pressed="true"] { color: #0D1319; }
+  }
+
+  .search {
+    flex: 1 1 220px; min-width: 180px;
+    font-family: var(--mono); font-size: 13px;
+    padding: 8px 12px; border-radius: 2px;
+    border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
+  }
+  .search::placeholder { color: var(--ink-soft); }
+  :is(.chip, .search, .rowbtn, .themetog):focus-visible {
+    outline: 2px solid var(--focus); outline-offset: 2px;
+  }
+
+  /* ---- ledger ----------------------------------------------------------- */
+  .ledger { border: 1px solid var(--rule); border-radius: 3px; background: var(--surface);
+            box-shadow: var(--shadow); overflow: hidden; }
+  .ledger-head, .rowbtn {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 2.1fr) minmax(0, 2.4fr) minmax(0, 1fr) 74px;
+    gap: 14px; align-items: center; padding: 10px 18px; text-align: left;
+  }
+  .ledger-head {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--ink-soft); background: var(--surface-alt); border-bottom: 1px solid var(--rule);
+  }
+  .ledger-head .num, .rowbtn .num { text-align: right; }
+  .rowitem { border-bottom: 1px solid var(--rule-soft); }
+  .rowitem:last-child { border-bottom: 0; }
+  .rowbtn {
+    width: 100%; background: none; border: 0; cursor: pointer; color: inherit;
+    font: inherit; border-left: 3px solid transparent; padding-left: 15px;
+    transition: background .12s ease;
+  }
+  .rowbtn:hover { background: var(--surface-alt); }
+  .rowitem.s-enc   .rowbtn { border-left-color: var(--enc); }
+  .rowitem.s-repo  .rowbtn { border-left-color: var(--repo); }
+  .rowitem.s-drift .rowbtn { border-left-color: var(--drift); }
+
+  /* two-cell presence glyph: left = Encompass, right = repo */
+  .glyph { display: inline-grid; grid-template-columns: 11px 11px; gap: 3px; }
+  .glyph i { display: block; height: 11px; border-radius: 1px; border: 1px solid var(--ink-soft); }
+  .glyph i.on-enc  { background: var(--enc);  border-color: var(--enc); }
+  .glyph i.on-repo { background: var(--repo); border-color: var(--repo); }
+  .glyph i.off     { background: transparent; border-style: dashed; opacity: .55; }
+
+  .rowbtn .tname { font-size: 14.5px; font-weight: 550; line-height: 1.3; }
+  .rowbtn .ttype { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft);
+                   word-break: break-all; line-height: 1.35; }
+  .rowbtn .tgrp  { font-family: var(--mono); font-size: 11.5px; color: var(--ink-mid); }
+  .rowbtn .num   { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums;
+                   color: var(--ink-mid); }
+  .rowitem.s-drift .rowbtn .num { color: var(--drift); font-weight: 600; }
+
+  .detail { display: none; padding: 4px 18px 22px 32px; background: var(--surface-alt);
+            border-top: 1px solid var(--rule-soft); }
+  .rowitem.open .detail { display: block; }
+  .dgroup { padding-top: 14px; }
+  .dgroup h4 {
+    margin: 0 0 8px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--ink-soft); font-weight: 500;
+  }
+  .dtable { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .dtable th, .dtable td { text-align: left; padding: 6px 12px 6px 0; vertical-align: top;
+                           border-bottom: 1px solid var(--rule-soft); }
+  .dtable th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em;
+               text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
+  .dtable td.k { font-family: var(--mono); font-size: 12px; color: var(--ink); word-break: break-word; }
+  .dtable td.v-repo { color: var(--repo); }
+  .dtable td.v-enc  { color: var(--enc); }
+  .dtable td.txt { color: var(--ink-mid); line-height: 1.45; }
+  .tag { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+         padding: 2px 6px; border-radius: 2px; white-space: nowrap; }
+  .tag.t-enc  { background: var(--enc-wash);  color: var(--enc); }
+  .tag.t-repo { background: var(--repo-wash); color: var(--repo); }
+  .empty { padding: 28px 18px; text-align: center; color: var(--ink-soft);
+           font-family: var(--mono); font-size: 13px; }
+
+  @media (max-width: 780px) {
+    .ledger-head { display: none; }
+    .rowbtn { grid-template-columns: 42px minmax(0, 1fr) 60px; row-gap: 4px; }
+    .rowbtn .ttype { grid-column: 2 / 4; }
+    .rowbtn .tgrp  { display: none; }
+    .detail { padding-left: 18px; }
+  }
+
+  /* ---- comparison panels ------------------------------------------------ */
+  .panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 3px;
+           padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .panel h3 { font-size: 15px; font-weight: 640; }
+  .panel .hint { font-size: 13px; color: var(--ink-mid); line-height: 1.45; }
+
+  .bars { display: flex; flex-direction: column; gap: 11px; }
+  .bar-row { display: grid; grid-template-columns: minmax(0, 1fr) 46px; gap: 10px; align-items: center; }
+  .bar-row .bl { font-size: 13px; color: var(--ink); line-height: 1.3; }
+  .bar-row .bn { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums;
+                 color: var(--ink-soft); text-align: right; }
+  .track { grid-column: 1 / 3; display: flex; height: 8px; background: var(--rule-soft); border-radius: 1px; overflow: hidden; }
+  .track span { display: block; height: 100%; }
+  .track .fe { background: var(--enc); }
+  .track .fr { background: var(--repo); }
+
+  .scroller { overflow-x: auto; }
+  .ptable { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 340px; }
+  .ptable th, .ptable td { padding: 7px 10px 7px 0; text-align: left; border-bottom: 1px solid var(--rule-soft); }
+  .ptable th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+               color: var(--ink-soft); font-weight: 500; }
+  .ptable td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ptable td.n.e { color: var(--enc); }
+  .ptable td.n.r { color: var(--repo); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-family: var(--mono); font-size: 11.5px;
+            color: var(--ink-mid); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend .sw { width: 11px; height: 11px; border-radius: 1px; display: inline-block; }
+
+  /* ---- backlog ---------------------------------------------------------- */
+  .backlog { display: flex; flex-direction: column; gap: 1px; background: var(--rule-soft);
+             border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .bl-item { background: var(--surface); padding: 16px 20px; display: grid;
+             grid-template-columns: 52px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .bl-item .pri { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; font-weight: 600;
+                  padding: 3px 0; }
+  .bl-item.p0 .pri { color: var(--drift); }
+  .bl-item.p1 .pri { color: var(--enc); }
+  .bl-item.p2 .pri { color: var(--ink-soft); }
+  .bl-item h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; }
+  .bl-item p { font-size: 13.5px; color: var(--ink-mid); line-height: 1.5; max-width: 76ch; }
+  .bl-item code { font-family: var(--mono); font-size: 12.5px; background: var(--surface-alt);
+                  padding: 1px 4px; border-radius: 2px; }
+
+  footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(--mono);
+           font-size: 11.5px; color: var(--ink-soft); line-height: 1.7; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Reconciliation statement · Encompass LOS ↔ mortgage-tasks</p>
+    <h1>Two ledgers of the same workflow, and they don't balance</h1>
+    <p class="lede">
+      Every task the loan workflow runs is defined twice: once live in Encompass, once as XML in the
+      repo. This is the line-by-line reconciliation — what is running in production but untracked in
+      git, what is committed but never deployed, and where both sides define the same task and
+      disagree about what it does.
+    </p>
+    <p class="provenance">
+      <span>SOURCE A · import/Configured Task/ — 7 Encompass exports</span>
+      <span>SOURCE B · mortgage-tasks/tasks/ — 60 XML files</span>
+      <span>JOIN KEY · taskTemplate@type</span>
+    </p>
+  </header>
+
+  <div class="balance" id="balance"></div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section id="renames">
+    <div class="sec-head">
+      <p class="eyebrow">Priority 0</p>
+      <h2>Three tasks exist on both sides under different type keys</h2>
+      <p>
+        <code>type</code> is the import key. Where the two sides disagree about it, re-importing the
+        repo copy does not update the live task — it creates a second one alongside it. These read as
+        “missing on one side” in the counts above, but they are renames, not gaps.
+      </p>
+    </div>
+    <div class="callout" id="renamelist"></div>
+  </section>
+
+  <section id="ledgersec">
+    <div class="sec-head">
+      <p class="eyebrow">Line items · 87 tasks</p>
+      <h2>The ledger</h2>
+      <p>
+        Every task on either side. The two-cell mark shows presence — left cell Encompass, right cell
+        repo; a dashed cell means absent. Select any row to open its deltas.
+      </p>
+    </div>
+
+    <div class="controls">
+      <div class="chips" id="chips"></div>
+      <input class="search" id="search" type="search" placeholder="Filter by name, type or group…"
+             aria-label="Filter tasks by name, type or group" autocomplete="off">
+    </div>
+
+    <div class="legend">
+      <span><i class="sw" style="background: var(--enc)"></i> Live in Encompass</span>
+      <span><i class="sw" style="background: var(--repo)"></i> Committed to repo</span>
+      <span><i class="sw" style="background: var(--drift)"></i> Both sides, disagreeing</span>
+    </div>
+
+    <div class="ledger">
+      <div class="ledger-head" aria-hidden="true">
+        <div>E&nbsp;·&nbsp;R</div><div>Task</div><div>Type</div><div>Group</div><div class="num">Deltas</div>
+      </div>
+      <div id="rows"></div>
+    </div>
+  </section>
+
+  <section id="meta">
+    <div class="sec-head">
+      <p class="eyebrow">Systematic differences</p>
+      <h2>Where the two sides differ by pattern, not by task</h2>
+      <p>
+        These gaps repeat across many tasks at once, so they are worth fixing as a policy rather than
+        one file at a time.
+      </p>
+    </div>
+    <div class="panels" id="panels"></div>
+  </section>
+
+  <section id="backlogsec">
+    <div class="sec-head">
+      <p class="eyebrow">What to do about it</p>
+      <h2>Reconciliation backlog</h2>
+    </div>
+    <div class="backlog" id="backlog"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script id="payload" type="application/json">__DATA__</script>
+
+<script>
+(function () {
+  "use strict";
+
+  var D = JSON.parse(document.getElementById("payload").textContent);
+  var S = D.stats;
+  var ENC_ONLY = "ENCOMPASS_ONLY", REPO_ONLY = "REPO_ONLY", BOTH = "BOTH";
+
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined && txt !== null) n.textContent = txt;
+    return n;
+  }
+
+  /* ---- balance strip --------------------------------------------------- */
+  (function () {
+    var b = document.getElementById("balance");
+
+    var a = el("div", "balance-side enc");
+    a.appendChild(el("div", "label", "Encompass · live"));
+    a.appendChild(el("div", "figure", S.encompass_tasks));
+    a.appendChild(el("div", "sub", S.encompass_subtasks + " subtasks"));
+    a.appendChild(el("div", "sub", S.only_encompass + " not in the repo"));
+
+    var m = el("div", "balance-mid");
+    m.appendChild(el("div", "label", "Shared, in agreement"));
+    m.appendChild(el("div", "figure", S.shared_identical + " of " + S.shared));
+    m.appendChild(el("div", "note",
+      "Every shared task differs in at least one compared field."));
+
+    var c = el("div", "balance-side repo");
+    c.appendChild(el("div", "label", "Repo · committed"));
+    c.appendChild(el("div", "figure", S.repo_tasks));
+    c.appendChild(el("div", "sub", S.repo_subtasks + " subtasks"));
+    c.appendChild(el("div", "sub", S.only_repo + " never deployed"));
+
+    b.appendChild(a); b.appendChild(m); b.appendChild(c);
+  })();
+
+  /* ---- tiles ----------------------------------------------------------- */
+  (function () {
+    var t = document.getElementById("tiles");
+    [
+      ["is-enc",   S.only_encompass,           "Live tasks absent from git"],
+      ["is-repo",  S.only_repo,                "Repo tasks absent from Encompass"],
+      ["is-drift", S.shared_differing,         "Shared tasks that disagree"],
+      ["is-enc",   S.subtasks_encompass_only,  "Subtasks only in Encompass"],
+      ["is-repo",  S.subtasks_repo_only,       "Subtasks only in the repo"],
+      ["is-drift", S.subtask_description_diffs, "Subtasks with different wording"],
+      ["is-drift", S.subtask_rank_diffs,       "Subtasks ordered differently"],
+      ["is-enc",   D.placeholders.encompass[1], "Live subtasks still labelled “Sub-Task Name”"]
+    ].forEach(function (r) {
+      var d = el("div", "tile " + r[0]);
+      d.appendChild(el("div", "n", r[1]));
+      d.appendChild(el("div", "k", r[2]));
+      t.appendChild(d);
+    });
+  })();
+
+  /* ---- rename pairs ---------------------------------------------------- */
+  (function () {
+    var box = document.getElementById("renamelist");
+    S.rename_pairs.forEach(function (p) {
+      var rt = p[0], ct = p[1];
+      var row = el("div", "pair");
+
+      var l = el("div", "side-repo", rt);
+      l.appendChild(el("span", "nm", D.repo_tasks_detail[rt].name + " · repo"));
+
+      var mid = el("div", "arrow", "→");
+
+      var r = el("div", "side-enc", ct);
+      r.appendChild(el("span", "nm", D.encompass_tasks_detail[ct].name + " · Encompass"));
+
+      row.appendChild(l); row.appendChild(mid); row.appendChild(r);
+      box.appendChild(row);
+    });
+  })();
+
+  /* ---- assemble ledger model ------------------------------------------- */
+  var byTask = {};
+  D.rows.forEach(function (r) {
+    (byTask[r.task_type] = byTask[r.task_type] || []).push(r);
+  });
+
+  var items = [];
+  Object.keys(D.encompass_tasks_detail).forEach(function (tt) {
+    var e = D.encompass_tasks_detail[tt], rp = D.repo_tasks_detail[tt];
+    items.push({
+      type: tt,
+      name: rp ? rp.name : e.name,
+      altName: rp && rp.name !== e.name ? e.name : null,
+      group: (rp && rp.group) || e.group || "—",
+      inEnc: true, inRepo: !!rp,
+      side: rp ? BOTH : ENC_ONLY,
+      deltas: rp ? (byTask[tt] || []).length : (e.subs.length || 0),
+      rows: byTask[tt] || [],
+      file: e.file
+    });
+  });
+  Object.keys(D.repo_tasks_detail).forEach(function (tt) {
+    if (D.encompass_tasks_detail[tt]) return;
+    var rp = D.repo_tasks_detail[tt];
+    items.push({
+      type: tt, name: rp.name, altName: null, group: rp.group || "—",
+      inEnc: false, inRepo: true, side: REPO_ONLY,
+      deltas: rp.subs.length, rows: [], file: rp.file
+    });
+  });
+
+  var SIDE_RANK = {}; SIDE_RANK[BOTH] = 0; SIDE_RANK[ENC_ONLY] = 1; SIDE_RANK[REPO_ONLY] = 2;
+  items.sort(function (a, b) {
+    if (a.side !== b.side) return SIDE_RANK[a.side] - SIDE_RANK[b.side];
+    if (b.deltas !== a.deltas) return b.deltas - a.deltas;
+    return a.name.localeCompare(b.name);
+  });
+
+  /* ---- filters --------------------------------------------------------- */
+  var filter = "all", query = "";
+  var FILTERS = [
+    { id: "all",     label: "All",            cls: "",        n: items.length },
+    { id: BOTH,      label: "Both, differs",  cls: "c-drift", n: S.shared_differing },
+    { id: ENC_ONLY,  label: "Encompass only", cls: "c-enc",   n: S.only_encompass },
+    { id: REPO_ONLY, label: "Repo only",      cls: "c-repo",  n: S.only_repo }
+  ];
+
+  var chipbar = document.getElementById("chips");
+  FILTERS.forEach(function (f) {
+    var b = el("button", "chip " + f.cls);
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(f.id === "all"));
+    b.appendChild(document.createTextNode(f.label));
+    b.appendChild(el("span", "cnt", f.n));
+    b.addEventListener("click", function () {
+      filter = f.id;
+      Array.prototype.forEach.call(chipbar.children, function (c, i) {
+        c.setAttribute("aria-pressed", String(FILTERS[i].id === filter));
+      });
+      render();
+    });
+    chipbar.appendChild(b);
+  });
+
+  document.getElementById("search").addEventListener("input", function (e) {
+    query = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  /* ---- detail rendering ------------------------------------------------ */
+  var SCOPE_TITLE = {
+    task: "Task attributes",
+    association: "Assignee & workspace bindings",
+    subtask: "Subtasks present on only one side",
+    subtask_description: "Subtasks worded differently",
+    subtask_rank: "Subtasks ordered differently"
+  };
+  var SCOPE_ORDER = ["task", "association", "subtask", "subtask_description", "subtask_rank"];
+
+  function detailFor(item) {
+    var wrapEl = el("div", "detail");
+
+    if (item.side !== BOTH) {
+      var only = el("div", "dgroup");
+      only.appendChild(el("h4", null, item.side === ENC_ONLY
+        ? "Live in Encompass, no XML in the repo"
+        : "Committed to the repo, not present in Encompass"));
+      var det = item.side === ENC_ONLY
+        ? D.encompass_tasks_detail[item.type]
+        : D.repo_tasks_detail[item.type];
+      var p = el("p", "hint",
+        det.subs.length
+          ? det.subs.length + " subtask(s) · defined in " + det.file
+          : "No subtasks · defined in " + det.file);
+      p.style.fontSize = "13px";
+      p.style.color = "var(--ink-mid)";
+      only.appendChild(p);
+      if (det.subs.length) {
+        var tb = el("table", "dtable");
+        det.subs.forEach(function (s) {
+          var tr = el("tr");
+          tr.appendChild(el("td", "k", s));
+          tb.appendChild(tr);
+        });
+        only.appendChild(tb);
+      }
+      wrapEl.appendChild(only);
+      return wrapEl;
+    }
+
+    var grouped = {};
+    item.rows.forEach(function (r) { (grouped[r.scope] = grouped[r.scope] || []).push(r); });
+
+    SCOPE_ORDER.forEach(function (scope) {
+      var rows = grouped[scope];
+      if (!rows || !rows.length) return;
+      var g = el("div", "dgroup");
+      g.appendChild(el("h4", null, SCOPE_TITLE[scope] + " · " + rows.length));
+
+      var tb = el("table", "dtable");
+      var hd = el("tr");
+      hd.appendChild(el("th", null, scope === "task" ? "Field" : "Subtask"));
+      hd.appendChild(el("th", null, "Repo"));
+      hd.appendChild(el("th", null, "Encompass"));
+      tb.appendChild(hd);
+
+      rows.forEach(function (r) {
+        var tr = el("tr");
+        tr.appendChild(el("td", "k", r.field));
+
+        if (scope === "subtask") {
+          var side = r.status === ENC_ONLY ? "enc" : "repo";
+          var td = el("td");
+          td.colSpan = 2;
+          var tag = el("span", "tag t-" + side,
+            r.status === ENC_ONLY ? "Encompass only" : "Repo only");
+          td.appendChild(tag);
+          var desc = r.encompass_value || r.repo_value;
+          if (desc) {
+            var pd = el("div");
+            pd.className = "txt";
+            pd.textContent = desc;
+            pd.style.marginTop = "4px";
+            td.appendChild(pd);
+          }
+          tr.appendChild(td);
+        } else {
+          tr.appendChild(el("td", "v-repo " + (scope === "subtask_description" ? "txt" : ""),
+            r.repo_value || "—"));
+          tr.appendChild(el("td", "v-enc " + (scope === "subtask_description" ? "txt" : ""),
+            r.encompass_value || "—"));
+        }
+        tb.appendChild(tr);
+      });
+
+      g.appendChild(tb);
+      wrapEl.appendChild(g);
+    });
+
+    var src = el("div", "dgroup");
+    src.appendChild(el("h4", null, "Sources"));
+    var st = el("table", "dtable");
+    [["Repo", D.repo_tasks_detail[item.type].file], ["Encompass", item.file]].forEach(function (p) {
+      var tr = el("tr");
+      tr.appendChild(el("th", null, p[0]));
+      var td = el("td", "k", p[1]);
+      td.colSpan = 2;
+      tr.appendChild(td);
+      st.appendChild(tr);
+    });
+    src.appendChild(st);
+    wrapEl.appendChild(src);
+
+    return wrapEl;
+  }
+
+  /* ---- ledger rendering ------------------------------------------------ */
+  var host = document.getElementById("rows");
+
+  function render() {
+    host.textContent = "";
+    var shown = items.filter(function (it) {
+      if (filter !== "all" && it.side !== filter) return false;
+      if (!query) return true;
+      return (it.name + " " + it.type + " " + it.group + " " + (it.altName || ""))
+        .toLowerCase().indexOf(query) !== -1;
+    });
+
+    if (!shown.length) {
+      host.appendChild(el("div", "empty", "No tasks match that filter."));
+      return;
+    }
+
+    shown.forEach(function (it) {
+      var cls = it.side === BOTH ? "s-drift" : (it.side === ENC_ONLY ? "s-enc" : "s-repo");
+      var row = el("div", "rowitem " + cls);
+
+      var btn = el("button", "rowbtn");
+      btn.type = "button";
+      btn.setAttribute("aria-expanded", "false");
+
+      var glyph = el("span", "glyph");
+      glyph.appendChild(el("i", it.inEnc ? "on-enc" : "off"));
+      glyph.appendChild(el("i", it.inRepo ? "on-repo" : "off"));
+      glyph.setAttribute("role", "img");
+      glyph.setAttribute("aria-label",
+        (it.inEnc ? "In Encompass" : "Not in Encompass") + ", " +
+        (it.inRepo ? "in repo" : "not in repo"));
+      btn.appendChild(glyph);
+
+      var nameCell = el("div");
+      nameCell.appendChild(el("div", "tname", it.name));
+      if (it.altName) {
+        nameCell.appendChild(el("div", "ttype", "Encompass calls it “" + it.altName + "”"));
+      }
+      btn.appendChild(nameCell);
+
+      btn.appendChild(el("div", "ttype", it.type));
+      btn.appendChild(el("div", "tgrp", it.group));
+      btn.appendChild(el("div", "num", it.deltas));
+
+      var det = detailFor(it);
+
+      btn.addEventListener("click", function () {
+        var open = row.classList.toggle("open");
+        btn.setAttribute("aria-expanded", String(open));
+      });
+
+      row.appendChild(btn);
+      row.appendChild(det);
+      host.appendChild(row);
+    });
+  }
+
+  render();
+
+  /* ---- systematic-difference panels ------------------------------------ */
+  (function () {
+    var host = document.getElementById("panels");
+
+    function panel(title, hint) {
+      var p = el("div", "panel");
+      p.appendChild(el("h3", null, title));
+      if (hint) p.appendChild(el("p", "hint", hint));
+      return p;
+    }
+
+    /* assignee roles */
+    var roles = {};
+    Object.keys(D.assignees.encompass).forEach(function (k) { roles[k] = 1; });
+    Object.keys(D.assignees.repo).forEach(function (k) { roles[k] = 1; });
+    var roleKeys = Object.keys(roles).sort(function (a, b) {
+      return (D.assignees.encompass[b] || 0) + (D.assignees.repo[b] || 0)
+           - (D.assignees.encompass[a] || 0) - (D.assignees.repo[a] || 0);
+    });
+    var maxRole = 0;
+    roleKeys.forEach(function (k) {
+      maxRole = Math.max(maxRole, D.assignees.encompass[k] || 0, D.assignees.repo[k] || 0);
+    });
+
+    var pr = panel("Who the work is assigned to",
+      "Encompass routes work to eight roles, including dedicated task queues. The repo only ever " +
+      "names Loan Processor, Underwriter, or nobody — so most imported tasks land on the wrong desk.");
+    var bars = el("div", "bars");
+    roleKeys.forEach(function (k) {
+      var e = D.assignees.encompass[k] || 0, r = D.assignees.repo[k] || 0;
+      var row = el("div", "bar-row");
+      row.appendChild(el("div", "bl", k));
+      row.appendChild(el("div", "bn", e + " / " + r));
+      var track = el("div", "track");
+      var fe = el("span", "fe"); fe.style.width = (e / maxRole * 50) + "%";
+      var fr = el("span", "fr"); fr.style.width = (r / maxRole * 50) + "%";
+      track.appendChild(fe); track.appendChild(fr);
+      row.appendChild(track);
+      bars.appendChild(row);
+    });
+    pr.appendChild(bars);
+    pr.appendChild(el("p", "hint", "Bars read Encompass then repo, left to right."));
+    host.appendChild(pr);
+
+    /* task groups */
+    var groups = {};
+    Object.keys(D.groups.encompass).forEach(function (k) { groups[k] = 1; });
+    Object.keys(D.groups.repo).forEach(function (k) { groups[k] = 1; });
+    var gk = Object.keys(groups).sort(function (a, b) {
+      return (D.groups.encompass[b] || 0) + (D.groups.repo[b] || 0)
+           - (D.groups.encompass[a] || 0) - (D.groups.repo[a] || 0);
+    });
+    var pg = panel("How tasks are grouped",
+      "The repo invents hyphenated sub-groups Encompass has no concept of, while Encompass leaves " +
+      D.groups.encompass["(ungrouped)"] + " of its tasks ungrouped entirely.");
+    var sc = el("div", "scroller");
+    var gt = el("table", "ptable");
+    var gh = el("tr");
+    ["Group", "Encompass", "Repo"].forEach(function (h) { gh.appendChild(el("th", null, h)); });
+    gt.appendChild(gh);
+    gk.forEach(function (k) {
+      var tr = el("tr");
+      tr.appendChild(el("td", null, k));
+      tr.appendChild(el("td", "n e", D.groups.encompass[k] || 0));
+      tr.appendChild(el("td", "n r", D.groups.repo[k] || 0));
+      gt.appendChild(tr);
+    });
+    sc.appendChild(gt);
+    pg.appendChild(sc);
+    host.appendChild(pg);
+
+    /* naming hygiene */
+    var pn = panel("Naming hygiene",
+      "The repo's own conventions require every subtask type to be prefixed with its parent task " +
+      "name and separated by an en-dash. Production largely does not.");
+    var nt = el("table", "ptable");
+    var nh = el("tr");
+    ["Measure", "Encompass", "Repo"].forEach(function (h) { nh.appendChild(el("th", null, h)); });
+    nt.appendChild(nh);
+    [
+      ["Subtasks still labelled “Sub-Task Name”", D.placeholders.encompass[1], D.placeholders.repo[1]],
+      ["Subtask types breaking the prefix rule", D.namespace_violations.encompass, D.namespace_violations.repo],
+      ["Subtask types with no separator", D.separators.encompass.none || 0, D.separators.repo.none || 0],
+      ["Subtask types using a plain hyphen", D.separators.encompass.hyphen || 0, D.separators.repo.hyphen || 0],
+      ["Tasks bound to a workspace", D.workspaces.encompass[0], D.workspaces.repo[0]]
+    ].forEach(function (r) {
+      var tr = el("tr");
+      tr.appendChild(el("td", null, r[0]));
+      tr.appendChild(el("td", "n e", r[1]));
+      tr.appendChild(el("td", "n r", r[2]));
+      nt.appendChild(tr);
+    });
+    pn.appendChild(nt);
+    host.appendChild(pn);
+
+    /* SLA drift */
+    var sla = {};
+    D.rows.forEach(function (r) {
+      if (r.scope === "task" && (r.field === "duration" || r.field === "durationFormat")) {
+        sla[r.task_type] = true;
+      }
+    });
+    var slaKeys = Object.keys(sla);
+    var ps = panel("Turnaround times",
+      slaKeys.length + " shared tasks carry a different due-date window on each side. The repo " +
+      "leans on placeholder values while Encompass holds the real service levels.");
+    var ss = el("div", "scroller");
+    var st = el("table", "ptable");
+    var sh = el("tr");
+    ["Task", "Repo", "Encompass"].forEach(function (h) { sh.appendChild(el("th", null, h)); });
+    st.appendChild(sh);
+    slaKeys.forEach(function (tt) {
+      var vals = { duration: {}, durationFormat: {} };
+      (byTask[tt] || []).forEach(function (r) {
+        if (vals[r.field]) { vals[r.field].repo = r.repo_value; vals[r.field].enc = r.encompass_value; }
+      });
+      var tr = el("tr");
+      tr.appendChild(el("td", null, D.repo_tasks_detail[tt].name));
+      tr.appendChild(el("td", "n r", (vals.duration.repo || "") + " " + (vals.durationFormat.repo || "")));
+      tr.appendChild(el("td", "n e", (vals.duration.enc || "") + " " + (vals.durationFormat.enc || "")));
+      st.appendChild(tr);
+    });
+    ss.appendChild(st);
+    ps.appendChild(ss);
+    host.appendChild(ps);
+  })();
+
+  /* ---- backlog --------------------------------------------------------- */
+  (function () {
+    var host = document.getElementById("backlog");
+    [
+      ["p0", "P0", "Settle the three type keys",
+       "Fraud X Report, Credit Score Disclosure and Send Disclosures each carry a different " +
+       "<code>type</code> on each side. Until one is chosen as canonical per pair, the next import " +
+       "duplicates them in production rather than updating them."],
+      ["p0", "P0", "Resolve the duplicate Notice of Incomplete",
+       "The repo defines it twice — <code>Processing_Misc_NoticeOfIncomplete</code> (the one live in " +
+       "Encompass) and <code>Processing_Disclosures_NoticeOfIncomplete</code> (which is not). Keep one."],
+      ["p1", "P1", "Backfill " + S.only_encompass + " live tasks into git",
+       "The Funding QC suite and the whole pre-approval stage run in production with no XML in the " +
+       "repo. <code>tasks/1_origination/</code> currently holds nothing but a README."],
+      ["p1", "P1", "Decide the fate of " + S.only_repo + " undeployed repo tasks",
+       "Mostly the post-closing document-processing suite. Either ship them or mark them as drafts, " +
+       "so the repo stops reading as the source of truth for work that has never run."],
+      ["p1", "P1", "Adopt or reverse the two task splits",
+       "Encompass splits appraisal work into Appraisal Invoice plus Order Appraisal, and Review PAR " +
+       "into a first and second review. The repo still models each as a single task."],
+      ["p2", "P2", "Align assignees, workspaces and turnaround times",
+       "Roles, workspace bindings and due-date windows differ systematically rather than per task — " +
+       "worth fixing as a convention in <code>create_task.py</code> defaults."],
+      ["p2", "P2", "Clean up naming",
+       D.placeholders.encompass[1] + " subtasks are live with the placeholder label “Sub-Task Name”, " +
+       "and " + D.namespace_violations.encompass + " subtask types break the prefix rule. The typos " +
+       "<code>DislosureAlert</code> and <code>Closers -Task</code> are also in production."]
+    ].forEach(function (b) {
+      var it = el("div", "bl-item " + b[0]);
+      it.appendChild(el("div", "pri", b[1]));
+      var body = el("div");
+      body.appendChild(el("h4", null, b[2]));
+      var p = el("p");
+      p.innerHTML = b[3];
+      body.appendChild(p);
+      it.appendChild(body);
+      host.appendChild(it);
+    });
+  })();
+
+  /* ---- footer ---------------------------------------------------------- */
+  (function () {
+    var f = document.getElementById("foot");
+    f.appendChild(el("div", null,
+      "Generated by mortgage-tasks/compare_configured.py · " + D.rows.length +
+      " delta rows · joined on taskTemplate@type"));
+    f.appendChild(el("div", null,
+      "Volatile attributes (id, created, lastModified, createdVia) are excluded from the diff."));
+  })();
+})();
+</script>

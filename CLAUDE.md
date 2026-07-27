@@ -37,7 +37,8 @@ mortgage-tasks/
 │   ├── ExampleSimple.xml      ← minimal task example
 │   └── ExampleJoined.xml      ← merged export example
 ├── create_task.py             ← script: create a single task XML
-└── export_joined.py           ← script: merge XMLs into one joined file
+├── export_joined.py           ← script: merge XMLs into one joined file
+└── compare_configured.py      ← script: diff this repo against live Encompass exports
 ```
 
 ---
@@ -184,6 +185,41 @@ Returns JSON: `{"ok": true, "file": "...", "task_count": N}`
 
 Output format matches `Example files/ExampleJoined.xml`:
 single XML declaration → single `<taskTemplates>` root → all `<taskTemplate>` elements inline.
+
+---
+
+### compare_configured.py — Diff this repo against live Encompass
+
+`../import/Configured Task/` holds raw exports pulled back **out of** Encompass. This script
+reconciles them against `tasks/` so you can see what is live but untracked, what is committed but
+never deployed, and where both sides define the same task differently.
+
+```bash
+# Regenerate every output (run from the repo root):
+python compare_configured.py
+
+# Machine-readable summary for agent pipelines:
+python compare_configured.py --json
+```
+
+Writes four files:
+
+| Output | Purpose |
+|---|---|
+| `docs/COMPARISON_REPORT.md` | Narrative report — coverage, naming, structure, metadata, backlog |
+| `docs/comparison_deltas.csv` | One row per delta; `scope` ∈ task / association / subtask / subtask_description / subtask_rank |
+| `docs/reconciliation.html` | Self-contained browser report, linked from `roadmap.html` |
+| `docs/comparison_summary.json` | Headline counts; `roadmap.html` fetches this for its badge |
+
+**Run it after every fresh Encompass export.** The HTML is generated from
+`docs/reconciliation_template.html` (a `__DATA__` placeholder is replaced with the embedded
+payload) — edit the template to change the page design, not the generated file, which is
+overwritten on every run.
+
+Tasks are joined on `type`, the Encompass import key, with a normalised-name fallback that
+surfaces tasks living on both sides under *different* types — those would import as duplicates
+rather than updates. Volatile attributes (`id`, `created*`, `lastModified*`, `createdVia`) are
+excluded from the diff.
 
 ---
 

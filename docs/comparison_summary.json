@@ -1,0 +1,11 @@
+{
+ "encompassTasks": 70,
+ "repoTasks": 60,
+ "shared": 43,
+ "sharedDiffering": 43,
+ "onlyEncompass": 27,
+ "onlyRepo": 17,
+ "unmatched": 44,
+ "deltaRows": 266,
+ "report": "docs/reconciliation.html"
+}

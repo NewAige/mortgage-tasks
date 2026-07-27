@@ -1,0 +1,991 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="compare_configured.py">
+<style>*,*::before,*::after{box-sizing:border-box}img,svg{max-width:100%}</style>
+</head>
+<body>
+<title>Encompass ↔ Repo Task Reconciliation</title>
+
+<style>
+  /* ---- tokens: light ---------------------------------------------------- */
+  :root {
+    --ground:      #E9EDF1;
+    --surface:     #FDFEFF;
+    --surface-alt: #F3F6F9;
+    --rule:        #CBD5DE;
+    --rule-soft:   #DFE6EC;
+    --ink:         #141D26;
+    --ink-mid:     #4A5B6B;
+    --ink-soft:    #6F8091;
+
+    /* side identity */
+    --enc:         #A2661A;   /* live in Encompass */
+    --enc-wash:    #F4E7D2;
+    --repo:        #1F5F66;   /* versioned in repo  */
+    --repo-wash:   #D9EAEB;
+    --drift:       #97323F;   /* both sides, disagreeing */
+    --drift-wash:  #F5DFE1;
+
+    --focus:       #1F5F66;
+    --shadow:      0 1px 2px rgba(20, 29, 38, .07), 0 8px 24px -12px rgba(20, 29, 38, .18);
+
+    --mono: ui-monospace, "SFMono-Regular", "SF Mono", "Cascadia Mono", "Roboto Mono",
+            Menlo, Consolas, "Liberation Mono", monospace;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue",
+            Arial, sans-serif;
+  }
+
+  /* ---- tokens: dark (OS preference) ------------------------------------- */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground:      #0D1319;
+      --surface:     #141C24;
+      --surface-alt: #1A242E;
+      --rule:        #2C3A47;
+      --rule-soft:   #222E39;
+      --ink:         #E2E9F0;
+      --ink-mid:     #A3B2C0;
+      --ink-soft:    #7A8B9B;
+
+      --enc:         #E0A550;
+      --enc-wash:    #3A2B14;
+      --repo:        #5EB8BF;
+      --repo-wash:   #113034;
+      --drift:       #E0808C;
+      --drift-wash:  #3A1E22;
+
+      --focus:       #5EB8BF;
+      --shadow:      0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+    }
+  }
+
+  /* ---- tokens: explicit toggle (must beat the media query both ways) ----- */
+  :root[data-theme="dark"] {
+    --ground:      #0D1319;
+    --surface:     #141C24;
+    --surface-alt: #1A242E;
+    --rule:        #2C3A47;
+    --rule-soft:   #222E39;
+    --ink:         #E2E9F0;
+    --ink-mid:     #A3B2C0;
+    --ink-soft:    #7A8B9B;
+    --enc:         #E0A550;
+    --enc-wash:    #3A2B14;
+    --repo:        #5EB8BF;
+    --repo-wash:   #113034;
+    --drift:       #E0808C;
+    --drift-wash:  #3A1E22;
+    --focus:       #5EB8BF;
+    --shadow:      0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+  }
+  :root[data-theme="light"] {
+    --ground:      #E9EDF1;
+    --surface:     #FDFEFF;
+    --surface-alt: #F3F6F9;
+    --rule:        #CBD5DE;
+    --rule-soft:   #DFE6EC;
+    --ink:         #141D26;
+    --ink-mid:     #4A5B6B;
+    --ink-soft:    #6F8091;
+    --enc:         #A2661A;
+    --enc-wash:    #F4E7D2;
+    --repo:        #1F5F66;
+    --repo-wash:   #D9EAEB;
+    --drift:       #97323F;
+    --drift-wash:  #F5DFE1;
+    --focus:       #1F5F66;
+    --shadow:      0 1px 2px rgba(20, 29, 38, .07), 0 8px 24px -12px rgba(20, 29, 38, .18);
+  }
+
+  /* ---- base ------------------------------------------------------------- */
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(24px, 5vw, 64px) clamp(16px, 4vw, 40px) 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  a { color: var(--repo); }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ---- masthead --------------------------------------------------------- */
+  .masthead { display: flex; flex-direction: column; gap: 14px; }
+  .masthead h1 {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    font-weight: 650;
+  }
+  .masthead .lede {
+    max-width: 62ch;
+    color: var(--ink-mid);
+    font-size: 17px;
+  }
+  .provenance {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+  }
+
+  /* ---- balance strip ---------------------------------------------------- */
+  .balance {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .balance-side { padding: 22px 26px; display: flex; flex-direction: column; gap: 4px; }
+  .balance-side.enc  { border-top: 3px solid var(--enc); }
+  .balance-side.repo { border-top: 3px solid var(--repo); text-align: right; align-items: flex-end; }
+  .balance-side .label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .balance-side .figure {
+    font-family: var(--mono); font-size: clamp(34px, 6vw, 52px); font-weight: 600;
+    line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+  }
+  .balance-side.enc  .figure { color: var(--enc); }
+  .balance-side.repo .figure { color: var(--repo); }
+  .balance-side .sub { font-family: var(--mono); font-size: 12px; color: var(--ink-mid); }
+
+  .balance-mid {
+    padding: 22px 26px;
+    border-left: 1px solid var(--rule-soft);
+    border-right: 1px solid var(--rule-soft);
+    background: var(--surface-alt);
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: center; gap: 4px; text-align: center; min-width: 190px;
+  }
+  .balance-mid .figure {
+    font-family: var(--mono); font-size: 30px; font-weight: 600;
+    color: var(--drift); font-variant-numeric: tabular-nums; line-height: 1;
+  }
+  .balance-mid .label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .balance-mid .note { font-size: 12.5px; color: var(--ink-mid); max-width: 22ch; }
+
+  @media (max-width: 720px) {
+    .balance { grid-template-columns: 1fr; }
+    .balance-side.repo { text-align: left; align-items: flex-start; }
+    .balance-mid { border-left: 0; border-right: 0; border-top: 1px solid var(--rule-soft);
+                   border-bottom: 1px solid var(--rule-soft); align-items: flex-start; text-align: left; }
+  }
+
+  /* ---- tiles ------------------------------------------------------------ */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 1px;
+           background: var(--rule-soft); border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .tile { background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 3px; }
+  .tile .n { font-family: var(--mono); font-size: 26px; font-weight: 600; line-height: 1.1;
+             font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .tile .k { font-size: 12.5px; color: var(--ink-mid); line-height: 1.35; }
+  .tile.is-enc   .n { color: var(--enc); }
+  .tile.is-repo  .n { color: var(--repo); }
+  .tile.is-drift .n { color: var(--drift); }
+
+  /* ---- sections --------------------------------------------------------- */
+  section { display: flex; flex-direction: column; gap: 18px; }
+  .sec-head { display: flex; flex-direction: column; gap: 6px; }
+  .sec-head h2 { font-size: 22px; letter-spacing: -.01em; font-weight: 640; }
+  .sec-head p { color: var(--ink-mid); font-size: 14.5px; max-width: 68ch; }
+
+  /* ---- callout ---------------------------------------------------------- */
+  .callout {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-left: 3px solid var(--drift); border-radius: 3px;
+    padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .callout h3 { font-size: 16px; font-weight: 640; }
+  .callout p { font-size: 14.5px; color: var(--ink-mid); max-width: 72ch; }
+  .pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px 14px; align-items: center;
+          font-family: var(--mono); font-size: 12.5px; padding: 10px 0; border-top: 1px solid var(--rule-soft); }
+  .pair .side-repo { color: var(--repo); word-break: break-all; }
+  .pair .side-enc  { color: var(--enc);  word-break: break-all; text-align: right; }
+  .pair .arrow { color: var(--ink-soft); font-size: 14px; }
+  .pair .nm { display: block; color: var(--ink-mid); font-family: var(--sans); font-size: 12px; }
+  @media (max-width: 620px) {
+    .pair { grid-template-columns: 1fr; }
+    .pair .side-enc { text-align: left; }
+    .pair .arrow { display: none; }
+  }
+
+  /* ---- controls --------------------------------------------------------- */
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .02em;
+    padding: 7px 13px; border-radius: 2px; cursor: pointer;
+    background: var(--surface); color: var(--ink-mid);
+    border: 1px solid var(--rule);
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+  }
+  .chip:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .chip .cnt { font-variant-numeric: tabular-nums; opacity: .65; }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+  .chip[aria-pressed="true"].c-enc   { background: var(--enc);   border-color: var(--enc);   color: #FFF8EC; }
+  .chip[aria-pressed="true"].c-repo  { background: var(--repo);  border-color: var(--repo);  color: #EFFBFB; }
+  .chip[aria-pressed="true"].c-drift { background: var(--drift); border-color: var(--drift); color: #FFF1F2; }
+  :root[data-theme="dark"] .chip[aria-pressed="true"] { color: #0D1319; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .chip[aria-pressed="true"] { color: #0D1319; }
+  }
+
+  .search {
+    flex: 1 1 220px; min-width: 180px;
+    font-family: var(--mono); font-size: 13px;
+    padding: 8px 12px; border-radius: 2px;
+    border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
+  }
+  .search::placeholder { color: var(--ink-soft); }
+  :is(.chip, .search, .rowbtn, .themetog):focus-visible {
+    outline: 2px solid var(--focus); outline-offset: 2px;
+  }
+
+  /* ---- ledger ----------------------------------------------------------- */
+  .ledger { border: 1px solid var(--rule); border-radius: 3px; background: var(--surface);
+            box-shadow: var(--shadow); overflow: hidden; }
+  .ledger-head, .rowbtn {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 2.1fr) minmax(0, 2.4fr) minmax(0, 1fr) 74px;
+    gap: 14px; align-items: center; padding: 10px 18px; text-align: left;
+  }
+  .ledger-head {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--ink-soft); background: var(--surface-alt); border-bottom: 1px solid var(--rule);
+  }
+  .ledger-head .num, .rowbtn .num { text-align: right; }
+  .rowitem { border-bottom: 1px solid var(--rule-soft); }
+  .rowitem:last-child { border-bottom: 0; }
+  .rowbtn {
+    width: 100%; background: none; border: 0; cursor: pointer; color: inherit;
+    font: inherit; border-left: 3px solid transparent; padding-left: 15px;
+    transition: background .12s ease;
+  }
+  .rowbtn:hover { background: var(--surface-alt); }
+  .rowitem.s-enc   .rowbtn { border-left-color: var(--enc); }
+  .rowitem.s-repo  .rowbtn { border-left-color: var(--repo); }
+  .rowitem.s-drift .rowbtn { border-left-color: var(--drift); }
+
+  /* two-cell presence glyph: left = Encompass, right = repo */
+  .glyph { display: inline-grid; grid-template-columns: 11px 11px; gap: 3px; }
+  .glyph i { display: block; height: 11px; border-radius: 1px; border: 1px solid var(--ink-soft); }
+  .glyph i.on-enc  { background: var(--enc);  border-color: var(--enc); }
+  .glyph i.on-repo { background: var(--repo); border-color: var(--repo); }
+  .glyph i.off     { background: transparent; border-style: dashed; opacity: .55; }
+
+  .rowbtn .tname { font-size: 14.5px; font-weight: 550; line-height: 1.3; }
+  .rowbtn .ttype { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft);
+                   word-break: break-all; line-height: 1.35; }
+  .rowbtn .tgrp  { font-family: var(--mono); font-size: 11.5px; color: var(--ink-mid); }
+  .rowbtn .num   { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums;
+                   color: var(--ink-mid); }
+  .rowitem.s-drift .rowbtn .num { color: var(--drift); font-weight: 600; }
+
+  .detail { display: none; padding: 4px 18px 22px 32px; background: var(--surface-alt);
+            border-top: 1px solid var(--rule-soft); }
+  .rowitem.open .detail { display: block; }
+  .dgroup { padding-top: 14px; }
+  .dgroup h4 {
+    margin: 0 0 8px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--ink-soft); font-weight: 500;
+  }
+  .dtable { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .dtable th, .dtable td { text-align: left; padding: 6px 12px 6px 0; vertical-align: top;
+                           border-bottom: 1px solid var(--rule-soft); }
+  .dtable th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em;
+               text-transform: uppercase; color: var(--ink-soft); font-weight: 500; }
+  .dtable td.k { font-family: var(--mono); font-size: 12px; color: var(--ink); word-break: break-word; }
+  .dtable td.v-repo { color: var(--repo); }
+  .dtable td.v-enc  { color: var(--enc); }
+  .dtable td.txt { color: var(--ink-mid); line-height: 1.45; }
+  .tag { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+         padding: 2px 6px; border-radius: 2px; white-space: nowrap; }
+  .tag.t-enc  { background: var(--enc-wash);  color: var(--enc); }
+  .tag.t-repo { background: var(--repo-wash); color: var(--repo); }
+  .empty { padding: 28px 18px; text-align: center; color: var(--ink-soft);
+           font-family: var(--mono); font-size: 13px; }
+
+  @media (max-width: 780px) {
+    .ledger-head { display: none; }
+    .rowbtn { grid-template-columns: 42px minmax(0, 1fr) 60px; row-gap: 4px; }
+    .rowbtn .ttype { grid-column: 2 / 4; }
+    .rowbtn .tgrp  { display: none; }
+    .detail { padding-left: 18px; }
+  }
+
+  /* ---- comparison panels ------------------------------------------------ */
+  .panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 3px;
+           padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .panel h3 { font-size: 15px; font-weight: 640; }
+  .panel .hint { font-size: 13px; color: var(--ink-mid); line-height: 1.45; }
+
+  .bars { display: flex; flex-direction: column; gap: 11px; }
+  .bar-row { display: grid; grid-template-columns: minmax(0, 1fr) 46px; gap: 10px; align-items: center; }
+  .bar-row .bl { font-size: 13px; color: var(--ink); line-height: 1.3; }
+  .bar-row .bn { font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums;
+                 color: var(--ink-soft); text-align: right; }
+  .track { grid-column: 1 / 3; display: flex; height: 8px; background: var(--rule-soft); border-radius: 1px; overflow: hidden; }
+  .track span { display: block; height: 100%; }
+  .track .fe { background: var(--enc); }
+  .track .fr { background: var(--repo); }
+
+  .scroller { overflow-x: auto; }
+  .ptable { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 340px; }
+  .ptable th, .ptable td { padding: 7px 10px 7px 0; text-align: left; border-bottom: 1px solid var(--rule-soft); }
+  .ptable th { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+               color: var(--ink-soft); font-weight: 500; }
+  .ptable td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ptable td.n.e { color: var(--enc); }
+  .ptable td.n.r { color: var(--repo); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-family: var(--mono); font-size: 11.5px;
+            color: var(--ink-mid); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend .sw { width: 11px; height: 11px; border-radius: 1px; display: inline-block; }
+
+  /* ---- backlog ---------------------------------------------------------- */
+  .backlog { display: flex; flex-direction: column; gap: 1px; background: var(--rule-soft);
+             border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+  .bl-item { background: var(--surface); padding: 16px 20px; display: grid;
+             grid-template-columns: 52px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .bl-item .pri { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; font-weight: 600;
+                  padding: 3px 0; }
+  .bl-item.p0 .pri { color: var(--drift); }
+  .bl-item.p1 .pri { color: var(--enc); }
+  .bl-item.p2 .pri { color: var(--ink-soft); }
+  .bl-item h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; }
+  .bl-item p { font-size: 13.5px; color: var(--ink-mid); line-height: 1.5; max-width: 76ch; }
+  .bl-item code { font-family: var(--mono); font-size: 12.5px; background: var(--surface-alt);
+                  padding: 1px 4px; border-radius: 2px; }
+
+  footer { border-top: 1px solid var(--rule); padding-top: 18px; font-family: var(--mono);
+           font-size: 11.5px; color: var(--ink-soft); line-height: 1.7; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Reconciliation statement · Encompass LOS ↔ mortgage-tasks</p>
+    <h1>Two ledgers of the same workflow, and they don't balance</h1>
+    <p class="lede">
+      Every task the loan workflow runs is defined twice: once live in Encompass, once as XML in the
+      repo. This is the line-by-line reconciliation — what is running in production but untracked in
+      git, what is committed but never deployed, and where both sides define the same task and
+      disagree about what it does.
+    </p>
+    <p class="provenance">
+      <span>SOURCE A · import/Configured Task/ — 7 Encompass exports</span>
+      <span>SOURCE B · mortgage-tasks/tasks/ — 60 XML files</span>
+      <span>JOIN KEY · taskTemplate@type</span>
+    </p>
+  </header>
+
+  <div class="balance" id="balance"></div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section id="renames">
+    <div class="sec-head">
+      <p class="eyebrow">Priority 0</p>
+      <h2>Three tasks exist on both sides under different type keys</h2>
+      <p>
+        <code>type</code> is the import key. Where the two sides disagree about it, re-importing the
+        repo copy does not update the live task — it creates a second one alongside it. These read as
+        “missing on one side” in the counts above, but they are renames, not gaps.
+      </p>
+    </div>
+    <div class="callout" id="renamelist"></div>
+  </section>
+
+  <section id="ledgersec">
+    <div class="sec-head">
+      <p class="eyebrow">Line items · 87 tasks</p>
+      <h2>The ledger</h2>
+      <p>
+        Every task on either side. The two-cell mark shows presence — left cell Encompass, right cell
+        repo; a dashed cell means absent. Select any row to open its deltas.
+      </p>
+    </div>
+
+    <div class="controls">
+      <div class="chips" id="chips"></div>
+      <input class="search" id="search" type="search" placeholder="Filter by name, type or group…"
+             aria-label="Filter tasks by name, type or group" autocomplete="off">
+    </div>
+
+    <div class="legend">
+      <span><i class="sw" style="background: var(--enc)"></i> Live in Encompass</span>
+      <span><i class="sw" style="background: var(--repo)"></i> Committed to repo</span>
+      <span><i class="sw" style="background: var(--drift)"></i> Both sides, disagreeing</span>
+    </div>
+
+    <div class="ledger">
+      <div class="ledger-head" aria-hidden="true">
+        <div>E&nbsp;·&nbsp;R</div><div>Task</div><div>Type</div><div>Group</div><div class="num">Deltas</div>
+      </div>
+      <div id="rows"></div>
+    </div>
+  </section>
+
+  <section id="meta">
+    <div class="sec-head">
+      <p class="eyebrow">Systematic differences</p>
+      <h2>Where the two sides differ by pattern, not by task</h2>
+      <p>
+        These gaps repeat across many tasks at once, so they are worth fixing as a policy rather than
+        one file at a time.
+      </p>
+    </div>
+    <div class="panels" id="panels"></div>
+  </section>
+
+  <section id="backlogsec">
+    <div class="sec-head">
+      <p class="eyebrow">What to do about it</p>
+      <h2>Reconciliation backlog</h2>
+    </div>
+    <div class="backlog" id="backlog"></div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script id="payload" type="application/json">{"stats":{"encompass_tasks":70,"repo_tasks":60,"encompass_subtasks":248,"repo_subtasks":235,"shared":43,"only_encompass":27,"only_repo":17,"shared_identical":0,"shared_differing":43,"subtasks_encompass_only":16,"subtasks_repo_only":10,"subtask_description_diffs":28,"subtask_rank_diffs":26,"rename_pairs":[["FundingQC_Fraud_X_Report","PreClosing_Fraud_X_Report"],["Processing_Disclosures_CreditScoreDisclosure","PreDisclosure_PreApproval_Credit"],["Processing_FileSetup_SendDisclosures","Processing_FileSetup_DislosureAlert"]],"only_encompass_types":["FundingQC_1008_Final","FundingQC_Flood_Determination","FundingQC_HO_Insurance_Dates","FundingQC_Index_Set_Date","FundingQC_Land_MLA","FundingQC_Loan_Estimates","FundingQC_MI_Certificate","FundingQC_Verbal_VOE","PipelineMgt_PreApp_FollowUp","PipelineMgt_PreApp_FollowUp15","PreClosing_Fraud_X_Report","PreDisclosure_PreApproval_1003","PreDisclosure_PreApproval_Credit","Processing_Appraisal_Ordering","Processing_Disclosures_HELOCDisclosure","Processing_FileSetup_DislosureAlert","Processing_ServiceOrders_FraudX","Processing_ServiceOrders_SSVN","Underwriting_ContractUWApproval","Underwriting_Counter_Second","Underwriting_Denial_Second","Underwriting_Resubmittal_AppraisalReviewFollow","Underwriting_Resubmittal_ReviewPAR2","auto_2d3dfd67-84a6-4d55-a443-23a2d8ba79c7","auto_7d75e7e7-32bd-438c-aa31-46bf68fe03db","auto_931feddf-bfbb-4d68-8621-89aef47a46e6","auto_d8e42d32-3cab-4b9b-980d-d36ade5e8d79"],"only_repo_types":["FundingQC_Fraud_X_Report","Funding_Boarding_BoardLoan","PostClosingQC_DocumentProcessing_DeliverMortgage","PostClosingQC_DocumentProcessing_DeliverNote","PostClosingQC_DocumentProcessing_DocumentReceipt","PostClosingQC_DocumentProcessing_PhysicalPackageReceipt","PostClosingQC_DocumentProcessing_RecordMortgage","PostClosingQC_DocumentProcessing_RecordingConfirmation","PostClosingQC_DocumentProcessing_TransferToColdStorage","PostClosingQC_QualityAssurance_ClosingDocReview","PostClosingQC_QualityAssurance_PreClosingDocReview","Processing_Disclosures_CreditScoreDisclosure","Processing_Disclosures_NoticeOfIncomplete","Processing_FileSetup_SendDisclosures","Processing_ServiceOrders_OrderSSA89","Processing_ServiceOrders_OrderTaxTranscripts","Underwriting_Resubmittal_SendAVM"],"shared_types":["Closing_ClosingSetup_ClosingSetup","Closing_ClosingSetup_PreparePayoffLetters","Closing_DocPrep_CreateClosingPackage","Closing_PreClosing_RequestClosingDisclosure","Closing_PreClosing_Scheduling","Closing_PreClosing_SendInitialClosingDisclosure","FundingQC_Credit_Refresh","Funding_FundLoan","Funding_Funding_Approval","Funding_Funding_ConfirmFunding","Funding_Wire_Approval","Processing_ARM_Disclosure","Processing_Appraisal_Order","Processing_FileSetup_PullDeed","Processing_FileSetup_ReviewCredit","Processing_FileSetup_SendDisclosuresHELOC","Processing_Misc_AppraisalRefund","Processing_Misc_CancelFloodCertificate","Processing_Misc_FileClosureDocuments","Processing_Misc_MailingInitialDisclosures","Processing_Misc_NOIExpiration","Processing_Misc_NoticeOfIncomplete","Processing_Misc_SendDenial","Processing_Misc_WithdrawLoan","Processing_PostUnderwriting_SendCommitmentLetter","Processing_PreUnderwriting_PreUWChecklist","Processing_ServiceOrders_FloodCertificateReview","Processing_ServiceOrders_OrderAVM","Processing_ServiceOrders_OrderFloodCertificate","Processing_ServiceOrders_OrderPAR","Processing_ServiceOrders_OrderTitle","Processing_ServiceOrders_RecheckFloodCertificate","QualityAssurance_InitialDocReview","Underwriting_Misc_SendCounteroffer","Underwriting_PostUnderwriting_CondoMasterReview","Underwriting_PostUnderwriting_HOIReview","Underwriting_PostUnderwriting_OrderHOI","Underwriting_Resubmittal_ReviewAppraisal","Underwriting_Resubmittal_ReviewAppraisalSecondReview","Underwriting_Resubmittal_ReviewPAR","Underwriting_Resubmittal_SendAppraisal","Underwriting_Resubmittal_TitleOwnershipReport","Underwriting_Submittal_Underwrite"]},"assignees":{"encompass":{"Loan Processor":32,"Underwriter":4,"Disclosers - Task":3,"Closer":5,"Funding Approval - Task":2,"Task - Appraisal Reviews":8,"(unassigned)":13,"Pipeline Management - Task":2,"Closers -Task":1},"repo":{"(unassigned)":23,"Loan Processor":35,"Underwriter":2}},"groups":{"encompass":{"Quality Assurance":3,"Disclosures":7,"Service Orders":5,"(ungrouped)":41,"Funding":3,"Decision":1,"Funding QC":10},"repo":{"Processing - Appraisal":1,"Processing - ARM Disclosure":1,"Service Orders":2,"(ungrouped)":21,"Disclosures":2,"Processing":11,"Processing - Pre-Underwriting":1,"Underwriting - Submittal":1,"Underwriting":1,"Closing":6,"Boarding":1,"Funding":1,"Funding QC":2,"Document Processing":7,"Quality Assurance":2}},"separators":{"encompass":{"en_dash":215,"hyphen":10,"none":23},"repo":{"en_dash":231,"hyphen":4}},"placeholders":{"encompass":[33,59],"repo":[7,10]},"workspaces":{"encompass":[45,12],"repo":[16,6]},"namespace_violations":{"encompass":43,"repo":2},"duplicate_names":{"encompass":{},"repo":{"Notice of Incomplete":[["Processing_Disclosures_NoticeOfIncomplete","tasks\\2_processing\\disclosures\\notice_of_incomplete_v1.xml"],["Processing_Misc_NoticeOfIncomplete","tasks\\2_processing\\misc\\Notice of Incomplete.xml"]]}},"encompass_tasks_detail":{"Processing_FileSetup_ReviewCredit":{"name":"Review Credit","group":"Quality Assurance","file":"task5.xml","subs":["Review Credit – Name Discrepancy","Review Credit – Name AKA's","Review Credit – Address Discrepancy","Review Credit – SSN Discrepancy","Review Credit – OFAC","Review Credit – Fraud Alerts","Review Credit – Frozen Score","Review Credit – Red Flag Form","Review Credit – Review Liens"]},"Processing_PostUnderwriting_SendCommitmentLetter":{"name":"Send Commitment Letter","group":"Disclosures","file":"task5.xml","subs":["Send Commitment Letter – Send Commitment Letter","Send Commitment Letter – Save to eFolder"]},"Processing_ServiceOrders_OrderTitle":{"name":"Order Title","group":"Service Orders","file":"task5.xml","subs":["Order Title – Order Title Ownership Report – Old Republic","Order Title – Order Title Ownership Report – Equity Attorney (Trust)","Order Title – Obtain Quote – New Deed Prep","Order Title – Order Title – Bank Attorney"]},"QualityAssurance_InitialDocReview":{"name":"Initial Document Quality Assurance","group":"Quality Assurance","file":"task5.xml","subs":["Initial Document Quality Assurance – eConsent – Completed Prior to Electronic Send","Initial Document Quality Assurance – eConsent – Docs Mailed if No eConsent","Initial Document Quality Assurance – 1003 – Declarations Complete","Initial Document Quality Assurance – 1003 – Demographic Info Addendum","Initial Document Quality Assurance – 1003 – Demographic Info Addendum Signed","Initial Document Quality Assurance – 1003 – Demographic HELOC","Initial Document Quality Assurance – ROV Sent with Initial Disclosures","Initial Document Quality Assurance – Supplemental Consumer Information Form","Initial Document Quality Assurance – HELOC Important Terms Disclosure","Initial Document Quality Assurance – Your Home Loan Toolkit","Initial Document Quality Assurance – 2015 Settlement Service List","Initial Document Quality Assurance – Acknowledgement of Intent to Proceed","Initial Document Quality Assurance – CHARM Booklet","Initial Document Quality Assurance – ARM Disclosure","Initial Document Quality Assurance – Credit Score Disclosure Completed","Initial Document Quality Assurance – Homeowner Counseling List and Acknowledgement","Initial Document Quality Assurance – Notice of Right to Copy of Appraisal (ECOA)","Initial Document Quality Assurance – Privacy Notice Received","Initial Document Quality Assurance – Privacy Policy – Opt Out Signed","Initial Document Quality Assurance – RI Appraisal Fee Notice","Initial Document Quality Assurance – RI Right to Copy of Appraisal","Initial Document Quality Assurance – RI Notice of Non-Refundability","Initial Document Quality Assurance – RI Form 1","Initial Document Quality Assurance – RI Form 2","Initial Document Quality Assurance – RI Choice of Insurance","Initial Document Quality Assurance – RI Title Insurance Disclosure","Initial Document Quality Assurance – USA Patriot Act Info Disclosure","Initial Document Quality Assurance – HELOC Booklet"]},"Processing_Misc_MailingInitialDisclosures":{"name":"Mailing Initial Disclosures","group":null,"file":"task5.xml","subs":["Mailing Initial Disclosures – Mail Disclosures and Mark Disclosure Tracking"]},"Processing_Disclosures_HELOCDisclosure":{"name":"Redisclose HELOC Disclosure","group":null,"file":"task5.xml","subs":["HELOC Disclosure – Revised Disclosure Needed"]},"Processing_ServiceOrders_OrderPAR":{"name":"Order PAR","group":null,"file":"task5.xml","subs":["Order PAR – Place PAR Order"]},"Underwriting_PostUnderwriting_OrderHOI":{"name":"Order HOI","group":null,"file":"task5.xml","subs":["Order HOI – Request Insurance Declaration"]},"Processing_PreUnderwriting_PreUWChecklist":{"name":"Pre-Underwriting Checklist","group":null,"file":"task5.xml","subs":["Pre-Underwriting Checklist – Organize eFolder","Pre-Underwriting Checklist – Run AUS","Pre-Underwriting Checklist – Verify Income","Pre-Underwriting Checklist – Verify Insurance","Pre-Underwriting Checklist – Verify Mortgage Statements","Pre-Underwriting Checklist – Verify Purpose","Pre-Underwriting Checklist – Verify Assets","Pre-Underwriting Checklist – Self-Employed Income","Pre-Underwriting Checklist – Non-Traditional Income","Pre-Underwriting Checklist – Rental Income"]},"Processing_FileSetup_DislosureAlert":{"name":"Send Disclosures Alert","group":"Disclosures","file":"task5.xml","subs":[]},"Processing_Misc_NOIExpiration":{"name":"Notice of Incomplete Expiration","group":null,"file":"tasks1.xml","subs":["Notice of Incomplete – NOI Expired"]},"Processing_Misc_NoticeOfIncomplete":{"name":"Notice of Incomplete","group":"Disclosures","file":"tasks1.xml","subs":["Notice of Incomplete – NOI Not Needed","Notice of Incomplete - Conditions","Notice of Incomplete - Dates","Notice of Incomplete - Send"]},"Processing_Appraisal_Ordering":{"name":"Order Appraisal","group":"Service Orders","file":"tasks1.xml","subs":["Order Appraisal – Automated Order","Order Appraisal – Manual Order","Order Appraisal – Quote Assignment","Order Appraisal – Payment Recording","Order Appraisal – Order 1004","Order Appraisal – Order 1025","Order Appraisal – Order 1073"]},"Processing_Appraisal_Order":{"name":"Appraisal Invoice","group":"Service Orders","file":"tasks1.xml","subs":["Order Appraisal – Obtain Quote","Order Appraisal – Create Invoice","Order Appraisal – Send Invoice"]},"Closing_DocPrep_CreateClosingPackage":{"name":"Create Closing Package","group":null,"file":"tasks1.xml","subs":["Create Closing Package – Create Closing Package"]},"Closing_PreClosing_Scheduling":{"name":"Confirm Scheduling","group":null,"file":"tasks1.xml","subs":["Scheduling – Obtain Closing Date and Time from Branch"]},"Closing_ClosingSetup_ClosingSetup":{"name":"Closing Setup","group":null,"file":"tasks1.xml","subs":["Closing Setup – Adjust Names","Closing Setup – Build Vesting","Closing Setup – Reconcile Fees","Closing Setup – Enter Plan Code"]},"Funding_Funding_ConfirmFunding":{"name":"Confirm Funding","group":null,"file":"tasks1.xml","subs":["Confirm Funding – Add Funding Worksheet to eFolder","Confirm Funding – Confirm Funding Amount"]},"Processing_FileSetup_SendDisclosuresHELOC":{"name":"Send Disclosures (HELOC)","group":"Disclosures","file":"tasks1.xml","subs":["Send Disclosures (HELOC) – Program Selection","Send Disclosures (HELOC) – Index","Send Disclosures (HELOC) – Plan Code","Send Disclosures (HELOC) – Appraisal Fee Only","Send Disclosures (HELOC) – 1003 – Demographic HELOC","Send Disclosures (HELOC) – FACT Act Disclosure – All Scores","Send Disclosures (HELOC) – FACT Act Disclosure – Checkboxes","Send Disclosures (HELOC) – FACT Act Disclosure – Key Factors","Send Disclosures (HELOC) – Home Counseling List","Send Disclosures (HELOC) – Order AVM","Send Disclosures (HELOC) – Flood Cert","Send Disclosures (HELOC) – eConsent","Send Disclosures (HELOC) – FACT Act Disclosure – Contact Info","Send Disclosures (HELOC) – Loan Audit","Send Disclosures (HELOC) – Ready to Send"]},"Processing_Misc_AppraisalRefund":{"name":"Appraisal Refund","group":null,"file":"tasks1.xml","subs":["Appraisal Refund – Confirm Appraisal Fee Received","Appraisal Refund – Prepare Refund Check and Letter","Appraisal Refund – Scan Letter and Check to Loan File","Appraisal Refund – Mail Check"]},"Funding_Funding_Approval":{"name":"Approve Funding","group":"Funding","file":"tasks2 (1).xml","subs":["Approve Funding – FraudX Review","Approve Funding – Funding Sign Off"]},"Processing_Misc_SendDenial":{"name":"Send Denial","group":null,"file":"tasks2 (1).xml","subs":["Send Denial – MA Review Board Form","Send Denial – ECOA Right to Copy of Appraisal","Send Denial – Massachusetts MGL Disclosure","Send Denial – Credit Score Disclosure","Send Denial – Mail Counteroffer","Send Denial – Send Counteroffer Electronically"]},"Closing_PreClosing_RequestClosingDisclosure":{"name":"Request Closing Disclosure","group":null,"file":"tasks2 (1).xml","subs":["Request Closing Disclosure – Request CD"]},"Closing_PreClosing_SendInitialClosingDisclosure":{"name":"Send Initial Closing Disclosure","group":null,"file":"tasks2 (1).xml","subs":["Send Initial Closing Disclosure – Send Initial CD"]},"Underwriting_Misc_SendCounteroffer":{"name":"Send Counteroffer","group":null,"file":"tasks2 (1).xml","subs":["Send Counteroffer – MA Review Form Board Required","Send Counteroffer – Send Counteroffer Electronically","Send Counteroffer – Mail Counteroffer"]},"Underwriting_Denial_Second":{"name":"Denial – Second Look","group":null,"file":"tasks2 (1).xml","subs":["Denial – Second Look"]},"Underwriting_Counter_Second":{"name":"Counteroffer Second Review","group":"Decision","file":"tasks2 (1).xml","subs":["CounterOffer – Second Look"]},"Closing_ClosingSetup_PreparePayoffLetters":{"name":"Prepare Payoff Letters","group":null,"file":"tasks2 (1).xml","subs":["Prepare Payoff Letters – Reconcile Payoff Letters","Prepare Payoff Letters – Save Payoff Letters to eFolder","Prepare Payoff Letters – Prepare Envelopes"]},"Processing_ServiceOrders_FloodCertificateReview":{"name":"Flood Certificate Review","group":"Quality Assurance","file":"tasks2 (1).xml","subs":["Flood Certificate Review – Address Matches System","Flood Certificate Review – Flood Zone Matches System","Flood Certificate Review – Life of Loan Coverage Obtained","Flood Certificate Review – Multiple Livable Dwellings","Flood Certificate Review – Address Mismatch Detected"]},"Processing_FileSetup_PullDeed":{"name":"Pull Deed","group":null,"file":"tasks2 (1).xml","subs":["Pull Deed – Pull Deed from Registry","Pull Deed – Ownership Screen","Pull Deed – Trust","Pull Deed – Add Non-Borrowing Owner"]},"Underwriting_Resubmittal_SendAppraisal":{"name":"Send Appraisal","group":null,"file":"tasks3.xml","subs":["Send Appraisal – Send Appraisal"]},"Underwriting_Resubmittal_ReviewPAR2":{"name":"Review PAR (2nd Review)","group":null,"file":"tasks3.xml","subs":["Review PAR – Address Verification","Review PAR – Visible Deferred Maintenance","Review PAR – Occupancy Confirmation","Review PAR – Repair Costs"]},"Underwriting_Resubmittal_ReviewPAR":{"name":"Review PAR (1st Review)","group":null,"file":"tasks3.xml","subs":["Review PAR – Address Verification","Review PAR – Visible Deferred Maintenance","Review PAR – Occupancy Confirmation","Review PAR – Repair Costs"]},"Underwriting_Resubmittal_ReviewAppraisalSecondReview":{"name":"Review Appraisal – Second Review","group":null,"file":"tasks3.xml","subs":["Review Appraisal – Second Review – Document Second Review","Review Appraisal – Second Review – Attach Appraisal Review Form"]},"Underwriting_Resubmittal_ReviewAppraisal":{"name":"Review Appraisal","group":null,"file":"tasks3.xml","subs":["Review Appraisal – Transfer Appraisal from Value Link","Review Appraisal – External Review","Review Appraisal – Second Review","Review Appraisal – Attach Appraisal Review Form"]},"Underwriting_Submittal_Underwrite":{"name":"Underwrite","group":null,"file":"tasks3.xml","subs":["Underwrite – Approve","Underwrite – Deny","Underwrite – CounterOffer","Underwrite – Return to Processor"]},"Processing_ServiceOrders_SSVN":{"name":"Order SSVN","group":null,"file":"tasks3.xml","subs":["Order SSVN - Submit Order"]},"Processing_ServiceOrders_FraudX":{"name":"Order FraudX","group":null,"file":"tasks3.xml","subs":["Order FraudX - Buyer Agent","Order FraudX - Seller Agent","Order FraudX - Sellers","Order FraudX - Order"]},"Underwriting_Resubmittal_AppraisalReviewFollow":{"name":"Appraisal - Ready in ValueLink Follow Up","group":null,"file":"tasks3.xml","subs":[]},"Processing_Misc_CancelFloodCertificate":{"name":"Cancel Flood Certificate","group":null,"file":"tasks3.xml","subs":["Cancel Flood Certificate – Cancel Flood Certificate on Xactus Website"]},"Processing_Misc_WithdrawLoan":{"name":"Withdraw Loan","group":null,"file":"tasks4.xml","subs":["Withdraw Loan – Borrower Withdrawal Documented","Withdraw Loan – Withdrawal Date Entered","Withdraw Loan – Send Withdrawal Notice"]},"Processing_Misc_FileClosureDocuments":{"name":"File Closure Documents","group":null,"file":"tasks4.xml","subs":["File Closure Documents – Conversation Log","File Closure Documents – Disclosure Tracking","File Closure Documents – eConsent","File Closure Documents – Initial Disclosures","File Closure Documents – 1003"]},"PreClosing_Fraud_X_Report":{"name":"Fraud X Report","group":null,"file":"tasks4.xml","subs":["Fraud X Report – Appraiser License","Fraud X Report – Red Flags","Fraud X Report – All Borrowers","Fraud X Report – Non-Borrowing Owners","Fraud X Report – Buyer Agent","Fraud X Report – Seller Agent"]},"Underwriting_ContractUWApproval":{"name":"Contract UW Approval","group":null,"file":"tasks4.xml","subs":["Underwrite – ContractApprove"]},"Underwriting_PostUnderwriting_CondoMasterReview":{"name":"Master Property Insurance Review","group":null,"file":"tasks4.xml","subs":["Master Property Insurance Review – Project Insured Confirmation","Master Property Insurance Review – Unit Within Project Confirmation","Master Property Insurance Review – Policy Effective Date","Master Property Insurance Review – Policy Active Status","Master Property Insurance Review – Replacement Cost Sufficiency","Master Property Insurance Review – Coverage Documentation","Master Property Insurance Review – Loss Settlement","Master Property Insurance Review – Roof Coverage","Master Property Insurance Review – ACV Language","Master Property Insurance Review – Deductible Review","Master Property Insurance Review – Per-Unit Deductible Exists","Master Property Insurance Review – Per-Unit Deductible Amount","Master Property Insurance Review – Interior Coverage Gap","Master Property Insurance Review – Mortgagee Clause"]},"Processing_ServiceOrders_RecheckFloodCertificate":{"name":"Recheck Flood","group":null,"file":"tasks4.xml","subs":[]},"Underwriting_PostUnderwriting_HOIReview":{"name":"HOI Review","group":null,"file":"tasks4.xml","subs":["HOI Review – Verify Coverage Amounts","HOI Review – Verify Named Insured","HOI Review – Verify Lender Named as Mortgagee","HOI Review – Verify Address","HOI Review – Confirm Policy Effective Date","HOI Review – Unit Number","HOI Review – Review Deductibles","HOI Review – Dwelling Coverage","HOI Review – Builders Risk","HOI Review – Replacement Cost Value","HOI Review – Effective Date","HOI Review – Policy Term","HOI Review – Annual Premium","HOI Review – Deductible Amount","HOI Review – Mortgagee Clause","HOI Review – Binder Signature","HOI Review – Name of Trust"]},"Underwriting_Resubmittal_TitleOwnershipReport":{"name":"Title (Ownership Report)","group":null,"file":"tasks4.xml","subs":["Title (Ownership Report) – Customer Name & Property Address","Title (Ownership Report) – Vesting / Ownership","Title (Ownership Report) – Deed Review","Title (Ownership Report) – Mortgages / Liens","Title (Ownership Report) – Judgments","Title (Ownership Report) – Legal Description"]},"Processing_ServiceOrders_OrderFloodCertificate":{"name":"Order Flood Certificate","group":"Service Orders","file":"tasks4.xml","subs":["Order Flood Certificate – Resubmit with Supporting Documents","Order Flood Certificate – Submit Order"]},"Processing_ServiceOrders_OrderAVM":{"name":"Order AVM","group":"Service Orders","file":"tasks4.xml","subs":["Order AVM – Order AVM in Xactus","Order AVM – Save AVM to eFolder","Order AVM – Enter AVM Data","Order AVM – Ready to Send with Initial Docs","Order AVM – Value Sufficient"]},"PipelineMgt_PreApp_FollowUp15":{"name":"File Follow Up (15 Day)","group":null,"file":"tasks6.xml","subs":[]},"PipelineMgt_PreApp_FollowUp":{"name":"File Follow Up (30 Day)","group":null,"file":"tasks6.xml","subs":[]},"PreDisclosure_PreApproval_1003":{"name":"1003 Quality Review (Pre-Approval)","group":"Disclosures","file":"tasks6.xml","subs":["1003_QA_1","1003_QA_2","1003_QA_3","1003_QA_4","1003_QA_5","1003_QA_6","1003_QA_7","1003_QA_8","1003_QA_9","1003_QA_10","1003_QA_11","Action_1003_QA"]},"PreDisclosure_PreApproval_Credit":{"name":"Credit Score Disclosure (Pre-Approval)","group":"Disclosures","file":"tasks6.xml","subs":["FACT Act Disclosure 1","FACT Act Disclosure 2","FACT Act Disclosure 3","FACT Act Disclosure 4","FACT Act Disclosure 5","FACT Act Disclosure 6"]},"Funding_FundLoan":{"name":"Fund Loan","group":"Funding","file":"tasks6.xml","subs":[]},"Funding_Wire_Approval":{"name":"Approve Wire","group":"Funding","file":"tasks6.xml","subs":[]},"Processing_ARM_Disclosure":{"name":"ARM Disclosure","group":"Disclosures","file":"tasks6.xml","subs":["ARM - Adjustable Rate Disclosure","ARM - Consumer Handbook on Adjustable Rate Mortgage"]},"auto_931feddf-bfbb-4d68-8621-89aef47a46e6":{"name":"Broker  Disclosures","group":null,"file":"tasks6.xml","subs":["Affiliated Business Disclosure","Anti-Steering Disclosure","TRID Date"]},"FundingQC_MI_Certificate":{"name":"Mortgage Insurance Certificate","group":"Funding QC","file":"tasks6.xml","subs":["MI Certificate – Final Information"]},"FundingQC_Index_Set_Date":{"name":"Index Set Date","group":"Funding QC","file":"tasks6.xml","subs":["Index Set Date – ≤45 Days"]},"FundingQC_Verbal_VOE":{"name":"Verbal VOE","group":"Funding QC","file":"tasks7.xml","subs":["Verbal VOE – Active Employment"]},"FundingQC_HO_Insurance_Dates":{"name":"Homeowner's Insurance Effective Dates","group":"Funding QC","file":"tasks7.xml","subs":["HO Insurance – Effective Dates"]},"FundingQC_Loan_Estimates":{"name":"Loan Estimates","group":"Funding QC","file":"tasks7.xml","subs":["Loan Estimates – All Saved"]},"FundingQC_Flood_Determination":{"name":"Flood Determination","group":"Funding QC","file":"tasks7.xml","subs":["Flood Determination – Address Match","Flood Determination – Life of Loan"]},"FundingQC_Land_MLA":{"name":"Land MLA","group":"Funding QC","file":"tasks7.xml","subs":["Land MLA – Pull Within 30 Days","Land MLA – Validate Status","Land MLA – Disclosure Delivery"]},"FundingQC_1008_Final":{"name":"1008","group":"Funding QC","file":"tasks7.xml","subs":["1008 – Final Figures"]},"FundingQC_Credit_Refresh":{"name":"Credit Refresh","group":"Funding QC","file":"tasks7.xml","subs":["Credit Refresh – Red Flags","Credit Refresh – Inquiries/New Credit"]},"auto_7d75e7e7-32bd-438c-aa31-46bf68fe03db":{"name":"Funding QC","group":"Funding QC","file":"tasks7.xml","subs":["Credit Review","Verbal VOE"]},"auto_2d3dfd67-84a6-4d55-a443-23a2d8ba79c7":{"name":"OFAC","group":null,"file":"tasks7.xml","subs":[]},"auto_d8e42d32-3cab-4b9b-980d-d36ade5e8d79":{"name":"Send Initial Disclosures","group":null,"file":"tasks7.xml","subs":[]}},"repo_tasks_detail":{"Processing_Appraisal_Order":{"name":"Order Appraisal","group":"Processing - Appraisal","file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","subs":["Order Appraisal – Obtain Quote","Order Appraisal – Create Invoice","Order Appraisal – Send Invoice","Order Appraisal – Payment Recording","Order Appraisal – Automated Order","Order Appraisal – Order 1004","Order Appraisal – Order 1025","Order Appraisal – Order 1073"]},"Processing_ARM_Disclosure":{"name":"ARM Disclosure","group":"Processing - ARM Disclosure","file":"tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml","subs":["ARM - Adjustable Rate Disclosure","ARM - Consumer Handbook on Adjustable Rate Mortgage"]},"Processing_ServiceOrders_OrderAVM":{"name":"Order AVM","group":"Service Orders","file":"tasks/2_processing/avm/order_avm_v1.xml","subs":["Order AVM – Order AVM in Xactus","Order AVM – Save AVM to eFolder","Order AVM – Enter AVM Data","Order AVM – Ready to Send","Order AVM – Ready to Send with Initial Docs"]},"Processing_FileSetup_ReviewCredit":{"name":"Review Credit","group":null,"file":"tasks/2_processing/credit_review/review_credit_v1.xml","subs":["Review Credit – Name Discrepancy","Review Credit – Name AKA's","Review Credit – Address Discrepancy","Review Credit – SSN Discrepancy","Review Credit – OFAC","Review Credit – Fraud Alerts","Review Credit – Frozen Score","Review Credit – Review Liens"]},"Processing_Disclosures_CreditScoreDisclosure":{"name":"Credit Score Disclosure","group":"Disclosures","file":"tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml","subs":["Credit Score Disclosure – FACT Act All Scores","Credit Score Disclosure – FACT Act Checkboxes","Credit Score Disclosure – FACT Act Key Factors","Credit Score Disclosure – eConsent","Credit Score Disclosure – Contact Info","Credit Score Disclosure – Ready to Send"]},"Processing_Disclosures_NoticeOfIncomplete":{"name":"Notice of Incomplete","group":"Processing","file":"tasks/2_processing/disclosures/notice_of_incomplete_v1.xml","subs":["Notice of Incomplete – Add Conditions","Notice of Incomplete – Send Notice of Incomplete"]},"Processing_FileSetup_SendDisclosuresHELOC":{"name":"Send Disclosures (HELOC)","group":"Disclosures","file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","subs":["Send Disclosures (HELOC) – Program Selection","Send Disclosures (HELOC) – Index","Send Disclosures (HELOC) – Plan Code","Send Disclosures (HELOC) – Appraisal Fee Only","Send Disclosures (HELOC) – 1003 – Demographic HELOC","Send Disclosures (HELOC) – FACT Act Disclosure – All Scores","Send Disclosures (HELOC) – FACT Act Disclosure – Checkboxes","Send Disclosures (HELOC) – FACT Act Disclosure – Key Factors","Send Disclosures (HELOC) – Home Counseling List","Send Disclosures (HELOC) – Order AVM","Send Disclosures (HELOC) – Flood Cert","Send Disclosures (HELOC) – eConsent","Send Disclosures (HELOC) – FACT Act Disclosure – Contact Info","Send Disclosures (HELOC) – Ready to Send"]},"Processing_FileSetup_SendDisclosures":{"name":"Send Disclosures","group":"Processing","file":"tasks/2_processing/disclosures/send_disclosures_v1.xml","subs":["Send Disclosures – Index","Send Disclosures – Appraisal Fee Only","Send Disclosures – FACT Act Disclosure – All Scores","Send Disclosures – FACT Act Disclosure – Checkboxes","Send Disclosures – FACT Act Disclosure – Key Factors","Send Disclosures – FACT Act Disclosure – eConsent","Send Disclosures – FACT Act Disclosure – Contact Info","Send Disclosures – FACT Act Disclosure – Ready to Send","Send Disclosures – Home Counseling List"]},"Processing_ServiceOrders_FloodCertificateReview":{"name":"Flood Certificate Review","group":null,"file":"tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml","subs":["Flood Certificate Review – Address Matches System","Flood Certificate Review – Flood Zone Matches System","Flood Certificate Review – Life of Loan Coverage Obtained","Flood Certificate Review – Address Mismatch Detected"]},"Processing_ServiceOrders_OrderFloodCertificate":{"name":"Order Flood Certificate","group":"Service Orders","file":"tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml","subs":["Order Flood Certificate – Resubmit with Supporting Documents"]},"Processing_Misc_NoticeOfIncomplete":{"name":"Notice of Incomplete","group":null,"file":"tasks/2_processing/misc/Notice of Incomplete.xml","subs":["Notice of Incomplete - Conditions","Notice of Incomplete – NOI Not Needed","Notice of Incomplete - Send"]},"Processing_Misc_AppraisalRefund":{"name":"Appraisal Refund","group":"Processing","file":"tasks/2_processing/misc/appraisal_refund_v1.xml","subs":["Appraisal Refund – Confirm Appraisal Fee Received","Appraisal Refund – Prepare Refund Check and Letter","Appraisal Refund – Scan Letter and Check to Loan File","Appraisal Refund – Mail Check"]},"Processing_Misc_CancelFloodCertificate":{"name":"Cancel Flood Certificate","group":"Processing","file":"tasks/2_processing/misc/cancel_flood_certificate_v1.xml","subs":["Cancel Flood Certificate – Cancel Flood Certificate on Xactus Website"]},"Processing_Misc_FileClosureDocuments":{"name":"File Closure Documents","group":"Processing","file":"tasks/2_processing/misc/file_closure_documents_v1.xml","subs":["File Closure Documents – Conversation Log","File Closure Documents – Disclosure Tracking","File Closure Documents – eConsent","File Closure Documents – Initial Disclosures","File Closure Documents – 1003"]},"Processing_Misc_MailingInitialDisclosures":{"name":"Mailing Initial Disclosures","group":null,"file":"tasks/2_processing/misc/mailing_initial_disclosures_v1.xml","subs":["Mailing Initial Disclosures – Mail Disclosures and Mark Disclosure Tracking"]},"Processing_Misc_NOIExpiration":{"name":"Notice of Incomplete Expiration","group":null,"file":"tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml","subs":["Notice of Incomplete Expiration – NOI Expired"]},"Processing_Misc_SendDenial":{"name":"Send Denial","group":"Processing","file":"tasks/2_processing/misc/send_denial_v1.xml","subs":["Send Denial – MA Review Board Form","Send Denial – ECOA Right to Copy of Appraisal","Send Denial – Massachusetts MGL Disclosure","Send Denial – Credit Score Disclosure"]},"Processing_Misc_WithdrawLoan":{"name":"Withdraw Loan","group":"Processing","file":"tasks/2_processing/misc/withdraw_loan_v1.xml","subs":["Withdraw Loan – Borrower Withdrawal Documented","Withdraw Loan – Withdrawal Date Entered","Withdraw Loan – Send Withdrawal Notice"]},"Processing_PreUnderwriting_PreUWChecklist":{"name":"Pre-Underwriting Checklist","group":"Processing - Pre-Underwriting","file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","subs":["Pre-Underwriting Checklist – Organize eFolder","Pre-Underwriting Checklist – Run AUS","Pre-Underwriting Checklist – Verify Income","Pre-Underwriting Checklist – Verify Insurance","Pre-Underwriting Checklist – Verify Mortgage Statements","Pre-Underwriting Checklist – Verify Purpose","Pre-Underwriting Checklist – Verify Assets","Pre-Underwriting Checklist – Verify Employment","Pre-Underwriting Checklist – Self-Employed Income","Pre-Underwriting Checklist – Non-Traditional Income","Pre-Underwriting Checklist – Rental Income"]},"Processing_FileSetup_PullDeed":{"name":"Pull Deed","group":"Processing","file":"tasks/2_processing/pull_deed/pull_deed_v1.xml","subs":["Pull Deed – Pull Deed from Registry","Pull Deed – Ownership Screen","Pull Deed – Add Non-Borrowing Owner"]},"Processing_ServiceOrders_OrderPAR":{"name":"Order PAR","group":null,"file":"tasks/2_processing/service_orders/order_par_v1.xml","subs":["Order PAR – Place PAR Order"]},"Processing_ServiceOrders_RecheckFloodCertificate":{"name":"Recheck Flood","group":null,"file":"tasks/2_processing/service_orders/recheck_flood_v1.xml","subs":[]},"Processing_ServiceOrders_OrderSSA89":{"name":"Order SSA-89","group":"Processing","file":"tasks/2_processing/ssa89/order_ssa89_v1.xml","subs":[]},"Processing_ServiceOrders_OrderTaxTranscripts":{"name":"Order Tax Transcripts","group":"Processing","file":"tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml","subs":[]},"Processing_ServiceOrders_OrderTitle":{"name":"Order Title","group":"Processing","file":"tasks/2_processing/title/order_title_v1.xml","subs":["Order Title – Order Title Ownership Report – Old Republic","Order Title – Order Title Ownership Report – Equity Attorney (Trust)","Order Title – Obtain Quote – New Deed Prep","Order Title – Order Title – Bank Attorney"]},"Underwriting_PostUnderwriting_HOIReview":{"name":"HOI Review","group":null,"file":"tasks/3_underwriting/post_underwriting/hoi_review_v1.xml","subs":["HOI Review – Verify Named Insured","HOI Review – Verify Address","HOI Review – Unit Number","HOI Review – Dwelling Coverage","HOI Review – Builders Risk","HOI Review – Replacement Cost Value","HOI Review – Effective Date","HOI Review – Policy Term","HOI Review – Annual Premium","HOI Review – Deductible Amount","HOI Review – Mortgagee Clause","HOI Review – Binder Signature","HOI Review – Name of Trust"]},"Underwriting_PostUnderwriting_CondoMasterReview":{"name":"Master Property Insurance Review","group":null,"file":"tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml","subs":["Master Property Insurance Review – Project Insured Confirmation","Master Property Insurance Review – Unit Within Project Confirmation","Master Property Insurance Review – Policy Effective Date","Master Property Insurance Review – Policy Active Status","Master Property Insurance Review – Replacement Cost Sufficiency","Master Property Insurance Review – Coverage Documentation","Master Property Insurance Review – Loss Settlement","Master Property Insurance Review – Roof Coverage","Master Property Insurance Review – ACV Language","Master Property Insurance Review – Deductible Review","Master Property Insurance Review – Per-Unit Deductible Exists","Master Property Insurance Review – Per-Unit Deductible Amount","Master Property Insurance Review – Interior Coverage Gap","Master Property Insurance Review – Mortgagee Clause"]},"Underwriting_PostUnderwriting_OrderHOI":{"name":"Order HOI","group":null,"file":"tasks/3_underwriting/post_underwriting/order_hoi_v1.xml","subs":["Order HOI – Request Insurance Declaration"]},"Processing_PostUnderwriting_SendCommitmentLetter":{"name":"Send Commitment Letter","group":"","file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","subs":["Send Commitment Letter – Send Commitment Letter","Send Commitment Letter – Confirm Letter Sent","Send Commitment Letter – Save to eFolder"]},"Underwriting_Resubmittal_ReviewAppraisalSecondReview":{"name":"Review Appraisal – Second Review","group":null,"file":"tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml","subs":["Review Appraisal – Second Review – Document Second Review","Review Appraisal – Second Review – Attach Appraisal Review Form"]},"Underwriting_Resubmittal_ReviewAppraisal":{"name":"Review Appraisal","group":null,"file":"tasks/3_underwriting/resubmittal/review_appraisal_v1.xml","subs":["Review Appraisal – Transfer Appraisal from Value Link","Review Appraisal – External Review","Review Appraisal – Second Review","Review Appraisal – Attach Appraisal Review Form"]},"Underwriting_Resubmittal_ReviewPAR":{"name":"Review PAR","group":null,"file":"tasks/3_underwriting/resubmittal/review_par_v1.xml","subs":["Review PAR – Address Verification","Review PAR – Visible Deferred Maintenance","Review PAR – Occupancy Confirmation","Review PAR – Repair Costs"]},"Underwriting_Resubmittal_SendAppraisal":{"name":"Send Appraisal","group":null,"file":"tasks/3_underwriting/resubmittal/send_appraisal_v1.xml","subs":["Send Appraisal – Send Appraisal"]},"Underwriting_Resubmittal_SendAVM":{"name":"Send AVM","group":null,"file":"tasks/3_underwriting/resubmittal/send_avm_v1.xml","subs":["Send AVM – Send AVM"]},"Underwriting_Resubmittal_TitleOwnershipReport":{"name":"Title (Ownership Report)","group":null,"file":"tasks/3_underwriting/resubmittal/title_ownership_report_v1.xml","subs":["Title (Ownership Report) – Customer Name & Property Address","Title (Ownership Report) – Vesting / Ownership","Title (Ownership Report) – Deed Review","Title (Ownership Report) – Mortgages / Liens","Title (Ownership Report) – Judgments","Title (Ownership Report) – Legal Description"]},"Underwriting_Submittal_Underwrite":{"name":"Underwrite","group":"Underwriting - Submittal","file":"tasks/3_underwriting/submittal/underwrite_v1.xml","subs":["Underwrite – Approve","Underwrite – Deny","Underwrite – CounterOffer","Underwrite – Return to Processor"]},"Underwriting_Misc_SendCounteroffer":{"name":"Send Counteroffer","group":"Underwriting","file":"tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml","subs":["Send Counteroffer – MA Review Form Board Required","Send Counteroffer – Send Counteroffer Electronically","Send Counteroffer – Mail Counteroffer"]},"Closing_ClosingSetup_ClosingSetup":{"name":"Closing Setup","group":"Closing","file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","subs":["Closing Setup – Adjust Names","Closing Setup – Build Vesting","Closing Setup – Reconcile Fees","Closing Setup – Enter Plan Code"]},"Closing_ClosingSetup_PreparePayoffLetters":{"name":"Prepare Payoff Letters","group":"Closing","file":"tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml","subs":["Prepare Payoff Letters – Reconcile Payoff Letters","Prepare Payoff Letters – Save Payoff Letters to eFolder","Prepare Payoff Letters – Prepare Envelopes"]},"Closing_DocPrep_CreateClosingPackage":{"name":"Create Closing Package","group":"Closing","file":"tasks/4_closing/doc_prep/create_closing_package_v1.xml","subs":["Create Closing Package – Create Closing Package"]},"Closing_PreClosing_RequestClosingDisclosure":{"name":"Request Closing Disclosure","group":"Closing","file":"tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml","subs":["Request Closing Disclosure – Request CD"]},"Closing_PreClosing_Scheduling":{"name":"Scheduling","group":"Closing","file":"tasks/4_closing/pre_closing/scheduling_v1.xml","subs":["Scheduling – Obtain Closing Date and Time from Branch"]},"Closing_PreClosing_SendInitialClosingDisclosure":{"name":"Send Initial Closing Disclosure","group":"Closing","file":"tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml","subs":["Send Initial Closing Disclosure – Send Initial CD"]},"Funding_Boarding_BoardLoan":{"name":"Board Loan","group":"Boarding","file":"tasks/5_funding/boarding/board_loan_v1.xml","subs":["Board Loan – Board Loan via eLink"]},"Funding_Funding_Approval":{"name":"Approve Funding","group":null,"file":"tasks/5_funding/funding/approve_funding_v1.xml","subs":[]},"Funding_Wire_Approval":{"name":"Approve Wire","group":null,"file":"tasks/5_funding/funding/approve_wire_v1.xml","subs":[]},"Funding_Funding_ConfirmFunding":{"name":"Confirm Funding","group":"Funding","file":"tasks/5_funding/funding/confirm_funding_v1.xml","subs":["Confirm Funding – Add Funding Worksheet to eFolder","Confirm Funding – Confirm Funding Amount"]},"Funding_FundLoan":{"name":"Fund Loan","group":null,"file":"tasks/5_funding/funding/fund_loan_v1.xml","subs":[]},"FundingQC_Credit_Refresh":{"name":"Credit Refresh","group":"Funding QC","file":"tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml","subs":["Credit Refresh – Red Flags","Credit Refresh – Inquiries/New Credit"]},"FundingQC_Fraud_X_Report":{"name":"Fraud X Report","group":"Funding QC","file":"tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml","subs":["Fraud X Report – Appraiser License","Fraud X Report – Red Flags","Fraud X Report – All Borrowers","Fraud X Report – Non-Borrowing Owners","Fraud X Report – Buyer Agent","Fraud X Report – Seller Agent"]},"PostClosingQC_DocumentProcessing_DeliverMortgage":{"name":"Deliver Mortgage","group":"Document Processing","file":"tasks/7_post-closing-qc/document_processing/deliver_mortgage_v1.xml","subs":["Deliver Mortgage – Deliver to Secondary","Deliver Mortgage – Add Loan Number to First Page","Deliver Mortgage – Upload to Identifi","Deliver Mortgage – Send to Operations"]},"PostClosingQC_DocumentProcessing_DeliverNote":{"name":"Deliver Note","group":"Document Processing","file":"tasks/7_post-closing-qc/document_processing/deliver_note_v1.xml","subs":["Deliver Note – Deliver to Secondary","Deliver Note – Add Loan Number to First Page","Deliver Note – Upload to Identifi","Deliver Note – Send to Operations"]},"PostClosingQC_DocumentProcessing_DocumentReceipt":{"name":"Document Receipt","group":"Document Processing","file":"tasks/7_post-closing-qc/document_processing/document_receipt_v1.xml","subs":["Document Receipt – E-Sign Documents","Document Receipt – Wet Sign Documents"]},"PostClosingQC_DocumentProcessing_PhysicalPackageReceipt":{"name":"Physical Package Receipt","group":"Document Processing","file":"tasks/7_post-closing-qc/document_processing/physical_package_receipt_v1.xml","subs":["Physical Package Receipt – Receipt of Physical Package"]},"PostClosingQC_DocumentProcessing_RecordMortgage":{"name":"Record Mortgage","group":"Document Processing","file":"tasks/7_post-closing-qc/document_processing/record_mortgage_v1.xml","subs":["Record Mortgage – HELOC Rider","Record Mortgage – Condo Rider","Record Mortgage – 1-to-4 Family Rider","Record Mortgage – PUD Rider","Record Mortgage – Second Home Rider","Record Mortgage – Save Exhibit A","Record Mortgage – Scan & Email Package","Record Mortgage – FedEx Package"]},"PostClosingQC_DocumentProcessing_RecordingConfirmation":{"name":"Recording Confirmation","group":"Document Processing","file":"tasks/7_post-closing-qc/document_processing/recording_confirmation_v1.xml","subs":["Recording Confirmation – Confirm Recording Completed"]},"PostClosingQC_DocumentProcessing_TransferToColdStorage":{"name":"Transfer to Cold Storage","group":"Document Processing","file":"tasks/7_post-closing-qc/document_processing/transfer_to_cold_storage_v1.xml","subs":["Transfer to Cold Storage – Transfer to Cold Storage"]},"QualityAssurance_InitialDocReview":{"name":"Initial Document Quality Assurance","group":null,"file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","subs":["Initial Document Quality Assurance – 1003 – Declarations Complete","Initial Document Quality Assurance – 1003 – Demographic Info Addendum","Initial Document Quality Assurance – 1003 – Demographic Info Addendum Signed","Initial Document Quality Assurance – 1003 – Demographic HELOC","Initial Document Quality Assurance – ROV Sent with Initial Disclosures","Initial Document Quality Assurance – eConsent – Completed Prior to Electronic Send","Initial Document Quality Assurance – eConsent – Docs Mailed if No eConsent","Initial Document Quality Assurance – Supplemental Consumer Information Form","Initial Document Quality Assurance – HELOC Important Terms Disclosure","Initial Document Quality Assurance – Your Home Loan Toolkit","Initial Document Quality Assurance – 2015 Settlement Service List","Initial Document Quality Assurance – Acknowledgement of Intent to Proceed","Initial Document Quality Assurance – CHARM Booklet","Initial Document Quality Assurance – ARM Disclosure","Initial Document Quality Assurance – Credit Score Disclosure Completed","Initial Document Quality Assurance – Homeowner Counseling List and Acknowledgement","Initial Document Quality Assurance – Notice of Right to Copy of Appraisal (ECOA)","Initial Document Quality Assurance – Privacy Notice Received","Initial Document Quality Assurance – Privacy Policy – Opt Out Signed","Initial Document Quality Assurance – RI Appraisal Fee Notice","Initial Document Quality Assurance – RI Right to Copy of Appraisal","Initial Document Quality Assurance – RI Notice of Non-Refundability","Initial Document Quality Assurance – RI Form 1","Initial Document Quality Assurance – RI Form 2","Initial Document Quality Assurance – RI Open-End Credit Disclosures","Initial Document Quality Assurance – RI Choice of Insurance","Initial Document Quality Assurance – RI Title Insurance Disclosure","Initial Document Quality Assurance – USA Patriot Act Info Disclosure","Initial Document Quality Assurance – HELOC Booklet"]},"PostClosingQC_QualityAssurance_ClosingDocReview":{"name":"Closing Document Quality Assurance","group":"Quality Assurance","file":"tasks/7_post-closing-qc/quality_assurance/closing_document_quality_assurance_v1.xml","subs":["Closing Document Quality Assurance – Check Notary Sections","Closing Document Quality Assurance – Verify Signatures","Closing Document Quality Assurance – Confirm Addendums Witnessed","Closing Document Quality Assurance – Ensure CIP Complete"]},"PostClosingQC_QualityAssurance_PreClosingDocReview":{"name":"Pre-Closing Document Quality Assurance","group":"Quality Assurance","file":"tasks/7_post-closing-qc/quality_assurance/pre_closing_document_quality_assurance_v1.xml","subs":["Pre-Closing Document Quality Assurance – Commitment Letters","Pre-Closing Document Quality Assurance – RI HLPA 3 Form","Pre-Closing Document Quality Assurance – Counteroffer"]}},"rows":[{"scope":"task","task_type":"FundingQC_1008_Final","task_name_repo":"","task_name_encompass":"1008","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"FundingQC_Flood_Determination","task_name_repo":"","task_name_encompass":"Flood Determination","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"2 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"FundingQC_HO_Insurance_Dates","task_name_repo":"","task_name_encompass":"Homeowner's Insurance Effective Dates","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"FundingQC_Index_Set_Date","task_name_repo":"","task_name_encompass":"Index Set Date","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"FundingQC_Land_MLA","task_name_repo":"","task_name_encompass":"Land MLA","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"3 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"FundingQC_Loan_Estimates","task_name_repo":"","task_name_encompass":"Loan Estimates","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"FundingQC_MI_Certificate","task_name_repo":"","task_name_encompass":"Mortgage Insurance Certificate","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"FundingQC_Verbal_VOE","task_name_repo":"","task_name_encompass":"Verbal VOE","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"PipelineMgt_PreApp_FollowUp","task_name_repo":"","task_name_encompass":"File Follow Up (30 Day)","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"0 subtask(s)","repo_file":"","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"PipelineMgt_PreApp_FollowUp15","task_name_repo":"","task_name_encompass":"File Follow Up (15 Day)","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"0 subtask(s)","repo_file":"","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"PreClosing_Fraud_X_Report","task_name_repo":"","task_name_encompass":"Fraud X Report","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"6 subtask(s)","repo_file":"","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"PreDisclosure_PreApproval_1003","task_name_repo":"","task_name_encompass":"1003 Quality Review (Pre-Approval)","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"12 subtask(s)","repo_file":"","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"PreDisclosure_PreApproval_Credit","task_name_repo":"","task_name_encompass":"Credit Score Disclosure (Pre-Approval)","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"6 subtask(s)","repo_file":"","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"Processing_Appraisal_Ordering","task_name_repo":"","task_name_encompass":"Order Appraisal","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"7 subtask(s)","repo_file":"","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Disclosures_HELOCDisclosure","task_name_repo":"","task_name_encompass":"Redisclose HELOC Disclosure","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_FileSetup_DislosureAlert","task_name_repo":"","task_name_encompass":"Send Disclosures Alert","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"0 subtask(s)","repo_file":"","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_FraudX","task_name_repo":"","task_name_encompass":"Order FraudX","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"4 subtask(s)","repo_file":"","encompass_file":"tasks3.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_SSVN","task_name_repo":"","task_name_encompass":"Order SSVN","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks3.xml"},{"scope":"task","task_type":"Underwriting_ContractUWApproval","task_name_repo":"","task_name_encompass":"Contract UW Approval","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Underwriting_Counter_Second","task_name_repo":"","task_name_encompass":"Counteroffer Second Review","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Underwriting_Denial_Second","task_name_repo":"","task_name_encompass":"Denial – Second Look","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"1 subtask(s)","repo_file":"","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Underwriting_Resubmittal_AppraisalReviewFollow","task_name_repo":"","task_name_encompass":"Appraisal - Ready in ValueLink Follow Up","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"0 subtask(s)","repo_file":"","encompass_file":"tasks3.xml"},{"scope":"task","task_type":"Underwriting_Resubmittal_ReviewPAR2","task_name_repo":"","task_name_encompass":"Review PAR (2nd Review)","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"4 subtask(s)","repo_file":"","encompass_file":"tasks3.xml"},{"scope":"task","task_type":"auto_2d3dfd67-84a6-4d55-a443-23a2d8ba79c7","task_name_repo":"","task_name_encompass":"OFAC","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"0 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"auto_7d75e7e7-32bd-438c-aa31-46bf68fe03db","task_name_repo":"","task_name_encompass":"Funding QC","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"2 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"auto_931feddf-bfbb-4d68-8621-89aef47a46e6","task_name_repo":"","task_name_encompass":"Broker  Disclosures","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"3 subtask(s)","repo_file":"","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"auto_d8e42d32-3cab-4b9b-980d-d36ade5e8d79","task_name_repo":"","task_name_encompass":"Send Initial Disclosures","status":"ENCOMPASS_ONLY","field":"","repo_value":"","encompass_value":"0 subtask(s)","repo_file":"","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"FundingQC_Fraud_X_Report","task_name_repo":"Fraud X Report","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"6 subtask(s)","encompass_value":"","repo_file":"tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml","encompass_file":""},{"scope":"task","task_type":"Funding_Boarding_BoardLoan","task_name_repo":"Board Loan","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"1 subtask(s)","encompass_value":"","repo_file":"tasks/5_funding/boarding/board_loan_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_DocumentProcessing_DeliverMortgage","task_name_repo":"Deliver Mortgage","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"4 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/document_processing/deliver_mortgage_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_DocumentProcessing_DeliverNote","task_name_repo":"Deliver Note","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"4 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/document_processing/deliver_note_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_DocumentProcessing_DocumentReceipt","task_name_repo":"Document Receipt","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"2 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/document_processing/document_receipt_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_DocumentProcessing_PhysicalPackageReceipt","task_name_repo":"Physical Package Receipt","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"1 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/document_processing/physical_package_receipt_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_DocumentProcessing_RecordMortgage","task_name_repo":"Record Mortgage","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"8 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/document_processing/record_mortgage_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_DocumentProcessing_RecordingConfirmation","task_name_repo":"Recording Confirmation","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"1 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/document_processing/recording_confirmation_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_DocumentProcessing_TransferToColdStorage","task_name_repo":"Transfer to Cold Storage","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"1 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/document_processing/transfer_to_cold_storage_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_QualityAssurance_ClosingDocReview","task_name_repo":"Closing Document Quality Assurance","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"4 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/quality_assurance/closing_document_quality_assurance_v1.xml","encompass_file":""},{"scope":"task","task_type":"PostClosingQC_QualityAssurance_PreClosingDocReview","task_name_repo":"Pre-Closing Document Quality Assurance","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"3 subtask(s)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/quality_assurance/pre_closing_document_quality_assurance_v1.xml","encompass_file":""},{"scope":"task","task_type":"Processing_Disclosures_CreditScoreDisclosure","task_name_repo":"Credit Score Disclosure","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"6 subtask(s)","encompass_value":"","repo_file":"tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml","encompass_file":""},{"scope":"task","task_type":"Processing_Disclosures_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"2 subtask(s)","encompass_value":"","repo_file":"tasks/2_processing/disclosures/notice_of_incomplete_v1.xml","encompass_file":""},{"scope":"task","task_type":"Processing_FileSetup_SendDisclosures","task_name_repo":"Send Disclosures","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"9 subtask(s)","encompass_value":"","repo_file":"tasks/2_processing/disclosures/send_disclosures_v1.xml","encompass_file":""},{"scope":"task","task_type":"Processing_ServiceOrders_OrderSSA89","task_name_repo":"Order SSA-89","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"0 subtask(s)","encompass_value":"","repo_file":"tasks/2_processing/ssa89/order_ssa89_v1.xml","encompass_file":""},{"scope":"task","task_type":"Processing_ServiceOrders_OrderTaxTranscripts","task_name_repo":"Order Tax Transcripts","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"0 subtask(s)","encompass_value":"","repo_file":"tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml","encompass_file":""},{"scope":"task","task_type":"Underwriting_Resubmittal_SendAVM","task_name_repo":"Send AVM","task_name_encompass":"","status":"REPO_ONLY","field":"","repo_value":"1 subtask(s)","encompass_value":"","repo_file":"tasks/3_underwriting/resubmittal/send_avm_v1.xml","encompass_file":""},{"scope":"task","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Closing","encompass_value":"","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Closer","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"ENCOMPASS_ONLY","field":"custom-form-workspaceoverride-0","repo_value":"","encompass_value":"HELOC Quick Entry","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-1","repo_value":"","encompass_value":"Appraisal Check","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-1","repo_value":"","encompass_value":"Title Report","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"ENCOMPASS_ONLY","field":"standard-form-workspaceoverride-0","repo_value":"","encompass_value":"Borrower Information","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Closing Setup","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_ClosingSetup_ClosingSetup","task_name_repo":"Closing Setup","task_name_encompass":"Closing Setup","status":"REPO_ONLY","field":"Assignee","repo_value":"Loan Processor","encompass_value":"","repo_file":"tasks/4_closing/closing_setup/closing_setup_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_ClosingSetup_PreparePayoffLetters","task_name_repo":"Prepare Payoff Letters","task_name_encompass":"Prepare Payoff Letters","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Closing_ClosingSetup_PreparePayoffLetters","task_name_repo":"Prepare Payoff Letters","task_name_encompass":"Prepare Payoff Letters","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Closing","encompass_value":"","repo_file":"tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Closing_ClosingSetup_PreparePayoffLetters","task_name_repo":"Prepare Payoff Letters","task_name_encompass":"Prepare Payoff Letters","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Closer","repo_file":"tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Closing_ClosingSetup_PreparePayoffLetters","task_name_repo":"Prepare Payoff Letters","task_name_encompass":"Prepare Payoff Letters","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Payoff Prep","repo_file":"tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Closing_ClosingSetup_PreparePayoffLetters","task_name_repo":"Prepare Payoff Letters","task_name_encompass":"Prepare Payoff Letters","status":"REPO_ONLY","field":"Assignee","repo_value":"Loan Processor","encompass_value":"","repo_file":"tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Closing_DocPrep_CreateClosingPackage","task_name_repo":"Create Closing Package","task_name_encompass":"Create Closing Package","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/4_closing/doc_prep/create_closing_package_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_DocPrep_CreateClosingPackage","task_name_repo":"Create Closing Package","task_name_encompass":"Create Closing Package","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Closing","encompass_value":"","repo_file":"tasks/4_closing/doc_prep/create_closing_package_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_PreClosing_RequestClosingDisclosure","task_name_repo":"Request Closing Disclosure","task_name_encompass":"Request Closing Disclosure","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Closing_PreClosing_RequestClosingDisclosure","task_name_repo":"Request Closing Disclosure","task_name_encompass":"Request Closing Disclosure","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Closing","encompass_value":"","repo_file":"tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"BOTH","field":"name","repo_value":"Scheduling","encompass_value":"Confirm Scheduling","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"BOTH","field":"duration","repo_value":"1","encompass_value":"2","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Closing","encompass_value":"","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Closer","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"ENCOMPASS_ONLY","field":"custom-form-workspaceoverride-0","repo_value":"","encompass_value":"Closing Date/Time","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Closing Setup","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"REPO_ONLY","field":"Assignee","repo_value":"Loan Processor","encompass_value":"","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_description","task_type":"Closing_PreClosing_Scheduling","task_name_repo":"Scheduling","task_name_encompass":"Confirm Scheduling","status":"BOTH","field":"Scheduling – Obtain Closing Date and Time from Branch","repo_value":"Obtain Closing Date and Time from Branch – Contact the branch to obtain the confirmed closing date and time for this loan","encompass_value":"Obtain Closing Date and Time from Branch – Input information into system.","repo_file":"tasks/4_closing/pre_closing/scheduling_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Closing_PreClosing_SendInitialClosingDisclosure","task_name_repo":"Send Initial Closing Disclosure","task_name_encompass":"Send Initial Closing Disclosure","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Closing_PreClosing_SendInitialClosingDisclosure","task_name_repo":"Send Initial Closing Disclosure","task_name_encompass":"Send Initial Closing Disclosure","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Closing","encompass_value":"","repo_file":"tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Closing_PreClosing_SendInitialClosingDisclosure","task_name_repo":"Send Initial Closing Disclosure","task_name_encompass":"Send Initial Closing Disclosure","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Closer","repo_file":"tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Closing_PreClosing_SendInitialClosingDisclosure","task_name_repo":"Send Initial Closing Disclosure","task_name_encompass":"Send Initial Closing Disclosure","status":"REPO_ONLY","field":"Assignee","repo_value":"Loan Processor","encompass_value":"","repo_file":"tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"FundingQC_Credit_Refresh","task_name_repo":"Credit Refresh","task_name_encompass":"Credit Refresh","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Credit Refresh","repo_file":"tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml","encompass_file":"tasks7.xml"},{"scope":"association","task_type":"FundingQC_Credit_Refresh","task_name_repo":"Credit Refresh","task_name_encompass":"Credit Refresh","status":"REPO_ONLY","field":"document-workspaceoverride-0","repo_value":"Credit Report","encompass_value":"","repo_file":"tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml","encompass_file":"tasks7.xml"},{"scope":"association","task_type":"FundingQC_Credit_Refresh","task_name_repo":"Credit Refresh","task_name_encompass":"Credit Refresh","status":"REPO_ONLY","field":"workspace","repo_value":"Credit Refresh Review","encompass_value":"","repo_file":"tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml","encompass_file":"tasks7.xml"},{"scope":"task","task_type":"Funding_FundLoan","task_name_repo":"Fund Loan","task_name_encompass":"Fund Loan","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Funding","repo_file":"tasks/5_funding/funding/fund_loan_v1.xml","encompass_file":"tasks6.xml"},{"scope":"association","task_type":"Funding_FundLoan","task_name_repo":"Fund Loan","task_name_encompass":"Fund Loan","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Closers -Task","repo_file":"tasks/5_funding/funding/fund_loan_v1.xml","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"BOTH","field":"autocomplete","repo_value":"true","encompass_value":"false","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Funding","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Funding Approval - Task","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"ENCOMPASS_ONLY","field":"custom-form-workspaceoverride-0","repo_value":"","encompass_value":"Funding Sign Off","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"OFAC","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"ENCOMPASS_ONLY","field":"reactcodedform-workspaceoverride-1","repo_value":"","encompass_value":"Borrower Information - Vesting","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Funding_SignOff","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"ENCOMPASS_ONLY","field":"Approve Funding – FraudX Review","repo_value":"","encompass_value":"FraudX Review – Review FraudX Report. Ensure all parties to transaction are evidenced and free of findings. ","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask","task_type":"Funding_Funding_Approval","task_name_repo":"Approve Funding","task_name_encompass":"Approve Funding","status":"ENCOMPASS_ONLY","field":"Approve Funding – Funding Sign Off","repo_value":"","encompass_value":"Approve Funding –Task will auto-complete when marked in system. ","repo_file":"tasks/5_funding/funding/approve_funding_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Funding_Funding_ConfirmFunding","task_name_repo":"Confirm Funding","task_name_encompass":"Confirm Funding","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Funding","encompass_value":"","repo_file":"tasks/5_funding/funding/confirm_funding_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Funding_Funding_ConfirmFunding","task_name_repo":"Confirm Funding","task_name_encompass":"Confirm Funding","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Closer","repo_file":"tasks/5_funding/funding/confirm_funding_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Funding_Funding_ConfirmFunding","task_name_repo":"Confirm Funding","task_name_encompass":"Confirm Funding","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Funding_SignOff","repo_file":"tasks/5_funding/funding/confirm_funding_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Funding_Funding_ConfirmFunding","task_name_repo":"Confirm Funding","task_name_encompass":"Confirm Funding","status":"REPO_ONLY","field":"Assignee","repo_value":"Loan Processor","encompass_value":"","repo_file":"tasks/5_funding/funding/confirm_funding_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Funding_Wire_Approval","task_name_repo":"Approve Wire","task_name_encompass":"Approve Wire","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Funding","repo_file":"tasks/5_funding/funding/approve_wire_v1.xml","encompass_file":"tasks6.xml"},{"scope":"association","task_type":"Funding_Wire_Approval","task_name_repo":"Approve Wire","task_name_encompass":"Approve Wire","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Funding Approval - Task","repo_file":"tasks/5_funding/funding/approve_wire_v1.xml","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"Processing_ARM_Disclosure","task_name_repo":"ARM Disclosure","task_name_encompass":"ARM Disclosure","status":"BOTH","field":"priority","repo_value":"5","encompass_value":"3","repo_file":"tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"Processing_ARM_Disclosure","task_name_repo":"ARM Disclosure","task_name_encompass":"ARM Disclosure","status":"BOTH","field":"duration","repo_value":"5","encompass_value":"2","repo_file":"tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"Processing_ARM_Disclosure","task_name_repo":"ARM Disclosure","task_name_encompass":"ARM Disclosure","status":"BOTH","field":"durationFormat","repo_value":"Minute","encompass_value":"Hour","repo_file":"tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"Processing_ARM_Disclosure","task_name_repo":"ARM Disclosure","task_name_encompass":"ARM Disclosure","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing - ARM Disclosure","encompass_value":"Disclosures","repo_file":"tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml","encompass_file":"tasks6.xml"},{"scope":"association","task_type":"Processing_ARM_Disclosure","task_name_repo":"ARM Disclosure","task_name_encompass":"ARM Disclosure","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Loan Processor","repo_file":"tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml","encompass_file":"tasks6.xml"},{"scope":"task","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"BOTH","field":"name","repo_value":"Order Appraisal","encompass_value":"Appraisal Invoice","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"BOTH","field":"duration","repo_value":"5","encompass_value":"1","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"BOTH","field":"durationFormat","repo_value":"Minute","encompass_value":"Day","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing - Appraisal","encompass_value":"Service Orders","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Loan Processor","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Appraisal Fee _1","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"REPO_ONLY","field":"workspace","repo_value":"Appraisal Order Workspace","encompass_value":"","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"REPO_ONLY","field":"Order Appraisal – Payment Recording","repo_value":"Payment Recording – Record appraisal payment received in Encompass and ValueLink (these systems do not sync)","encompass_value":"","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"REPO_ONLY","field":"Order Appraisal – Automated Order","repo_value":"Automated Order – Place automated appraisal order (conditional: automated ordering must be enabled for this loan); marking Done will place the automated order","encompass_value":"","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"REPO_ONLY","field":"Order Appraisal – Order 1004","repo_value":"Order 1004 – Order 1004 appraisal form (conditional: single-family property; automated ordering not available)","encompass_value":"","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"REPO_ONLY","field":"Order Appraisal – Order 1025","repo_value":"Order 1025 – Order 1025 appraisal form (conditional: 2–4 unit property; automated ordering not available)","encompass_value":"","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"REPO_ONLY","field":"Order Appraisal – Order 1073","repo_value":"Order 1073 – Order 1073 appraisal form (conditional: condo property; automated ordering not available)","encompass_value":"","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_description","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"BOTH","field":"Order Appraisal – Obtain Quote","repo_value":"Obtain Quote – Obtain appraisal fee quote (conditional: property value over $1M or unique/complex property type)","encompass_value":"Obtain Quote – Obtain appraisal fee quote (Property value over $1M or unique/complex property type). Save Quote in file and override fee in system. Marking Done will mark Order Type as quote.","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_description","task_type":"Processing_Appraisal_Order","task_name_repo":"Order Appraisal","task_name_encompass":"Appraisal Invoice","status":"BOTH","field":"Order Appraisal – Send Invoice","repo_value":"Send Invoice – Send the appraisal invoice to the borrower (conditional: intent to proceed received or HELOC product)","encompass_value":"Send Invoice – Send the appraisal invoice to the borrower","repo_file":"tasks/2_processing/appraisal/order_appraisal_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_FileSetup_PullDeed","task_name_repo":"Pull Deed","task_name_encompass":"Pull Deed","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing","encompass_value":"","repo_file":"tasks/2_processing/pull_deed/pull_deed_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Processing_FileSetup_PullDeed","task_name_repo":"Pull Deed","task_name_encompass":"Pull Deed","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Title_Deed_LookUp","repo_file":"tasks/2_processing/pull_deed/pull_deed_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask","task_type":"Processing_FileSetup_PullDeed","task_name_repo":"Pull Deed","task_name_encompass":"Pull Deed","status":"ENCOMPASS_ONLY","field":"Pull Deed – Trust","repo_value":"","encompass_value":"Trust – If held in a trust, check off Title Will be Held by an Inter Vivos (Living) Trust).","repo_file":"tasks/2_processing/pull_deed/pull_deed_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_PullDeed","task_name_repo":"Pull Deed","task_name_encompass":"Pull Deed","status":"BOTH","field":"Pull Deed – Pull Deed from Registry","repo_value":"Pull Deed from Registry – Pull the current recorded deed from the applicable registry of deeds for the subject property.","encompass_value":"Pull Deed from Registry – Pull the current recorded deed from the applicable registry of deeds for the subject property and save to eFolder.","repo_file":"tasks/2_processing/pull_deed/pull_deed_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_PullDeed","task_name_repo":"Pull Deed","task_name_encompass":"Pull Deed","status":"BOTH","field":"Pull Deed – Ownership Screen","repo_value":"Ownership Screen – Complete the ownership screen and compare how the deed is to be held (new vesting) against how the property is currently held per the pulled deed; document any differences.","encompass_value":"Title – Complete the Title to the property Will be Held in What Name(s)? and For Refinance: Title to the Property is Currently Held in What Name(s)? fields. (should be same for HELOC)","repo_file":"tasks/2_processing/pull_deed/pull_deed_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask_rank","task_type":"Processing_FileSetup_PullDeed","task_name_repo":"Pull Deed","task_name_encompass":"Pull Deed","status":"BOTH","field":"Pull Deed – Add Non-Borrowing Owner","repo_value":"3","encompass_value":"4","repo_file":"tasks/2_processing/pull_deed/pull_deed_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"duration","repo_value":"1","encompass_value":"2","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"durationFormat","repo_value":"Day","encompass_value":"Hour","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Quality Assurance","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Credit Report Review","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"ENCOMPASS_ONLY","field":"Review Credit – Red Flag Form","repo_value":"","encompass_value":"Red Flag Form– Review Red Flag form for completeness and accuracy. Mark Issue if Red Flag is not able to be resolved at this time. This will add condition. ","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"Review Credit – Name Discrepancy","repo_value":"Name Discrepancy – Review credit report for name discrepancies","encompass_value":"Name Discrepancy – Review credit report for name discrepancies. Marking Issue will add condition.","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"Review Credit – Address Discrepancy","repo_value":"Address Discrepancy – Review credit report for address discrepancies","encompass_value":"Address Discrepancy – Review credit report for address discrepancies. Marking Issue will add condition.","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"Review Credit – SSN Discrepancy","repo_value":"SSN Discrepancy – Review credit report for Social Security Number discrepancies","encompass_value":"SSN Discrepancy – Review credit report for Social Security Number discrepancies. Marking Issue will add a condition to order an Social Security Verification.","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"Review Credit – OFAC","repo_value":"OFAC – Office of Foreign Assets Control screening for all parties","encompass_value":"OFAC – Review credit report for OFAC hits. Marking Issue will add condition.","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"Review Credit – Fraud Alerts","repo_value":"Fraud Alerts – Review and address any fraud alerts on credit report","encompass_value":"Fraud Alerts – Review and address any fraud alerts on credit report. Marking Issue will add condition.","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"Review Credit – Frozen Score","repo_value":"Frozen Score – Identify and address frozen credit scores","encompass_value":"Frozen Score – Identify and address frozen credit scores. Marking Issue will add condition.","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_FileSetup_ReviewCredit","task_name_repo":"Review Credit","task_name_encompass":"Review Credit","status":"BOTH","field":"Review Credit – Review Liens","repo_value":"8","encompass_value":"9","repo_file":"tasks/2_processing/credit_review/review_credit_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_FileSetup_SendDisclosuresHELOC","task_name_repo":"Send Disclosures (HELOC)","task_name_encompass":"Send Disclosures (HELOC)","status":"BOTH","field":"duration","repo_value":"3","encompass_value":"2","repo_file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_FileSetup_SendDisclosuresHELOC","task_name_repo":"Send Disclosures (HELOC)","task_name_encompass":"Send Disclosures (HELOC)","status":"BOTH","field":"durationFormat","repo_value":"Day","encompass_value":"Hour","repo_file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Processing_FileSetup_SendDisclosuresHELOC","task_name_repo":"Send Disclosures (HELOC)","task_name_encompass":"Send Disclosures (HELOC)","status":"ENCOMPASS_ONLY","field":"custom-form-workspaceoverride-0","repo_value":"","encompass_value":"HELOC Quick Entry","repo_file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_FileSetup_SendDisclosuresHELOC","task_name_repo":"Send Disclosures (HELOC)","task_name_encompass":"Send Disclosures (HELOC)","status":"ENCOMPASS_ONLY","field":"Send Disclosures (HELOC) – Loan Audit","repo_value":"","encompass_value":"Loan Audit – Open eFolder and run Loan Audit. Address findings if applicable. ","repo_file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_SendDisclosuresHELOC","task_name_repo":"Send Disclosures (HELOC)","task_name_encompass":"Send Disclosures (HELOC)","status":"BOTH","field":"Send Disclosures (HELOC) – 1003 – Demographic HELOC","repo_value":"1003 – Demographic HELOC – Demographic information is collected only when the proceeds are used to pay off an existing lien-secured debt, qualifying the transaction as a refinancing for regulatory reporting purposes.","encompass_value":"1003 – Demographic HELOC – Demographic information is collected only when the proceeds are used to pay off an existing lien-secured debt, qualifying the transaction as a refinancing for regulatory reporting purposes. If present ensure method collected, Race, Ethnicity and Sex are documented.","repo_file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_description","task_type":"Processing_FileSetup_SendDisclosuresHELOC","task_name_repo":"Send Disclosures (HELOC)","task_name_encompass":"Send Disclosures (HELOC)","status":"BOTH","field":"Send Disclosures (HELOC) – Home Counseling List","repo_value":"Home Counseling List – Import Home Counseling List","encompass_value":"Home Counseling List – Import Home Counseling List. Click Save before completing task.","repo_file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_rank","task_type":"Processing_FileSetup_SendDisclosuresHELOC","task_name_repo":"Send Disclosures (HELOC)","task_name_encompass":"Send Disclosures (HELOC)","status":"BOTH","field":"Send Disclosures (HELOC) – Ready to Send","repo_value":"14","encompass_value":"15","repo_file":"tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_AppraisalRefund","task_name_repo":"Appraisal Refund","task_name_encompass":"Appraisal Refund","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing","encompass_value":"","repo_file":"tasks/2_processing/misc/appraisal_refund_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_CancelFloodCertificate","task_name_repo":"Cancel Flood Certificate","task_name_encompass":"Cancel Flood Certificate","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing","encompass_value":"","repo_file":"tasks/2_processing/misc/cancel_flood_certificate_v1.xml","encompass_file":"tasks3.xml"},{"scope":"task","task_type":"Processing_Misc_FileClosureDocuments","task_name_repo":"File Closure Documents","task_name_encompass":"File Closure Documents","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/2_processing/misc/file_closure_documents_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_Misc_FileClosureDocuments","task_name_repo":"File Closure Documents","task_name_encompass":"File Closure Documents","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing","encompass_value":"","repo_file":"tasks/2_processing/misc/file_closure_documents_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask_description","task_type":"Processing_Misc_FileClosureDocuments","task_name_repo":"File Closure Documents","task_name_encompass":"File Closure Documents","status":"BOTH","field":"File Closure Documents – 1003","repo_value":"1003 – Save a copy of the 1003; this subtask will auto-complete once the initial disclosure package is saved.","encompass_value":"Initial Disclosures – Save a copy of the 1003; this subtask will auto-complete once the initial disclosure package is saved.","repo_file":"tasks/2_processing/misc/file_closure_documents_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_Misc_MailingInitialDisclosures","task_name_repo":"Mailing Initial Disclosures","task_name_encompass":"Mailing Initial Disclosures","status":"BOTH","field":"duration","repo_value":"5","encompass_value":"30","repo_file":"tasks/2_processing/misc/mailing_initial_disclosures_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_Misc_MailingInitialDisclosures","task_name_repo":"Mailing Initial Disclosures","task_name_encompass":"Mailing Initial Disclosures","status":"BOTH","field":"Mailing Initial Disclosures – Mail Disclosures and Mark Disclosure Tracking","repo_value":"Mail Disclosures and Mark Disclosure Tracking – Mail initial disclosure package to borrower and mark as mailed in disclosure tracking. Mark Done when complete. Mark NA if eConsent was obtained and mailing is not needed.","encompass_value":"Mail Disclosures and Mark Disclosure Tracking – Mail initial disclosure package by generating a new package on Encompass Desktop (Add disclosure receipt document and initial disclosure letter to package). Mark Done when complete. Mark NA if eConsent was obtained and mailing is not needed.","repo_file":"tasks/2_processing/misc/mailing_initial_disclosures_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_Misc_NOIExpiration","task_name_repo":"Notice of Incomplete Expiration","task_name_encompass":"Notice of Incomplete Expiration","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"NOI","repo_file":"tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Misc_NOIExpiration","task_name_repo":"Notice of Incomplete Expiration","task_name_encompass":"Notice of Incomplete Expiration","status":"ENCOMPASS_ONLY","field":"Notice of Incomplete – NOI Expired","repo_value":"","encompass_value":"NOI Expired – Mark Done to proceed with closing out file.","repo_file":"tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Misc_NOIExpiration","task_name_repo":"Notice of Incomplete Expiration","task_name_encompass":"Notice of Incomplete Expiration","status":"REPO_ONLY","field":"Notice of Incomplete Expiration – NOI Expired","repo_value":"NOI Expired – Mark Done to proceed with closing out file.","encompass_value":"","repo_file":"tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"priority","repo_value":"5","encompass_value":"6","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"duration","repo_value":"5","encompass_value":"8","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"durationFormat","repo_value":"Minute","encompass_value":"Hour","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"calendar","repo_value":"","encompass_value":"Business","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Disclosures","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"association","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"NOI","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"subtask","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"ENCOMPASS_ONLY","field":"Notice of Incomplete - Dates","repo_value":"","encompass_value":"Date - Add dates for NOI sent and Expiration. Use button in Workspace to set them. (Expiration will populate on next save).","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_description","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"Notice of Incomplete – NOI Not Needed","repo_value":"NOI Not Needed – Mark N/A if an NOI is not needed; an underwriting decision will be produced soon.","encompass_value":"NOI Not Needed – Mark NA if an NOI is not needed; an underwriting decision will be produced soon.","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_rank","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"Notice of Incomplete – NOI Not Needed","repo_value":"2","encompass_value":"1","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_description","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"Notice of Incomplete - Conditions","repo_value":"Conditions - Add conditions for NOI","encompass_value":"Conditions - Add conditions for NOI. All external Prior to Approval Conditions will be listed on the form.","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_rank","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"Notice of Incomplete - Conditions","repo_value":"1","encompass_value":"2","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"subtask_rank","task_type":"Processing_Misc_NoticeOfIncomplete","task_name_repo":"Notice of Incomplete","task_name_encompass":"Notice of Incomplete","status":"BOTH","field":"Notice of Incomplete - Send","repo_value":"3","encompass_value":"4","repo_file":"tasks/2_processing/misc/Notice of Incomplete.xml","encompass_file":"tasks1.xml"},{"scope":"task","task_type":"Processing_Misc_SendDenial","task_name_repo":"Send Denial","task_name_encompass":"Send Denial","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/2_processing/misc/send_denial_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Processing_Misc_SendDenial","task_name_repo":"Send Denial","task_name_encompass":"Send Denial","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing","encompass_value":"","repo_file":"tasks/2_processing/misc/send_denial_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask","task_type":"Processing_Misc_SendDenial","task_name_repo":"Send Denial","task_name_encompass":"Send Denial","status":"ENCOMPASS_ONLY","field":"Send Denial – Mail Counteroffer","repo_value":"","encompass_value":"Mail Denial – Mail the counteroffer package to the borrower; required for MA first-position purchase or refinance loans in lieu of electronic delivery","repo_file":"tasks/2_processing/misc/send_denial_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask","task_type":"Processing_Misc_SendDenial","task_name_repo":"Send Denial","task_name_encompass":"Send Denial","status":"ENCOMPASS_ONLY","field":"Send Denial – Send Counteroffer Electronically","repo_value":"","encompass_value":"Send Denial Electronically – Send counteroffer to borrower electronically; ensure all required documents are saved in the Counteroffer eFolder document before sending","repo_file":"tasks/2_processing/misc/send_denial_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask_description","task_type":"Processing_Misc_SendDenial","task_name_repo":"Send Denial","task_name_encompass":"Send Denial","status":"BOTH","field":"Send Denial – MA Review Board Form","repo_value":"Send Massachusetts Review Board form for appeals process","encompass_value":"MA Review Form Board Required – Complete and include the Massachusetts Review Board form; required for MA first-position purchase or refinance loans before sending counteroffer","repo_file":"tasks/2_processing/misc/send_denial_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask_description","task_type":"Processing_Misc_SendDenial","task_name_repo":"Send Denial","task_name_encompass":"Send Denial","status":"BOTH","field":"Send Denial – ECOA Right to Copy of Appraisal","repo_value":"Send ECOA notice of right to receive copy of appraisal","encompass_value":"ECOA Right to Copy of Appraisal -Send ECOA notice of right to receive copy of appraisal","repo_file":"tasks/2_processing/misc/send_denial_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask_description","task_type":"Processing_Misc_SendDenial","task_name_repo":"Send Denial","task_name_encompass":"Send Denial","status":"BOTH","field":"Send Denial – Massachusetts MGL Disclosure","repo_value":"Send Massachusetts General Laws disclosure","encompass_value":"Massachusetts General Laws - Send MGL Disclosure","repo_file":"tasks/2_processing/misc/send_denial_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Processing_Misc_WithdrawLoan","task_name_repo":"Withdraw Loan","task_name_encompass":"Withdraw Loan","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/2_processing/misc/withdraw_loan_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_Misc_WithdrawLoan","task_name_repo":"Withdraw Loan","task_name_encompass":"Withdraw Loan","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing","encompass_value":"","repo_file":"tasks/2_processing/misc/withdraw_loan_v1.xml","encompass_file":"tasks4.xml"},{"scope":"association","task_type":"Processing_Misc_WithdrawLoan","task_name_repo":"Withdraw Loan","task_name_encompass":"Withdraw Loan","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Withdrawn Workspace","repo_file":"tasks/2_processing/misc/withdraw_loan_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"BOTH","field":"priority","repo_value":"4","encompass_value":"5","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"BOTH","field":"duration","repo_value":"1","encompass_value":"4","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"BOTH","field":"durationFormat","repo_value":"Day","encompass_value":"Hour","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Disclosures","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Underwriter","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Commitment Letter","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"REPO_ONLY","field":"Send Commitment Letter – Confirm Letter Sent","repo_value":"Confirm Letter Sent – Confirm the commitment letter has been successfully sent to the borrower","encompass_value":"","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_PostUnderwriting_SendCommitmentLetter","task_name_repo":"Send Commitment Letter","task_name_encompass":"Send Commitment Letter","status":"BOTH","field":"Send Commitment Letter – Save to eFolder","repo_value":"3","encompass_value":"2","repo_file":"tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing - Pre-Underwriting","encompass_value":"","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"REPO_ONLY","field":"workspace","repo_value":"PreUWChecklist","encompass_value":"","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"REPO_ONLY","field":"Pre-Underwriting Checklist – Verify Employment","repo_value":"Verify Employment – Verify borrower employment status and history; complete verbal or written verification of employment","encompass_value":"","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"Pre-Underwriting Checklist – Run AUS","repo_value":"Run AUS – Submit loan to Automated Underwriting System (DU/LP) and review findings; AUS findings dictate documentation requirements for the file","encompass_value":"Run AUS – Submit loan to Automated Underwriting System (DU/LP) and review findings; AUS findings dictate documentation requirements for the file. Remove all findings except the latest.","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"Pre-Underwriting Checklist – Verify Income","repo_value":"Verify Income – Verify borrower income documentation (paystubs, W-2s, tax docs) matches application and calculate qualifying income","encompass_value":"Verify Income – Verify borrower income documentation (paystubs/W-2s) matches application and calculate qualifying income","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"Pre-Underwriting Checklist – Verify Purpose","repo_value":"Verify Purpose – Verify the stated purpose of the HELOC is documented in a Letter of Explanation (LOE) or conversation log; mark Issue to trigger a condition for missing purpose documentation","encompass_value":"Verify Purpose – Verify the stated purpose of cash out is documented in a Letter of Explanation (LOE) or conversation log; mark Issue to trigger a condition for missing purpose documentation","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"Pre-Underwriting Checklist – Self-Employed Income","repo_value":"9","encompass_value":"8","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"Pre-Underwriting Checklist – Non-Traditional Income","repo_value":"10","encompass_value":"9","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_PreUnderwriting_PreUWChecklist","task_name_repo":"Pre-Underwriting Checklist","task_name_encompass":"Pre-Underwriting Checklist","status":"BOTH","field":"Pre-Underwriting Checklist – Rental Income","repo_value":"11","encompass_value":"10","repo_file":"tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_FloodCertificateReview","task_name_repo":"Flood Certificate Review","task_name_encompass":"Flood Certificate Review","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Quality Assurance","repo_file":"tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask","task_type":"Processing_ServiceOrders_FloodCertificateReview","task_name_repo":"Flood Certificate Review","task_name_encompass":"Flood Certificate Review","status":"ENCOMPASS_ONLY","field":"Flood Certificate Review – Multiple Livable Dwellings","repo_value":"","encompass_value":"Multiple Livable Dwellings - Examine the flood certificate map to for evidence of multiple buildings on lot. If discovered, mark Issue if multiple dwellings detected to trigger further action.","repo_file":"tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"subtask_rank","task_type":"Processing_ServiceOrders_FloodCertificateReview","task_name_repo":"Flood Certificate Review","task_name_encompass":"Flood Certificate Review","status":"BOTH","field":"Flood Certificate Review – Address Mismatch Detected","repo_value":"4","encompass_value":"5","repo_file":"tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderAVM","task_name_repo":"Order AVM","task_name_encompass":"Order AVM","status":"BOTH","field":"duration","repo_value":"1","encompass_value":"2","repo_file":"tasks/2_processing/avm/order_avm_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderAVM","task_name_repo":"Order AVM","task_name_encompass":"Order AVM","status":"BOTH","field":"durationFormat","repo_value":"Day","encompass_value":"Hour","repo_file":"tasks/2_processing/avm/order_avm_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask","task_type":"Processing_ServiceOrders_OrderAVM","task_name_repo":"Order AVM","task_name_encompass":"Order AVM","status":"ENCOMPASS_ONLY","field":"Order AVM – Value Sufficient","repo_value":"","encompass_value":"Order AVM – Value sufficient to use for underwriting. Mark Done to continue with AVM. Mark Issue if an appraisal will be required (this will trigger the creation of Appraisal Task)","repo_file":"tasks/2_processing/avm/order_avm_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask","task_type":"Processing_ServiceOrders_OrderAVM","task_name_repo":"Order AVM","task_name_encompass":"Order AVM","status":"REPO_ONLY","field":"Order AVM – Ready to Send","repo_value":"Ready to Send – Loan is primed for initial document send; confirm all required items are in order before proceeding","encompass_value":"","repo_file":"tasks/2_processing/avm/order_avm_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask_description","task_type":"Processing_ServiceOrders_OrderAVM","task_name_repo":"Order AVM","task_name_encompass":"Order AVM","status":"BOTH","field":"Order AVM – Ready to Send with Initial Docs","repo_value":"Ready to Send – Click Send  to add AVM to send with initial documents.","encompass_value":"Ready to Send – Click Send  to add AVM to send with initial documents. Required to be sent regardless if value is sufficient or not.","repo_file":"tasks/2_processing/avm/order_avm_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderFloodCertificate","task_name_repo":"Order Flood Certificate","task_name_encompass":"Order Flood Certificate","status":"BOTH","field":"duration","repo_value":"1","encompass_value":"2","repo_file":"tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderFloodCertificate","task_name_repo":"Order Flood Certificate","task_name_encompass":"Order Flood Certificate","status":"BOTH","field":"durationFormat","repo_value":"Day","encompass_value":"Hour","repo_file":"tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask","task_type":"Processing_ServiceOrders_OrderFloodCertificate","task_name_repo":"Order Flood Certificate","task_name_encompass":"Order Flood Certificate","status":"ENCOMPASS_ONLY","field":"Order Flood Certificate – Submit Order","repo_value":"","encompass_value":"Submit Order - Mark Done to submit for Flood Certificate.","repo_file":"tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderPAR","task_name_repo":"Order PAR","task_name_encompass":"Order PAR","status":"BOTH","field":"duration","repo_value":"15","encompass_value":"4","repo_file":"tasks/2_processing/service_orders/order_par_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderPAR","task_name_repo":"Order PAR","task_name_encompass":"Order PAR","status":"BOTH","field":"durationFormat","repo_value":"Minute","encompass_value":"Hour","repo_file":"tasks/2_processing/service_orders/order_par_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_ServiceOrders_OrderPAR","task_name_repo":"Order PAR","task_name_encompass":"Order PAR","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"AVMOrderReview","repo_file":"tasks/2_processing/service_orders/order_par_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_ServiceOrders_OrderPAR","task_name_repo":"Order PAR","task_name_encompass":"Order PAR","status":"REPO_ONLY","field":"workspace","repo_value":"OrderPAR","encompass_value":"","repo_file":"tasks/2_processing/service_orders/order_par_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"Processing_ServiceOrders_OrderPAR","task_name_repo":"Order PAR","task_name_encompass":"Order PAR","status":"BOTH","field":"Order PAR – Place PAR Order","repo_value":"Place PAR Order – Place an order for the Property Assessment Report under the AppraisalX platform","encompass_value":"Place PAR Order – Place an order for the Property Assessment Report under the AppraisalX menu.","repo_file":"tasks/2_processing/service_orders/order_par_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Processing","encompass_value":"Service Orders","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Title Order","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"REPO_ONLY","field":"workspace","repo_value":"Title","encompass_value":"","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"BOTH","field":"Order Title – Order Title Ownership Report – Old Republic","repo_value":"","encompass_value":"1","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"BOTH","field":"Order Title – Order Title Ownership Report – Equity Attorney (Trust)","repo_value":"","encompass_value":"2","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"BOTH","field":"Order Title – Obtain Quote – New Deed Prep","repo_value":"","encompass_value":"3","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"Processing_ServiceOrders_OrderTitle","task_name_repo":"Order Title","task_name_encompass":"Order Title","status":"BOTH","field":"Order Title – Order Title – Bank Attorney","repo_value":"","encompass_value":"4","repo_file":"tasks/2_processing/title/order_title_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Processing_ServiceOrders_RecheckFloodCertificate","task_name_repo":"Recheck Flood","task_name_encompass":"Recheck Flood","status":"BOTH","field":"priority","repo_value":"3","encompass_value":"6","repo_file":"tasks/2_processing/service_orders/recheck_flood_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"taskGroupTemplateName","repo_value":"","encompass_value":"Quality Assurance","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Loan Processor","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"Acknowledgement of Intent to Proceed","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"Consumer Handbook on Adjustable-Rate Mortgages","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"Credit Score Disclosure Exception for Loans Secured by One to Four Units of Residential Real Property","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"HELOC - Important Terms Disclosure","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"Notice to Right to Copy of Appraisal","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"Right to Request a Reconsideration of Value","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"ENCOMPASS_ONLY","field":"document-workspaceoverride-0","repo_value":"","encompass_value":"USA Patriot Act Information Disclosure","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"REPO_ONLY","field":"Initial Document Quality Assurance – RI Open-End Credit Disclosures","repo_value":"RI Open-End Credit Disclosures – RI Open-End Credit Disclosures (Gen Laws 6-27-11, O/OC Only)","encompass_value":"","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – eConsent – Completed Prior to Electronic Send","repo_value":"6","encompass_value":"1","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – eConsent – Docs Mailed if No eConsent","repo_value":"7","encompass_value":"2","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – 1003 – Declarations Complete","repo_value":"1","encompass_value":"3","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – 1003 – Demographic Info Addendum","repo_value":"2","encompass_value":"4","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – 1003 – Demographic Info Addendum Signed","repo_value":"3","encompass_value":"5","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – 1003 – Demographic HELOC","repo_value":"4","encompass_value":"6","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – ROV Sent with Initial Disclosures","repo_value":"5","encompass_value":"7","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – RI Choice of Insurance","repo_value":"26","encompass_value":"25","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_description","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – RI Title Insurance Disclosure","repo_value":"RI Title Insurance Disclosure – RI Title Insurance Disclosure executed with all boxes checked","encompass_value":"RI Title Insurance Disclosure – Verify borrower's election for Title Insurance. Mark Complete if not selecting non-BCSB approved attorney. Mark Issue if opting for non-BCSB approved attorney.","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – RI Title Insurance Disclosure","repo_value":"27","encompass_value":"26","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – USA Patriot Act Info Disclosure","repo_value":"28","encompass_value":"27","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"subtask_rank","task_type":"QualityAssurance_InitialDocReview","task_name_repo":"Initial Document Quality Assurance","task_name_encompass":"Initial Document Quality Assurance","status":"BOTH","field":"Initial Document Quality Assurance – HELOC Booklet","repo_value":"29","encompass_value":"28","repo_file":"tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Underwriting_Misc_SendCounteroffer","task_name_repo":"Send Counteroffer","task_name_encompass":"Send Counteroffer","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"task","task_type":"Underwriting_Misc_SendCounteroffer","task_name_repo":"Send Counteroffer","task_name_encompass":"Send Counteroffer","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Underwriting","encompass_value":"","repo_file":"tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Underwriting_Misc_SendCounteroffer","task_name_repo":"Send Counteroffer","task_name_encompass":"Send Counteroffer","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Decision Flow","repo_file":"tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml","encompass_file":"tasks2 (1).xml"},{"scope":"association","task_type":"Underwriting_PostUnderwriting_CondoMasterReview","task_name_repo":"Master Property Insurance Review","task_name_encompass":"Master Property Insurance Review","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Master Insurance Review","repo_file":"tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask_description","task_type":"Underwriting_PostUnderwriting_CondoMasterReview","task_name_repo":"Master Property Insurance Review","task_name_encompass":"Master Property Insurance Review","status":"BOTH","field":"Master Property Insurance Review – Per-Unit Deductible Exists","repo_value":"Per-Unit Deductible Exists – Determine whether the master policy includes a per-unit deductible that applies to an individual unit owner. If Per-Unit Deductible Exists, mark Issue to trigger HO6 Policy Review task.","encompass_value":"Per-Unit Deductible Exists – Determine whether the master policy includes a per-unit deductible that applies to an individual unit owner. If Per-Unit Deductible Exist mark Issue to trigger HO6  Policy Review task.","repo_file":"tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask_description","task_type":"Underwriting_PostUnderwriting_CondoMasterReview","task_name_repo":"Master Property Insurance Review","task_name_encompass":"Master Property Insurance Review","status":"BOTH","field":"Master Property Insurance Review – Interior Coverage Gap","repo_value":"Interior Coverage Gap – Determine whether any portion of the interior of the unit or unit improvements are not covered by the master policy. If Gap Exists, mark Issue to trigger HO6 Policy Review task.","encompass_value":"Interior Coverage Gap – Determine whether any portion of the interior of the unit or unit improvements are not covered by the master policy.  If Gap Exists mark Issue to trigger HO6  Policy Review task.","repo_file":"tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"association","task_type":"Underwriting_PostUnderwriting_HOIReview","task_name_repo":"HOI Review","task_name_encompass":"HOI Review","status":"REPO_ONLY","field":"workspace","repo_value":"HOIReview","encompass_value":"","repo_file":"tasks/3_underwriting/post_underwriting/hoi_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask","task_type":"Underwriting_PostUnderwriting_HOIReview","task_name_repo":"HOI Review","task_name_encompass":"HOI Review","status":"ENCOMPASS_ONLY","field":"HOI Review – Verify Coverage Amounts","repo_value":"","encompass_value":"Verify Coverage Amounts – Confirm dwelling coverage meets or exceeds the loan amount and that liability and other required coverage amounts are sufficient","repo_file":"tasks/3_underwriting/post_underwriting/hoi_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask","task_type":"Underwriting_PostUnderwriting_HOIReview","task_name_repo":"HOI Review","task_name_encompass":"HOI Review","status":"ENCOMPASS_ONLY","field":"HOI Review – Verify Lender Named as Mortgagee","repo_value":"","encompass_value":"Verify Lender Named as Mortgagee – Confirm the lender is listed as the mortgagee on the policy; if not, request an updated declarations page from the insurance agent","repo_file":"tasks/3_underwriting/post_underwriting/hoi_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask","task_type":"Underwriting_PostUnderwriting_HOIReview","task_name_repo":"HOI Review","task_name_encompass":"HOI Review","status":"ENCOMPASS_ONLY","field":"HOI Review – Confirm Policy Effective Date","repo_value":"","encompass_value":"Confirm Policy Effective Date – Verify the policy effective date is on or before the loan closing date","repo_file":"tasks/3_underwriting/post_underwriting/hoi_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"subtask","task_type":"Underwriting_PostUnderwriting_HOIReview","task_name_repo":"HOI Review","task_name_encompass":"HOI Review","status":"ENCOMPASS_ONLY","field":"HOI Review – Review Deductibles","repo_value":"","encompass_value":"Review Deductibles – Review deductible amounts to ensure they meet lender guidelines; flag any deductible exceeding the allowable threshold","repo_file":"tasks/3_underwriting/post_underwriting/hoi_review_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Underwriting_PostUnderwriting_OrderHOI","task_name_repo":"Order HOI","task_name_encompass":"Order HOI","status":"BOTH","field":"duration","repo_value":"15","encompass_value":"4","repo_file":"tasks/3_underwriting/post_underwriting/order_hoi_v1.xml","encompass_file":"task5.xml"},{"scope":"task","task_type":"Underwriting_PostUnderwriting_OrderHOI","task_name_repo":"Order HOI","task_name_encompass":"Order HOI","status":"BOTH","field":"durationFormat","repo_value":"Minute","encompass_value":"Hour","repo_file":"tasks/3_underwriting/post_underwriting/order_hoi_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Underwriting_PostUnderwriting_OrderHOI","task_name_repo":"Order HOI","task_name_encompass":"Order HOI","status":"REPO_ONLY","field":"workspace","repo_value":"OrderHOI","encompass_value":"","repo_file":"tasks/3_underwriting/post_underwriting/order_hoi_v1.xml","encompass_file":"task5.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewAppraisal","task_name_repo":"Review Appraisal","task_name_encompass":"Review Appraisal","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Task - Appraisal Reviews","repo_file":"tasks/3_underwriting/resubmittal/review_appraisal_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewAppraisal","task_name_repo":"Review Appraisal","task_name_encompass":"Review Appraisal","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Appraisal Review","repo_file":"tasks/3_underwriting/resubmittal/review_appraisal_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewAppraisalSecondReview","task_name_repo":"Review Appraisal – Second Review","task_name_encompass":"Review Appraisal – Second Review","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Task - Appraisal Reviews","repo_file":"tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewAppraisalSecondReview","task_name_repo":"Review Appraisal – Second Review","task_name_encompass":"Review Appraisal – Second Review","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Appraisal Review","repo_file":"tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml","encompass_file":"tasks3.xml"},{"scope":"task","task_type":"Underwriting_Resubmittal_ReviewPAR","task_name_repo":"Review PAR","task_name_encompass":"Review PAR (1st Review)","status":"BOTH","field":"name","repo_value":"Review PAR","encompass_value":"Review PAR (1st Review)","repo_file":"tasks/3_underwriting/resubmittal/review_par_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewPAR","task_name_repo":"Review PAR","task_name_encompass":"Review PAR (1st Review)","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Underwriter","repo_file":"tasks/3_underwriting/resubmittal/review_par_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewPAR","task_name_repo":"Review PAR","task_name_encompass":"Review PAR (1st Review)","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Appraisal Review","repo_file":"tasks/3_underwriting/resubmittal/review_par_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewPAR","task_name_repo":"Review PAR","task_name_encompass":"Review PAR (1st Review)","status":"REPO_ONLY","field":"Assignee","repo_value":"Loan Processor","encompass_value":"","repo_file":"tasks/3_underwriting/resubmittal/review_par_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_ReviewPAR","task_name_repo":"Review PAR","task_name_encompass":"Review PAR (1st Review)","status":"REPO_ONLY","field":"workspace","repo_value":"ReviewPAR","encompass_value":"","repo_file":"tasks/3_underwriting/resubmittal/review_par_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_SendAppraisal","task_name_repo":"Send Appraisal","task_name_encompass":"Send Appraisal","status":"ENCOMPASS_ONLY","field":"Assignee","repo_value":"","encompass_value":"Task - Appraisal Reviews","repo_file":"tasks/3_underwriting/resubmittal/send_appraisal_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_SendAppraisal","task_name_repo":"Send Appraisal","task_name_encompass":"Send Appraisal","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Appraisal Review","repo_file":"tasks/3_underwriting/resubmittal/send_appraisal_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Resubmittal_TitleOwnershipReport","task_name_repo":"Title (Ownership Report)","task_name_encompass":"Title (Ownership Report)","status":"REPO_ONLY","field":"workspace","repo_value":"TitleOwnershipReport","encompass_value":"","repo_file":"tasks/3_underwriting/resubmittal/title_ownership_report_v1.xml","encompass_file":"tasks4.xml"},{"scope":"task","task_type":"Underwriting_Submittal_Underwrite","task_name_repo":"Underwrite","task_name_encompass":"Underwrite","status":"BOTH","field":"autocomplete","repo_value":"false","encompass_value":"true","repo_file":"tasks/3_underwriting/submittal/underwrite_v1.xml","encompass_file":"tasks3.xml"},{"scope":"task","task_type":"Underwriting_Submittal_Underwrite","task_name_repo":"Underwrite","task_name_encompass":"Underwrite","status":"BOTH","field":"taskGroupTemplateName","repo_value":"Underwriting - Submittal","encompass_value":"","repo_file":"tasks/3_underwriting/submittal/underwrite_v1.xml","encompass_file":"tasks3.xml"},{"scope":"association","task_type":"Underwriting_Submittal_Underwrite","task_name_repo":"Underwrite","task_name_encompass":"Underwrite","status":"ENCOMPASS_ONLY","field":"workspace","repo_value":"","encompass_value":"Decision Flow","repo_file":"tasks/3_underwriting/submittal/underwrite_v1.xml","encompass_file":"tasks3.xml"}]}</script>
+
+<script>
+(function () {
+  "use strict";
+
+  var D = JSON.parse(document.getElementById("payload").textContent);
+  var S = D.stats;
+  var ENC_ONLY = "ENCOMPASS_ONLY", REPO_ONLY = "REPO_ONLY", BOTH = "BOTH";
+
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined && txt !== null) n.textContent = txt;
+    return n;
+  }
+
+  /* ---- balance strip --------------------------------------------------- */
+  (function () {
+    var b = document.getElementById("balance");
+
+    var a = el("div", "balance-side enc");
+    a.appendChild(el("div", "label", "Encompass · live"));
+    a.appendChild(el("div", "figure", S.encompass_tasks));
+    a.appendChild(el("div", "sub", S.encompass_subtasks + " subtasks"));
+    a.appendChild(el("div", "sub", S.only_encompass + " not in the repo"));
+
+    var m = el("div", "balance-mid");
+    m.appendChild(el("div", "label", "Shared, in agreement"));
+    m.appendChild(el("div", "figure", S.shared_identical + " of " + S.shared));
+    m.appendChild(el("div", "note",
+      "Every shared task differs in at least one compared field."));
+
+    var c = el("div", "balance-side repo");
+    c.appendChild(el("div", "label", "Repo · committed"));
+    c.appendChild(el("div", "figure", S.repo_tasks));
+    c.appendChild(el("div", "sub", S.repo_subtasks + " subtasks"));
+    c.appendChild(el("div", "sub", S.only_repo + " never deployed"));
+
+    b.appendChild(a); b.appendChild(m); b.appendChild(c);
+  })();
+
+  /* ---- tiles ----------------------------------------------------------- */
+  (function () {
+    var t = document.getElementById("tiles");
+    [
+      ["is-enc",   S.only_encompass,           "Live tasks absent from git"],
+      ["is-repo",  S.only_repo,                "Repo tasks absent from Encompass"],
+      ["is-drift", S.shared_differing,         "Shared tasks that disagree"],
+      ["is-enc",   S.subtasks_encompass_only,  "Subtasks only in Encompass"],
+      ["is-repo",  S.subtasks_repo_only,       "Subtasks only in the repo"],
+      ["is-drift", S.subtask_description_diffs, "Subtasks with different wording"],
+      ["is-drift", S.subtask_rank_diffs,       "Subtasks ordered differently"],
+      ["is-enc",   D.placeholders.encompass[1], "Live subtasks still labelled “Sub-Task Name”"]
+    ].forEach(function (r) {
+      var d = el("div", "tile " + r[0]);
+      d.appendChild(el("div", "n", r[1]));
+      d.appendChild(el("div", "k", r[2]));
+      t.appendChild(d);
+    });
+  })();
+
+  /* ---- rename pairs ---------------------------------------------------- */
+  (function () {
+    var box = document.getElementById("renamelist");
+    S.rename_pairs.forEach(function (p) {
+      var rt = p[0], ct = p[1];
+      var row = el("div", "pair");
+
+      var l = el("div", "side-repo", rt);
+      l.appendChild(el("span", "nm", D.repo_tasks_detail[rt].name + " · repo"));
+
+      var mid = el("div", "arrow", "→");
+
+      var r = el("div", "side-enc", ct);
+      r.appendChild(el("span", "nm", D.encompass_tasks_detail[ct].name + " · Encompass"));
+
+      row.appendChild(l); row.appendChild(mid); row.appendChild(r);
+      box.appendChild(row);
+    });
+  })();
+
+  /* ---- assemble ledger model ------------------------------------------- */
+  var byTask = {};
+  D.rows.forEach(function (r) {
+    (byTask[r.task_type] = byTask[r.task_type] || []).push(r);
+  });
+
+  var items = [];
+  Object.keys(D.encompass_tasks_detail).forEach(function (tt) {
+    var e = D.encompass_tasks_detail[tt], rp = D.repo_tasks_detail[tt];
+    items.push({
+      type: tt,
+      name: rp ? rp.name : e.name,
+      altName: rp && rp.name !== e.name ? e.name : null,
+      group: (rp && rp.group) || e.group || "—",
+      inEnc: true, inRepo: !!rp,
+      side: rp ? BOTH : ENC_ONLY,
+      deltas: rp ? (byTask[tt] || []).length : (e.subs.length || 0),
+      rows: byTask[tt] || [],
+      file: e.file
+    });
+  });
+  Object.keys(D.repo_tasks_detail).forEach(function (tt) {
+    if (D.encompass_tasks_detail[tt]) return;
+    var rp = D.repo_tasks_detail[tt];
+    items.push({
+      type: tt, name: rp.name, altName: null, group: rp.group || "—",
+      inEnc: false, inRepo: true, side: REPO_ONLY,
+      deltas: rp.subs.length, rows: [], file: rp.file
+    });
+  });
+
+  var SIDE_RANK = {}; SIDE_RANK[BOTH] = 0; SIDE_RANK[ENC_ONLY] = 1; SIDE_RANK[REPO_ONLY] = 2;
+  items.sort(function (a, b) {
+    if (a.side !== b.side) return SIDE_RANK[a.side] - SIDE_RANK[b.side];
+    if (b.deltas !== a.deltas) return b.deltas - a.deltas;
+    return a.name.localeCompare(b.name);
+  });
+
+  /* ---- filters --------------------------------------------------------- */
+  var filter = "all", query = "";
+  var FILTERS = [
+    { id: "all",     label: "All",            cls: "",        n: items.length },
+    { id: BOTH,      label: "Both, differs",  cls: "c-drift", n: S.shared_differing },
+    { id: ENC_ONLY,  label: "Encompass only", cls: "c-enc",   n: S.only_encompass },
+    { id: REPO_ONLY, label: "Repo only",      cls: "c-repo",  n: S.only_repo }
+  ];
+
+  var chipbar = document.getElementById("chips");
+  FILTERS.forEach(function (f) {
+    var b = el("button", "chip " + f.cls);
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(f.id === "all"));
+    b.appendChild(document.createTextNode(f.label));
+    b.appendChild(el("span", "cnt", f.n));
+    b.addEventListener("click", function () {
+      filter = f.id;
+      Array.prototype.forEach.call(chipbar.children, function (c, i) {
+        c.setAttribute("aria-pressed", String(FILTERS[i].id === filter));
+      });
+      render();
+    });
+    chipbar.appendChild(b);
+  });
+
+  document.getElementById("search").addEventListener("input", function (e) {
+    query = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  /* ---- detail rendering ------------------------------------------------ */
+  var SCOPE_TITLE = {
+    task: "Task attributes",
+    association: "Assignee & workspace bindings",
+    subtask: "Subtasks present on only one side",
+    subtask_description: "Subtasks worded differently",
+    subtask_rank: "Subtasks ordered differently"
+  };
+  var SCOPE_ORDER = ["task", "association", "subtask", "subtask_description", "subtask_rank"];
+
+  function detailFor(item) {
+    var wrapEl = el("div", "detail");
+
+    if (item.side !== BOTH) {
+      var only = el("div", "dgroup");
+      only.appendChild(el("h4", null, item.side === ENC_ONLY
+        ? "Live in Encompass, no XML in the repo"
+        : "Committed to the repo, not present in Encompass"));
+      var det = item.side === ENC_ONLY
+        ? D.encompass_tasks_detail[item.type]
+        : D.repo_tasks_detail[item.type];
+      var p = el("p", "hint",
+        det.subs.length
+          ? det.subs.length + " subtask(s) · defined in " + det.file
+          : "No subtasks · defined in " + det.file);
+      p.style.fontSize = "13px";
+      p.style.color = "var(--ink-mid)";
+      only.appendChild(p);
+      if (det.subs.length) {
+        var tb = el("table", "dtable");
+        det.subs.forEach(function (s) {
+          var tr = el("tr");
+          tr.appendChild(el("td", "k", s));
+          tb.appendChild(tr);
+        });
+        only.appendChild(tb);
+      }
+      wrapEl.appendChild(only);
+      return wrapEl;
+    }
+
+    var grouped = {};
+    item.rows.forEach(function (r) { (grouped[r.scope] = grouped[r.scope] || []).push(r); });
+
+    SCOPE_ORDER.forEach(function (scope) {
+      var rows = grouped[scope];
+      if (!rows || !rows.length) return;
+      var g = el("div", "dgroup");
+      g.appendChild(el("h4", null, SCOPE_TITLE[scope] + " · " + rows.length));
+
+      var tb = el("table", "dtable");
+      var hd = el("tr");
+      hd.appendChild(el("th", null, scope === "task" ? "Field" : "Subtask"));
+      hd.appendChild(el("th", null, "Repo"));
+      hd.appendChild(el("th", null, "Encompass"));
+      tb.appendChild(hd);
+
+      rows.forEach(function (r) {
+        var tr = el("tr");
+        tr.appendChild(el("td", "k", r.field));
+
+        if (scope === "subtask") {
+          var side = r.status === ENC_ONLY ? "enc" : "repo";
+          var td = el("td");
+          td.colSpan = 2;
+          var tag = el("span", "tag t-" + side,
+            r.status === ENC_ONLY ? "Encompass only" : "Repo only");
+          td.appendChild(tag);
+          var desc = r.encompass_value || r.repo_value;
+          if (desc) {
+            var pd = el("div");
+            pd.className = "txt";
+            pd.textContent = desc;
+            pd.style.marginTop = "4px";
+            td.appendChild(pd);
+          }
+          tr.appendChild(td);
+        } else {
+          tr.appendChild(el("td", "v-repo " + (scope === "subtask_description" ? "txt" : ""),
+            r.repo_value || "—"));
+          tr.appendChild(el("td", "v-enc " + (scope === "subtask_description" ? "txt" : ""),
+            r.encompass_value || "—"));
+        }
+        tb.appendChild(tr);
+      });
+
+      g.appendChild(tb);
+      wrapEl.appendChild(g);
+    });
+
+    var src = el("div", "dgroup");
+    src.appendChild(el("h4", null, "Sources"));
+    var st = el("table", "dtable");
+    [["Repo", D.repo_tasks_detail[item.type].file], ["Encompass", item.file]].forEach(function (p) {
+      var tr = el("tr");
+      tr.appendChild(el("th", null, p[0]));
+      var td = el("td", "k", p[1]);
+      td.colSpan = 2;
+      tr.appendChild(td);
+      st.appendChild(tr);
+    });
+    src.appendChild(st);
+    wrapEl.appendChild(src);
+
+    return wrapEl;
+  }
+
+  /* ---- ledger rendering ------------------------------------------------ */
+  var host = document.getElementById("rows");
+
+  function render() {
+    host.textContent = "";
+    var shown = items.filter(function (it) {
+      if (filter !== "all" && it.side !== filter) return false;
+      if (!query) return true;
+      return (it.name + " " + it.type + " " + it.group + " " + (it.altName || ""))
+        .toLowerCase().indexOf(query) !== -1;
+    });
+
+    if (!shown.length) {
+      host.appendChild(el("div", "empty", "No tasks match that filter."));
+      return;
+    }
+
+    shown.forEach(function (it) {
+      var cls = it.side === BOTH ? "s-drift" : (it.side === ENC_ONLY ? "s-enc" : "s-repo");
+      var row = el("div", "rowitem " + cls);
+
+      var btn = el("button", "rowbtn");
+      btn.type = "button";
+      btn.setAttribute("aria-expanded", "false");
+
+      var glyph = el("span", "glyph");
+      glyph.appendChild(el("i", it.inEnc ? "on-enc" : "off"));
+      glyph.appendChild(el("i", it.inRepo ? "on-repo" : "off"));
+      glyph.setAttribute("role", "img");
+      glyph.setAttribute("aria-label",
+        (it.inEnc ? "In Encompass" : "Not in Encompass") + ", " +
+        (it.inRepo ? "in repo" : "not in repo"));
+      btn.appendChild(glyph);
+
+      var nameCell = el("div");
+      nameCell.appendChild(el("div", "tname", it.name));
+      if (it.altName) {
+        nameCell.appendChild(el("div", "ttype", "Encompass calls it “" + it.altName + "”"));
+      }
+      btn.appendChild(nameCell);
+
+      btn.appendChild(el("div", "ttype", it.type));
+      btn.appendChild(el("div", "tgrp", it.group));
+      btn.appendChild(el("div", "num", it.deltas));
+
+      var det = detailFor(it);
+
+      btn.addEventListener("click", function () {
+        var open = row.classList.toggle("open");
+        btn.setAttribute("aria-expanded", String(open));
+      });
+
+      row.appendChild(btn);
+      row.appendChild(det);
+      host.appendChild(row);
+    });
+  }
+
+  render();
+
+  /* ---- systematic-difference panels ------------------------------------ */
+  (function () {
+    var host = document.getElementById("panels");
+
+    function panel(title, hint) {
+      var p = el("div", "panel");
+      p.appendChild(el("h3", null, title));
+      if (hint) p.appendChild(el("p", "hint", hint));
+      return p;
+    }
+
+    /* assignee roles */
+    var roles = {};
+    Object.keys(D.assignees.encompass).forEach(function (k) { roles[k] = 1; });
+    Object.keys(D.assignees.repo).forEach(function (k) { roles[k] = 1; });
+    var roleKeys = Object.keys(roles).sort(function (a, b) {
+      return (D.assignees.encompass[b] || 0) + (D.assignees.repo[b] || 0)
+           - (D.assignees.encompass[a] || 0) - (D.assignees.repo[a] || 0);
+    });
+    var maxRole = 0;
+    roleKeys.forEach(function (k) {
+      maxRole = Math.max(maxRole, D.assignees.encompass[k] || 0, D.assignees.repo[k] || 0);
+    });
+
+    var pr = panel("Who the work is assigned to",
+      "Encompass routes work to eight roles, including dedicated task queues. The repo only ever " +
+      "names Loan Processor, Underwriter, or nobody — so most imported tasks land on the wrong desk.");
+    var bars = el("div", "bars");
+    roleKeys.forEach(function (k) {
+      var e = D.assignees.encompass[k] || 0, r = D.assignees.repo[k] || 0;
+      var row = el("div", "bar-row");
+      row.appendChild(el("div", "bl", k));
+      row.appendChild(el("div", "bn", e + " / " + r));
+      var track = el("div", "track");
+      var fe = el("span", "fe"); fe.style.width = (e / maxRole * 50) + "%";
+      var fr = el("span", "fr"); fr.style.width = (r / maxRole * 50) + "%";
+      track.appendChild(fe); track.appendChild(fr);
+      row.appendChild(track);
+      bars.appendChild(row);
+    });
+    pr.appendChild(bars);
+    pr.appendChild(el("p", "hint", "Bars read Encompass then repo, left to right."));
+    host.appendChild(pr);
+
+    /* task groups */
+    var groups = {};
+    Object.keys(D.groups.encompass).forEach(function (k) { groups[k] = 1; });
+    Object.keys(D.groups.repo).forEach(function (k) { groups[k] = 1; });
+    var gk = Object.keys(groups).sort(function (a, b) {
+      return (D.groups.encompass[b] || 0) + (D.groups.repo[b] || 0)
+           - (D.groups.encompass[a] || 0) - (D.groups.repo[a] || 0);
+    });
+    var pg = panel("How tasks are grouped",
+      "The repo invents hyphenated sub-groups Encompass has no concept of, while Encompass leaves " +
+      D.groups.encompass["(ungrouped)"] + " of its tasks ungrouped entirely.");
+    var sc = el("div", "scroller");
+    var gt = el("table", "ptable");
+    var gh = el("tr");
+    ["Group", "Encompass", "Repo"].forEach(function (h) { gh.appendChild(el("th", null, h)); });
+    gt.appendChild(gh);
+    gk.forEach(function (k) {
+      var tr = el("tr");
+      tr.appendChild(el("td", null, k));
+      tr.appendChild(el("td", "n e", D.groups.encompass[k] || 0));
+      tr.appendChild(el("td", "n r", D.groups.repo[k] || 0));
+      gt.appendChild(tr);
+    });
+    sc.appendChild(gt);
+    pg.appendChild(sc);
+    host.appendChild(pg);
+
+    /* naming hygiene */
+    var pn = panel("Naming hygiene",
+      "The repo's own conventions require every subtask type to be prefixed with its parent task " +
+      "name and separated by an en-dash. Production largely does not.");
+    var nt = el("table", "ptable");
+    var nh = el("tr");
+    ["Measure", "Encompass", "Repo"].forEach(function (h) { nh.appendChild(el("th", null, h)); });
+    nt.appendChild(nh);
+    [
+      ["Subtasks still labelled “Sub-Task Name”", D.placeholders.encompass[1], D.placeholders.repo[1]],
+      ["Subtask types breaking the prefix rule", D.namespace_violations.encompass, D.namespace_violations.repo],
+      ["Subtask types with no separator", D.separators.encompass.none || 0, D.separators.repo.none || 0],
+      ["Subtask types using a plain hyphen", D.separators.encompass.hyphen || 0, D.separators.repo.hyphen || 0],
+      ["Tasks bound to a workspace", D.workspaces.encompass[0], D.workspaces.repo[0]]
+    ].forEach(function (r) {
+      var tr = el("tr");
+      tr.appendChild(el("td", null, r[0]));
+      tr.appendChild(el("td", "n e", r[1]));
+      tr.appendChild(el("td", "n r", r[2]));
+      nt.appendChild(tr);
+    });
+    pn.appendChild(nt);
+    host.appendChild(pn);
+
+    /* SLA drift */
+    var sla = {};
+    D.rows.forEach(function (r) {
+      if (r.scope === "task" && (r.field === "duration" || r.field === "durationFormat")) {
+        sla[r.task_type] = true;
+      }
+    });
+    var slaKeys = Object.keys(sla);
+    var ps = panel("Turnaround times",
+      slaKeys.length + " shared tasks carry a different due-date window on each side. The repo " +
+      "leans on placeholder values while Encompass holds the real service levels.");
+    var ss = el("div", "scroller");
+    var st = el("table", "ptable");
+    var sh = el("tr");
+    ["Task", "Repo", "Encompass"].forEach(function (h) { sh.appendChild(el("th", null, h)); });
+    st.appendChild(sh);
+    slaKeys.forEach(function (tt) {
+      var vals = { duration: {}, durationFormat: {} };
+      (byTask[tt] || []).forEach(function (r) {
+        if (vals[r.field]) { vals[r.field].repo = r.repo_value; vals[r.field].enc = r.encompass_value; }
+      });
+      var tr = el("tr");
+      tr.appendChild(el("td", null, D.repo_tasks_detail[tt].name));
+      tr.appendChild(el("td", "n r", (vals.duration.repo || "") + " " + (vals.durationFormat.repo || "")));
+      tr.appendChild(el("td", "n e", (vals.duration.enc || "") + " " + (vals.durationFormat.enc || "")));
+      st.appendChild(tr);
+    });
+    ss.appendChild(st);
+    ps.appendChild(ss);
+    host.appendChild(ps);
+  })();
+
+  /* ---- backlog --------------------------------------------------------- */
+  (function () {
+    var host = document.getElementById("backlog");
+    [
+      ["p0", "P0", "Settle the three type keys",
+       "Fraud X Report, Credit Score Disclosure and Send Disclosures each carry a different " +
+       "<code>type</code> on each side. Until one is chosen as canonical per pair, the next import " +
+       "duplicates them in production rather than updating them."],
+      ["p0", "P0", "Resolve the duplicate Notice of Incomplete",
+       "The repo defines it twice — <code>Processing_Misc_NoticeOfIncomplete</code> (the one live in " +
+       "Encompass) and <code>Processing_Disclosures_NoticeOfIncomplete</code> (which is not). Keep one."],
+      ["p1", "P1", "Backfill " + S.only_encompass + " live tasks into git",
+       "The Funding QC suite and the whole pre-approval stage run in production with no XML in the " +
+       "repo. <code>tasks/1_origination/</code> currently holds nothing but a README."],
+      ["p1", "P1", "Decide the fate of " + S.only_repo + " undeployed repo tasks",
+       "Mostly the post-closing document-processing suite. Either ship them or mark them as drafts, " +
+       "so the repo stops reading as the source of truth for work that has never run."],
+      ["p1", "P1", "Adopt or reverse the two task splits",
+       "Encompass splits appraisal work into Appraisal Invoice plus Order Appraisal, and Review PAR " +
+       "into a first and second review. The repo still models each as a single task."],
+      ["p2", "P2", "Align assignees, workspaces and turnaround times",
+       "Roles, workspace bindings and due-date windows differ systematically rather than per task — " +
+       "worth fixing as a convention in <code>create_task.py</code> defaults."],
+      ["p2", "P2", "Clean up naming",
+       D.placeholders.encompass[1] + " subtasks are live with the placeholder label “Sub-Task Name”, " +
+       "and " + D.namespace_violations.encompass + " subtask types break the prefix rule. The typos " +
+       "<code>DislosureAlert</code> and <code>Closers -Task</code> are also in production."]
+    ].forEach(function (b) {
+      var it = el("div", "bl-item " + b[0]);
+      it.appendChild(el("div", "pri", b[1]));
+      var body = el("div");
+      body.appendChild(el("h4", null, b[2]));
+      var p = el("p");
+      p.innerHTML = b[3];
+      body.appendChild(p);
+      it.appendChild(body);
+      host.appendChild(it);
+    });
+  })();
+
+  /* ---- footer ---------------------------------------------------------- */
+  (function () {
+    var f = document.getElementById("foot");
+    f.appendChild(el("div", null,
+      "Generated by mortgage-tasks/compare_configured.py · " + D.rows.length +
+      " delta rows · joined on taskTemplate@type"));
+    f.appendChild(el("div", null,
+      "Volatile attributes (id, created, lastModified, createdVia) are excluded from the diff."));
+  })();
+})();
+</script>
+
+</body>
+</html>
