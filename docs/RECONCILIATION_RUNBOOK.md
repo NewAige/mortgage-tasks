@@ -133,6 +133,7 @@ new one for an existing group name.
 |---|---|
 | Boarding | `e346c086-ced3-42e2-a8aa-a5ee54f62abe` |
 | Closing | `66ac117e-fae9-44db-8ef8-eee7e2998286` |
+| Decision | `c0f1a4b7-6d2e-4c53-9a18-7be5d2f10a94` (minted in the 2026-07-28 backfill — not the live id) |
 | Disclosures | `e2d58efb-0551-4c93-a924-2e0d1f5ac97e` |
 | Document Processing | `782a15d5-a92c-4bc6-9631-c099f47e6e60` |
 | Funding | `8997b6dd-74af-420b-9c4f-fc232c95016f` |

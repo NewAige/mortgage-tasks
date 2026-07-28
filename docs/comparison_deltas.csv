@@ -7,21 +7,10 @@ task,FundingQC_Land_MLA,,Land MLA,ENCOMPASS_ONLY,,,3 subtask(s),,tasks7.xml
 task,FundingQC_Loan_Estimates,,Loan Estimates,ENCOMPASS_ONLY,,,1 subtask(s),,tasks7.xml
 task,FundingQC_MI_Certificate,,Mortgage Insurance Certificate,ENCOMPASS_ONLY,,,1 subtask(s),,tasks6.xml
 task,FundingQC_Verbal_VOE,,Verbal VOE,ENCOMPASS_ONLY,,,1 subtask(s),,tasks7.xml
-task,PipelineMgt_PreApp_FollowUp,,File Follow Up (30 Day),ENCOMPASS_ONLY,,,0 subtask(s),,tasks6.xml
-task,PipelineMgt_PreApp_FollowUp15,,File Follow Up (15 Day),ENCOMPASS_ONLY,,,0 subtask(s),,tasks6.xml
 task,PreClosing_Fraud_X_Report,,Fraud X Report,ENCOMPASS_ONLY,,,6 subtask(s),,tasks4.xml
 task,PreDisclosure_PreApproval_1003,,1003 Quality Review (Pre-Approval),ENCOMPASS_ONLY,,,12 subtask(s),,tasks6.xml
 task,PreDisclosure_PreApproval_Credit,,Credit Score Disclosure (Pre-Approval),ENCOMPASS_ONLY,,,6 subtask(s),,tasks6.xml
-task,Processing_Appraisal_Ordering,,Order Appraisal,ENCOMPASS_ONLY,,,7 subtask(s),,tasks1.xml
-task,Processing_Disclosures_HELOCDisclosure,,Redisclose HELOC Disclosure,ENCOMPASS_ONLY,,,1 subtask(s),,task5.xml
-task,Processing_FileSetup_DislosureAlert,,Send Disclosures Alert,ENCOMPASS_ONLY,,,0 subtask(s),,task5.xml
-task,Processing_ServiceOrders_FraudX,,Order FraudX,ENCOMPASS_ONLY,,,4 subtask(s),,tasks3.xml
-task,Processing_ServiceOrders_SSVN,,Order SSVN,ENCOMPASS_ONLY,,,1 subtask(s),,tasks3.xml
 task,Underwriting_ContractUWApproval,,Contract UW Approval,ENCOMPASS_ONLY,,,1 subtask(s),,tasks4.xml
-task,Underwriting_Counter_Second,,Counteroffer Second Review,ENCOMPASS_ONLY,,,1 subtask(s),,tasks2 (1).xml
-task,Underwriting_Denial_Second,,Denial – Second Look,ENCOMPASS_ONLY,,,1 subtask(s),,tasks2 (1).xml
-task,Underwriting_Resubmittal_AppraisalReviewFollow,,Appraisal - Ready in ValueLink Follow Up,ENCOMPASS_ONLY,,,0 subtask(s),,tasks3.xml
-task,Underwriting_Resubmittal_ReviewPAR2,,Review PAR (2nd Review),ENCOMPASS_ONLY,,,4 subtask(s),,tasks3.xml
 task,auto_2d3dfd67-84a6-4d55-a443-23a2d8ba79c7,,OFAC,ENCOMPASS_ONLY,,,0 subtask(s),,tasks7.xml
 task,auto_7d75e7e7-32bd-438c-aa31-46bf68fe03db,,Funding QC,ENCOMPASS_ONLY,,,2 subtask(s),,tasks7.xml
 task,auto_931feddf-bfbb-4d68-8621-89aef47a46e6,,Broker  Disclosures,ENCOMPASS_ONLY,,,3 subtask(s),,tasks6.xml

@@ -598,10 +598,226 @@
       "openItems": [
         "priority=6 is outside the 1-5 XML scale documented in CLAUDE.md. Copied from Encompass verbatim rather than clamped, per the runbook. roadmap.json priority (1-10 planning scale) was left unchanged."
       ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Processing_Appraisal_Ordering",
+      "taskName": "Order Appraisal",
+      "repoFile": "tasks/2_processing/appraisal/order_appraisal_ordering_v1.xml",
+      "roadmapTaskId": "task_073",
+      "applied": [
+        "Backfilled the Encompass-only appraisal ordering task with its seven subtasks in the Encompass order: Automated Order, Manual Order, Quote Assignment, Payment Recording, Order 1004, Order 1025, Order 1073.",
+        "Task group Service Orders (recorded).",
+        "Automated Order, Payment Recording and the three form subtasks reuse the descriptions that lived on Processing_Appraisal_Order before the 2026-07-27 pass removed them; Manual Order and Quote Assignment are newly authored.",
+        "Closes the open item carried on Processing_Appraisal_Order."
+      ],
+      "openItems": [
+        "Subtask type keys stay namespaced under 'Order Appraisal', which Processing_Appraisal_Order also uses. That collision is Encompass's own; mirrored so the import matches rather than duplicates. Expect namespace_violations.repo to rise.",
+        "Assignee inferred as Loan Processor from the sibling Processing_Appraisal_Order. No workspace bound - none is recorded.",
+        "All seven subtasks set autoCreate=false: they are mutually exclusive by ordering method and property type. Not diffed, so unconfirmed.",
+        "CLAUDE.md's Business Logic Notes under 'Appraisal Task (task_003)' describe THIS task, not task_003. Left as-is; retargeting them is a separate change.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Processing_ServiceOrders_FraudX",
+      "taskName": "Order FraudX",
+      "repoFile": "tasks/2_processing/service_orders/order_fraudx_v1.xml",
+      "roadmapTaskId": "task_074",
+      "applied": [
+        "Backfilled with four subtasks in the Encompass order: Buyer Agent, Seller Agent, Sellers, Order.",
+        "Ungrouped, matching Encompass."
+      ],
+      "openItems": [
+        "Subtask type keys use a hyphen ('Order FraudX - Buyer Agent') where docs/conventions.md requires an en-dash. Kept verbatim - type is the import matching key.",
+        "The three party subtasks are autoCreate=false (purchase-only) and Order is autoCreate=true and ranks last so that marking it Done places the order. Inferred from the sibling FundingQC_Fraud_X_Report, not diffed.",
+        "Assignee inferred as Loan Processor from the other Processing_ServiceOrders_* tasks.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Processing_ServiceOrders_SSVN",
+      "taskName": "Order SSVN",
+      "repoFile": "tasks/2_processing/service_orders/order_ssvn_v1.xml",
+      "roadmapTaskId": "task_075",
+      "applied": [
+        "Backfilled with its single subtask, Submit Order.",
+        "Ungrouped, matching Encompass."
+      ],
+      "openItems": [
+        "Subtask type key 'Order SSVN - Submit Order' uses a hyphen; kept verbatim.",
+        "Assignee inferred as Loan Processor from Processing_ServiceOrders_OrderSSA89, the closest sibling. No workspace bound - none is recorded.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Processing_Disclosures_HELOCDisclosure",
+      "taskName": "Redisclose HELOC Disclosure",
+      "repoFile": "tasks/2_processing/disclosures/redisclose_heloc_disclosure_v1.xml",
+      "roadmapTaskId": "task_076",
+      "applied": [
+        "Backfilled with its single subtask, Revised Disclosure Needed.",
+        "Ungrouped, matching Encompass."
+      ],
+      "openItems": [
+        "The subtask type is namespaced under 'HELOC Disclosure' rather than the task name. Encompass's own violation; mirrored verbatim.",
+        "Subtask set autoCreate=true - the task itself is autoCreate=false, so it only exists once redisclosure is required. Inferred, not diffed.",
+        "Assignee inferred as Loan Processor from Processing_FileSetup_SendDisclosuresHELOC.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Processing_FileSetup_DislosureAlert",
+      "taskName": "Send Disclosures Alert",
+      "repoFile": "tasks/2_processing/disclosures/send_disclosures_alert_v1.xml",
+      "roadmapTaskId": "task_077",
+      "applied": [
+        "Backfilled as a subtask-free alert task.",
+        "Task group Disclosures (recorded)."
+      ],
+      "openItems": [
+        "The Encompass type string misspells 'Disclosure' as 'Dislosure'. Copied verbatim - it is the import key.",
+        "Adding this task removed a false-positive rename pair from section 3 of the report: the normalised-name fallback had been pairing it with Processing_FileSetup_SendDisclosures, which exists separately on both sides.",
+        "Assignee inferred as Loan Processor from the other Processing_FileSetup_* disclosure tasks.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Underwriting_Resubmittal_ReviewPAR2",
+      "taskName": "Review PAR (2nd Review)",
+      "repoFile": "tasks/3_underwriting/resubmittal/review_par_second_review_v1.xml",
+      "roadmapTaskId": "task_078",
+      "applied": [
+        "Backfilled with four subtasks in the Encompass order: Address Verification, Visible Deferred Maintenance, Occupancy Confirmation, Repair Costs.",
+        "Descriptions reuse the wording already reconciled on Underwriting_Resubmittal_ReviewPAR, whose subtask type keys Encompass reuses here verbatim.",
+        "Ungrouped, matching Encompass."
+      ],
+      "openItems": [
+        "Encompass gives this task the same four subtask type keys as Review PAR (1st Review). Two tasks sharing subtask namespaces is Encompass's own violation; mirrored so the import matches rather than duplicates.",
+        "Assignee and workspace mirror the 1st Review (Underwriter, 'Appraisal Review'). The appraisal second-review siblings use 'Task - Appraisal Reviews' instead, so this is the less certain of the two readings - confirm against a live export.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Underwriting_Resubmittal_AppraisalReviewFollow",
+      "taskName": "Appraisal - Ready in ValueLink Follow Up",
+      "repoFile": "tasks/3_underwriting/resubmittal/appraisal_ready_in_valuelink_follow_up_v1.xml",
+      "roadmapTaskId": "task_079",
+      "applied": [
+        "Backfilled as a subtask-free follow-up task.",
+        "Ungrouped, matching Encompass."
+      ],
+      "openItems": [
+        "Assignee inferred as 'Task - Appraisal Reviews' from the three reconciled appraisal-review siblings (Review Appraisal, Review Appraisal - Second Review, Send Appraisal), all of which pair that role with the 'Appraisal Review' workspace. The role has no known system integer, so entityId is blank - read it off a live export before import.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Underwriting_Counter_Second",
+      "taskName": "Counteroffer Second Review",
+      "repoFile": "tasks/3_underwriting/uw_misc/counteroffer_second_review_v1.xml",
+      "roadmapTaskId": "task_080",
+      "applied": [
+        "Backfilled with its single subtask, Second Look.",
+        "Task group Decision (recorded) with a newly minted taskGroupTemplateId, also registered in reconcile_adopt.py GROUP_IDS and the runbook's group table."
+      ],
+      "openItems": [
+        "The 'Decision' group's live taskGroupTemplateId is not recorded in any repo artefact. c0f1a4b7-6d2e-4c53-9a18-7be5d2f10a94 was minted so the group is at least self-consistent; importing it as-is would create a second group rather than join the live one. Replace it from a live export first.",
+        "The subtask type is namespaced under 'CounterOffer' rather than the task name. Encompass's own violation; mirrored verbatim.",
+        "Assignee inferred as Underwriter and workspace as 'Decision Flow' from Underwriting_Misc_SendCounteroffer, which binds that workspace.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "Underwriting_Denial_Second",
+      "taskName": "Denial – Second Look",
+      "repoFile": "tasks/3_underwriting/uw_misc/denial_second_look_v1.xml",
+      "roadmapTaskId": "task_081",
+      "applied": [
+        "Backfilled with its single subtask, Second Look.",
+        "Ungrouped, matching Encompass."
+      ],
+      "openItems": [
+        "The subtask type 'Denial – Second Look' is namespaced under 'Denial' rather than the task name. Encompass's own violation; mirrored verbatim.",
+        "Assignee inferred as Underwriter and workspace as 'Decision Flow', matching the counteroffer second review.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "PipelineMgt_PreApp_FollowUp15",
+      "taskName": "File Follow Up (15 Day)",
+      "repoFile": "tasks/1_origination/pipeline_management/file_follow_up_15_day_v1.xml",
+      "roadmapTaskId": "task_071",
+      "applied": [
+        "Backfilled VERBATIM from the real Encompass export preserved in 'Example files/ExampleSimple.xml' - same id (78b167b4-f962-43cd-bac1-1da7a22e7119), description, priority 3, rank 13, 4 Hour SLA, autocomplete=true, autoCreate=false, createdBy/created timestamps, no associations and no subtasks.",
+        "Created the 1_origination/pipeline_management folder and a matching roadmap subcategory; the Origination stage had no tasks before this pass."
+      ],
+      "openItems": [
+        "Encompass reports two tasks assigned to the role 'Pipeline Management - Task' and the repo still has none. The verbatim export for this task carries no assignee, so none was added. If those two are in fact the File Follow Up pair, both need the role and its system integer from a live export.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "rowKind": "encompass_only_backfill",
+      "taskType": "PipelineMgt_PreApp_FollowUp",
+      "taskName": "File Follow Up (30 Day)",
+      "repoFile": "tasks/1_origination/pipeline_management/file_follow_up_30_day_v1.xml",
+      "roadmapTaskId": "task_072",
+      "applied": [
+        "Backfilled by mirroring the verbatim 15-day export: same priority, SLA, autocomplete and autoCreate, fresh UUID, rank 14, and '15 Days' changed to '30 Days' in the description.",
+        "No subtasks, matching Encompass."
+      ],
+      "openItems": [
+        "The description wording is modelled on the 15-day task, not read from Encompass.",
+        "Same 'Pipeline Management - Task' assignee question as task_071.",
+        "Only the task name, task group and the ordered subtask type list are recorded for an ENCOMPASS_ONLY row, so the task and subtask descriptions, SLA, priority, rank, autocomplete, assignee, workspace bindings and per-subtask autoCreate/category in this file are AUTHORED, not copied from Encompass. Re-run compare_configured.py against a live export and expect deltas on those fields."
+      ]
     }
   ],
   "provenance": {
     "encompassSide": "docs/comparison_deltas.csv and the payload embedded in docs/reconciliation.html, both produced by the previous compare_configured.py run",
-    "note": "import/Configured Task/ was not present in the checkout where these edits were made, so no raw export was read. Re-run compare_configured.py against a fresh export to confirm each resolved row now shows zero deltas."
+    "note": "import/Configured Task/ was not present in the checkout where these edits were made, so no raw export was read. Re-run compare_configured.py against a fresh export to confirm each resolved row now shows zero deltas. The 2026-07-28 backfill pass added eleven ENCOMPASS_ONLY tasks to the repo. Those rows record only name, group and the ordered subtask type list, so every other field was authored; each entry lists what was inferred."
   }
 }

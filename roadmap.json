@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-28T12:00:00.000Z",
+    "lastUpdated": "2026-07-28T18:00:00.000Z",
     "version": "1.0.0",
-    "totalTasks": 66,
-    "completedTasks": 59,
+    "totalTasks": 77,
+    "completedTasks": 70,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -12,7 +12,50 @@
       "name": "Origination",
       "order": 1,
       "description": "Initial loan application and setup",
-      "tasks": []
+      "tasks": [
+        {
+          "id": "task_071",
+          "name": "File Follow Up (15 Day)",
+          "order": 1,
+          "subcategory": "pipeline_management",
+          "status": "completed",
+          "priority": 5,
+          "description": "File is 15 Days aged. Please decision or follow up.",
+          "notes": "Backfilled from Encompass (PipelineMgt_PreApp_FollowUp15). Aged-file alert on the pre-application pipeline; the full Encompass export for this task is preserved in 'Example files/ExampleSimple.xml' and was copied verbatim, including its Encompass id and timestamps. No subtasks and no assignee in Encompass.",
+          "applicationLogic": "Fires when a pre-application file reaches 15 days of age. No subtasks.",
+          "subtasks": [],
+          "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_15_day_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_072",
+          "name": "File Follow Up (30 Day)",
+          "order": 2,
+          "subcategory": "pipeline_management",
+          "status": "completed",
+          "priority": 5,
+          "description": "File is 30 Days aged. Please decision or follow up.",
+          "notes": "Backfilled from Encompass (PipelineMgt_PreApp_FollowUp). The 30-day sibling of task_071; mirrors the verbatim 15-day export apart from the age in the description and its rank.",
+          "applicationLogic": "Fires when a pre-application file reaches 30 days of age. No subtasks.",
+          "subtasks": [],
+          "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_30_day_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        }
+      ],
+      "subcategories": [
+        {
+          "id": "pipeline_management",
+          "name": "Pipeline Management",
+          "order": 1,
+          "description": "Aged-file follow-up and pre-application pipeline alerts"
+        }
+      ]
     },
     {
       "id": "2_processing",
@@ -1280,6 +1323,173 @@
           "createdAt": "2026-03-17T00:00:00.000Z",
           "ruleStatus": "Complete",
           "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_073",
+          "name": "Order Appraisal",
+          "order": 10,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 9,
+          "description": "Place the appraisal order once the invoice is settled and the correct form type is determined",
+          "notes": "Backfilled from Encompass (Processing_Appraisal_Ordering). This is the appraisal ORDERING task and is distinct from task_003 'Appraisal Invoice' (Processing_Appraisal_Order), which handles the quote and invoice only. It holds the seven ordering subtasks that were removed from task_003 in the 2026-07-27 reconciliation pass, so the Business Logic Notes in CLAUDE.md under 'Appraisal Task (task_003)' actually describe this task. Encompass namespaces the subtask type keys under 'Order Appraisal', which task_003 also uses - that collision is Encompass's own and is mirrored verbatim so the import matches rather than duplicates.",
+          "applicationLogic": "Ordering subtasks are mutually exclusive: Automated Order when automated ordering is enabled, otherwise Manual Order plus the form-specific subtask for the property type (1004 single-family, 1025 2-4 unit, 1073 condo). Encompass and ValueLink do not sync, so quotes and payments must be entered in both systems.",
+          "subtasks": [
+            {
+              "name": "Automated Order",
+              "order": 1,
+              "description": "Automated Order – Place automated appraisal order (conditional: automated ordering must be enabled for this loan); marking Done will place the automated order",
+              "type": "conditional"
+            },
+            {
+              "name": "Manual Order",
+              "order": 2,
+              "description": "Manual Order – Place the appraisal order manually in ValueLink when automated ordering is not available for this loan",
+              "type": "conditional"
+            },
+            {
+              "name": "Quote Assignment",
+              "order": 3,
+              "description": "Quote Assignment – Assign the accepted appraisal fee quote to the order in ValueLink (property value over $1M or unique/complex property type). Encompass and ValueLink do not sync — the quoted fee must be entered in both systems separately.",
+              "type": "conditional"
+            },
+            {
+              "name": "Payment Recording",
+              "order": 4,
+              "description": "Payment Recording – Record appraisal payment received in Encompass and ValueLink (these systems do not sync)",
+              "type": "conditional"
+            },
+            {
+              "name": "Order 1004",
+              "order": 5,
+              "description": "Order 1004 – Order 1004 appraisal form (conditional: single-family property; automated ordering not available)",
+              "type": "conditional"
+            },
+            {
+              "name": "Order 1025",
+              "order": 6,
+              "description": "Order 1025 – Order 1025 appraisal form (conditional: 2–4 unit property; automated ordering not available)",
+              "type": "conditional"
+            },
+            {
+              "name": "Order 1073",
+              "order": 7,
+              "description": "Order 1073 – Order 1073 appraisal form (conditional: condo property; automated ordering not available)",
+              "type": "conditional"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/appraisal/order_appraisal_ordering_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_074",
+          "name": "Order FraudX",
+          "order": 11,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 8,
+          "description": "Order the FraudX report and add every transaction party that must be screened",
+          "notes": "Backfilled from Encompass (Processing_ServiceOrders_FraudX). This is the FraudX ORDER task; the report REVIEW is task_048 'Fraud X Report' (FundingQC_Fraud_X_Report) in Pre-Closing QC. Encompass keys the subtask types with a hyphen ('Order FraudX - Buyer Agent') rather than the en-dash docs/conventions.md requires; kept verbatim because type is the import matching key.",
+          "applicationLogic": "Party subtasks are added only for purchase transactions. Marking Order as Done places the FraudX order, so it ranks last.",
+          "subtasks": [
+            {
+              "name": "Buyer Agent",
+              "order": 1,
+              "description": "Buyer Agent – Add the buyer's agent to the FraudX order. Add this subtask only for purchase transactions.",
+              "type": "conditional"
+            },
+            {
+              "name": "Seller Agent",
+              "order": 2,
+              "description": "Seller Agent – Add the seller's agent to the FraudX order. Add this subtask only for purchase transactions.",
+              "type": "conditional"
+            },
+            {
+              "name": "Sellers",
+              "order": 3,
+              "description": "Sellers – Add all sellers to the FraudX order. Add this subtask only for purchase transactions.",
+              "type": "conditional"
+            },
+            {
+              "name": "Order",
+              "order": 4,
+              "description": "Order – Submit the FraudX order once every party has been added; marking Done will place the FraudX order",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/service_orders/order_fraudx_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_075",
+          "name": "Order SSVN",
+          "order": 12,
+          "subcategory": "service_orders",
+          "status": "completed",
+          "priority": 6,
+          "description": "Order Social Security number verification for all borrowers on the loan",
+          "notes": "Backfilled from Encompass (Processing_ServiceOrders_SSVN). Social Security number verification order; related to but separate from task_009 'Order SSA-89'. Encompass keys the single subtask type with a hyphen; kept verbatim.",
+          "applicationLogic": "Marking Submit Order as Done places the SSVN order.",
+          "subtasks": [
+            {
+              "name": "Submit Order",
+              "order": 1,
+              "description": "Submit Order – Submit the SSVN order for all borrowers; marking Done will place the order",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/service_orders/order_ssvn_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_076",
+          "name": "Redisclose HELOC Disclosure",
+          "order": 5,
+          "subcategory": "file_setup",
+          "status": "completed",
+          "priority": 7,
+          "description": "Redisclose the HELOC disclosure when a changed circumstance requires a revised disclosure",
+          "notes": "Backfilled from Encompass (Processing_Disclosures_HELOCDisclosure). Redisclosure counterpart to task_002b 'Send Disclosures (HELOC)'. Encompass namespaces the subtask type under 'HELOC Disclosure' rather than the task name; kept verbatim.",
+          "applicationLogic": "Added conditionally when a changed circumstance requires a revised HELOC disclosure.",
+          "subtasks": [
+            {
+              "name": "Revised Disclosure Needed",
+              "order": 1,
+              "description": "Revised Disclosure Needed – A changed circumstance requires a revised HELOC disclosure. Redisclose the HELOC package and document the changed circumstance in the file.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/disclosures/redisclose_heloc_disclosure_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_077",
+          "name": "Send Disclosures Alert",
+          "order": 6,
+          "subcategory": "file_setup",
+          "status": "completed",
+          "priority": 9,
+          "description": "Alert that the file is ready for initial disclosures to be sent",
+          "notes": "Backfilled from Encompass (Processing_FileSetup_DislosureAlert). Note the misspelling 'Dislosure' in the Encompass type string - it is the import key and was copied verbatim. No subtasks in Encompass.",
+          "applicationLogic": "Alert only; precedes task_002 'Send Disclosures' and task_002b 'Send Disclosures (HELOC)'.",
+          "subtasks": [],
+          "xmlFile": "tasks/2_processing/disclosures/send_disclosures_alert_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
         }
       ]
     },
@@ -1743,6 +1953,113 @@
           "createdAt": "2026-06-11T20:02:45.000Z",
           "ruleStatus": "Partial",
           "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_078",
+          "name": "Review PAR (2nd Review)",
+          "order": 6,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 7,
+          "description": "Second review of the Property Assessment Report after the first review is complete",
+          "notes": "Backfilled from Encompass (Underwriting_Resubmittal_ReviewPAR2). Second-review counterpart to task_051 'Review PAR (1st Review)'. Encompass gives it the same four subtask type keys as the first review ('Review PAR - ...'), so the two tasks share subtask namespaces; mirrored verbatim because type is the import matching key.",
+          "applicationLogic": "Runs after the first PAR review. Same four checks as the first review.",
+          "subtasks": [
+            {
+              "name": "Address Verification",
+              "order": 1,
+              "description": "Address Verification – Verify that the house number and street on the PAR match the loan file and property photos",
+              "type": "standard"
+            },
+            {
+              "name": "Visible Deferred Maintenance",
+              "order": 2,
+              "description": "Visible Deferred Maintenance – Review PAR for any visible deferred maintenance issues noted on the property",
+              "type": "standard"
+            },
+            {
+              "name": "Occupancy Confirmation",
+              "order": 3,
+              "description": "Occupancy Confirmation – Confirm the occupancy status of the property as reported in the PAR",
+              "type": "standard"
+            },
+            {
+              "name": "Repair Costs",
+              "order": 4,
+              "description": "Repair Costs – Review and document any repair costs noted in the PAR",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/resubmittal/review_par_second_review_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_079",
+          "name": "Appraisal - Ready in ValueLink Follow Up",
+          "order": 7,
+          "subcategory": "resubmittal",
+          "status": "completed",
+          "priority": 7,
+          "description": "Follow up on an appraisal marked ready in ValueLink that has not yet come through for review",
+          "notes": "Backfilled from Encompass (Underwriting_Resubmittal_AppraisalReviewFollow). No subtasks in Encompass. Assignee inferred as 'Task - Appraisal Reviews' from the three reconciled appraisal-review siblings (task_019, task_057, task_058), all of which use that role and the 'Appraisal Review' workspace; the role has no known system integer so entityId is blank.",
+          "applicationLogic": "Chases an appraisal that ValueLink reports as ready but which has not been delivered for review.",
+          "subtasks": [],
+          "xmlFile": "tasks/3_underwriting/resubmittal/appraisal_ready_in_valuelink_follow_up_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_080",
+          "name": "Counteroffer Second Review",
+          "order": 3,
+          "subcategory": "uw_misc",
+          "status": "completed",
+          "priority": 8,
+          "description": "Second review of a counteroffer decision before the counteroffer is sent to the borrower",
+          "notes": "Backfilled from Encompass (Underwriting_Counter_Second). Encompass places it in a task group named 'Decision' whose live taskGroupTemplateId is not recorded in any repo artefact; a placeholder id was minted and registered in reconcile_adopt.py GROUP_IDS. Encompass namespaces the subtask type under 'CounterOffer' rather than the task name; kept verbatim.",
+          "applicationLogic": "Second review of a counteroffer before it is sent; pairs with task_034 'Send Counteroffer'.",
+          "subtasks": [
+            {
+              "name": "Second Look",
+              "order": 1,
+              "description": "Second Look – Second reviewer confirms the counteroffer terms and the conditions behind them before the counteroffer is sent",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/uw_misc/counteroffer_second_review_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_081",
+          "name": "Denial – Second Look",
+          "order": 4,
+          "subcategory": "uw_misc",
+          "status": "completed",
+          "priority": 9,
+          "description": "Second review of a denial decision before the adverse action notice is sent",
+          "notes": "Backfilled from Encompass (Underwriting_Denial_Second). Encompass namespaces the single subtask type under 'Denial' rather than the task name; kept verbatim.",
+          "applicationLogic": "Second review of a denial before the adverse action notice is sent; pairs with task_037 'Send Denial'.",
+          "subtasks": [
+            {
+              "name": "Second Look",
+              "order": 1,
+              "description": "Second Look – Second reviewer confirms the denial reasons and the supporting documentation before the adverse action notice is sent",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/3_underwriting/uw_misc/denial_second_look_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-07-28T18:00:00.000Z",
+          "ruleStatus": "Planned",
+          "estimatedHrsRemaining": 0
         }
       ]
     },
@@ -3851,6 +4168,105 @@
       "taskName": "Recheck Flood",
       "details": "Adopted the live Encompass definition: XML priority 3 -> 6 (Encompass value is outside the documented 1-5 scale; copied verbatim, not clamped).",
       "xmlFile": "tasks/2_processing/service_orders/recheck_flood_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_071",
+      "taskName": "File Follow Up (15 Day)",
+      "details": "Backfilled the Encompass-only task PipelineMgt_PreApp_FollowUp15 into the repo with 0 subtask(s): no subtasks. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_15_day_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_072",
+      "taskName": "File Follow Up (30 Day)",
+      "details": "Backfilled the Encompass-only task PipelineMgt_PreApp_FollowUp into the repo with 0 subtask(s): no subtasks. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_30_day_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_073",
+      "taskName": "Order Appraisal",
+      "details": "Backfilled the Encompass-only task Processing_Appraisal_Ordering into the repo with 7 subtask(s): Automated Order, Manual Order, Quote Assignment, Payment Recording, Order 1004, Order 1025, Order 1073. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/2_processing/appraisal/order_appraisal_ordering_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_074",
+      "taskName": "Order FraudX",
+      "details": "Backfilled the Encompass-only task Processing_ServiceOrders_FraudX into the repo with 4 subtask(s): Buyer Agent, Seller Agent, Sellers, Order. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/2_processing/service_orders/order_fraudx_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_075",
+      "taskName": "Order SSVN",
+      "details": "Backfilled the Encompass-only task Processing_ServiceOrders_SSVN into the repo with 1 subtask(s): Submit Order. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/2_processing/service_orders/order_ssvn_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_076",
+      "taskName": "Redisclose HELOC Disclosure",
+      "details": "Backfilled the Encompass-only task Processing_Disclosures_HELOCDisclosure into the repo with 1 subtask(s): Revised Disclosure Needed. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/2_processing/disclosures/redisclose_heloc_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_077",
+      "taskName": "Send Disclosures Alert",
+      "details": "Backfilled the Encompass-only task Processing_FileSetup_DislosureAlert into the repo with 0 subtask(s): no subtasks. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_alert_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_078",
+      "taskName": "Review PAR (2nd Review)",
+      "details": "Backfilled the Encompass-only task Underwriting_Resubmittal_ReviewPAR2 into the repo with 4 subtask(s): Address Verification, Visible Deferred Maintenance, Occupancy Confirmation, Repair Costs. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_par_second_review_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_079",
+      "taskName": "Appraisal - Ready in ValueLink Follow Up",
+      "details": "Backfilled the Encompass-only task Underwriting_Resubmittal_AppraisalReviewFollow into the repo with 0 subtask(s): no subtasks. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/appraisal_ready_in_valuelink_follow_up_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_080",
+      "taskName": "Counteroffer Second Review",
+      "details": "Backfilled the Encompass-only task Underwriting_Counter_Second into the repo with 1 subtask(s): Second Look. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/3_underwriting/uw_misc/counteroffer_second_review_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T18:00:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_081",
+      "taskName": "Denial – Second Look",
+      "details": "Backfilled the Encompass-only task Underwriting_Denial_Second into the repo with 1 subtask(s): Second Look. Subtask type keys and order copied verbatim from the Encompass snapshot; descriptions, SLA, priority and assignee are authored - they are not recorded for ENCOMPASS_ONLY rows. See docs/reconciliation_resolutions.json.",
+      "xmlFile": "tasks/3_underwriting/uw_misc/denial_second_look_v1.xml"
     }
   ]
 }

@@ -15,18 +15,18 @@ Per-row detail lives in `comparison_deltas.csv`.
 
 | | Encompass (live) | Repo (`tasks/`) |
 |---|---|---|
-| Task templates | **70** | **60** |
-| Subtask templates | **248** | **242** |
-| Shared task types | **43** | |
-| Only in Encompass | **27** | |
+| Task templates | **70** | **71** |
+| Subtask templates | **248** | **261** |
+| Shared task types | **54** | |
+| Only in Encompass | **16** | |
 | Only in repo | | **17** |
-| Shared tasks that differ | **3 of 43** | |
+| Shared tasks that differ | **3 of 54** | |
 
 Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in the repo, **3** have differing description text, **3** differ in rank.
 
 ## 2. Coverage gaps
 
-### In Encompass, absent from the repo (27)
+### In Encompass, absent from the repo (16)
 
 | Task | Type | Subtasks | Export file |
 |---|---|---|---|
@@ -38,21 +38,10 @@ Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in
 | Loan Estimates | `FundingQC_Loan_Estimates` | 1 | tasks7.xml |
 | Mortgage Insurance Certificate | `FundingQC_MI_Certificate` | 1 | tasks6.xml |
 | Verbal VOE | `FundingQC_Verbal_VOE` | 1 | tasks7.xml |
-| File Follow Up (30 Day) | `PipelineMgt_PreApp_FollowUp` | 0 | tasks6.xml |
-| File Follow Up (15 Day) | `PipelineMgt_PreApp_FollowUp15` | 0 | tasks6.xml |
 | Fraud X Report | `PreClosing_Fraud_X_Report` | 6 | tasks4.xml |
 | 1003 Quality Review (Pre-Approval) | `PreDisclosure_PreApproval_1003` | 12 | tasks6.xml |
 | Credit Score Disclosure (Pre-Approval) | `PreDisclosure_PreApproval_Credit` | 6 | tasks6.xml |
-| Order Appraisal | `Processing_Appraisal_Ordering` | 7 | tasks1.xml |
-| Redisclose HELOC Disclosure | `Processing_Disclosures_HELOCDisclosure` | 1 | task5.xml |
-| Send Disclosures Alert | `Processing_FileSetup_DislosureAlert` | 0 | task5.xml |
-| Order FraudX | `Processing_ServiceOrders_FraudX` | 4 | tasks3.xml |
-| Order SSVN | `Processing_ServiceOrders_SSVN` | 1 | tasks3.xml |
 | Contract UW Approval | `Underwriting_ContractUWApproval` | 1 | tasks4.xml |
-| Counteroffer Second Review | `Underwriting_Counter_Second` | 1 | tasks2 (1).xml |
-| Denial – Second Look | `Underwriting_Denial_Second` | 1 | tasks2 (1).xml |
-| Appraisal - Ready in ValueLink Follow Up | `Underwriting_Resubmittal_AppraisalReviewFollow` | 0 | tasks3.xml |
-| Review PAR (2nd Review) | `Underwriting_Resubmittal_ReviewPAR2` | 4 | tasks3.xml |
 | OFAC | `auto_2d3dfd67-84a6-4d55-a443-23a2d8ba79c7` | 0 | tasks7.xml |
 | Funding QC | `auto_7d75e7e7-32bd-438c-aa31-46bf68fe03db` | 2 | tasks7.xml |
 | Broker  Disclosures | `auto_931feddf-bfbb-4d68-8621-89aef47a46e6` | 3 | tasks6.xml |
@@ -88,28 +77,27 @@ Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in
 |---|---|---|---|
 | `FundingQC_Fraud_X_Report` | Fraud X Report | `PreClosing_Fraud_X_Report` | Fraud X Report |
 | `Processing_Disclosures_CreditScoreDisclosure` | Credit Score Disclosure | `PreDisclosure_PreApproval_Credit` | Credit Score Disclosure (Pre-Approval) |
-| `Processing_FileSetup_SendDisclosures` | Send Disclosures | `Processing_FileSetup_DislosureAlert` | Send Disclosures Alert |
 
 - **Placeholder subtask labels** (`name="Sub-Task Name"`, shown verbatim to users): Encompass **59** subtasks across **33** tasks; repo **10** across **7**.
-- **Subtask namespacing** (`docs/conventions.md` rule 2): Encompass violates it **43** times, repo **11**.
-- **Separators in subtask types**: Encompass en-dash 215, hyphen 10, none 23; repo en-dash 237, hyphen 5, none 0.
+- **Subtask namespacing** (`docs/conventions.md` rule 2): Encompass violates it **43** times, repo **17**.
+- **Separators in subtask types**: Encompass en-dash 215, hyphen 10, none 23; repo en-dash 251, hyphen 10, none 0.
 - **Repo duplicate name** — 'Notice of Incomplete' defined twice: `Processing_Disclosures_NoticeOfIncomplete`, `Processing_Misc_NoticeOfIncomplete`.
 
 ### Task group labels
 
 | Group | Encompass | Repo |
 |---|---|---|
-| (ungrouped) | 41 | 28 |
+| (ungrouped) | 41 | 36 |
 | Boarding | 0 | 1 |
-| Decision | 1 | 0 |
-| Disclosures | 7 | 5 |
+| Decision | 1 | 1 |
+| Disclosures | 7 | 6 |
 | Document Processing | 0 | 7 |
 | Funding | 3 | 3 |
 | Funding QC | 10 | 2 |
 | Processing | 0 | 4 |
 | Processing - Pre-Underwriting | 0 | 1 |
 | Quality Assurance | 3 | 5 |
-| Service Orders | 5 | 4 |
+| Service Orders | 5 | 5 |
 
 ## 4. Subtask content deltas
 
@@ -125,17 +113,17 @@ Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in
 
 | Role | Encompass | Repo |
 |---|---|---|
-| (unassigned) | 13 | 13 |
+| (unassigned) | 13 | 15 |
 | Closer | 5 | 5 |
 | Closers -Task | 1 | 1 |
 | Disclosers - Task | 3 | 0 |
 | Funding Approval - Task | 2 | 2 |
-| Loan Processor | 32 | 32 |
+| Loan Processor | 32 | 37 |
 | Pipeline Management - Task | 2 | 0 |
-| Task - Appraisal Reviews | 8 | 3 |
-| Underwriter | 4 | 4 |
+| Task - Appraisal Reviews | 8 | 4 |
+| Underwriter | 4 | 7 |
 
-- **Workspaces**: Encompass binds 45/70 tasks (12 with field overrides); repo binds 31/60 (9 with overrides).
+- **Workspaces**: Encompass binds 45/70 tasks (12 with field overrides); repo binds 35/71 (9 with overrides).
 
 ### `autocomplete` — 1 disagreement(s)
 
@@ -149,7 +137,7 @@ Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in
 
 **P0 — duplicate definitions.** Resolve any duplicate-name entries listed in section 3.
 
-**P1 — backfill.** 27 live tasks are untracked in git. Export them into `tasks/` so the repo reflects production.
+**P1 — backfill.** 16 live tasks are untracked in git. Export them into `tasks/` so the repo reflects production.
 
 **P1 — deploy or drop.** 17 repo tasks have never reached Encompass. Confirm each is intended for deployment.
 
