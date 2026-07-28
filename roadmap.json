@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-07-28T00:00:00.000Z",
+    "lastUpdated": "2026-07-28T12:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 66,
     "completedTasks": 59,
@@ -409,7 +409,7 @@
             {
               "name": "Mail Disclosures and Mark Disclosure Tracking",
               "order": 1,
-              "description": "Mail Disclosures and Mark Disclosure Tracking – Mail initial disclosure package to borrower and mark as mailed in disclosure tracking. Mark Done when complete. Mark NA if eConsent was obtained and mailing is not needed.",
+              "description": "Mail Disclosures and Mark Disclosure Tracking – Mail initial disclosure package by generating a new package on Encompass Desktop (Add disclosure receipt document and initial disclosure letter to package). Mark Done when complete. Mark NA if eConsent was obtained and mailing is not needed.",
               "type": "standard"
             }
           ],
@@ -772,7 +772,7 @@
             {
               "name": "Cancel Flood Certificate on Xactus Website",
               "order": 1,
-              "description": "Log into the Xactus website and cancel the flood certificate order for this loan",
+              "description": "Cancel Flood Certificate on Xactus Website – Log into the Xactus website and cancel the flood certificate order for this loan",
               "type": "standard"
             }
           ],
@@ -820,25 +820,25 @@
             {
               "name": "Confirm Appraisal Fee Received",
               "order": 1,
-              "description": "Verify appraisal fee was received at least 5 business days prior to allow sufficient time for payment processing before issuing refund",
+              "description": "Confirm Appraisal Fee Received – Verify appraisal fee was received at least 5 business days prior to allow sufficient time for payment processing before issuing refund",
               "type": "standard"
             },
             {
               "name": "Prepare Refund Check and Letter",
               "order": 2,
-              "description": "Prepare the appraisal refund check and accompanying refund letter; refund check must be made payable to all borrowers on the loan",
+              "description": "Prepare Refund Check and Letter – Prepare the appraisal refund check and accompanying refund letter; refund check must be made payable to all borrowers on the loan",
               "type": "standard"
             },
             {
               "name": "Scan Letter and Check to Loan File",
               "order": 3,
-              "description": "Scan the signed refund letter and authorized check to the loan file before mailing",
+              "description": "Scan Letter and Check to Loan File – Scan the signed refund letter and authorized check to the loan file before mailing",
               "type": "standard"
             },
             {
               "name": "Mail Check",
               "order": 4,
-              "description": "Mail the refund check and letter to the borrower(s)",
+              "description": "Mail Check – Mail the refund check and letter to the borrower(s)",
               "type": "standard"
             }
           ],
@@ -1121,7 +1121,8 @@
             {
               "name": "Request Insurance Declaration",
               "type": "standard",
-              "description": "Request Insurance Declaration – Contact the borrower or insurance agent to obtain the homeowners insurance declaration page"
+              "description": "Request Insurance Declaration – Contact the borrower or insurance agent to obtain the homeowners insurance declaration page",
+              "order": 1
             }
           ],
           "xmlFile": "tasks/3_underwriting/post_underwriting/order_hoi_v1.xml",
@@ -1423,21 +1424,21 @@
             {
               "name": "External Review",
               "order": 2,
-              "description": "Document external review of appraisal. If external review was not completed, mark as Issue — triggers need for internal second review. Auto-completes when external review is confirmed completed.",
+              "description": "External Review – Document external review of appraisal. If an external review was not completed, mark as Issue — this will trigger the need for an internal second review. This task will auto-complete when the external review is confirmed completed.",
               "type": "standard",
               "applicationLogic": "Always included; mark Issue if external review not completed to trigger Second Review"
             },
             {
               "name": "Second Review",
               "order": 3,
-              "description": "Document internal second review of appraisal. Added when external review was not completed.",
+              "description": "Second Review – Document internal second review of appraisal. Added when external review was not completed. Confirm second review findings are documented before marking complete.",
               "type": "conditional",
               "applicationLogic": "Added only when External Review subtask is marked as an Issue (external review not completed)"
             },
             {
               "name": "Attach Appraisal Review Form",
               "order": 4,
-              "description": "Attach completed appraisal review form to the file. Added once second review is complete.",
+              "description": "Attach Appraisal Review Form – Attach completed appraisal review form to the file. Added once second review is complete.",
               "type": "conditional",
               "applicationLogic": "Added once second review is complete"
             }
@@ -1462,7 +1463,7 @@
             {
               "name": "Send Appraisal",
               "order": 1,
-              "description": "Send appraisal to customer; ensure all documents are saved in the appraisal folder. Clicking Done will send the appraisal and acknowledgement to the borrower.",
+              "description": "Send Appraisal – Send appraisal to customer; ensure all documents are saved in the appraisal folder. Clicking Done will send the appraisal and acknowledgement to the borrower.",
               "type": "standard",
               "applicationLogic": "Always included when task is created"
             }
@@ -1512,14 +1513,14 @@
             {
               "name": "Document Second Review",
               "order": 1,
-              "description": "Document findings of the internal second review of the appraisal. Confirm all review notes and findings are recorded before marking complete.",
+              "description": "Document Second Review – Document findings of the internal second review of the appraisal. Confirm all review notes and findings are recorded before marking complete.",
               "type": "standard",
               "applicationLogic": "Always included when task is created"
             },
             {
               "name": "Attach Appraisal Review Form",
               "order": 2,
-              "description": "Attach completed appraisal review form to the file. Added once second review is complete.",
+              "description": "Attach Appraisal Review Form – Attach completed appraisal review form to the file. Added once second review is complete.",
               "type": "conditional",
               "applicationLogic": "Added once second review is complete"
             }
@@ -3760,6 +3761,96 @@
       "taskName": "Create Closing Package",
       "details": "Adopted the live Encompass definition: autocomplete enabled and the task group removed (ungrouped in Encompass).",
       "xmlFile": "tasks/4_closing/doc_prep/create_closing_package_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_015",
+      "taskName": "Order HOI",
+      "details": "Adopted the live Encompass definition: duration 15 Minute -> 4 Hour, and removed the repo-only 'OrderHOI' workspace association.",
+      "xmlFile": "tasks/3_underwriting/post_underwriting/order_hoi_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_028",
+      "taskName": "Fund Loan",
+      "details": "Adopted the live Encompass definition: placed in the Funding task group and added the 'Closers -Task' role assignee (entityId left blank - no known system integer).",
+      "xmlFile": "tasks/5_funding/funding/fund_loan_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_002d",
+      "taskName": "Mailing Initial Disclosures",
+      "details": "Adopted the live Encompass definition: duration 5 -> 30 and replaced the 'Mail Disclosures and Mark Disclosure Tracking' subtask description with the Encompass wording.",
+      "xmlFile": "tasks/2_processing/misc/mailing_initial_disclosures_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_064",
+      "taskName": "Request Closing Disclosure",
+      "details": "Adopted the live Encompass definition: autocomplete enabled and the Closing task group removed (ungrouped in Encompass).",
+      "xmlFile": "tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_019",
+      "taskName": "Review Appraisal",
+      "details": "Adopted the live Encompass definition: added the 'Task - Appraisal Reviews' role assignee (entityId left blank - no known system integer) and the 'Appraisal Review' workspace association.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_058",
+      "taskName": "Review Appraisal – Second Review",
+      "details": "Adopted the live Encompass definition: added the 'Task - Appraisal Reviews' role assignee (entityId left blank - no known system integer) and the 'Appraisal Review' workspace association.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_057",
+      "taskName": "Send Appraisal",
+      "details": "Adopted the live Encompass definition: added the 'Task - Appraisal Reviews' role assignee (entityId left blank - no known system integer) and the 'Appraisal Review' workspace association.",
+      "xmlFile": "tasks/3_underwriting/resubmittal/send_appraisal_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_054",
+      "taskName": "Appraisal Refund",
+      "details": "Adopted the live Encompass definition: the Processing task group was removed (ungrouped in Encompass).",
+      "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_053",
+      "taskName": "Cancel Flood Certificate",
+      "details": "Adopted the live Encompass definition: the Processing task group was removed (ungrouped in Encompass).",
+      "xmlFile": "tasks/2_processing/misc/cancel_flood_certificate_v1.xml"
+    },
+    {
+      "timestamp": "2026-07-28T12:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_055",
+      "taskName": "Recheck Flood",
+      "details": "Adopted the live Encompass definition: XML priority 3 -> 6 (Encompass value is outside the documented 1-5 scale; copied verbatim, not clamped).",
+      "xmlFile": "tasks/2_processing/service_orders/recheck_flood_v1.xml"
     }
   ]
 }
