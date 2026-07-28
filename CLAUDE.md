@@ -487,18 +487,30 @@ The 15 remaining **planned** tasks (highest priority first — work these first)
 
 These are domain rules learned from the actual workflow — apply them when building or reviewing tasks.
 
-### Appraisal Task (task_003 — Order Appraisal)
+### Appraisal Tasks (task_003 Appraisal Invoice + task_073 Order Appraisal)
 
-**Invoice flow:**
+Encompass splits this across two templates, and the repo now mirrors that split:
+
+| Task | Type | File | Holds |
+|---|---|---|---|
+| `task_003` Appraisal Invoice | `Processing_Appraisal_Order` | `tasks/2_processing/appraisal/order_appraisal_v1.xml` | Obtain Quote, Create Invoice, Send Invoice |
+| `task_073` Order Appraisal | `Processing_Appraisal_Ordering` | `tasks/2_processing/appraisal/order_appraisal_ordering_v1.xml` | the ordering and payment subtasks below |
+
+Both namespace their subtask `type` keys under `Order Appraisal – …`. That is Encompass's
+own collision and is mirrored deliberately — `type` is the import matching key.
+
+**Invoice flow (task_003):**
 - `Create Invoice` — always standard; generates the backend invoice for the borrower to pay.
 - `Send Invoice` — conditional; added when intent to proceed is received **or** the product is a HELOC.
 
-**Payment recording:**
+**Payment recording (task_073):**
 - `Payment Recording` — conditional; added when appraisal payment is received.
 - Encompass and ValueLink **do not sync** — payment must be entered in **both systems separately**. Always note this in the description.
 
-**Ordering subtasks:**
+**Ordering subtasks (task_073):**
 - `Automated Order` — conditional; added when automated ordering is set up for the loan. Marking **Done triggers the automated order** — note this in the description.
+- `Manual Order` — conditional; placed by hand in ValueLink when automated ordering is not available.
+- `Quote Assignment` — conditional; assigns the accepted fee quote to the order. Encompass and ValueLink do not sync, so the fee goes in both.
 - `Order 1004` — conditional; single-family property **and** automated ordering not available.
 - `Order 1025` — conditional; 2–4 unit property **and** automated ordering not available.
 - `Order 1073` — conditional; condo property **and** automated ordering not available.
