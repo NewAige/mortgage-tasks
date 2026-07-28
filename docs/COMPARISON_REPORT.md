@@ -20,9 +20,9 @@ Per-row detail lives in `comparison_deltas.csv`.
 | Shared task types | **43** | |
 | Only in Encompass | **27** | |
 | Only in repo | | **17** |
-| Shared tasks that differ | **13 of 43** | |
+| Shared tasks that differ | **3 of 43** | |
 
-Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in the repo, **4** have differing description text, **3** differ in rank.
+Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in the repo, **3** have differing description text, **3** differ in rank.
 
 ## 2. Coverage gaps
 
@@ -99,15 +99,14 @@ Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in
 
 | Group | Encompass | Repo |
 |---|---|---|
-| (ungrouped) | 41 | 26 |
+| (ungrouped) | 41 | 28 |
 | Boarding | 0 | 1 |
-| Closing | 0 | 1 |
 | Decision | 1 | 0 |
 | Disclosures | 7 | 5 |
 | Document Processing | 0 | 7 |
-| Funding | 3 | 2 |
+| Funding | 3 | 3 |
 | Funding QC | 10 | 2 |
-| Processing | 0 | 6 |
+| Processing | 0 | 4 |
 | Processing - Pre-Underwriting | 0 | 1 |
 | Quality Assurance | 3 | 5 |
 | Service Orders | 5 | 4 |
@@ -118,7 +117,7 @@ Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in
 |---|---|---|
 | Pre-Underwriting Checklist | Pre-Underwriting Checklist – Verify Employment | Repo |
 
-4 shared subtasks have differing description text — see `comparison_deltas.csv`, rows with `scope=subtask_description`.
+3 shared subtasks have differing description text — see `comparison_deltas.csv`, rows with `scope=subtask_description`.
 
 ## 5. Metadata deltas
 
@@ -126,37 +125,23 @@ Subtask deltas across shared tasks: **0** exist only in Encompass, **1** only in
 
 | Role | Encompass | Repo |
 |---|---|---|
-| (unassigned) | 13 | 17 |
+| (unassigned) | 13 | 13 |
 | Closer | 5 | 5 |
-| Closers -Task | 1 | 0 |
+| Closers -Task | 1 | 1 |
 | Disclosers - Task | 3 | 0 |
 | Funding Approval - Task | 2 | 2 |
 | Loan Processor | 32 | 32 |
 | Pipeline Management - Task | 2 | 0 |
-| Task - Appraisal Reviews | 8 | 0 |
+| Task - Appraisal Reviews | 8 | 3 |
 | Underwriter | 4 | 4 |
 
-- **Workspaces**: Encompass binds 45/70 tasks (12 with field overrides); repo binds 29/60 (9 with overrides).
+- **Workspaces**: Encompass binds 45/70 tasks (12 with field overrides); repo binds 31/60 (9 with overrides).
 
-### Duration / SLA — 2 disagreement(s)
-
-| Task | Repo | Encompass |
-|---|---|---|
-| Mailing Initial Disclosures | 5 Minute | 30 Minute |
-| Order HOI | 15 Minute | 4 Hour |
-
-### `autocomplete` — 2 disagreement(s)
+### `autocomplete` — 1 disagreement(s)
 
 | Task | Repo | Encompass |
 |---|---|---|
-| Request Closing Disclosure | false | true |
 | Pre-Underwriting Checklist | false | true |
-
-### Priority — 1 disagreement(s)
-
-| Task | Repo | Encompass |
-|---|---|---|
-| Recheck Flood | 3 | 6 |
 
 ## 6. Reconciliation backlog
 

@@ -453,6 +453,151 @@
       "applied": [
         "Adopted the live Encompass definition: autocomplete enabled and the task group removed (ungrouped in Encompass)."
       ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_PostUnderwriting_OrderHOI",
+      "taskName": "Order HOI",
+      "repoFile": "tasks/3_underwriting/post_underwriting/order_hoi_v1.xml",
+      "roadmapTaskId": "task_015",
+      "applied": [
+        "duration 15 Minute changed to 4 Hour",
+        "repo-only workspace association 'OrderHOI' removed (Encompass binds no workspace)"
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Funding_FundLoan",
+      "taskName": "Fund Loan",
+      "repoFile": "tasks/5_funding/funding/fund_loan_v1.xml",
+      "roadmapTaskId": "task_028",
+      "applied": [
+        "taskGroupTemplateName set to Funding (id 8997b6dd-74af-420b-9c4f-fc232c95016f)",
+        "assignee 'Closers -Task' added"
+      ],
+      "openItems": [
+        "Role 'Closers -Task' has no known system integer, so entityId is empty. Read it off a live export before importing this task. Note the name itself is malformed in Encompass (missing space before the hyphen); copied verbatim."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_MailingInitialDisclosures",
+      "taskName": "Mailing Initial Disclosures",
+      "repoFile": "tasks/2_processing/misc/mailing_initial_disclosures_v1.xml",
+      "roadmapTaskId": "task_002d",
+      "applied": [
+        "duration 5 changed to 30",
+        "'Mail Disclosures and Mark Disclosure Tracking' description replaced with the Encompass wording"
+      ],
+      "openItems": [
+        "The subtask name attribute is the placeholder 'Sub-Task Name' on both sides; pre-existing, left as is. roadmap.json keeps the real name derived from the subtask type."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Closing_PreClosing_RequestClosingDisclosure",
+      "taskName": "Request Closing Disclosure",
+      "repoFile": "tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml",
+      "roadmapTaskId": "task_064",
+      "applied": [
+        "autocomplete false changed to true",
+        "taskGroupTemplateName/Id removed - ungrouped in Encompass (was Closing)"
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_Resubmittal_ReviewAppraisal",
+      "taskName": "Review Appraisal",
+      "repoFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml",
+      "roadmapTaskId": "task_019",
+      "applied": [
+        "assignee 'Task - Appraisal Reviews' added",
+        "workspace 'Appraisal Review' added"
+      ],
+      "openItems": [
+        "Role 'Task - Appraisal Reviews' has no known system integer, so entityId is empty. Needs the value from a live export before import."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_Resubmittal_ReviewAppraisalSecondReview",
+      "taskName": "Review Appraisal – Second Review",
+      "repoFile": "tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml",
+      "roadmapTaskId": "task_058",
+      "applied": [
+        "assignee 'Task - Appraisal Reviews' added",
+        "workspace 'Appraisal Review' added"
+      ],
+      "openItems": [
+        "Role 'Task - Appraisal Reviews' has no known system integer, so entityId is empty. Needs the value from a live export before import."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_Resubmittal_SendAppraisal",
+      "taskName": "Send Appraisal",
+      "repoFile": "tasks/3_underwriting/resubmittal/send_appraisal_v1.xml",
+      "roadmapTaskId": "task_057",
+      "applied": [
+        "assignee 'Task - Appraisal Reviews' added",
+        "workspace 'Appraisal Review' added"
+      ],
+      "openItems": [
+        "Role 'Task - Appraisal Reviews' has no known system integer, so entityId is empty. Needs the value from a live export before import."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_AppraisalRefund",
+      "taskName": "Appraisal Refund",
+      "repoFile": "tasks/2_processing/misc/appraisal_refund_v1.xml",
+      "roadmapTaskId": "task_054",
+      "applied": [
+        "taskGroupTemplateName/Id removed - ungrouped in Encompass (was Processing)"
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_CancelFloodCertificate",
+      "taskName": "Cancel Flood Certificate",
+      "repoFile": "tasks/2_processing/misc/cancel_flood_certificate_v1.xml",
+      "roadmapTaskId": "task_053",
+      "applied": [
+        "taskGroupTemplateName/Id removed - ungrouped in Encompass (was Processing)"
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_ServiceOrders_RecheckFloodCertificate",
+      "taskName": "Recheck Flood",
+      "repoFile": "tasks/2_processing/service_orders/recheck_flood_v1.xml",
+      "roadmapTaskId": "task_055",
+      "applied": [
+        "XML priority 3 changed to 6"
+      ],
+      "openItems": [
+        "priority=6 is outside the 1-5 XML scale documented in CLAUDE.md. Copied from Encompass verbatim rather than clamped, per the runbook. roadmap.json priority (1-10 planning scale) was left unchanged."
+      ]
     }
   ],
   "provenance": {
