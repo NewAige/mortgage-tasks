@@ -104,6 +104,355 @@
         "The assignee association carries entityId=\"\". Role entityIds are system integers and the integer for 'Funding Approval - Task' is not recorded in any repo artefact; it needs to be read off a live export before this task is imported.",
         "roadmap.json still calls this task 'Approve Funding Figures' while the template name is 'Approve Funding'. Pre-existing, left as-is."
       ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Closing_ClosingSetup_ClosingSetup",
+      "taskName": "Closing Setup",
+      "repoFile": "tasks/4_closing/closing_setup/closing_setup_v1.xml",
+      "roadmapTaskId": "task_061",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group removed (ungrouped in Encompass), Loan Processor assignee replaced with Closer, workspace 'Closing Setup' bound, and four workspace overrides added (HELOC Quick Entry, Appraisal Check, Title Report, Borrower Information)."
+      ],
+      "openItems": [
+        "Assignee role 'Closer' has no known system id — written as entityId=\"\". Read the integer off a live export before importing.",
+        "Four workspace overrides (HELOC Quick Entry, Appraisal Check, Title Report, Borrower Information) could not be matched to an owning subtask and were left at task level only. The task has exactly four subtasks, so a 1:1 mapping is likely but was not guessable with confidence — needs a live export or a user call."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Closing_PreClosing_Scheduling",
+      "taskName": "Confirm Scheduling",
+      "repoFile": "tasks/4_closing/pre_closing/scheduling_v1.xml",
+      "roadmapTaskId": "task_022",
+      "applied": [
+        "Adopted the live Encompass definition: renamed Scheduling to Confirm Scheduling, SLA 1 to 2 Day, autocomplete enabled, task group removed (ungrouped in Encompass), Loan Processor assignee replaced with Closer, workspace 'Closing Setup' bound, the 'Closing Date/Time' custom-form override attached to the Obtain Closing Date and Time from Branch subtask, and that subtask's description replaced with the Encompass wording."
+      ],
+      "openItems": [
+        "Assignee role 'Closer' has no known system id — written as entityId=\"\"."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_PostUnderwriting_SendCommitmentLetter",
+      "taskName": "Send Commitment Letter",
+      "repoFile": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml",
+      "roadmapTaskId": "task_035",
+      "applied": [
+        "Adopted the live Encompass definition: priority 4 to 5, SLA 1 Day to 4 Hour, autocomplete enabled, task group set to Disclosures, Underwriter assignee added, workspace 'Commitment Letter' bound, repo-only subtask 'Confirm Letter Sent' removed and Save to eFolder moved to rank 2."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_ServiceOrders_OrderTitle",
+      "taskName": "Order Title",
+      "repoFile": "tasks/2_processing/title/order_title_v1.xml",
+      "roadmapTaskId": "task_004",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group Processing to Service Orders, workspace 'Title' replaced with 'Title Order', and the four subtasks given explicit ranks 1-4 in the Encompass order."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_SendDenial",
+      "taskName": "Send Denial",
+      "repoFile": "tasks/2_processing/misc/send_denial_v1.xml",
+      "roadmapTaskId": "task_037",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group removed (ungrouped in Encompass), MA Review Board Form / ECOA Right to Copy of Appraisal / Massachusetts MGL Disclosure descriptions replaced with the Encompass wording, two subtasks added (Mail Counteroffer, Send Counteroffer Electronically), and required corrected to true on four subtasks per docs/conventions.md."
+      ],
+      "openItems": [
+        "New subtasks 'Mail Counteroffer' and 'Send Counteroffer Electronically' were set autoCreate=\"false\" — autoCreate is not diffed, so this is inferred from the four existing siblings (all false) and from the identical pair in Underwriting_Misc_SendCounteroffer. The two are mutually exclusive delivery methods."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_FileSetup_SendDisclosuresHELOC",
+      "taskName": "Send Disclosures (HELOC)",
+      "repoFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml",
+      "roadmapTaskId": "task_002b",
+      "applied": [
+        "Adopted the live Encompass definition: SLA 3 Day to 2 Hour, the 'HELOC Quick Entry' custom-form override added, new subtask 'Loan Audit' inserted at rank 14 pushing Ready to Send to 15, 1003 - Demographic HELOC and Home Counseling List descriptions replaced with the Encompass wording, and required corrected to true on Order AVM."
+      ],
+      "openItems": [
+        "The 'HELOC Quick Entry' custom-form override could not be matched to one of the 15 subtasks and was left at task level only.",
+        "Subtask 'Plan Code' still carries the placeholder name=\"Sub-Task Name\" in the XML; roadmap.json uses the type tail as its label."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_FileSetup_PullDeed",
+      "taskName": "Pull Deed",
+      "repoFile": "tasks/2_processing/pull_deed/pull_deed_v1.xml",
+      "roadmapTaskId": "task_063",
+      "applied": [
+        "Adopted the live Encompass definition: task group removed (ungrouped in Encompass), workspace 'Title_Deed_LookUp' bound, new subtask 'Trust' added at rank 3, and the Pull Deed from Registry and Ownership Screen descriptions replaced with the Encompass wording."
+      ],
+      "openItems": [
+        "New subtask 'Trust' was set autoCreate=\"false\" — inferred from its own description (\"If held in a trust...\") and the conditional sibling 'Add Non-Borrowing Owner'."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_ARM_Disclosure",
+      "taskName": "ARM Disclosure",
+      "repoFile": "tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml",
+      "roadmapTaskId": "task_006",
+      "applied": [
+        "Adopted the live Encompass definition: priority 5 to 3, SLA 5 Minute to 2 Hour, task group 'Processing - ARM Disclosure' to Disclosures, and Loan Processor assignee added."
+      ],
+      "openItems": [
+        "Subtask type keys use 'ARM - ...' with a hyphen rather than the en-dash docs/conventions.md requires. These are Encompass's import keys and were left verbatim."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_PostUnderwriting_HOIReview",
+      "taskName": "HOI Review",
+      "repoFile": "tasks/3_underwriting/post_underwriting/hoi_review_v1.xml",
+      "roadmapTaskId": "task_050",
+      "applied": [
+        "Adopted the live Encompass definition: four subtasks added (Verify Coverage Amounts, Verify Lender Named as Mortgagee, Confirm Policy Effective Date, Review Deductibles), all 17 subtasks reordered to the Encompass sequence, and the repo-only 'HOIReview' workspace removed."
+      ],
+      "openItems": [
+        "The four new subtasks defaulted to autoCreate=\"true\"/Regular; autoCreate is not diffed. They read as standard verification checks like their siblings, but confirm against a live export."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_ServiceOrders_OrderAVM",
+      "taskName": "Order AVM",
+      "repoFile": "tasks/2_processing/avm/order_avm_v1.xml",
+      "roadmapTaskId": "task_046",
+      "applied": [
+        "Adopted the live Encompass definition: SLA 1 Day to 2 Hour, repo-only subtask 'Ready to Send' removed, new subtask 'Value Sufficient' added at rank 5, and the Ready to Send with Initial Docs description replaced with the Encompass wording."
+      ],
+      "openItems": [
+        "New subtask 'Value Sufficient' defaulted to autoCreate=\"true\"/Regular."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_ServiceOrders_OrderPAR",
+      "taskName": "Order PAR",
+      "repoFile": "tasks/2_processing/service_orders/order_par_v1.xml",
+      "roadmapTaskId": "task_049",
+      "applied": [
+        "Adopted the live Encompass definition: SLA 15 Minute to 4 Hour, workspace 'OrderPAR' replaced with 'AVMOrderReview', and the Place PAR Order description replaced with the Encompass wording."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Closing_ClosingSetup_PreparePayoffLetters",
+      "taskName": "Prepare Payoff Letters",
+      "repoFile": "tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml",
+      "roadmapTaskId": "task_062",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group removed (ungrouped in Encompass), Loan Processor assignee replaced with Closer, and workspace 'Payoff Prep' bound."
+      ],
+      "openItems": [
+        "Assignee role 'Closer' has no known system id — written as entityId=\"\"."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_Resubmittal_ReviewPAR",
+      "taskName": "Review PAR (1st Review)",
+      "repoFile": "tasks/3_underwriting/resubmittal/review_par_v1.xml",
+      "roadmapTaskId": "task_051",
+      "applied": [
+        "Adopted the live Encompass definition: renamed Review PAR to Review PAR (1st Review), Loan Processor assignee replaced with Underwriter, and workspace 'ReviewPAR' replaced with 'Appraisal Review'."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Funding_Funding_ConfirmFunding",
+      "taskName": "Confirm Funding",
+      "repoFile": "tasks/5_funding/funding/confirm_funding_v1.xml",
+      "roadmapTaskId": "task_026",
+      "applied": [
+        "Adopted the live Encompass definition: task group removed (ungrouped in Encompass), Loan Processor assignee replaced with Closer, and workspace 'Funding_SignOff' bound."
+      ],
+      "openItems": [
+        "Assignee role 'Closer' has no known system id — written as entityId=\"\"."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Closing_PreClosing_SendInitialClosingDisclosure",
+      "taskName": "Send Initial Closing Disclosure",
+      "repoFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml",
+      "roadmapTaskId": "task_023",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group removed (ungrouped in Encompass), and Loan Processor assignee replaced with Closer."
+      ],
+      "openItems": [
+        "Assignee role 'Closer' has no known system id — written as entityId=\"\"."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_FileClosureDocuments",
+      "taskName": "File Closure Documents",
+      "repoFile": "tasks/2_processing/misc/file_closure_documents_v1.xml",
+      "roadmapTaskId": "task_052",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group removed (ungrouped in Encompass), and the 1003 subtask description replaced with the Encompass wording."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_ServiceOrders_FloodCertificateReview",
+      "taskName": "Flood Certificate Review",
+      "repoFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml",
+      "roadmapTaskId": "task_047",
+      "applied": [
+        "Adopted the live Encompass definition: task group set to Quality Assurance and new subtask 'Multiple Livable Dwellings' added at rank 4, pushing Address Mismatch Detected to 5."
+      ],
+      "openItems": [
+        "New subtask 'Multiple Livable Dwellings' defaulted to autoCreate=\"true\"/Regular.",
+        "Subtask 'Address Mismatch Detected' still carries the placeholder name=\"Sub-Task Name\" in the XML."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_PostUnderwriting_CondoMasterReview",
+      "taskName": "Master Property Insurance Review",
+      "repoFile": "tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml",
+      "roadmapTaskId": "task_056",
+      "applied": [
+        "Adopted the live Encompass definition: workspace 'Master Insurance Review' bound, and the Per-Unit Deductible Exists and Interior Coverage Gap descriptions replaced with the Encompass wording."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_NOIExpiration",
+      "taskName": "Notice of Incomplete Expiration",
+      "repoFile": "tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml",
+      "roadmapTaskId": "task_060",
+      "applied": [
+        "Adopted the live Encompass definition: workspace 'NOI' bound and the NOI Expired subtask re-keyed from 'Notice of Incomplete Expiration - NOI Expired' to Encompass's own key 'Notice of Incomplete - NOI Expired' so the import updates the existing subtask rather than creating a duplicate."
+      ],
+      "openItems": [
+        "The subtask type key changed from 'Notice of Incomplete Expiration – NOI Expired' to Encompass's 'Notice of Incomplete – NOI Expired'. This namespaces the subtask under a different task's name — Encompass's own violation, mirrored deliberately so the import matches rather than duplicates. Expect namespace_violations.repo to rise.",
+        "The re-keyed subtask received a fresh UUID; the previous element was removed rather than renamed."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_ServiceOrders_OrderFloodCertificate",
+      "taskName": "Order Flood Certificate",
+      "repoFile": "tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml",
+      "roadmapTaskId": "task_005",
+      "applied": [
+        "Adopted the live Encompass definition: SLA 1 Day to 2 Hour, new subtask 'Submit Order' added at rank 2, and required corrected to true on Resubmit with Supporting Documents per docs/conventions.md."
+      ],
+      "openItems": [
+        "New subtask 'Submit Order' defaulted to autoCreate=\"true\"/Regular."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_Misc_SendCounteroffer",
+      "taskName": "Send Counteroffer",
+      "repoFile": "tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml",
+      "roadmapTaskId": "task_034",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group removed (ungrouped in Encompass), workspace 'Decision Flow' bound, and required corrected to true on three subtasks per docs/conventions.md."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Underwriting_Submittal_Underwrite",
+      "taskName": "Underwrite",
+      "repoFile": "tasks/3_underwriting/submittal/underwrite_v1.xml",
+      "roadmapTaskId": "task_017",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group 'Underwriting - Submittal' removed (ungrouped in Encompass), and workspace 'Decision Flow' bound."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Processing_Misc_WithdrawLoan",
+      "taskName": "Withdraw Loan",
+      "repoFile": "tasks/2_processing/misc/withdraw_loan_v1.xml",
+      "roadmapTaskId": "task_036",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled, task group removed (ungrouped in Encompass), and workspace 'Withdrawn Workspace' bound."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Funding_Wire_Approval",
+      "taskName": "Approve Wire",
+      "repoFile": "tasks/5_funding/funding/approve_wire_v1.xml",
+      "roadmapTaskId": "task_059",
+      "applied": [
+        "Adopted the live Encompass definition: task group set to Funding and the 'Funding Approval - Task' assignee added with a blank entityId, which needs the system integer from a live export before import."
+      ],
+      "openItems": [
+        "Assignee role 'Funding Approval - Task' has no known system id — written as entityId=\"\". Carried over from the open item already tracked for Funding_Funding_Approval."
+      ]
+    },
+    {
+      "date": "2026-07-28",
+      "decidedBy": "user",
+      "winner": "encompass",
+      "taskType": "Closing_DocPrep_CreateClosingPackage",
+      "taskName": "Create Closing Package",
+      "repoFile": "tasks/4_closing/doc_prep/create_closing_package_v1.xml",
+      "roadmapTaskId": "task_025",
+      "applied": [
+        "Adopted the live Encompass definition: autocomplete enabled and the task group removed (ungrouped in Encompass)."
+      ]
     }
   ],
   "provenance": {
