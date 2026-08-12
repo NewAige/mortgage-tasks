@@ -1499,7 +1499,7 @@
           "status": "completed",
           "priority": 10,
           "description": "Send required loan disclosures to borrower for closed-end loans",
-          "notes": "Closed-end variant of task_002b 'Send Disclosures (HELOC)'. Duplicated from the HELOC template with three changes: 'Appraisal Fee Only' removed, 'Order AVM' removed (and its task-level AVM document association), and '1003 – Demographic HELOC' reworked into '1003 – Demographic' so demographics are always collected rather than only on lien-payoff refinances.",
+          "notes": "Closed-end variant of task_002b 'Send Disclosures (HELOC)'. Duplicated from the HELOC template with: 'Appraisal Fee Only' and 'Order AVM' removed (and the task-level AVM document association), '1003 – Demographic HELOC' reworked into '1003 – Demographic' so demographics are always collected, a new 'Fee Review' subtask added after Plan Code to review itemization and confirm fee accuracy, 'Plan Code' generalized to 'Set Applicable Plan Code' (no longer HELOC-specific), and 'Index' made conditional — only added when the loan program is an ARM.",
           "applicationLogic": "Applied within 3 business days of a closed-end loan application. Triggers after loan is created and borrower intent to proceed is confirmed.",
           "subtasks": [
             {
@@ -1511,72 +1511,78 @@
             {
               "name": "Index",
               "order": 2,
-              "description": "Index – Index pulled as of today. Use \"Get Index\" button.",
-              "type": "standard"
+              "description": "Index – Index pulled as of today when the loan program is an ARM. Use \"Get Index\" button.",
+              "type": "conditional"
             },
             {
               "name": "Plan Code",
               "order": 3,
-              "description": "Plan Code - Set Plan code to HELOC Adjustable (00007005)",
+              "description": "Plan Code - Set Applicable Plan Code",
+              "type": "standard"
+            },
+            {
+              "name": "Fee Review",
+              "order": 4,
+              "description": "Fee Review – Review Itemization and ensure fees are accurate.",
               "type": "standard"
             },
             {
               "name": "1003 – Demographic",
-              "order": 4,
+              "order": 5,
               "description": "1003 – Demographic – Demographic information is always collected on closed-end loans. Ensure method collected, Race, Ethnicity and Sex are documented.",
               "type": "standard"
             },
             {
               "name": "FACT Act Disclosure – All Scores",
-              "order": 5,
+              "order": 6,
               "description": "FACT Act Disclosure – All Scores – All scores for all borrowers from all credit bureaus pulled on the credit report are evidenced on the FACT Act Disclosure. (Be sure to check second borrower pair as well).",
               "type": "standard"
             },
             {
               "name": "FACT Act Disclosure – Checkboxes",
-              "order": 6,
+              "order": 7,
               "description": "FACT Act Disclosure – Checkboxes – Ensure the 'Material Terms of Credit set by Credit Score' and 'Credit Score for Disclosure Notice' check boxes on the Disclosure Notice are checked when a credit score is available and unchecked when a score is not available.",
               "type": "standard"
             },
             {
               "name": "FACT Act Disclosure – Key Factors",
-              "order": 7,
+              "order": 8,
               "description": "FACT Act Disclosure – Key Factors – Verify that the Key Factors informational text is present for every credit score to be disclosed for all borrowers and all bureaus pulled.",
               "type": "standard"
             },
             {
               "name": "Home Counseling List",
-              "order": 8,
+              "order": 9,
               "description": "Home Counseling List – Import Home Counseling List. Click Save before completing task.",
               "type": "standard"
             },
             {
               "name": "Flood Cert",
-              "order": 9,
+              "order": 10,
               "description": "Flood Cert – This subtask is completed automatically upon completion of the separate Order Flood Certificate task — do not complete manually.",
               "type": "standard"
             },
             {
               "name": "FACT Act Disclosure – eConsent",
-              "order": 10,
+              "order": 11,
               "description": "eConsent – Verify eConsent is received before sending electronically.",
               "type": "standard"
             },
             {
               "name": "FACT Act Disclosure – Contact Info",
-              "order": 11,
+              "order": 12,
               "description": "Contact Info – Verify email and phone are present before sending electronically.",
               "type": "standard"
             },
             {
               "name": "Loan Audit",
-              "order": 12,
+              "order": 13,
               "description": "Loan Audit – Open eFolder and run Loan Audit. Address findings if applicable. ",
               "type": "standard"
             },
             {
               "name": "FACT Act Disclosure – Ready to Send",
-              "order": 13,
+              "order": 14,
               "description": " Ready to Send – Ready to Send Disclosure. Mark Done to send electronically. Mark Issue to send via mail (must complete manually).",
               "type": "standard"
             }
@@ -4371,6 +4377,15 @@
       "taskId": "task_002e",
       "taskName": "Send Disclosures Closed End",
       "details": "Created send_disclosures_closed_end_v1.xml with 13 subtasks: Program Selection, Index, Plan Code, 1003 – Demographic, FACT Act Disclosure – All Scores, FACT Act Disclosure – Checkboxes, FACT Act Disclosure – Key Factors, Home Counseling List, Flood Cert, FACT Act Disclosure – eConsent, FACT Act Disclosure – Contact Info, Loan Audit, FACT Act Disclosure – Ready to Send. Duplicated from task_002b 'Send Disclosures (HELOC)' with 'Appraisal Fee Only' and 'Order AVM' removed and the demographic subtask changed so demographics are always collected.",
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_closed_end_v1.xml"
+    },
+    {
+      "timestamp": "2026-08-12T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_002e",
+      "taskName": "Send Disclosures Closed End",
+      "details": "Edited send_disclosures_closed_end_v1.xml: added 'Fee Review' standard subtask after Plan Code ('Review Itemization and ensure fees are accurate.'); changed 'Index' from standard to conditional, autoCreate=false, applies only when loan program is an ARM; updated 'Plan Code' description to 'Set Applicable Plan Code' (removed HELOC-specific code reference). Subtask count now 14, ranks renumbered.",
       "xmlFile": "tasks/2_processing/disclosures/send_disclosures_closed_end_v1.xml"
     }
   ]
