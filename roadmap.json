@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-08-12T00:00:00.000Z",
+    "lastUpdated": "2026-08-17T20:45:07.000Z",
     "version": "1.0.0",
-    "totalTasks": 78,
-    "completedTasks": 71,
+    "totalTasks": 81,
+    "completedTasks": 74,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -3225,6 +3225,78 @@
           "createdAt": "2026-07-22T18:30:00.000Z",
           "ruleStatus": "Complete",
           "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_082",
+          "name": "Order HELOC Checks",
+          "order": 10,
+          "subcategory": "document_processing",
+          "status": "completed",
+          "priority": 7,
+          "description": "Order the HELOC draft checks for the borrower and save the order confirmation to the e-folder",
+          "notes": "Single subtask auto-completes when the check order confirmation is saved to the e-folder; task auto-completes.",
+          "applicationLogic": "Applied post-closing to HELOC loans only, once the line is set up and draft checks must be issued to the borrower.",
+          "subtasks": [
+            {
+              "name": "Order Checks",
+              "order": 1,
+              "description": "Order Checks – Order the HELOC checks for the borrower; this subtask auto-completes when the check order confirmation is saved to the e-folder.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/order_heloc_checks_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-08-17T20:45:07.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_083",
+          "name": "Disbursement Check Receipt",
+          "order": 11,
+          "subcategory": "document_processing",
+          "status": "completed",
+          "priority": 7,
+          "description": "Receive the disbursement check and save it to the e-folder",
+          "notes": "Single subtask auto-clears when the disbursement check is saved to the e-folder; task auto-completes.",
+          "applicationLogic": "Applied post-closing once disbursement occurs and the disbursement check must be documented in the loan file.",
+          "subtasks": [
+            {
+              "name": "Disbursement Check Received",
+              "order": 1,
+              "description": "Disbursement Check Received – Save the disbursement check to the e-folder; this subtask auto-completes when the disbursement check is saved to the e-folder.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/disbursement_check_receipt_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-08-17T20:45:07.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
+        },
+        {
+          "id": "task_084",
+          "name": "Fill in CIP",
+          "order": 12,
+          "subcategory": "document_processing",
+          "status": "completed",
+          "priority": 6,
+          "description": "Complete the Customer Identification Program (CIP) form for the loan file",
+          "notes": "Single subtask; completed manually by the user once the CIP form is filled in. Task auto-completes when the subtask is done.",
+          "applicationLogic": "Applied post-closing to document Customer Identification Program compliance for the loan file.",
+          "subtasks": [
+            {
+              "name": "CIP Form",
+              "order": 1,
+              "description": "CIP Form – Fill in the Customer Identification Program (CIP) form for the loan file.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/7_post-closing-qc/document_processing/fill_in_cip_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-08-17T20:45:07.000Z",
+          "ruleStatus": "Complete",
+          "estimatedHrsRemaining": 0
         }
       ]
     }
@@ -4387,6 +4459,33 @@
       "taskName": "Send Disclosures Closed End",
       "details": "Edited send_disclosures_closed_end_v1.xml: added 'Fee Review' standard subtask after Plan Code ('Review Itemization and ensure fees are accurate.'); changed 'Index' from standard to conditional, autoCreate=false, applies only when loan program is an ARM; updated 'Plan Code' description to 'Set Applicable Plan Code' (removed HELOC-specific code reference). Subtask count now 14, ranks renumbered.",
       "xmlFile": "tasks/2_processing/disclosures/send_disclosures_closed_end_v1.xml"
+    },
+    {
+      "timestamp": "2026-08-17T20:45:07.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_082",
+      "taskName": "Order HELOC Checks",
+      "details": "Created order_heloc_checks_v1.xml with 1 subtask: Order Checks",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/order_heloc_checks_v1.xml"
+    },
+    {
+      "timestamp": "2026-08-17T20:45:07.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_083",
+      "taskName": "Disbursement Check Receipt",
+      "details": "Created disbursement_check_receipt_v1.xml with 1 subtask: Disbursement Check Received",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/disbursement_check_receipt_v1.xml"
+    },
+    {
+      "timestamp": "2026-08-17T20:45:07.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_084",
+      "taskName": "Fill in CIP",
+      "details": "Created fill_in_cip_v1.xml with 1 subtask: CIP Form",
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/fill_in_cip_v1.xml"
     }
   ]
 }
