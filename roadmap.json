@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-08-17T20:45:07.000Z",
+    "lastUpdated": "2026-09-15T00:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 81,
     "completedTasks": 74,
@@ -2251,8 +2251,32 @@
           "applicationLogic": "Applied at least 3 business days before closing. Triggers when final loan terms are confirmed and clear to close is issued.",
           "subtasks": [
             {
-              "name": "Send Initial CD",
+              "name": "Enter Plan Code",
               "order": 1,
+              "description": "Enter Plan Code – Enter the plan code in the system. Added when the plan code was not entered during Closing Setup or has changed since; the plan code must be correct before the initial Closing Disclosure is issued.",
+              "type": "conditional"
+            },
+            {
+              "name": "Reconcile Appraisal Fee",
+              "order": 2,
+              "description": "Reconcile Appraisal Fee – Reconcile the appraisal fee in the system. If an appraisal was obtained, enter the appraisal fee and mark it as paid outside of closing if the fee was received prior to closing. Remove the appraisal fee if no appraisal was used. The appraisal fee should be the only fee listed. Added when the appraisal fee has not been reconciled or has changed since Closing Setup.",
+              "type": "conditional"
+            },
+            {
+              "name": "Enter Closing Date",
+              "order": 3,
+              "description": "Enter Closing Date – Enter the confirmed closing date obtained from the branch into the system. Added when the closing date is not yet in the file or has changed; the initial Closing Disclosure cannot be issued against an incorrect closing date.",
+              "type": "conditional"
+            },
+            {
+              "name": "Enter CD Issue Date",
+              "order": 4,
+              "description": "Enter CD Issue Date – Enter the date the initial Closing Disclosure is issued to the borrower. Added when the CD issue date must be entered or corrected; this date starts the three-business-day waiting period that must elapse before closing.",
+              "type": "conditional"
+            },
+            {
+              "name": "Send Initial CD",
+              "order": 5,
               "description": "Send Initial CD – This subtask auto-completes when the initial Closing Disclosure is sent to the borrower; do not complete manually.",
               "type": "standard"
             }
@@ -4486,6 +4510,24 @@
       "taskName": "Fill in CIP",
       "details": "Created fill_in_cip_v1.xml with 1 subtask: CIP Form",
       "xmlFile": "tasks/7_post-closing-qc/document_processing/fill_in_cip_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-15T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_023",
+      "taskName": "Send Initial Closing Disclosure",
+      "details": "Added 4 conditional subtasks to send_initial_closing_disclosure_v1.xml: Enter Plan Code, Reconcile Appraisal Fee, Enter Closing Date, Enter CD Issue Date. Enter Plan Code and Reconcile Appraisal Fee are adapted from Closing Setup (task_061). All are autoCreate=\"false\" required=\"true\".",
+      "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-15T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_023",
+      "taskName": "Send Initial Closing Disclosure",
+      "details": "Reordered subtasks so the four conditional prerequisites run first — Enter Plan Code (1), Reconcile Appraisal Fee (2), Enter Closing Date (3), Enter CD Issue Date (4) — with the auto-completing Send Initial CD moved to last (5).",
+      "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml"
     }
   ]
 }
