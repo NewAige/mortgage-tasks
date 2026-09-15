@@ -875,7 +875,7 @@
             {
               "name": "Prepare Refund Check and Letter",
               "order": 3,
-              "description": "Prepare Refund Check and Letter – Prepare the appraisal refund check and accompanying refund letter; refund check must be made payable to all borrowers on the loan",
+              "description": "Prepare Refund Check and Letter – Prepare the appraisal refund check and accompanying refund letter; refund check must be made payable to all borrowers on the loan. If the appraisal was cancelled after a partial fee was incurred for services rendered, net that amount out and refund only the remainder",
               "type": "standard"
             },
             {
@@ -4542,6 +4542,15 @@
       "taskId": "task_054",
       "taskName": "Appraisal Refund",
       "details": "Added Cancel Appraisal as the first subtask (rank 1, conditional, autoCreate=\"false\" required=\"true\"): cancel the appraisal order in the appraisal order portal and inquire whether a fee was incurred for services rendered; marking Issue closes the task. Existing subtasks shifted to ranks 2-5.",
+      "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-15T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_054",
+      "taskName": "Appraisal Refund",
+      "details": "Expanded the Prepare Refund Check and Letter subtask description to cover netting: when the appraisal was cancelled after a partial fee was incurred for services rendered, net that amount out and refund only the remainder.",
       "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
     }
   ]
