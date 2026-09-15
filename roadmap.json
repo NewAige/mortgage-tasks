@@ -861,26 +861,32 @@
           "applicationLogic": "Applied when a loan file results in an adverse action and an appraisal fee was collected.",
           "subtasks": [
             {
-              "name": "Confirm Appraisal Fee Received",
+              "name": "Cancel Appraisal",
               "order": 1,
+              "description": "Cancel Appraisal – Cancel the appraisal order in the appraisal order portal and inquire whether any fee has been incurred for services already rendered. Mark Issue if the cancellation is not successful and the full fee paid was exhausted; marking Issue will close this task.",
+              "type": "conditional"
+            },
+            {
+              "name": "Confirm Appraisal Fee Received",
+              "order": 2,
               "description": "Confirm Appraisal Fee Received – Verify appraisal fee was received at least 5 business days prior to allow sufficient time for payment processing before issuing refund",
               "type": "standard"
             },
             {
               "name": "Prepare Refund Check and Letter",
-              "order": 2,
-              "description": "Prepare Refund Check and Letter – Prepare the appraisal refund check and accompanying refund letter; refund check must be made payable to all borrowers on the loan",
+              "order": 3,
+              "description": "Prepare Refund Check and Letter – Prepare the appraisal refund check and accompanying refund letter; refund check must be made payable to all borrowers on the loan. If the appraisal was cancelled after a partial fee was incurred for services rendered, net that amount out and refund only the remainder",
               "type": "standard"
             },
             {
               "name": "Scan Letter and Check to Loan File",
-              "order": 3,
+              "order": 4,
               "description": "Scan Letter and Check to Loan File – Scan the signed refund letter and authorized check to the loan file before mailing",
               "type": "standard"
             },
             {
               "name": "Mail Check",
-              "order": 4,
+              "order": 5,
               "description": "Mail Check – Mail the refund check and letter to the borrower(s)",
               "type": "standard"
             }
@@ -4528,6 +4534,24 @@
       "taskName": "Send Initial Closing Disclosure",
       "details": "Reordered subtasks so the four conditional prerequisites run first — Enter Plan Code (1), Reconcile Appraisal Fee (2), Enter Closing Date (3), Enter CD Issue Date (4) — with the auto-completing Send Initial CD moved to last (5).",
       "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-15T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_054",
+      "taskName": "Appraisal Refund",
+      "details": "Added Cancel Appraisal as the first subtask (rank 1, conditional, autoCreate=\"false\" required=\"true\"): cancel the appraisal order in the appraisal order portal and inquire whether a fee was incurred for services rendered; marking Issue closes the task. Existing subtasks shifted to ranks 2-5.",
+      "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-15T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_054",
+      "taskName": "Appraisal Refund",
+      "details": "Expanded the Prepare Refund Check and Letter subtask description to cover netting: when the appraisal was cancelled after a partial fee was incurred for services rendered, net that amount out and refund only the remainder.",
+      "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
     }
   ]
 }
