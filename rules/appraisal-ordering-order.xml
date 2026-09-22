@@ -1,0 +1,99 @@
+<eventTriggers>
+<eventTrigger>
+<id>5ec04e05-f295-418e-83ae-aace7287e198</id>
+<name>Task - Appraisal Ordering - Order</name>
+<description>File Attached</description>
+<type>USER</type>
+<createdVia>API</createdVia>
+<triggerEvent>urn:elli:encompass:event:loan:file:attached</triggerEvent>
+<state>
+<assignAttachmentsToDocument>{{event.payload.assignAttachmentsToDocument}}</assignAttachmentsToDocument>
+</state>
+<execution>ALL</execution>
+<status>ACTIVE</status>
+<eventName>File Attached</eventName>
+<highPriorityFlag>false</highPriorityFlag>
+<allowManualTrigger>false</allowManualTrigger>
+<isInvalid>false</isInvalid>
+<invalidCategory/>
+<created>2025-09-10T16:12:43.472Z</created>
+<createdBy>calves</createdBy>
+<lastModified>2025-09-15T17:48:02.197Z</lastModified>
+<lastModifiedBy>calves</lastModifiedBy>
+<eventFilters>
+<eventFilter>
+<operator>OR</operator>
+<terms>
+<term>
+<variable>{{event.payload.assignAttachmentsToDocument.title}}</variable>
+<operator>EQUAL_TO</operator>
+<value>Appraisal Check</value>
+<objectKey>{{event.payload.assignAttachmentsToDocument.title}}</objectKey>
+<objectValue>Appraisal Check</objectValue>
+</term>
+</terms>
+</eventFilter>
+</eventFilters>
+<conditions>
+<condition>
+<type>originationChannels</type>
+<provider>urn:elli:encompass:decision:provider</provider>
+<parameters>
+<originationChannels>Banked - Retail</originationChannels>
+<originationChannels>Banked - Wholesale</originationChannels>
+</parameters>
+</condition>
+</conditions>
+<tags>
+<tag>1004</tag>
+<tag>1025</tag>
+<tag>1073</tag>
+<tag>Appraisal</tag>
+</tags>
+<workflowProcesses>
+<workflowProcess>
+<processId>123a499c-9c7a-4040-b3e3-fb0aca8291eb</processId>
+<processKey>processc28f2a17-1697-42b8-8d30-61e33363004b</processKey>
+<description>Create Sub-Task</description>
+<configurationDescription/>
+<steps>
+<subtaskCreate1>
+<stepType>action</stepType>
+<supportMultiResults>false</supportMultiResults>
+<invalidCategory/>
+<action>urn:elli:task:action:subtask:create</action>
+<isInvalid>false</isInvalid>
+</subtaskCreate1>
+<subtaskCreate2>
+<stepType>action</stepType>
+<supportMultiResults>false</supportMultiResults>
+<invalidCategory/>
+<action>urn:elli:task:action:subtask:create</action>
+<isInvalid>false</isInvalid>
+</subtaskCreate2>
+</steps>
+<id>123a499c-9c7a-4040-b3e3-fb0aca8291eb</id>
+<created>2025-09-12T17:47:52.397Z</created>
+<createdBy>calves</createdBy>
+<lastModified>2025-09-12T18:08:41.705Z</lastModified>
+<lastModifiedBy>calves</lastModifiedBy>
+<clientId>3011200828</clientId>
+<isInvalid>false</isInvalid>
+<invalidCategory/>
+<conditions>
+<condition>
+<type>script</type>
+<provider>urn:elli:encompass:decision:provider</provider>
+<parameters>
+<script>[#16] = 1 AND NOT [1401].Contains("Equity") AND NOT [1401].Contains("Equity") AND NOT [1401].Contains("Construction")</script>
+</parameters>
+</condition>
+</conditions>
+<initialSteps>
+<initialStep>subtaskCreate1</initialStep>
+<initialStep>subtaskCreate2</initialStep>
+</initialSteps>
+</workflowProcess>
+</workflowProcesses>
+</eventTrigger>
+</eventTriggers>
