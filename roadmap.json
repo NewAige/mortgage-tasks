@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-09-15T00:00:00.000Z",
+    "lastUpdated": "2026-09-22T00:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 81,
     "completedTasks": 74,
@@ -21,9 +21,15 @@
           "status": "completed",
           "priority": 5,
           "description": "File is 15 Days aged. Please decision or follow up.",
-          "notes": "Backfilled from Encompass (PipelineMgt_PreApp_FollowUp15). Aged-file alert on the pre-application pipeline; the full Encompass export for this task is preserved in 'Example files/ExampleSimple.xml' and was copied verbatim, including its Encompass id and timestamps. No subtasks and no assignee in Encompass.",
-          "applicationLogic": "Fires when a pre-application file reaches 15 days of age. No subtasks.",
-          "subtasks": [],
+          "notes": "Backfilled from Encompass (PipelineMgt_PreApp_FollowUp15). Aged-file alert on the pre-application pipeline; the full Encompass export for this task is preserved in 'Example files/ExampleSimple.xml' and was copied verbatim, including its Encompass id and timestamps. Added a 'Decision Status' subtask on 2026-09-22 so processors can flag whether a decision is imminent or needs to escalate to a Notice of Incompleteness.",
+          "applicationLogic": "Fires when a pre-application file reaches 15 days of age. Decision Status subtask: Mark Done if a decision will be made soon (task completes, no Notice of Incompleteness needed); Mark Issue if a decision will not be made soon (generates a Notice of Incompleteness task).",
+          "subtasks": [
+            {
+              "name": "Decision Status",
+              "description": "Decision Status – Mark Done if a decision on this file will be made soon; this completes the task and no Notice of Incompleteness is needed. Mark Issue if a decision will not be made soon; this will generate a Notice of Incompleteness task.",
+              "type": "standard"
+            }
+          ],
           "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_15_day_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-07-28T18:00:00.000Z",
@@ -38,9 +44,15 @@
           "status": "completed",
           "priority": 5,
           "description": "File is 30 Days aged. Please decision or follow up.",
-          "notes": "Backfilled from Encompass (PipelineMgt_PreApp_FollowUp). The 30-day sibling of task_071; mirrors the verbatim 15-day export apart from the age in the description and its rank.",
-          "applicationLogic": "Fires when a pre-application file reaches 30 days of age. No subtasks.",
-          "subtasks": [],
+          "notes": "Backfilled from Encompass (PipelineMgt_PreApp_FollowUp). The 30-day sibling of task_071; mirrors the verbatim 15-day export apart from the age in the description and its rank. Added a 'Decision Status' subtask on 2026-09-22 so processors can flag whether a decision is imminent or needs to escalate to a Notice of Incompleteness.",
+          "applicationLogic": "Fires when a pre-application file reaches 30 days of age. Decision Status subtask: Mark Done if a decision will be made today (task completes, no Notice of Incompleteness needed); Mark Issue if a decision will not be made today (generates a Notice of Incompleteness task).",
+          "subtasks": [
+            {
+              "name": "Decision Status",
+              "description": "Decision Status – Mark Done if a decision on this file will be made today; this completes the task and no Notice of Incompleteness is needed. Mark Issue if a decision will not be made today; this will generate a Notice of Incompleteness task.",
+              "type": "standard"
+            }
+          ],
           "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_30_day_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-07-28T18:00:00.000Z",
@@ -4552,6 +4564,24 @@
       "taskName": "Appraisal Refund",
       "details": "Expanded the Prepare Refund Check and Letter subtask description to cover netting: when the appraisal was cancelled after a partial fee was incurred for services rendered, net that amount out and refund only the remainder.",
       "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-22T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_071",
+      "taskName": "File Follow Up (15 Day)",
+      "details": "Added 1 subtask: Decision Status. Mark Done if a decision on this file will be made soon (completes the task, no Notice of Incompleteness needed); Mark Issue if a decision will not be made soon (generates a Notice of Incompleteness task).",
+      "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_15_day_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-22T00:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_072",
+      "taskName": "File Follow Up (30 Day)",
+      "details": "Added 1 subtask: Decision Status. Mark Done if a decision on this file will be made today (completes the task, no Notice of Incompleteness needed); Mark Issue if a decision will not be made today (generates a Notice of Incompleteness task).",
+      "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_30_day_v1.xml"
     }
   ]
 }
