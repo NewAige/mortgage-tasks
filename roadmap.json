@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-09-28T13:00:00.000Z",
+    "lastUpdated": "2026-09-28T14:00:00.000Z",
     "version": "1.0.0",
     "totalTasks": 82,
     "completedTasks": 75,
@@ -2188,14 +2188,20 @@
           "subcategory": "uw_misc",
           "status": "completed",
           "priority": 7,
-          "description": "Handle expiration of a counteroffer — mark done to proceed with closing out the file as Client Counteroffer",
-          "notes": "Mirrors task_060 Notice of Incomplete Expiration: assigned to Loan Processor, 24-hour duration, no task-level description, 1 standard subtask (autoCreate=true). Subtask type is namespaced under the originating task ('Send Counteroffer – Counteroffer Expired'), as NOI Expired is namespaced under 'Notice of Incomplete'.",
-          "applicationLogic": "Applied when a counteroffer (task_034 Send Counteroffer) expires without borrower acceptance. Triggers when the counteroffer expiration date passes.",
+          "description": "Record the borrower's counteroffer decision — declined (closes out the file) or accepted",
+          "notes": "Modelled on task_060 Notice of Incomplete Expiration: Loan Processor, 24-hour duration, no task-level description. 2 standard subtasks (autoCreate=true); the user marks one Done and the other NA. Done on Declined sets the counteroffer acceptance field to Declined and closes out the file; Done on Accepted sets it to Accepted. The field updates are Encompass business rules, not part of this XML. Subtask types are namespaced under 'Send Counteroffer', as NOI Expired is under 'Notice of Incomplete'.",
+          "applicationLogic": "Applied when a counteroffer (task_034 Send Counteroffer) is out to the borrower and needs a decision — declined, expired, or accepted.",
           "subtasks": [
             {
-              "name": "Counteroffer Expired",
+              "name": "Counteroffer Declined",
               "order": 1,
-              "description": "Counteroffer Expired – Mark Done to proceed with closing out file as Client Counteroffer based on expiration.",
+              "description": "Counteroffer Declined – Mark Done to set counteroffer acceptance to Declined and close out file. Mark NA if the borrower accepted.",
+              "type": "standard"
+            },
+            {
+              "name": "Counteroffer Accepted",
+              "order": 2,
+              "description": "Counteroffer Accepted – Mark Done to set counteroffer acceptance to Accepted. Mark NA if the counteroffer was declined or expired.",
               "type": "standard"
             }
           ],
@@ -4623,6 +4629,15 @@
       "taskId": "task_085",
       "taskName": "Counteroffer Closure",
       "details": "Mirrored Notice of Incomplete Expiration: removed task-level description, reworded Counteroffer Expired to 'Mark Done to proceed with closing out file as Client Counteroffer based on expiration.', re-namespaced subtask type to 'Send Counteroffer – Counteroffer Expired'",
+      "xmlFile": "tasks/3_underwriting/uw_misc/counteroffer_closure_v1.xml"
+    },
+    {
+      "timestamp": "2026-09-28T14:00:00.000Z",
+      "author": "agent_claude",
+      "action": "updated",
+      "taskId": "task_085",
+      "taskName": "Counteroffer Closure",
+      "details": "Replaced Counteroffer Expired with 2 subtasks: Counteroffer Declined (Done sets acceptance to Declined and closes out file) and Counteroffer Accepted (Done sets acceptance to Accepted); dropped the 'Client Counteroffer' closure wording",
       "xmlFile": "tasks/3_underwriting/uw_misc/counteroffer_closure_v1.xml"
     }
   ]
