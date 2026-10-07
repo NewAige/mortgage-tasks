@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "lastUpdated": "2026-10-07T00:00:00.000Z",
+    "lastUpdated": "2026-10-07T20:20:00.000Z",
     "version": "1.0.0",
-    "totalTasks": 84,
-    "completedTasks": 77,
+    "totalTasks": 85,
+    "completedTasks": 78,
     "description": "Mortgage workflow task roadmap for LOS import"
   },
   "stages": [
@@ -1656,6 +1656,36 @@
           "xmlFile": "tasks/2_processing/misc/cancel_title_v1.xml",
           "createdBy": "agent_claude",
           "createdAt": "2026-10-07T00:00:00.000Z",
+          "ruleStatus": "Partial",
+          "estimatedHrsRemaining": 2
+        },
+        {
+          "id": "task_088",
+          "name": "Pull Property Field Card",
+          "order": 8,
+          "subcategory": "file_setup",
+          "status": "completed",
+          "priority": 7,
+          "description": "Locate the property field card on the municipality's website and confirm the property address matches what is on file",
+          "notes": "Similar to Pull Deed. Locate the property field card via the municipality's website (not the registry of deeds), then confirm the property address matches the address on file.",
+          "applicationLogic": "Applied during file setup once the subject property is identified.",
+          "subtasks": [
+            {
+              "name": "Locate Property Field Card",
+              "order": 1,
+              "description": "Locate Property Field Card – Locate the property field card for the subject property on the municipality's website and save to eFolder.",
+              "type": "standard"
+            },
+            {
+              "name": "Verify Property Address",
+              "order": 2,
+              "description": "Verify Property Address – Ensure the property address on the field card matches the property address on file.",
+              "type": "standard"
+            }
+          ],
+          "xmlFile": "tasks/2_processing/pull_property_field_card/pull_property_field_card_v1.xml",
+          "createdBy": "agent_claude",
+          "createdAt": "2026-10-07T20:20:00.000Z",
           "ruleStatus": "Partial",
           "estimatedHrsRemaining": 2
         }
@@ -4720,6 +4750,15 @@
       "taskName": "Cancel Title",
       "details": "Created cancel_title_v1.xml with 1 subtask: Cancel Title Order with Title Provider. Modeled on Cancel Flood Certificate (task_053).",
       "xmlFile": "tasks/2_processing/misc/cancel_title_v1.xml"
+    },
+    {
+      "timestamp": "2026-10-07T20:20:00.000Z",
+      "author": "agent_claude",
+      "action": "created",
+      "taskId": "task_088",
+      "taskName": "Pull Property Field Card",
+      "details": "Created pull_property_field_card_v1.xml with 2 subtasks: Locate Property Field Card, Verify Property Address. Modeled on Pull Deed (task_063).",
+      "xmlFile": "tasks/2_processing/pull_property_field_card/pull_property_field_card_v1.xml"
     }
   ]
 }
