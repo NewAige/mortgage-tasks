@@ -45,49 +45,49 @@ CX.VALUATONTYPE,Valuation Type,condition,2,Disclosures_AppraisalDelivery; HELOC 
 CX.WIREAPPROVED,Wire Approved,trigger,1,Task_Funding_Wire_Approval,
 CX.WIREAPPRREQ,Wire Approval Requested,trigger,1,Task_Funding_Wire_Request,Y
 1041,Property Type,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,Attached; Condominium; Detached; DetachedCondo; HighRiseCondominium; PUD
-11,,condition,4,PreApp Follow Up 15; Task_PreApp_1003; Task_PreApp_1003_GMI; Task_PreApp_Credit,TBD
+11,Subject Property Address,condition,4,PreApp Follow Up 15; Task_PreApp_1003; Task_PreApp_1003_GMI; Task_PreApp_Credit,TBD
 1172,Loan Type,condition,19,BranchScheduling_Complete; Disclosures_Approval_CL; Disclosures_HELOCInitialDocs; Disclosures_Withdrawn_Letter; HELOC Initial Docs; OR_Disclosures_HELOCInitialDocs; SubTask_RecordMortgage; SubtTask_OrderAppraisal1; SubtTask_OrderAppraisal2; Task_DocumentReceipt; Task_Funding_Fund_Loan; Task_HELOCImportantTermsRedisclosure; Task_HELOCIntiailDocs; Task_ICD_CreateRequest; Task_IntiailDocsAlert; Task_QualityAssurance_InitialDocReview_1; Task_QualityAssurance_InitialDocReview_2; Task_SendApproval; Task_SendApproval_Save,HELOC
 13,Property County,condition,1,SubTask_AppraisalOrder,Bristol
 1393,Current Loan Status,trigger; condition; set,14,CounterOffer_Verdict; Denial_SecondReview; Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15; Subtask_Complete_1003Park; Subtask_Complete_InitialDisclosurePark; TaskComplete_PostNOI; Task_Cancel_AllAdverse; Task_TransfertoCold_Adverse; Task_Underwrite_Expired; Withdraw_TaskCreation,Active Loan; Application approved but not accepted; Application denied; Application withdrawn; File Closed for incompleteness; Loan Originated; Loan purchased by your institution; Preapproval request approved but not accepted; Preapproval request denied by financial institution
 14,Property State,condition,4,Processing_FloodZone; SubTask_AppraisalOrder; Task_QualityAssurance_InitialDocReview_1; Task_QualityAssurance_InitialDocReview_2,MA; RI
 1401,Loan Program,trigger; condition,14,Disclosures_Approval_CL; Key Pricing Fields Change; Processor/Underwriter Assign (Retail); Service_FraudX_Automated; SubTask_TitleOrderEquity; Subtask_Counter; Subtask_Denial; Subtask_Processing_PreUndewriting; Task_AppraisalReview_Complete; Task_Complete_CD_Request_Equity; Task_HELOCImportantTermsRedisclosure; Task_PreApp_1003_GMI; Task_QualityAssurance_InitialDocReview_1; Task_QualityAssurance_InitialDocReview_2,MassHousing
 15,Property Zip,condition,1,Subtask_AppraisalQuote,02535; 02539; 02557; 02568; 02575; 02807
-16,,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,
+16,Number of Units,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,
 1811,Occupancy Type,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,PrimaryResidence; SecondHome
-1821,,condition,1,Subtask_AppraisalQuote,
-1888,,condition,1,SubTask_ConfirmFunding_Disbursement,
+1821,Estimated Value,condition,1,Subtask_AppraisalQuote,
+1888,Initial Draw at Closing,condition,1,SubTask_ConfirmFunding_Disbursement,
 19,Loan Purpose,condition,1,SubTask_AppraisalOrder,Cash-Out Refinance; NoCash-Out Refinance; Purchase
-2,,condition,4,SubtTask_OrderAppraisal1; Task_HELOCIntiailDocs2; Task_OrderAppraisalEquity; Task_QualityAssurance_InitialDocReview_1,RI
-2301,,condition,5,Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15,
-2302,,trigger,1,Scheduler_ApprovalExpiration,
-2314,,trigger,1,File Scheduler Decisioned Cancel,
-2356,,set,1,Task_PARReview,Other
-2366,,trigger,1,Processing_FloodZone,Y
-26,,condition,1,BranchScheduling_Complete,
-300,,condition,1,Archive,
-3142,,trigger,2,File Live Scheduler Cancel/Create; Task_IntiailDocsAlert,
-3152,,trigger; condition,3,Amortization Type Change Notice and Task; Disclosures_Withdrawn_Letter; Wholesale Disclosure Notice,
+2,Loan Amount,condition,4,SubtTask_OrderAppraisal1; Task_HELOCIntiailDocs2; Task_OrderAppraisalEquity; Task_QualityAssurance_InitialDocReview_1,RI
+2301,Approval Date (approval letter),condition,5,Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15,
+2302,Approval Expiration Date,trigger,1,Scheduler_ApprovalExpiration,
+2314,Appraisal Approval Date (second signer),trigger,1,File Scheduler Decisioned Cancel,
+2356,Valuation Type,set,1,Task_PARReview,Other
+2366,Flood Zone Indicator,trigger,1,Processing_FloodZone,Y
+26,Liens to Be Paid Off,condition,1,BranchScheduling_Complete,
+300,Credit Report Reference,condition,1,Archive,
+3142,TRID Application Date,trigger,2,File Live Scheduler Cancel/Create; Task_IntiailDocsAlert,
+3152,Initial LE Sent Date,trigger; condition,3,Amortization Type Change Notice and Task; Disclosures_Withdrawn_Letter; Wholesale Disclosure Notice,
 3624,,condition; set,1,Disclosures_AppraisalDelivery,today()
 3857,,set,1,Disclosures_AppraisalDelivery,today()
-3858,,set,1,Disclosures_AVM Delivery,today()
-3977,,trigger,2,Task_ICDSentNA; Task_ICD_Sent,
-3983,,trigger; condition,5,Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; Subtask_Denial; Task_Cancel_Mailed Disclosures; Task_InitialDocsRec,
+3858,AVM Delivery Date,set,1,Disclosures_AVM Delivery,today()
+3977,ICD Sent Date,trigger,2,Task_ICDSentNA; Task_ICD_Sent,
+3983,eConsent Date,trigger; condition,5,Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; Subtask_Denial; Task_Cancel_Mailed Disclosures; Task_InitialDocsRec,
 4002,Borrower Last Name,condition,12,Fail_Disclosures_PreApp_1003; Subtask_PARRequest; Task_CreditReview; Task_HELOCIntiailDocs; Task_InitialDocsRec; Task_OrderAppraisalEquity; Task_OrderAppraisalFirstMtg; Task_PARReview; Task_PARReview2; Task_PARReview3; Task_PostApprovalEquity; Task_ServiceOrders_FloodCertificateReview,Firstimer
 420,Lien Position,condition,5,Disclosures_Denial; Disclosures_Withdrawn_Letter; Subtask_Counter; Subtask_Denial; Subtask_Processing_PreUndewriting,First Lien; FirstLien; Second Lien; SecondLien
-4458,,trigger; condition; set,3,CounterOffer_ClosuerTask_Accepted; CounterOffer_ClosuerTask_Declined; CounterOffer_Verdict,Accepted; Declined
-4950,,trigger,1,NOI_DocsRec_Cancel,
+4458,Counteroffer Response,trigger; condition; set,3,CounterOffer_ClosuerTask_Accepted; CounterOffer_ClosuerTask_Declined; CounterOffer_Verdict,Accepted; Declined
+4950,NOI Docs Received Back,trigger,1,NOI_DocsRec_Cancel,
 608,Amortization Type,trigger; condition,1,Amortization Type Change Notice and Task,AdjustableRate
-617,,condition; set,5,SubTask_AppraisalExternal_Complete; Task_AppraisalReview_Complete; Task_PARReview; Task_PARReview2; Task_PARReview3,Xactus/PAR
-618,,set,1,Task_PARReview,N/A
-65,,condition,1,Archive,
+617,Appraiser Company Name,condition; set,5,SubTask_AppraisalExternal_Complete; Task_AppraisalReview_Complete; Task_PARReview; Task_PARReview2; Task_PARReview3,Xactus/PAR
+618,Appraiser Name,set,1,Task_PARReview,N/A
+65,Borrower SSN,condition,1,Archive,
 748,Closing Date,trigger; condition,5,BranchScheduling_Complete; Scheduler_ClosingDate; Scheduler_UndisclosedDebtCancel; Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
 @2025,,condition,6,File Live Scheduler Cancel/Create; File Scheduler Decisioned Cancel; Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-Approval Scheduler Start,
-@2302,,condition,2,Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
-@3142,,condition,4,Appraisal Invoice Notification; Service - Flood Order; Service - Flood Order Task; Wholesale Disclosure Notice,
+@2302,Approval Expiration Date,condition,2,Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
+@3142,TRID Application Date,condition,4,Appraisal Invoice Notification; Service - Flood Order; Service - Flood Order Task; Wholesale Disclosure Notice,
 @3143,,condition,1,Task_Cancel_Mailed Disclosures,
-@3983,,condition,1,Task_Cancel_Mailed Disclosures,
-@745,,condition,1,Pre-App Follow Up (30 Days),
-@748,,condition,2,Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
+@3983,eConsent Date,condition,1,Task_Cancel_Mailed Disclosures,
+@745,File Start Date,condition,1,Pre-App Follow Up (30 Days),
+@748,Closing Date,condition,2,Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
 Alert.KeyPricingFieldAlert.AlertCount,,trigger,1,Key Pricing Fields Change,
 CUST36FV,,condition,2,SubTask_AppraisalExternal_Complete; Task_AppraisalReview_Complete,
 CUST39FV,,trigger,2,SubTask_AppraisalExternal_Complete; Task_PARReview2,
