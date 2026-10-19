@@ -570,7 +570,6 @@ own collision and is mirrored deliberately — `type` is the import matching key
 | `docs/RULES.md` | Workflow rules guide: model, URN glossary, timers, ingest workflow |
 | `docs/RULES_CATALOG.md` | Generated catalogue of all rules |
 | `docs/RULES_CROSSREF.md` | Rule references vs. `tasks/` types; tasks with no rule |
-| `docs/SUBTASK_ACTIONS.md` | Hand-maintained subtask → action mapping questionnaire (never regenerated) |
 | `rules/rules.json` | Parsed rules, machine-readable |
 | `docs/reconciliation_resolutions.json` | Which side won each resolved row, and why |
 | `AGENT_INSTRUCTIONS.md` | Full agent workflow with examples |
