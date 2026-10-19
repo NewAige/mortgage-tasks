@@ -3,8 +3,18 @@
 Goal: a visual map of how the Encompass workflow rules (`rules/`) fire, what they do inside
 Encompass, and how they connect to the task templates (`tasks/`) and to each other.
 
-Status: **planning**. Coverage is partial. 119 rules have been imported and roughly 80 more are
-still to come. Every piece of work below must assume the rule set is incomplete and will grow.
+Status: **planning**. 192 rules are imported (exports 1–20). More may follow, so every piece of
+work must keep the map regenerable and must show gaps rather than hide them.
+
+**Audience: operations staff learning how the workflow runs.** This decides the design:
+- The primary view is the stage swimlanes. The focus view is secondary.
+- Every label is plain English. Use the task or subtask display name, never the `type` key,
+  and use the field label from `rules/field_labels.csv`. Raw IDs go in tooltips only.
+- Each edge reads as a sentence: *"When **Underwrite – Deny** is marked Done → Encompass creates
+  **Send Denial**."*
+- Show timers by name only, e.g. "⏱ Counteroffer Warning". No durations are needed.
+- Add guided walkthroughs: short, named scenarios ("A loan is denied", "Appraisal ordered → received",
+  "Counteroffer expires") that step through the chain in order.
 
 ---
 
@@ -30,18 +40,25 @@ still to come. Every piece of work below must assume the rule set is incomplete 
 
 | Trigger (event) | Rules | Effects that can cause it (chaining) |
 |---|---|---|
-| `field_modified` | 37 | `field:update` (24 steps) and user edits |
-| `subtask_completed` | 31 | `subtask:complete` (44) and users |
-| `task_created` | 14 | `task:create` (72) |
-| `file_attached` | 12 | users/vendors only (external) |
-| `timer_completed` | 10 | `timer:start` (15); `timer:cancel` (6) suppresses it |
-| `task_completed` | 7 | `task:complete` (61) and users |
-| `milestone_completed` | 5 | users / Encompass milestone logic (external) |
-| `loan_created` | 3 | external |
+| `field_modified` | 58 | `field:update` (27 steps) and user edits |
+| `subtask_completed` | 48 | `subtask:complete` (53) and users |
+| `file_attached` | 23 | users/vendors only (external) |
+| `task_created` | 18 | `task:create` (95) |
+| `timer_completed` | 15 | `timer:start` (19); `timer:cancel` (12) suppresses it |
+| `milestone_completed` | 15 | users / Encompass milestone logic (external) |
+| `task_completed` | 10 | `task:complete` (68) and users |
+| `loan_created` | 5 | external |
 
-Terminal effects that leave the rules system (nothing downstream): `notification:send` (36),
-`role:assign` (35), `document:sendrequest` (22), `enhancedcondition:*` (28), `order:create` (5),
-`folder:move` (4), `disclosure:send` (2).
+`subtask:create` (63) adds subtasks to existing tasks; this is the main way conditional subtasks appear.
+
+Terminal effects that leave the rules system (nothing downstream): `notification:send` (50),
+`role:assign` (41), `document:sendrequest` (29), `enhancedcondition:*` (47), `order:create` (10),
+`folder:move` (7), `disclosure:send` (4).
+
+14 timers: Approval Expiration, Cancel Undisclosed Debt Monitoring, Closing, Counteroffer Closure,
+Counteroffer Warning, Day Refresh, File Started Follow Up (15/30 Days) - Pre-Approval, Funding,
+Live Follow Up (15/30 Days), Notice of Incomplete Closure, Notice of Incomplete Warning,
+SSR Report(s) Available Scheduler.
 
 There are two kinds of link between rules:
 - **Direct chains.** An effect produces an event that another rule's filter matches, e.g.
@@ -100,13 +117,17 @@ lists its inputs, outputs and acceptance checks so that a Sonnet agent can work 
 #### WP-3 · Interactive map page `docs/rules_map_template.html` → `docs/rules_map.html`
 - Single self-contained page that renders the WP-1 graph. Use pinned Cytoscape.js (with the
   dagre layout) from cdnjs, or plain D3.
-- **View A, Lifecycle swimlanes:** columns are stages 1–7, task nodes sit in their stage, and
-  rule nodes sit between the tasks they connect. External entry points are on the left and
-  terminal effects on the right.
-- **View B, Focus/ego graph:** pick a task, subtask, field or rule to see N hops upstream and
-  downstream. This is the main debugging view ("what fires when I mark *Underwrite – Deny*
-  Done?").
-- **View C, Timer chains:** start → wait → complete rule, with the cancelling rules.
+- **View A, Lifecycle swimlanes (primary, opens by default):** columns are stages 1–7, task
+  nodes sit in their stage, and milestones mark the column boundaries. Rules are drawn as labelled
+  arrows, not as boxes, so staff see "this causes that". Loan events (loan created, file attached,
+  user edits) enter from the left; outside actions (emails, documents sent, orders, conditions)
+  appear as small icons on the task they belong to.
+- **View B, "What happens when…" focus:** pick a task, subtask or field. The view shows what
+  starts it and what it causes, a few steps each way, with each edge as a one-line sentence.
+- **View C, Timers:** "⏱ name" with what starts it, what happens when it runs out, and what
+  stops it early.
+- **Walkthroughs:** 6–10 named scenarios, generated as chains from WP-2 and titled through
+  `rules/annotations.json`. Each is a numbered step list with the map highlighting each step.
 - Edge styles: direct chain (solid), condition coupling (dotted), open edge (dashed grey,
   *no known rule yet*), broken ref (red), inactive rule (faded).
 - Filters by event type, by stage and by action kind, plus an "only show open edges" toggle.
@@ -137,13 +158,26 @@ crossref, and the rules can be used to define their subtasks.
 
 ### Wave 3 — integration and import readiness
 
-#### WP-6 · Annotations input `rules/annotations.json` (hand-maintained, small)
-- Human-readable labels for opaque IDs: field IDs (`4458`, `1393`, `CX.*`), notification
-  `templateId`s, `serviceRuleIds`, timer durations, and milestone → stage mapping.
-- `rules_graph.py` merges these labels in. Missing labels fall back to the raw ID; they never
-  fail the build.
-- The agent seeds it with every ID found in the data, leaving labels blank, and lists the ones
-  that need the user (see Open questions).
+#### WP-6 · Labels and annotations (hand-maintained inputs)
+- **`rules/field_labels.csv`** has already been seeded with all 121 fields the rules read or
+  set: 45 custom `CX.*` fields and 76 standard ones. Spelling variants are merged (`#16` → `16`,
+  `cx.` → `CX.`). The user fills in the `label` column. The agent extends this file (it must not
+  regenerate it) when new fields appear, and keeps any labels already filled in.
+- **`rules/annotations.json`** holds the milestone → stage map (see below), walkthrough titles,
+  and labels for notification `templateId`s and `serviceRuleIds` where these can be inferred
+  from the rule names.
+- `rules_graph.py` merges both files. A missing label falls back to the raw ID and never fails
+  the build.
+- **Proposed milestone → stage map** (to be confirmed by the user). The *"- E"* suffix is
+  assumed to mean the Equity/HELOC track:
+
+  | Milestone | Stage |
+  |---|---|
+  | Pre-Qual/App, Broker Import | 1 Origination |
+  | Pre Processing, Processing, Processing - E | 2 Processing |
+  | Submittal - E, Cond. Approval, Cond. Approval - E, Clear to Close - E | 3 Underwriting |
+  | Doc Prep - E | 4 Closing |
+  | Funding, Boarding - E | 5 Funding |
 
 #### WP-7 · Wiring and docs
 - Add a "Rules Map" link to `roadmap.html`, next to the existing Workflow Rules link. Add a
@@ -184,18 +218,15 @@ edit `rules/exports/` or the generated docs from other scripts.
 
 ---
 
-## Open questions for the user
+## Decisions and open questions
 
-1. **Import cadence.** Will the ~80 remaining rules arrive in batches or all at once? The answer
-   decides whether WP-8 (import diff) is worth building before the next import.
-2. **Field dictionary.** Can you export or paste names for the field IDs used (`4458`, `1393`,
-   the `CX.*` custom fields)? Without names, the field nodes show raw IDs.
-3. **Notification templates.** Names for the 36 `notification:send` templateIds, and the
-   `order:create` service rules (for example, which one is flood or credit)?
-4. **Milestones.** Which Encompass milestones map to which of the 7 stages?
-5. **Timer durations.** The exports give timer IDs and names but not delays. If durations matter
-   on the map, where are they configured?
-6. **Audience.** Is the map mainly for you and admins debugging rules (favours View B, the focus
-   graph) or for operations staff learning the flow (favours View A, the swimlanes)?
-7. **Hosting.** Is a repo file (`docs/rules_map.html`, opened from `roadmap.html`) enough, or do
-   you also want a shareable hosted page?
+Decided (user, 2026-10-19):
+- The remaining rules are imported (192 total). WP-8 (import diff) is kept but has low priority.
+- The audience is operations staff, so the swimlanes and walkthroughs come first.
+- Timers are shown by name only.
+
+Open:
+1. **Field labels.** The user fills in `rules/field_labels.csv`. Until then the map shows raw IDs.
+2. **Milestone → stage map.** Confirm the table in WP-6, including what *"- E"* means.
+3. **Hosting.** Is a repo file (`docs/rules_map.html`, opened from `roadmap.html`) enough, or is a
+   shareable hosted page also wanted for staff?
