@@ -15,22 +15,22 @@ CX.EI.UPLOAD.STATUS,Core Boarding Status,trigger; condition,3,SubTask_CompleteBo
 CX.FLOODADDRESS,Flood Cert Address,condition,1,Task_FloodCertificateReview_AddressMismatch,
 CX.FLOODADDRESSCHECK,Flood Address Check Timestamp,set,1,FloodCertificateReview_Address,now()
 CX.FLOODAUTOMATE,Automated Flood Order,trigger,1,Service - Flood Order,Y
-CX.FLOODCANCEL,,set,1,Subtask_CancelFlood,today()
-CX.FUNDINGAPPROVED,,trigger,1,Task_Funding_Funding_Approval,
-CX.FUNDINGCONFIRMED,,trigger,1,Task_Funding_Funding_Request,
-CX.ICDREQUEST,,condition; set,2,Task_ICDSentNA; Task_ICD_Requested,Y
-CX.LASTDISCLOSEDAMORTIZATION,,condition,1,Amortization Type Change Notice and Task,
-CX.LOANFOLDER,,trigger; condition,6,Archive; Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15,Archive
-CX.NOTESENT,,set,2,Subtask_NoteDelivery_LocationOperations; Subtask_NoteDelivery_LocationSecondary,Operations; Secondary
-CX.PARORDERED,,condition; set,4,CounterOffer_Verdict; Subtask_PARRequest; TaskComplete_PostNOI; Task_Post_Withdraw,today()
-CX.PREQUALIFIED,,trigger,1,Disclosures_Prequalification,
-CX.QC.COMPLETION.DATE,,set,1,Subtask_ColdStorage,today()
-CX.TASKPILOT,,condition,23,Service_FraudX_Automated; Subtask_PARRequest; Task_ContractUW_Approval; Task_CreditReview; Task_FraudXReview; Task_FraudXReviewComplete; Task_HELOCImportantTermsRedisclosure; Task_HELOCIntiailDocs; Task_HOIReview; Task_InitialDocsRec; Task_IntiailDocsAlert; Task_OrderAppraisal; Task_OrderAppraisalFirstMtg; Task_PARReview; Task_PARReview2; Task_PARReview3; Task_PostApprovalEquity; Task_SendApproval; Task_SendApproval_Save; Task_ServiceOrders_FloodCertificateReview; Task_UnderwriteCompletion; Task_Underwrite_Conditions; Title Review,Y
-CX.TITLEORDERED,,condition; set,4,ConditionUpdate_TitleOrderEquity; CounterOffer_Verdict; TaskComplete_PostNOI; Task_Post_Withdraw,today()
-CX.TODAYS,,trigger,1,Scheduler_DayRefresh,
-CX.TODAYS.DATE,,set,1,SchedulerCompeted_DayRefresh,today()
-CX.UCDFANNIE,,trigger; condition,1,Service - UCD and LCA Order,
-CX.UDPILOT,,condition,3,Scheduler_UndisclosedDebtCancel; Service_UndisclosedDebtActivate; copy_Service_UndisclosedDebtActivate,Y
+CX.FLOODCANCEL,Flood Cancel Date,set,1,Subtask_CancelFlood,today()
+CX.FUNDINGAPPROVED,Funding Approved,trigger,1,Task_Funding_Funding_Approval,
+CX.FUNDINGCONFIRMED,Funding Confirmed,trigger,1,Task_Funding_Funding_Request,
+CX.ICDREQUEST,Initial CD Requested,condition; set,2,Task_ICDSentNA; Task_ICD_Requested,Y
+CX.LASTDISCLOSEDAMORTIZATION,Last Disclosed Amortization Type,condition,1,Amortization Type Change Notice and Task,
+CX.LOANFOLDER,Loan Folder,trigger; condition,6,Archive; Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15,Archive
+CX.NOTESENT,Note Sent To (location),set,2,Subtask_NoteDelivery_LocationOperations; Subtask_NoteDelivery_LocationSecondary,Operations; Secondary
+CX.PARORDERED,PAR Ordered Date,condition; set,4,CounterOffer_Verdict; Subtask_PARRequest; TaskComplete_PostNOI; Task_Post_Withdraw,today()
+CX.PREQUALIFIED,Prequalified,trigger,1,Disclosures_Prequalification,
+CX.QC.COMPLETION.DATE,Transfer to Cold Storage Trigger,set,1,Subtask_ColdStorage,today()
+CX.TASKPILOT,Task Pilot Loan,condition,23,Service_FraudX_Automated; Subtask_PARRequest; Task_ContractUW_Approval; Task_CreditReview; Task_FraudXReview; Task_FraudXReviewComplete; Task_HELOCImportantTermsRedisclosure; Task_HELOCIntiailDocs; Task_HOIReview; Task_InitialDocsRec; Task_IntiailDocsAlert; Task_OrderAppraisal; Task_OrderAppraisalFirstMtg; Task_PARReview; Task_PARReview2; Task_PARReview3; Task_PostApprovalEquity; Task_SendApproval; Task_SendApproval_Save; Task_ServiceOrders_FloodCertificateReview; Task_UnderwriteCompletion; Task_Underwrite_Conditions; Title Review,Y
+CX.TITLEORDERED,Title Ordered Date,condition; set,4,ConditionUpdate_TitleOrderEquity; CounterOffer_Verdict; TaskComplete_PostNOI; Task_Post_Withdraw,today()
+CX.TODAYS,Today,trigger,1,Scheduler_DayRefresh,
+CX.TODAYS.DATE,Today,set,1,SchedulerCompeted_DayRefresh,today()
+CX.UCDFANNIE,Run UCD/LCA Trigger,trigger; condition,1,Service - UCD and LCA Order,
+CX.UDPILOT,Undisclosed Debt Pilot Loan,condition,3,Scheduler_UndisclosedDebtCancel; Service_UndisclosedDebtActivate; copy_Service_UndisclosedDebtActivate,Y
 CX.UW.ADVERSE.ACTION.1,,trigger,1,Scheduler_CoutnerOffer,Counter
 CX.UW.ADVERSE.ACTION.2,,trigger,1,Scheduler_CoutnerOffer,Counter
 CX.UW.ADVERSE.ACTION.3,,trigger,1,Scheduler_CoutnerOffer,Counter
