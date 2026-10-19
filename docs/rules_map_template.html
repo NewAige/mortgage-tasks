@@ -1,0 +1,1169 @@
+<title>How the Loan Workflow Runs</title>
+
+<style>
+  /* ---- tokens: light ---------------------------------------------------- */
+  :root {
+    --ground:      #E9EDF1;
+    --surface:     #FDFEFF;
+    --surface-alt: #F3F6F9;
+    --rule:        #CBD5DE;
+    --rule-soft:   #DFE6EC;
+    --ink:         #141D26;
+    --ink-mid:     #4A5B6B;
+    --ink-soft:    #5F7183;
+
+    --repo:        #1F5F66;   /* primary accent: tasks, active step */
+    --repo-wash:   #D9EAEB;
+    --enc:         #A2661A;   /* timers */
+    --enc-wash:    #F4E7D2;
+    --drift:       #97323F;   /* admin flags, broken refs */
+    --drift-wash:  #F5DFE1;
+    --arrow:       #5F7183;
+    --focus:       #1F5F66;
+    --shadow:      0 1px 2px rgba(20, 29, 38, .07), 0 8px 24px -12px rgba(20, 29, 38, .18);
+
+    --mono: ui-monospace, "SFMono-Regular", "SF Mono", "Cascadia Mono", "Roboto Mono",
+            Menlo, Consolas, "Liberation Mono", monospace;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue",
+            Arial, sans-serif;
+  }
+
+  /* ---- tokens: dark (OS preference) ------------------------------------- */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0D1319;
+      --surface:     #141C24;
+      --surface-alt: #1A242E;
+      --rule:        #2C3A47;
+      --rule-soft:   #222E39;
+      --ink:         #E2E9F0;
+      --ink-mid:     #A3B2C0;
+      --ink-soft:    #8A9AAA;
+      --repo:        #5EB8BF;
+      --repo-wash:   #113034;
+      --enc:         #E0A550;
+      --enc-wash:    #3A2B14;
+      --drift:       #E0808C;
+      --drift-wash:  #3A1E22;
+      --arrow:       #8A9AAA;
+      --focus:       #5EB8BF;
+      --shadow:      0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #0D1319;
+    --surface:     #141C24;
+    --surface-alt: #1A242E;
+    --rule:        #2C3A47;
+    --rule-soft:   #222E39;
+    --ink:         #E2E9F0;
+    --ink-mid:     #A3B2C0;
+    --ink-soft:    #8A9AAA;
+    --repo:        #5EB8BF;
+    --repo-wash:   #113034;
+    --enc:         #E0A550;
+    --enc-wash:    #3A2B14;
+    --drift:       #E0808C;
+    --drift-wash:  #3A1E22;
+    --arrow:       #8A9AAA;
+    --focus:       #5EB8BF;
+    --shadow:      0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .7);
+  }
+  :root[data-theme="light"] {
+    --ground:      #E9EDF1;
+    --surface:     #FDFEFF;
+    --surface-alt: #F3F6F9;
+    --rule:        #CBD5DE;
+    --rule-soft:   #DFE6EC;
+    --ink:         #141D26;
+    --ink-mid:     #4A5B6B;
+    --ink-soft:    #5F7183;
+    --repo:        #1F5F66;
+    --repo-wash:   #D9EAEB;
+    --enc:         #A2661A;
+    --enc-wash:    #F4E7D2;
+    --drift:       #97323F;
+    --drift-wash:  #F5DFE1;
+    --arrow:       #5F7183;
+    --focus:       #1F5F66;
+    --shadow:      0 1px 2px rgba(20, 29, 38, .07), 0 8px 24px -12px rgba(20, 29, 38, .18);
+  }
+
+  /* ---- base ------------------------------------------------------------- */
+  html { background: var(--ground); }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: clamp(20px, 4vw, 48px) 16px 96px;
+          display: flex; flex-direction: column; gap: 22px; }
+  @media (min-width: 700px) { .wrap { padding-left: 32px; padding-right: 32px; } }
+  h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  button { font: inherit; color: inherit; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .18em;
+             text-transform: uppercase; color: var(--ink-soft); margin: 0; }
+  .masthead { display: flex; flex-direction: column; gap: 10px; }
+  .masthead h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.07; letter-spacing: -.02em; font-weight: 650; }
+  .lede { max-width: 66ch; color: var(--ink-mid); font-size: 16.5px; }
+  .provenance { font-family: var(--mono); font-size: 12px; color: var(--ink-soft);
+                border-top: 1px solid var(--rule); padding-top: 10px;
+                display: flex; flex-wrap: wrap; gap: 4px 18px; }
+  .topbar { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: space-between; }
+  .tabs { display: flex; gap: 4px; overflow-x: auto; max-width: 100%; border-bottom: 2px solid var(--rule); flex: 1 1 auto; }
+  .tab { background: none; border: 0; cursor: pointer; padding: 10px 14px; white-space: nowrap;
+         font-weight: 600; font-size: 15px; color: var(--ink-mid);
+         border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--repo); border-bottom-color: var(--repo); }
+  .toggles { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 13.5px; color: var(--ink-mid); }
+  .toggles label { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+  .themetog { font-family: var(--mono); font-size: 12px; padding: 6px 11px; border-radius: 2px;
+              border: 1px solid var(--rule); background: var(--surface); cursor: pointer; color: var(--ink-mid); }
+  :is(.tab, .themetog, .btn, .step, .scn, .res, .chip, .search, summary, input[type=checkbox]):focus-visible {
+    outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .intro { color: var(--ink-mid); max-width: 76ch; font-size: 15px; }
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; box-shadow: var(--shadow); }
+  .pad { padding: 16px 18px; }
+  .muted { color: var(--ink-soft); }
+  .mono { font-family: var(--mono); }
+  .btn { background: var(--surface); border: 1px solid var(--rule); border-radius: 2px; padding: 6px 12px;
+         cursor: pointer; font-size: 13.5px; color: var(--ink-mid); }
+  .btn:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .chip { font-size: 13px; padding: 5px 11px; border-radius: 12px; border: 1px solid var(--rule);
+          background: var(--surface); cursor: pointer; color: var(--ink-mid); }
+  .chip:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .search { width: 100%; font-size: 16px; padding: 10px 12px; border-radius: 2px; border: 1px solid var(--rule);
+            background: var(--surface); color: var(--ink); }
+  .search::placeholder { color: var(--ink-soft); }
+  [hidden] { display: none !important; }
+
+  /* ---- walkthroughs ------------------------------------------------------ */
+  .wt-grid { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: 18px; align-items: start; }
+  @media (max-width: 860px) { .wt-grid { grid-template-columns: minmax(0, 1fr); } }
+  .scn-list { display: flex; flex-direction: column; }
+  .scn { text-align: left; background: none; border: 0; border-left: 3px solid transparent;
+         border-bottom: 1px solid var(--rule-soft); padding: 11px 14px; cursor: pointer; }
+  .scn:last-child { border-bottom: 0; }
+  .scn:hover { background: var(--surface-alt); }
+  .scn[aria-pressed="true"] { border-left-color: var(--repo); background: var(--repo-wash); }
+  .scn b { display: block; font-size: 15px; }
+  .scn span { display: block; font-size: 12.5px; color: var(--ink-mid); margin-top: 2px; }
+  .wt-main { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .wt-main h2 { font-size: 22px; }
+  #steps { max-height: 46vh; overflow: auto; }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .step { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; width: 100%; text-align: left;
+          background: none; border: 0; border-left: 3px solid transparent; border-bottom: 1px solid var(--rule-soft);
+          padding: 9px 10px; cursor: pointer; }
+  .step:hover { background: var(--surface-alt); }
+  .step[aria-current="true"] { background: var(--repo-wash); border-left-color: var(--repo); }
+  .step .num { width: 24px; height: 24px; border-radius: 50%; background: var(--ink-soft); color: var(--surface);
+               font-family: var(--mono); font-size: 12px; display: grid; place-items: center; font-weight: 700; }
+  .step[aria-current="true"] .num { background: var(--repo); }
+  .step .tx { font-size: 15px; min-width: 0; overflow-wrap: anywhere; }
+  .stepwrap { border-bottom: 1px solid var(--rule-soft); }
+  .stepwrap .step { border-bottom: 0; padding-left: 26px; }
+  .step.head { display: block; font-weight: 650; background: var(--surface-alt); border-left-color: var(--rule); padding-left: 12px; }
+  .btn.mini { margin: 0 0 8px 66px; padding: 2px 9px; font-size: 12px; }
+  .step .meta { display: block; font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+
+  /* ---- diagrams ---------------------------------------------------------- */
+  .dbox { overflow: auto; max-width: 100%; border: 1px solid var(--rule); border-radius: 3px;
+          background: var(--surface); position: relative; }
+  .dbox svg { display: block; max-width: none; }
+  svg text { font-family: var(--sans); fill: var(--ink); }
+  .n rect { fill: var(--surface-alt); stroke: var(--rule); stroke-width: 1.2; }
+  .n text { font-size: 11.5px; }
+  .n { cursor: pointer; }
+  .n.k-task rect { fill: var(--surface); stroke: var(--repo); stroke-width: 1.5; }
+  .n.k-subtask rect { fill: var(--surface-alt); stroke: var(--ink-soft); }
+  .n.k-field rect { stroke-dasharray: 4 3; }
+  .n.k-field text { font-family: var(--mono); font-size: 11px; }
+  .n.k-timer rect { fill: var(--enc-wash); stroke: var(--enc); }
+  .n.k-milestone rect { fill: var(--repo-wash); stroke: var(--repo); }
+  .n.k-external rect { fill: var(--surface); stroke: var(--ink-soft); stroke-dasharray: 2 3; }
+  .n.k-entry rect, .n.k-document rect { fill: var(--surface); stroke: var(--ink-soft); stroke-dasharray: 5 3; }
+  .n.rb rect { stroke: var(--drift); }
+  .n.dim { opacity: .35; }
+  .n.hl rect { stroke: var(--repo); stroke-width: 3; }
+  .n.focus rect { stroke: var(--repo); stroke-width: 3; fill: var(--repo-wash); }
+  .n:hover rect { stroke-width: 2.4; }
+  .a path.line { fill: none; stroke: var(--arrow); stroke-width: 1.4; }
+  .a path.hit { fill: none; stroke: transparent; stroke-width: 12; pointer-events: stroke; }
+  .a.cond path.line { stroke-dasharray: 2 3; }
+  .a.open path.line { stroke-dasharray: 5 4; opacity: .6; }
+  .a .tip { fill: var(--arrow); }
+  .a.dim { opacity: .08; }
+  .a.hl path.line { stroke: var(--repo); stroke-width: 2.6; }
+  .a.hl .tip { fill: var(--repo); }
+  .a.faint { opacity: .25; }
+  .a.fromgut { opacity: .07; }
+  .a.fromgut.hl { opacity: 1; }
+  .a.faint:hover { opacity: 1; }
+  .a.faint:hover path.line { stroke: var(--repo); stroke-width: 2.2; }
+  .a.hl.faint, .a.hl.fromgut { opacity: 1; }
+  .abadge circle { fill: var(--repo); }
+  .abadge text { fill: #fff; font-size: 11px; font-weight: 700; text-anchor: middle; font-family: var(--mono); }
+  :root[data-theme="dark"] .abadge text { fill: #0D1319; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .abadge text { fill: #0D1319; } }
+  .a.dim .abadge, .abadge.dim { opacity: .2; }
+  .badge rect { stroke: none; }
+  .badge text { fill: #fff; font-size: 9.5px; font-weight: 700; text-anchor: middle; font-family: var(--mono); }
+  .n .badge.bk-notification rect { fill: #3F6FB0; }
+  .n .badge.bk-role rect { fill: #7A55A8; }
+  .n .badge.bk-docRequest rect { fill: #1F7A5A; }
+  .n .badge.bk-order rect { fill: #A2661A; }
+  .n .badge.bk-condition rect { fill: #97323F; }
+  .n .badge.bk-folder rect { fill: #5F7183; }
+  .n .badge.bk-disclosure rect { fill: #2F7E8A; }
+  .n .badge.bk-timer rect { fill: #A2661A; }
+  :root[data-theme="dark"] .badge text { fill: #0D1319; }
+  :root[data-theme="dark"] .n .badge.bk-notification rect { fill: #7FA8E0; }
+  :root[data-theme="dark"] .n .badge.bk-role rect { fill: #B79BDC; }
+  :root[data-theme="dark"] .n .badge.bk-docRequest rect { fill: #5CC49C; }
+  :root[data-theme="dark"] .n .badge.bk-order rect, :root[data-theme="dark"] .n .badge.bk-timer rect { fill: #E0A550; }
+  :root[data-theme="dark"] .n .badge.bk-condition rect { fill: #E0808C; }
+  :root[data-theme="dark"] .n .badge.bk-folder rect { fill: #A3B2C0; }
+  :root[data-theme="dark"] .n .badge.bk-disclosure rect { fill: #6CC3CF; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .badge text { fill: #0D1319; }
+    :root:not([data-theme="light"]) .n .badge.bk-notification rect { fill: #7FA8E0; }
+    :root:not([data-theme="light"]) .n .badge.bk-role rect { fill: #B79BDC; }
+    :root:not([data-theme="light"]) .n .badge.bk-docRequest rect { fill: #5CC49C; }
+    :root:not([data-theme="light"]) .n .badge.bk-order rect, :root:not([data-theme="light"]) .n .badge.bk-timer rect { fill: #E0A550; }
+    :root:not([data-theme="light"]) .n .badge.bk-condition rect { fill: #E0808C; }
+    :root:not([data-theme="light"]) .n .badge.bk-folder rect { fill: #A3B2C0; }
+    :root:not([data-theme="light"]) .n .badge.bk-disclosure rect { fill: #6CC3CF; }
+  }
+  .eq rect { fill: var(--enc-wash); stroke: var(--enc); stroke-width: 1; }
+  .eq text { font-size: 9px; fill: var(--enc); font-weight: 700; text-anchor: middle; }
+  .lane-bg { fill: var(--surface); }
+  .lane-bg.alt { fill: var(--surface-alt); }
+  .lane-head { font-size: 13px; font-weight: 700; }
+  .lane-sub { font-size: 10.5px; fill: var(--ink-soft); font-family: var(--mono); }
+  .lane-line { stroke: var(--rule); stroke-width: 1; }
+  .gut-title { font-size: 10.5px; fill: var(--ink-soft); font-family: var(--mono); letter-spacing: .1em; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-mid); align-items: center; }
+  .legend i { display: inline-block; width: 16px; height: 16px; border-radius: 3px; color: #fff; font-style: normal;
+              font-family: var(--mono); font-size: 10px; font-weight: 700; text-align: center; line-height: 16px; margin-right: 5px; vertical-align: -3px; }
+  .lg-notification { background: #3F6FB0; } .lg-role { background: #7A55A8; } .lg-docRequest { background: #1F7A5A; }
+  .lg-order { background: #A2661A; } .lg-condition { background: #97323F; } .lg-folder { background: #5F7183; }
+  .lg-disclosure { background: #2F7E8A; } .lg-timer { background: #A2661A; }
+  #tip { position: fixed; z-index: 50; pointer-events: none; max-width: min(420px, calc(100vw - 24px)); padding: 8px 11px;
+         background: var(--ink); color: var(--surface); border-radius: 3px; font-size: 13px; line-height: 1.4;
+         box-shadow: var(--shadow); overflow-wrap: anywhere; }
+
+  /* ---- lists ------------------------------------------------------------- */
+  .cols2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  @media (max-width: 860px) { .cols2 { grid-template-columns: minmax(0, 1fr); } }
+  .sec h3 { font-size: 13px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .12em;
+            color: var(--ink-soft); margin-bottom: 8px; font-weight: 600; }
+  .hop { font-size: 12px; color: var(--ink-soft); margin: 12px 0 4px; font-style: italic; }
+  ul.sent { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  ul.sent li { padding: 7px 0 7px 12px; border-left: 3px solid var(--rule); margin-bottom: 6px; font-size: 14.5px;
+               overflow-wrap: anywhere; }
+  ul.sent li.ia { opacity: .55; }
+  ul.sent li.cond { border-left-style: dotted; }
+  .flag { display: inline-block; font-family: var(--mono); font-size: 10.5px; padding: 1px 6px; border-radius: 2px;
+          margin-left: 6px; background: var(--surface-alt); color: var(--ink-mid); border: 1px solid var(--rule); vertical-align: 1px; }
+  .flag.red { background: var(--drift-wash); color: var(--drift); border-color: var(--drift); }
+  .more { margin-top: 4px; }
+  .res-list { display: flex; flex-direction: column; margin-top: 10px; max-height: 340px; overflow: auto;
+              border: 1px solid var(--rule); border-radius: 3px; background: var(--surface); }
+  .res { text-align: left; background: none; border: 0; border-bottom: 1px solid var(--rule-soft); padding: 9px 12px; cursor: pointer;
+         display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .res:hover { background: var(--surface-alt); }
+  .res .kd { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-soft); min-width: 60px; }
+  .res .sub { font-size: 12px; color: var(--ink-soft); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; align-items: center; }
+  .timers { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+  .timer-card { border-top: 3px solid var(--enc); }
+  .timer-card h3 { font-size: 17px; margin-bottom: 10px; }
+  .timer-card .sec { margin-top: 12px; }
+  .kdchip { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; padding: 1px 8px;
+            border: 1px solid var(--rule); border-radius: 10px; color: var(--ink-mid); margin-right: 6px; }
+
+  /* ---- detail sheet ------------------------------------------------------ */
+  #sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; max-height: 45vh; overflow: auto;
+           background: var(--surface); border-top: 2px solid var(--repo); box-shadow: 0 -8px 24px -12px rgba(0,0,0,.35);
+           padding: 14px 16px 18px; }
+  #sheet .inner { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+  #sheet h4 { font-size: 17px; }
+  #sheet dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 0; font-size: 13px; }
+  #sheet dt { color: var(--ink-soft); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+  #sheet dd { margin: 0; font-family: var(--mono); overflow-wrap: anywhere; }
+  .hd { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  details.tech { margin-top: 10px; font-size: 13px; }
+  details.tech summary { cursor: pointer; color: var(--ink-mid); font-family: var(--mono); font-size: 12px; }
+  details.tech dl { margin-top: 6px; }
+  .admin-only { display: none; }
+  body.admin .admin-only { display: block; }
+  .selpanel { margin-top: 14px; }
+  .selpanel h3.title { font-size: 20px; margin-bottom: 4px; }
+  .notice { padding: 14px 16px; border-left: 3px solid var(--enc); background: var(--enc-wash); font-size: 14.5px; }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Encompass workflow rules</p>
+    <h1>How the loan workflow runs</h1>
+    <p class="lede">What starts each task, what Encompass does next, and where timers and outside actions
+      (emails, documents, orders) come in. Everything here is built from the live workflow rules, so
+      it stays in step with Encompass.</p>
+    <div class="provenance" id="prov"></div>
+  </header>
+
+  <div class="topbar">
+    <div class="tabs" role="tablist" id="tabs">
+      <button class="tab" role="tab" data-tab="walk" id="t-walk">Walkthroughs</button>
+      <button class="tab" role="tab" data-tab="stage" id="t-stage">Stage map</button>
+      <button class="tab" role="tab" data-tab="focus" id="t-focus">What happens when&hellip;</button>
+      <button class="tab" role="tab" data-tab="timers" id="t-timers">Timers</button>
+    </div>
+    <div class="toggles">
+      <label><input type="checkbox" id="adminTog"> Admin details</label>
+      <button class="themetog" id="themeTog" type="button" aria-label="Switch light or dark theme">Theme</button>
+    </div>
+  </div>
+
+  <!-- Walkthroughs -->
+  <section id="p-walk" role="tabpanel" aria-labelledby="t-walk" hidden></section>
+  <!-- Stage map -->
+  <section id="p-stage" role="tabpanel" aria-labelledby="t-stage" hidden></section>
+  <!-- What happens when -->
+  <section id="p-focus" role="tabpanel" aria-labelledby="t-focus" hidden></section>
+  <!-- Timers -->
+  <section id="p-timers" role="tabpanel" aria-labelledby="t-timers" hidden></section>
+</div>
+
+<div id="tip" hidden></div>
+<aside id="sheet" hidden aria-live="polite"></aside>
+
+<script id="payload" type="application/json">__DATA__</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("payload").textContent);
+  var N = D.n;
+  var admin = false, tab = "walk";
+  var X = null;           // indexes (rebuilt when admin toggles)
+  var S = { wt: null, step: 0, focus: null, query: "", stageSel: null, expanded: {} };
+  var SVGNS = "http://www.w3.org/2000/svg";
+  var STAGE_NAME = {}; D.stages.forEach(function (s) { STAGE_NAME[s[0]] = s[1]; });
+  var STAGE_NUM = {}; D.stages.forEach(function (s, i) { STAGE_NUM[s[0]] = i + 1; });
+  var BADGE = {
+    notification: ["N", "Sends a notification"], role: ["R", "Assigns a role"],
+    docRequest: ["D", "Sends or requests documents"], order: ["O", "Places a service order"],
+    condition: ["C", "Adds or updates a condition"], folder: ["F", "Moves the loan to another folder"],
+    disclosure: ["S", "Sends a disclosure package"], timer: ["T", "Starts a timer"]
+  };
+  var EXT_LABEL = {
+    notification: "Notification", role: "Role assignment", docRequest: "Documents sent",
+    order: "Service order", condition: "Condition", folder: "Folder move", disclosure: "Disclosures sent"
+  };
+
+  /* ---------- tiny helpers ---------- */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(SVGNS, name);
+    if (attrs) for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function lab(id) {
+    var n = N[id]; if (!n) return String(id).replace(/^[a-z]+:/, "");
+    if (n.k === "field") return "Field " + n.l;
+    if (n.k === "timer") return "⏱ " + n.l;
+    if (n.k === "milestone") return n.l + (n.tr === "equity" ? " (Equity)" : "") + " milestone";
+    if (n.k === "document") return "Document: " + n.l;
+    return n.l;
+  }
+  function plainLab(id) { var n = N[id]; return n ? n.l : String(id); }
+  function kindWord(k) {
+    return { task: "Task", subtask: "Subtask", field: "Field", timer: "Timer", milestone: "Milestone",
+             document: "Document", external: "Outside action", entry: "Loan event", rule: "Rule" }[k] || k;
+  }
+  function trunc(s, n) { s = String(s); return s.length > n ? s.slice(0, n - 1) + "…" : s; }
+  function wrap(text, max, lines) {
+    var words = String(text).split(/\s+/), out = [], cur = "";
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      if ((cur + " " + w).trim().length > max && cur) { out.push(cur); cur = w; } else cur = (cur + " " + w).trim();
+    }
+    if (cur) out.push(cur);
+    if (out.length > lines) { out = out.slice(0, lines); out[lines - 1] = trunc(out[lines - 1] + "…", max); }
+    return out.map(function (l) { return l.length > max + 2 ? trunc(l, max) : l; });
+  }
+
+  /* ---------- indexes ---------- */
+  function buildIdx() {
+    var x = { ruleSrc: {}, trigFrom: {}, ruleEff: {}, effTo: {}, enters: {}, children: {}, condBy: {}, byId: {} };
+    function push(o, k, v) { (o[k] || (o[k] = [])).push(v); }
+    D.e.forEach(function (e) {
+      if (!admin && e.ia) return;
+      if (e.k === "conditionReads") { if (admin) push(x.condBy, e.s, e); return; }
+      x.byId[e.i] = e;
+      if (e.k === "triggers") { push(x.ruleSrc, e.r, e.s); push(x.trigFrom, e.s, e.r); }
+      else if (e.k === "effects" || e.k === "cancels") { push(x.ruleEff, e.r, e); push(x.effTo, e.t, e); }
+      else if (e.k === "enters") { push(x.enters, e.t, e); }
+    });
+    Object.keys(N).forEach(function (id) {
+      var n = N[id];
+      if (n.k === "subtask" && N[n.p]) push(x.children, n.p, id);
+    });
+    X = x;
+  }
+  function expand(id) { var n = N[id]; return n && n.k === "task" ? [id].concat(X.children[id] || []) : [id]; }
+  function ruleName(r) { return N[r] ? N[r].l : r; }
+  function parentTask(id) {
+    var n = N[id]; if (!n) return null;
+    if (n.k === "task") return id;
+    if (n.k === "subtask") return N[n.p] ? n.p : null;
+    return null;
+  }
+
+  /* ---------- "what starts it" / "what it causes" ---------- */
+  var PRODUCING = { "task:create": 1, "task:complete": 1, "subtask:create": 1, "subtask:complete": 1, "field:update": 1, "timer:start": 1 };
+  function causes(id, depth, cap) {
+    var res = [], seenE = {}, visited = {}, frontier = expand(id);
+    frontier.forEach(function (f) { visited[f] = 1; });
+    for (var hop = 1; hop <= depth; hop++) {
+      var next = [], items = [];
+      frontier.forEach(function (node) {
+        (X.trigFrom[node] || []).forEach(function (r) {
+          (X.ruleEff[r] || []).forEach(function (e) {
+            if (seenE[e.i]) return; seenE[e.i] = 1;
+            items.push({ hop: hop, e: e, from: node });
+            var t = e.t, tn = N[t];
+            if (tn && e.k === "effects" && (tn.k === "task" || tn.k === "subtask" || tn.k === "field" || tn.k === "timer")) {
+              expand(t).forEach(function (z) { if (!visited[z]) { visited[z] = 1; next.push(z); } });
+            }
+          });
+        });
+        if (admin) (X.condBy[node] || []).forEach(function (e) {
+          var key = "c" + e.i; if (seenE[key]) return; seenE[key] = 1;
+          items.push({ hop: hop, cond: e, from: node });
+        });
+      });
+      res = res.concat(items);
+      frontier = next;
+      if (!frontier.length) break;
+    }
+    return res;
+  }
+  function starts(id, depth) {
+    var res = [], seenE = {}, visited = {}, frontier = expand(id);
+    frontier.forEach(function (f) { visited[f] = 1; });
+    for (var hop = 1; hop <= depth; hop++) {
+      var next = [];
+      frontier.forEach(function (node) {
+        (X.enters[node] || []).forEach(function (e) {
+          if (seenE[e.i]) return; seenE[e.i] = 1;
+          res.push({ hop: hop, enter: e, to: node });
+        });
+        (X.effTo[node] || []).forEach(function (e) {
+          if (e.k !== "effects" || seenE[e.i]) return; seenE[e.i] = 1;
+          res.push({ hop: hop, e: e, to: node });
+          (X.ruleSrc[e.r] || []).forEach(function (s) {
+            expand(s).forEach(function (z) { if (!visited[z]) { visited[z] = 1; next.push(z); } });
+          });
+        });
+      });
+      frontier = next;
+      if (!frontier.length) break;
+    }
+    return res;
+  }
+  function flags(e) {
+    var h = "";
+    if (!admin) return h;
+    if (e.r) h += '<span class="flag" title="Rule name">' + esc(ruleName(e.r)) + "</span>";
+    if (e.oe) h += '<span class="flag" title="Nothing known reacts to this yet">no known rule yet reacts to this</span>';
+    if (e.rb) h += '<span class="flag red">refers to something not in the task library</span>';
+    if (e.ia) h += '<span class="flag">rule inactive</span>';
+    return h;
+  }
+  function itemLi(it) {
+    if (it.cond) {
+      var c = it.cond;
+      return '<li class="cond">Encompass checks ' + esc(lab(c.s)) + " before the rule “" + esc(ruleName(c.r)) +
+        "” decides whether to run.<span class=\"flag\">condition, not a trigger</span></li>";
+    }
+    var e = it.e || it.enter;
+    return '<li class="' + (e.ia ? "ia" : "") + '">' + esc(e.sn) + flags(e) + "</li>";
+  }
+  var HOPNAME_C = ["", "Right away", "Then", "After that"];
+  var HOPNAME_S = ["", "Directly", "Before that", "Before that, in turn"];
+  function listHtml(items, names, key, emptyMsg) {
+    if (!items.length) return '<p class="muted">' + emptyMsg + "</p>";
+    var out = "", cap = 10;
+    for (var hop = 1; hop <= 3; hop++) {
+      var hs = items.filter(function (i) { return i.hop === hop; });
+      if (!hs.length) continue;
+      out += '<div class="hop">' + names[hop] + "</div><ul class=\"sent\">";
+      var k = key + "|" + hop, open = S.expanded[k];
+      hs.forEach(function (it, idx) { if (open || idx < cap) out += itemLi(it); });
+      out += "</ul>";
+      if (hs.length > cap && !open) out += '<button class="btn more" data-more="' + esc(k) + '">Show ' + (hs.length - cap) + " more</button>";
+    }
+    return out;
+  }
+
+  /* ---------- diagram engine ---------- */
+  function diagram(box, nodeIds, arrows, opt) {
+    opt = opt || {};
+    box.innerHTML = "";
+    var ids = [], seen = {};
+    nodeIds.forEach(function (i) { if (!seen[i]) { seen[i] = 1; ids.push(i); } });
+    arrows = arrows.filter(function (a) { return a.f !== a.t && seen[a.f] && seen[a.t]; });
+    var out = {}, state = {}, back = {};
+    arrows.forEach(function (a) { (out[a.f] || (out[a.f] = [])).push(a); });
+    function dfs(u) {
+      state[u] = 1;
+      (out[u] || []).forEach(function (a) {
+        if (state[a.t] === 1) back[a.f + ">" + a.t] = 1;
+        else if (!state[a.t]) dfs(a.t);
+      });
+      state[u] = 2;
+    }
+    ids.forEach(function (i) { if (!state[i]) dfs(i); });
+    var layer = {}, indeg = {}, fwd = {};
+    ids.forEach(function (i) { layer[i] = 0; indeg[i] = 0; });
+    arrows.forEach(function (a) {
+      if (back[a.f + ">" + a.t]) return;
+      (fwd[a.f] || (fwd[a.f] = [])).push(a.t); indeg[a.t]++;
+    });
+    var q = ids.filter(function (i) { return !indeg[i]; }), qi = 0;
+    while (qi < q.length) {
+      var u = q[qi++];
+      (fwd[u] || []).forEach(function (v) {
+        layer[v] = Math.max(layer[v], layer[u] + 1);
+        if (--indeg[v] === 0) q.push(v);
+      });
+    }
+    var L = [];
+    ids.forEach(function (i) { (L[layer[i]] || (L[layer[i]] = [])).push(i); });
+    L = L.filter(Boolean);
+    var pos = {};
+    function reorder() { L.forEach(function (col) { col.forEach(function (i, k) { pos[i] = k; }); }); }
+    reorder();
+    var nb = {};
+    arrows.forEach(function (a) { (nb[a.f] || (nb[a.f] = [])).push(a.t); (nb[a.t] || (nb[a.t] = [])).push(a.f); });
+    for (var sweep = 0; sweep < 4; sweep++) {
+      (sweep % 2 ? L.slice().reverse() : L).forEach(function (col) {
+        var bc = {};
+        col.forEach(function (i) {
+          var ns = nb[i] || [], s = 0;
+          ns.forEach(function (j) { s += pos[j]; });
+          bc[i] = ns.length ? s / ns.length : pos[i];
+        });
+        col.sort(function (a, b) { return bc[a] - bc[b] || pos[a] - pos[b]; });
+        col.forEach(function (i, k) { pos[i] = k; });
+      });
+    }
+    var geo = {}, W = 168, GAP = 78, VG = 12, PAD = 14, colH = [];
+    L.forEach(function (col, ci) {
+      var y = 0;
+      col.forEach(function (i) {
+        var n = N[i], ext = n && n.k === "external";
+        var text = ext ? (EXT_LABEL[n.xk] || n.l) : lab(i);
+        var lines = wrap(text, ext ? 18 : 25, 3);
+        var h = lines.length * 14 + 14;
+        geo[i] = { x: PAD + ci * (W + GAP), y: y, w: ext ? 132 : W, h: h, lines: lines };
+        y += h + VG;
+      });
+      colH.push(y - VG);
+    });
+    var maxH = Math.max.apply(null, colH.concat([40]));
+    L.forEach(function (col, ci) {
+      var off = (maxH - colH[ci]) / 2;
+      col.forEach(function (i) { geo[i].y += off + PAD; });
+    });
+    var totalW = PAD * 2 + L.length * W + Math.max(0, L.length - 1) * GAP, totalH = maxH + PAD * 2;
+    var svg = el("svg", { width: totalW, height: totalH, viewBox: "0 0 " + totalW + " " + totalH, role: "img",
+                          "aria-label": opt.label || "Diagram" });
+    var defs = el("defs", null, svg);
+    var mk = el("marker", { id: "ah" + (opt.uid || "x"), viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "7", markerHeight: "7", orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M0 1 L10 5 L0 9 z", "class": "tip" }, mk);
+    var ag = el("g", { "class": "arrows" }, svg), ng = el("g", null, svg), bg = el("g", null, svg);
+    arrows.forEach(function (a) {
+      var A = geo[a.f], B = geo[a.t], x1 = A.x + A.w, y1 = A.y + A.h / 2, x2, y2 = B.y + B.h / 2, d;
+      if (layer[a.t] > layer[a.f] && !back[a.f + ">" + a.t]) {
+        x2 = B.x; var dx = Math.max(24, (x2 - x1) / 2);
+        d = "M" + x1 + " " + y1 + " C" + (x1 + dx) + " " + y1 + " " + (x2 - dx) + " " + y2 + " " + x2 + " " + y2;
+      } else {
+        x2 = B.x + B.w; d = "M" + x1 + " " + y1 + " C" + (x1 + 50) + " " + y1 + " " + (x2 + 50) + " " + y2 + " " + x2 + " " + y2;
+      }
+      var g = el("g", { "class": "a" + (a.cls ? " " + a.cls : ""), "data-key": a.key || "", "data-tip": a.tip || "" }, ag);
+      el("path", { d: d, "class": "hit" }, g);
+      var p = el("path", { d: d, "class": "line", "marker-end": "url(#ah" + (opt.uid || "x") + ")" }, g);
+      if (a.n != null) {
+        var mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+        var b = el("g", { "class": "abadge", "data-key": a.key || "", transform: "translate(" + mx + " " + my + ")" }, bg);
+        el("circle", { r: 9 }, b);
+        var t = el("text", { y: 4 }, b); t.textContent = a.n;
+      }
+    });
+    ids.forEach(function (i) {
+      var g = geo[i], n = N[i] || { k: "task", l: i };
+      var cls = "n k-" + n.k + (n.rb && admin ? " rb" : "") + (opt.focusId === i ? " focus" : "");
+      var gn = el("g", { "class": cls, "data-id": i, tabindex: "0", role: "button",
+                         "data-tip": lab(i) + (n.k === "milestone" && n.tr === "equity" ? "" : "") }, ng);
+      el("rect", { x: g.x, y: g.y, width: g.w, height: g.h, rx: n.k === "task" || n.k === "milestone" ? 8 : 4 }, gn);
+      g.lines.forEach(function (ln, k) {
+        var t = el("text", { x: g.x + g.w / 2, y: g.y + 14 + k * 14, "text-anchor": "middle" }, gn);
+        t.textContent = ln;
+      });
+    });
+    box.appendChild(svg);
+    box._geo = geo;
+    return svg;
+  }
+  function diagHighlight(box, keys, nodes) {
+    var svg = box.querySelector("svg"); if (!svg) return;
+    var has = keys && keys.length;
+    svg.querySelectorAll(".a").forEach(function (a) {
+      var on = has && keys.indexOf(a.getAttribute("data-key")) >= 0;
+      a.classList.toggle("hl", !!on); a.classList.toggle("dim", !!(has && !on));
+    });
+    svg.querySelectorAll(".abadge").forEach(function (a) {
+      a.classList.toggle("dim", !!(has && keys.indexOf(a.getAttribute("data-key")) < 0));
+    });
+    svg.querySelectorAll(".n").forEach(function (n) {
+      var on = nodes && nodes.indexOf(n.getAttribute("data-id")) >= 0;
+      n.classList.toggle("hl", !!on); n.classList.toggle("dim", !!(has && !on));
+    });
+  }
+
+  /* ---------- tooltip + details sheet ---------- */
+  var tip = $("tip");
+  document.addEventListener("mousemove", function (ev) {
+    var t = ev.target.closest ? ev.target.closest("[data-tip]") : null;
+    if (!t || !t.getAttribute("data-tip")) { tip.hidden = true; return; }
+    tip.textContent = t.getAttribute("data-tip"); tip.hidden = false;
+    var x = ev.clientX + 14, y = ev.clientY + 16, r = tip.getBoundingClientRect();
+    if (x + r.width > window.innerWidth - 8) x = Math.max(8, ev.clientX - r.width - 14);
+    if (y + r.height > window.innerHeight - 8) y = Math.max(8, ev.clientY - r.height - 14);
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  });
+  document.addEventListener("mouseleave", function () { tip.hidden = true; });
+
+  function techHtml(id) {
+    var n = N[id]; if (!n) return "";
+    var rows = [["Kind", kindWord(n.k)]];
+    if (n.s) rows.push(["Stage", STAGE_NAME[n.s] || n.s]);
+    if (n.k === "milestone" && n.tr === "equity") rows.push(["Track", "Equity"]);
+    if (n.raw) rows.push([n.k === "field" ? "Field ID" : n.k === "timer" ? "Timer ID" : "Type key", n.raw]);
+    if (n.k === "subtask" && N[n.p]) rows.push(["Part of", N[n.p].l]);
+    if (n.cond) rows.push(["Added", "only when a rule or condition adds it"]);
+    if (admin) {
+      if (n.st) rows.push(["Library status", n.st]);
+      if (n.rb) rows.push(["Flag", "not found in the task library"]);
+      if (n.nr) rows.push(["Flag", "no XML template in this repo"]);
+    }
+    return "<dl>" + rows.map(function (r) { return "<dt>" + esc(r[0]) + "</dt><dd>" + esc(r[1]) + "</dd>"; }).join("") + "</dl>";
+  }
+  function openSheet(id) {
+    var sh = $("sheet");
+    sh.innerHTML = '<div class="inner"><div class="hd"><h4>' + esc(lab(id)) + '</h4><button class="btn" id="sheetX">Close</button></div>' +
+      techHtml(id) + '<div><button class="btn" data-goto="' + esc(id) + '">See what happens around this</button></div></div>';
+    sh.hidden = false;
+  }
+  document.addEventListener("click", function (ev) {
+    var t = ev.target;
+    if (t.id === "sheetX") $("sheet").hidden = true;
+    var g = t.closest ? t.closest("[data-goto]") : null;
+    if (g) { var id = g.getAttribute("data-goto"); $("sheet").hidden = true; gotoFocus(id); }
+    var m = t.closest ? t.closest("[data-more]") : null;
+    if (m) { S.expanded[m.getAttribute("data-more")] = 1; renderCurrent(); }
+  });
+
+  /* ---------- Walkthroughs ---------- */
+  function ruleSourcesCollapsed(r) {
+    return (X.ruleSrc[r] || []).filter(function (s) { return N[s] && N[s].k !== "rule"; }).slice(0, 3);
+  }
+  function groupSteps(w) {
+    // trigger steps are sub-headings; the effect steps after one are its bullets
+    var groups = [], cur = null;
+    w.steps.forEach(function (st, i) {
+      st._i = i;
+      if (st.k === "triggers" || !cur) { cur = { head: st.k === "triggers" ? st : null, items: [] }; groups.push(cur); if (st.k === "triggers") return; }
+      cur.items.push(st);
+    });
+    return groups;
+  }
+  function stepArrows(w, groups) {
+    var arrows = [], nodes = [], sn = {};
+    function addNode(i) { if (N[i] && N[i].k !== "rule" && !sn[i]) { sn[i] = 1; nodes.push(i); } }
+    groups.forEach(function (g) {
+      var srcs = [];
+      if (g.head && N[g.head.f] && N[g.head.f].k !== "rule") srcs = [g.head.f];
+      var keys = [], gnodes = srcs.slice();
+      g.items.forEach(function (st) {
+        var f = srcs.slice();
+        if (!f.length && st.f && N[st.f] && N[st.f].k === "rule") f = ruleSourcesCollapsed(st.f);
+        else if (!f.length && st.f) f = [st.f];
+        var tos = (st.t || []).filter(function (t) { return N[t] && N[t].k !== "rule"; });
+        var key = "s" + st._i; keys.push(key);
+        st._nodes = f.slice();
+        var shown = tos.slice(0, 6);
+        shown.forEach(function (b) {
+          st._nodes.push(b);
+          f.forEach(function (a) { addNode(a); addNode(b); arrows.push({ f: a, t: b, key: key, n: st.n != null ? st.n : st._i + 1, tip: st.sn }); });
+        });
+        if (!shown.length) f.forEach(addNode);
+        st._nodes.forEach(function (x) { if (gnodes.indexOf(x) < 0) gnodes.push(x); });
+      });
+      if (g.head) { g.head._keys = keys; g.head._nodes = gnodes; srcs.forEach(addNode); }
+    });
+    return { arrows: arrows, nodes: nodes };
+  }
+  function stepText(st, i) {
+    var long = (st.sn || "").length > 190, open = S.expanded["st" + S.wt + "|" + i];
+    var tx = long && !open ? trunc(st.sn, 190) : st.sn;
+    return esc(tx) + (st.g ? ' <span class="flag">' + st.g + " at once</span>" : "") +
+      (admin && st.rn ? ' <span class="flag">' + esc(st.rn) + "</span>" : "");
+  }
+  function renderWalk() {
+    var p = $("p-walk");
+    if (!D.wt.length) {
+      p.innerHTML = '<div class="notice">Walkthroughs are not available yet. They are built from rules/cascades.json, ' +
+        "which has not been generated. The other tabs work without it.</div>";
+      return;
+    }
+    if (S.wt == null) S.wt = 0;
+    var w = D.wt[S.wt], groups = groupSteps(w);
+    var h = '<p class="intro">Pick a scenario to see, step by step, what Encompass does. Click a step to see where it happens on the diagram.</p>' +
+      '<div class="wt-grid"><div class="card scn-list" id="scnList">';
+    D.wt.forEach(function (x, i) {
+      h += '<button class="scn" data-i="' + i + '" aria-pressed="' + (i === S.wt) + '"><b>' + esc(x.title) + "</b><span>" + esc(x.why || "") + "</span></button>";
+    });
+    h += '</div><div class="wt-main"><div><h2>' + esc(w.title) + '</h2><p class="muted">' + esc(w.why || "") + "</p></div>" +
+      '<div class="card" id="steps">';
+    groups.forEach(function (g) {
+      if (g.head) h += '<button class="step head" data-i="' + g.head._i + '" aria-current="false"><span class="tx">' + stepText(g.head, g.head._i) + "</span></button>";
+      g.items.forEach(function (st) {
+        var long = (st.sn || "").length > 190;
+        h += '<div class="stepwrap"><button class="step" data-i="' + st._i + '" aria-current="false"><span class="num">' + esc(st.n != null ? st.n : st._i + 1) +
+          '</span><span class="tx">' + stepText(st, st._i) + "</span></button>" +
+          (long ? '<button class="btn mini" data-exp="' + st._i + '">' + (S.expanded["st" + S.wt + "|" + st._i] ? "Show less" : "Show full text") + "</button>" : "") + "</div>";
+      });
+    });
+    h += "</div>" + (w.truncated ? '<p class="muted">This scenario is cut short; more happens after the last step.</p>' : "") +
+      '<div class="dbox" id="wtDiag"></div></div></div>';
+    if (admin && (D.cy.length || D.cf.length)) {
+      h += '<div class="card pad" style="margin-top:18px"><div class="sec"><h3>Admin: things to double check</h3>';
+      if (D.cy.length) {
+        h += '<p><b>' + D.cy.length + " loop(s)</b> where rules can set each other off again:</p><ul class=\"sent\">";
+        D.cy.forEach(function (c) { h += "<li>" + esc((c.nodes || []).map(plainLab).join(" → ")) + '<span class="flag">' + esc((c.rules || []).join(", ")) + "</span></li>"; });
+        h += "</ul>";
+      }
+      if (D.cf.length) {
+        h += '<p style="margin-top:10px"><b>' + D.cf.length + " place(s)</b> where more than one rule changes the same thing:</p><ul class=\"sent\">";
+        D.cf.forEach(function (c) { h += "<li>" + esc((c.tl || plainLab(c.t)) + " (" + c.ef + ")") + '<span class="flag">' + esc((c.rules || []).join(", ")) + "</span></li>"; });
+        h += "</ul>";
+      }
+      h += "</div></div>";
+    }
+    p.innerHTML = h;
+    var built = stepArrows(w, groups), box = $("wtDiag");
+    diagram(box, built.nodes, built.arrows, { uid: "w", label: "Diagram of " + w.title });
+    selectStep(S.step < w.steps.length ? S.step : 0, false);
+    box.addEventListener("click", function (ev) {
+      var n = ev.target.closest(".n"); if (n) openSheet(n.getAttribute("data-id"));
+    });
+  }
+  function selectStep(i, scroll) {
+    var w = D.wt[S.wt]; if (!w || !w.steps[i]) return;
+    S.step = i;
+    document.querySelectorAll("#steps .step").forEach(function (b) { b.setAttribute("aria-current", String(+b.getAttribute("data-i") === i)); });
+    var box = $("wtDiag"), st = w.steps[i];
+    var keys = st.k === "triggers" ? (st._keys || []) : ["s" + i];
+    diagHighlight(box, keys, st._nodes || []);
+    if (scroll && keys.length) {
+      var a = box.querySelector('.a[data-key="' + keys[0] + '"] path.line');
+      if (a) { var bb = a.getBBox(); box.scrollTo({ left: Math.max(0, bb.x - 40), top: Math.max(0, bb.y - 40), behavior: "smooth" }); }
+    }
+  }
+  $("p-walk").addEventListener("click", function (ev) {
+    var s = ev.target.closest(".scn"), ex = ev.target.closest("[data-exp]"), st = ev.target.closest(".step");
+    if (s) { S.wt = +s.getAttribute("data-i"); S.step = 0; renderWalk(); }
+    else if (ex) { var k = "st" + S.wt + "|" + ex.getAttribute("data-exp"); S.expanded[k] = !S.expanded[k]; renderWalk(); }
+    else if (st) selectStep(+st.getAttribute("data-i"), true);
+  });
+
+  /* ---------- Stage map ---------- */
+  var FLOW = null;
+  function sourcesOf(rule, seen, via) {
+    var out = []; if (seen[rule]) return out;
+    var s2 = {}; for (var k in seen) s2[k] = 1; s2[rule] = 1;
+    (X.ruleSrc[rule] || []).forEach(function (s) {
+      var n = N[s]; if (!n) return;
+      if (n.k === "task" || n.k === "subtask") { var t = parentTask(s); if (t) out.push({ g: t, via: via }); }
+      else if (n.k === "milestone") out.push({ g: s, via: via });
+      else if (n.k === "document") out.push({ g: "g:file", via: via });
+      else if (n.k === "entry") out.push({ g: "g:loan", via: via });
+      else if (n.k === "field") {
+        out.push({ g: "g:field", via: via });
+        (X.effTo[s] || []).forEach(function (e) { if (e.ef === "field:update") out = out.concat(sourcesOf(e.r, s2, via)); });
+      } else if (n.k === "timer") {
+        (X.effTo[s] || []).forEach(function (e) {
+          if (e.ef === "timer:start") out = out.concat(sourcesOf(e.r, s2, (via || []).concat([n.l])));
+        });
+      }
+    });
+    return out;
+  }
+  function buildFlow() {
+    var flows = {}, badges = {};
+    function addBadge(g, kind, sn) { ((badges[g] || (badges[g] = {}))[kind] || (badges[g][kind] = [])).push(sn); }
+    D.e.forEach(function (e) {
+      if (e.k !== "effects" || (!admin && e.ia)) return;
+      var tn = N[e.t]; if (!tn) return;
+      var srcs;
+      if (tn.k === "task" || tn.k === "subtask") {
+        var T = parentTask(e.t); if (!T) return;
+        srcs = sourcesOf(e.r, {}, null);
+        srcs.forEach(function (s) {
+          if (s.g === T) return;
+          var key = s.g + ">" + T;
+          var f = flows[key] || (flows[key] = { f: s.g, t: T, items: [] });
+          var sn = (s.via && s.via.length ? "(after ⏱ " + s.via.join(", ") + " runs out) " : "") + e.sn;
+          if (f.items.indexOf(sn) < 0) f.items.push(sn);
+        });
+      } else if (tn.k === "external") {
+        srcs = sourcesOf(e.r, {}, null);
+        srcs.forEach(function (s) { if (N[s.g]) addBadge(s.g, tn.xk, e.sn); });
+      } else if (tn.k === "timer") {
+        (X.ruleSrc[e.r] || []).forEach(function (s) {
+          var T2 = parentTask(s);
+          if (T2) addBadge(T2, "timer", e.sn);
+          else if (N[s] && N[s].k === "milestone") addBadge(s, "timer", e.sn);
+        });
+      }
+    });
+    FLOW = { flows: flows, badges: badges };
+  }
+  var GUT = [["g:loan", "Loan created"], ["g:field", "A loan field changes"], ["g:file", "A file is attached"]];
+  function renderStage() {
+    var p = $("p-stage");
+    p.innerHTML = '<p class="intro">The loan moves left to right through its stages. Each box is a task; arrows mean a workflow rule makes one thing cause another. ' +
+      "Hover an arrow to read what it does. Click a task, milestone or loan event to isolate its arrows and read the details. " +
+      "Outside actions appear as small badges on the task they belong to.</p>" +
+      '<div class="legend" id="legend"></div><div class="dbox" id="stageBox" style="max-height:78vh"></div><div id="stagePanel"></div>';
+    var lg = "";
+    Object.keys(BADGE).forEach(function (k) { lg += "<span><i class=\"lg-" + k + "\">" + BADGE[k][0] + "</i>" + esc(BADGE[k][1]) + "</span>"; });
+    $("legend").innerHTML = lg;
+    buildFlow();
+    var cols = D.stages.map(function (s) { return { id: s[0], name: s[1], tasks: [], ms: [] }; });
+    if (admin) cols.push({ id: "_none", name: "Not placed", tasks: [], ms: [], sub: "no stage known" });
+    var byCol = {}; cols.forEach(function (c) { byCol[c.id] = c; });
+    Object.keys(N).sort().forEach(function (id) {
+      var n = N[id];
+      if (n.k !== "task" && n.k !== "milestone") return;
+      var c = byCol[n.s || "_none"]; if (!c) return;
+      if (n.k === "task") c.tasks.push(id); else c.ms.push(id);
+    });
+    function subcat(id) { var r = (N[id].raw || "").split("_"); return r.length > 2 ? r[1] : ""; }
+    cols.forEach(function (c) {
+      c.tasks.sort(function (a, b) { return subcat(a).localeCompare(subcat(b)) || N[a].l.localeCompare(N[b].l); });
+    });
+    var GW = 176, CW = 236, TW = 196, RH = 25, HH = 44, MSH = 26;
+    var maxMs = Math.max.apply(null, cols.map(function (c) { return c.ms.length; }).concat([1]));
+    var top = HH + maxMs * MSH + 16, maxT = Math.max.apply(null, cols.map(function (c) { return c.tasks.length; }));
+    var H = top + maxT * RH + 24, Wd = GW + cols.length * CW + 10;
+    var svg = el("svg", { width: Wd, height: H, viewBox: "0 0 " + Wd + " " + H, role: "img", "aria-label": "Stage map" });
+    var defs = el("defs", null, svg);
+    var mk = el("marker", { id: "ahs", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "6", markerHeight: "6", orient: "auto-start-reverse" }, defs);
+    el("path", { d: "M0 1 L10 5 L0 9 z", "class": "tip" }, mk);
+    var geo = {};
+    cols.forEach(function (c, ci) {
+      var x = GW + ci * CW;
+      el("rect", { x: x, y: 0, width: CW, height: H, "class": "lane-bg" + (ci % 2 ? " alt" : "") }, svg);
+      el("line", { x1: x, y1: 0, x2: x, y2: H, "class": "lane-line" }, svg);
+      var h = el("text", { x: x + 12, y: 22, "class": "lane-head" }, svg); h.textContent = (STAGE_NUM[c.id] ? STAGE_NUM[c.id] + ". " : "") + c.name;
+      var sb = el("text", { x: x + 12, y: 37, "class": "lane-sub" }, svg);
+      sb.textContent = c.tasks.length + " task" + (c.tasks.length === 1 ? "" : "s");
+      c.ms.forEach(function (m, k) {
+        var mn = N[m], y = HH + k * MSH, label = trunc(mn.l, 22), w = 8 + label.length * 6.4 + (mn.tr ? 46 : 0) + 16;
+        geo[m] = { x: x + 10, y: y, w: Math.min(w, TW), h: 20 };
+      });
+      c.tasks.forEach(function (t, k) { geo[t] = { x: x + 10, y: top + k * RH, w: TW, h: 21 }; });
+    });
+    // gutter
+    var gt = el("text", { x: 12, y: 22, "class": "gut-title" }, svg); gt.textContent = "LOAN EVENTS";
+    GUT.forEach(function (g, i) { geo[g[0]] = { x: 10, y: HH + 20 + i * 58, w: GW - 30, h: 40 }; });
+    // arrows
+    var ag = el("g", null, svg), keys = Object.keys(FLOW.flows).sort();
+    var placed = function (id) { return !!geo[id]; };
+    keys.forEach(function (k) {
+      var f = FLOW.flows[k]; if (!placed(f.f) || !placed(f.t)) return;
+      var A = geo[f.f], B = geo[f.t], x1 = A.x + A.w, y1 = A.y + A.h / 2, y2 = B.y + B.h / 2, d, x2;
+      if (B.x > x1 + 4) { x2 = B.x; var dx = Math.max(30, (x2 - x1) / 2.2); d = "M" + x1 + " " + y1 + " C" + (x1 + dx) + " " + y1 + " " + (x2 - dx) + " " + y2 + " " + x2 + " " + y2; }
+      else if (Math.abs(B.x - A.x) < 2) { x2 = B.x + B.w; var bu = 22 + Math.abs(y2 - y1) * 0.12; d = "M" + x1 + " " + y1 + " C" + (x1 + bu) + " " + y1 + " " + (x2 + bu) + " " + y2 + " " + x2 + " " + y2; }
+      else { x2 = B.x; d = "M" + x1 + " " + y1 + " C" + (x1 + 50) + " " + y1 + " " + (x2 - 50) + " " + y2 + " " + x2 + " " + y2; }
+      var tipText = f.items.slice(0, 3).join("\n\n") + (f.items.length > 3 ? "\n\n(+" + (f.items.length - 3) + " more)" : "");
+      var g = el("g", { "class": "a faint" + (String(f.f).indexOf("g:") === 0 ? " fromgut" : ""), "data-f": f.f, "data-t": f.t, "data-tip": tipText }, ag);
+      el("path", { d: d, "class": "hit" }, g);
+      el("path", { d: d, "class": "line", "marker-end": "url(#ahs)" }, g);
+    });
+    // nodes
+    var ng = el("g", null, svg);
+    function node(id, label, cls, tipT) {
+      var g = geo[id], gn = el("g", { "class": "n " + cls, "data-id": id, tabindex: "0", role: "button", "data-tip": tipT || label }, ng);
+      el("rect", { x: g.x, y: g.y, width: g.w, height: g.h, rx: cls.indexOf("k-milestone") >= 0 ? 10 : 5 }, gn);
+      return gn;
+    }
+    cols.forEach(function (c) {
+      c.ms.forEach(function (m) {
+        var mn = N[m], g = geo[m];
+        var tipT = mn.l + (mn.tr === "equity" ? " milestone (Equity track)" : " milestone") + ": the loan reaches this point in Encompass";
+        var gn = node(m, mn.l, "k-milestone", tipT);
+        var t = el("text", { x: g.x + 10, y: g.y + 14, "text-anchor": "start" }, gn); t.textContent = "◆ " + trunc(mn.l, 22);
+        if (mn.tr === "equity") {
+          var tx = g.x + g.w - 44, eg = el("g", { "class": "eq" }, gn);
+          el("rect", { x: tx, y: g.y + 4, width: 38, height: 12, rx: 6 }, eg);
+          var et = el("text", { x: tx + 19, y: g.y + 13 }, eg); et.textContent = "Equity";
+        }
+      });
+      c.tasks.forEach(function (tid) {
+        var n = N[tid], g = geo[tid], bs = FLOW.badges[tid] || {}, kinds = Object.keys(BADGE).filter(function (k) { return bs[k]; });
+        var gn = node(tid, n.l, "k-task" + (n.rb && admin ? " rb" : ""), n.l + (STAGE_NAME[n.s] ? " — " + STAGE_NAME[n.s] : ""));
+        var maxc = 26 - Math.max(0, kinds.length - 2) * 2;
+        var t = el("text", { x: g.x + 8, y: g.y + 15, "text-anchor": "start" }, gn); t.textContent = trunc(n.l, maxc);
+        kinds.forEach(function (k, i) {
+          var bx = g.x + g.w - 16 - (kinds.length - 1 - i) * 15, bgp = el("g", { "class": "badge bk-" + k, "data-tip": BADGE[k][1] + ": " + trunc(bs[k][0], 160) + (bs[k].length > 1 ? " (+" + (bs[k].length - 1) + " more)" : "") }, gn);
+          el("rect", { x: bx, y: g.y + 4, width: 13, height: 13, rx: 3 }, bgp);
+          var bt = el("text", { x: bx + 6.5, y: g.y + 14 }, bgp); bt.textContent = BADGE[k][0];
+        });
+      });
+    });
+    GUT.forEach(function (g) {
+      var geom = geo[g[0]], gn = node(g[0], g[1], "k-entry", g[1] + " — workflow rules react when this happens");
+      var lines = wrap(g[1], 20, 2);
+      lines.forEach(function (ln, i) { var t = el("text", { x: geom.x + geom.w / 2, y: geom.y + 17 + i * 14, "text-anchor": "middle" }, gn); t.textContent = ln; });
+    });
+    var box = $("stageBox"); box.appendChild(svg);
+    function select(id) {
+      S.stageSel = id;
+      svg.classList.toggle("has-sel", !!id);
+      svg.querySelectorAll(".a").forEach(function (a) {
+        var on = id && (a.getAttribute("data-f") === id || a.getAttribute("data-t") === id);
+        a.classList.toggle("hl", !!on); a.classList.toggle("dim", !!(id && !on));
+      });
+      svg.querySelectorAll(".n").forEach(function (n) { n.classList.toggle("hl", n.getAttribute("data-id") === id); });
+      renderStagePanel(id);
+    }
+    svg.addEventListener("click", function (ev) {
+      var n = ev.target.closest(".n");
+      if (n) select(S.stageSel === n.getAttribute("data-id") ? null : n.getAttribute("data-id"));
+      else if (!ev.target.closest(".a")) select(null);
+    });
+    svg.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" || ev.key === " ") { var n = ev.target.closest(".n"); if (n) { ev.preventDefault(); select(n.getAttribute("data-id")); } }
+    });
+    if (S.stageSel && geo[S.stageSel]) select(S.stageSel); else select(null);
+  }
+  function renderStagePanel(id) {
+    var p = $("stagePanel");
+    if (!id) { p.innerHTML = ""; return; }
+    if (id.indexOf("g:") === 0) {
+      var f = FLOW, h = '<div class="card pad selpanel"><h3 class="title">' + esc(GUT.filter(function (g) { return g[0] === id; })[0][1]) + '</h3><ul class="sent">';
+      var seen = {};
+      Object.keys(f.flows).sort().forEach(function (k) { var fl = f.flows[k]; if (fl.f === id) fl.items.forEach(function (s) { if (!seen[s]) { seen[s] = 1; h += "<li>" + esc(s) + "</li>"; } }); });
+      p.innerHTML = h + "</ul></div>"; return;
+    }
+    var n = N[id], h2 = '<div class="card pad selpanel"><h3 class="title">' + esc(lab(id)) + "</h3>";
+    if (n.k === "task") h2 += '<p class="muted">' + esc(STAGE_NAME[n.s] || "Stage not known") + " · " + (X.children[id] || []).length + " subtasks</p>";
+    var bs = FLOW.badges[id];
+    if (bs) {
+      h2 += '<div class="sec" style="margin-top:12px"><h3>Outside actions</h3><ul class="sent">';
+      Object.keys(BADGE).forEach(function (k) {
+        if (bs[k]) { var u = {}; bs[k].forEach(function (s) { if (!u[s]) { u[s] = 1; h2 += "<li><b>" + esc(BADGE[k][1]) + ".</b> " + esc(s) + "</li>"; } }); }
+      });
+      h2 += "</ul></div>";
+    }
+    h2 += '<div class="cols2" style="margin-top:12px"><div class="sec"><h3>What starts it</h3>' +
+      listHtml(starts(id, 2), HOPNAME_S, "sp" + id, "Nothing in the current rules starts this; it is created or done by a person.") +
+      '</div><div class="sec"><h3>What it causes</h3>' +
+      listHtml(causes(id, 2), HOPNAME_C, "sc" + id, "No known rule reacts to this yet.") + "</div></div>" +
+      '<details class="tech"><summary>Details</summary>' + techHtml(id) + "</details>" +
+      '<p style="margin-top:10px"><button class="btn" data-goto="' + esc(id) + '">Open in “What happens when…”</button></p></div>';
+    p.innerHTML = h2;
+  }
+
+  /* ---------- What happens when ---------- */
+  function searchable() {
+    var out = [];
+    Object.keys(N).forEach(function (id) {
+      var n = N[id];
+      if (n.k === "task" || n.k === "subtask" || n.k === "field" || n.k === "timer") out.push(id);
+    });
+    return out.sort(function (a, b) { return N[a].l.localeCompare(N[b].l); });
+  }
+  var ALL = null;
+  function matches(q) {
+    q = q.trim().toLowerCase(); if (!q) return [];
+    var toks = q.split(/\s+/);
+    return ALL.filter(function (id) {
+      var n = N[id], hay = (n.l + " " + (n.raw || "") + " " + kindWord(n.k)).toLowerCase();
+      return toks.every(function (t) { return hay.indexOf(t) >= 0; });
+    });
+  }
+  function renderFocusShell() {
+    var p = $("p-focus");
+    p.innerHTML = '<p class="intro">Find any task, subtask, field or timer to see what starts it and what it causes, a few steps each way.</p>' +
+      '<div class="card pad"><label for="q" class="muted" style="font-size:13px">Search</label>' +
+      '<input id="q" class="search" type="search" autocomplete="off" placeholder="Try “Underwrite”, “Appraisal” or a field number" value="' + esc(S.query) + '">' +
+      '<div class="chips" id="eg"><span class="muted" style="font-size:13px">Examples:</span></div>' +
+      '<div class="res-list" id="results" hidden></div></div><div id="focusOut"></div>';
+    ["Underwrite", "Appraisal", "Send Denial", "Fraud", "Counteroffer"].forEach(function (s) {
+      var b = document.createElement("button"); b.className = "chip"; b.type = "button"; b.textContent = s;
+      b.addEventListener("click", function () { $("q").value = s; S.query = s; showResults(); });
+      $("eg").appendChild(b);
+    });
+    $("q").addEventListener("input", function () { S.query = this.value; showResults(); });
+    $("results").addEventListener("click", function (ev) {
+      var b = ev.target.closest(".res"); if (b) { S.focus = b.getAttribute("data-id"); $("results").hidden = true; renderFocusOut(); }
+    });
+    showResults(); renderFocusOut();
+  }
+  function showResults() {
+    var box = $("results"), m = matches(S.query);
+    if (!S.query.trim()) { box.hidden = true; return; }
+    box.hidden = false;
+    if (!m.length) { box.innerHTML = '<div class="pad muted">Nothing matches “' + esc(S.query) + "”.</div>"; return; }
+    var h = "";
+    m.slice(0, 60).forEach(function (id) {
+      var n = N[id], sub = n.k === "subtask" ? "" : (n.s ? STAGE_NAME[n.s] : "");
+      h += '<button class="res" data-id="' + esc(id) + '"><span class="kd">' + kindWord(n.k) + "</span><span>" + esc(lab(id)) + '</span><span class="sub">' + esc(sub) + "</span></button>";
+    });
+    if (m.length > 60) h += '<div class="pad muted">' + (m.length - 60) + " more — keep typing to narrow it down.</div>";
+    box.innerHTML = '<div class="pad muted" style="font-size:13px" id="rescount">' + m.length + " result" + (m.length === 1 ? "" : "s") + "</div>" + h;
+  }
+  function focusDiagram(id, cs, ss) {
+    var nodes = [id], arrows = [], seenA = {}, ni = {};
+    ni[id] = 1;
+    function add(i) { if (!ni[i]) { ni[i] = 1; nodes.push(i); } }
+    var cap = 48;
+    function arrow(f, t, tipT, cls) {
+      if (f === t || arrows.length >= cap) return;
+      var k = f + ">" + t + cls; if (seenA[k]) return; seenA[k] = 1;
+      add(f); add(t); arrows.push({ f: f, t: t, tip: tipT, cls: cls || "", key: k });
+    }
+    function resolveSelf(n) { var pt = parentTask(n); return (pt && pt === id) || n === id ? id : n; }
+    cs.forEach(function (it) {
+      if (it.cond) { arrow(it.cond.s, id, "Encompass checks this field before a rule runs", "cond"); return; }
+      var e = it.e, tn = N[e.t]; if (!tn) return;
+      var from = resolveSelf(it.from), to = e.t;
+      if (tn.k === "external") { to = "x:" + from + ":" + tn.xk; N[to] = { k: "external", l: EXT_LABEL[tn.xk] || tn.l, xk: tn.xk }; }
+      else to = resolveSelf(to);
+      arrow(from, to, e.sn, e.oe && admin ? "open" : "");
+    });
+    ss.forEach(function (it) {
+      if (it.enter) return;
+      var e = it.e, to = resolveSelf(it.to);
+      (X.ruleSrc[e.r] || []).slice(0, 4).forEach(function (s) { if (N[s]) arrow(resolveSelf(s), to, e.sn, ""); });
+    });
+    return { nodes: nodes, arrows: arrows };
+  }
+  function renderFocusOut() {
+    var o = $("focusOut"), id = S.focus;
+    if (!id || !N[id]) { o.innerHTML = ""; return; }
+    var n = N[id], cs = causes(id, 3), ss = starts(id, 3);
+    var h = '<div class="card pad selpanel" style="margin-top:18px"><h3 class="title">' + esc(lab(id)) + "</h3>" +
+      '<p class="muted"><span class="kdchip">' + kindWord(n.k) + "</span>" + (n.s ? esc(STAGE_NAME[n.s] || "") : "") +
+      (n.k === "task" ? " · includes its " + (X.children[id] || []).length + " subtasks" : "") + "</p>" +
+      '<div class="cols2" style="margin-top:14px"><div class="sec"><h3>What starts it</h3>' +
+      listHtml(ss, HOPNAME_S, "fs" + id, "Nothing in the current rules starts this. It is created or done by a person.") +
+      '</div><div class="sec"><h3>What it causes</h3>' + listHtml(cs, HOPNAME_C, "fc" + id, "No known rule reacts to this yet.") +
+      '</div></div><details class="tech"><summary>Details</summary>' + techHtml(id) + "</details></div>" +
+      '<div class="dbox" id="fdiag" style="margin-top:14px"></div><p class="muted" style="font-size:13px">Click any box in the diagram to explore from there. Dotted arrows are field checks; dashed ones lead nowhere known yet.</p>';
+    o.innerHTML = h;
+    var d = focusDiagram(id, cs, ss);
+    var box = $("fdiag");
+    if (d.arrows.length) {
+      diagram(box, d.nodes, d.arrows, { uid: "f", focusId: id, label: "What happens around " + plainLab(id) });
+      var fg = box._geo && box._geo[id];
+      if (fg) box.scrollLeft = Math.max(0, fg.x - box.clientWidth / 2 + fg.w / 2);
+      box.addEventListener("click", function (ev) {
+        var nn = ev.target.closest(".n"); if (!nn) return;
+        var nid = nn.getAttribute("data-id"); if (nid.indexOf("x:") === 0) return;
+        S.focus = nid; renderFocusOut(); window.scrollTo({ top: $("p-focus").offsetTop - 10 });
+      });
+    } else box.outerHTML = "";
+  }
+  function gotoFocus(id) {
+    S.focus = id; S.query = plainLab(id); setTab("focus");
+  }
+
+  /* ---------- Timers ---------- */
+  function renderTimers() {
+    var p = $("p-timers"), ids = Object.keys(N).filter(function (i) { return N[i].k === "timer"; })
+      .sort(function (a, b) { return N[a].l.localeCompare(N[b].l); });
+    var none = '<p class="muted">No known rule yet.</p>';
+    function ul(arr) {
+      if (!arr.length) return none;
+      return '<ul class="sent">' + arr.map(function (e) { return '<li class="' + (e.ia ? "ia" : "") + '">' + esc(e.sn) + flags(e) + "</li>"; }).join("") + "</ul>";
+    }
+    var h = '<p class="intro">Timers wait in the background and then set off more work. Each one is shown by name with what starts it, what happens when it runs out, and what stops it early.</p><div class="timers">';
+    ids.forEach(function (id) {
+      var st = (X.effTo[id] || []).filter(function (e) { return e.k === "effects"; });
+      var stop = (X.effTo[id] || []).filter(function (e) { return e.k === "cancels"; });
+      var out = [];
+      (X.trigFrom[id] || []).forEach(function (r) { (X.ruleEff[r] || []).forEach(function (e) { out.push(e); }); });
+      h += '<div class="card pad timer-card"><h3>⏱ ' + esc(N[id].l) + "</h3>" +
+        '<div class="sec"><h3>What starts it</h3>' + ul(st) + '</div><div class="sec"><h3>When it runs out</h3>' + ul(out) +
+        '</div><div class="sec"><h3>What stops it</h3>' + (stop.length ? ul(stop) : '<p class="muted">Nothing stops it early.</p>') + "</div>" +
+        '<details class="tech"><summary>Details</summary>' + techHtml(id) + "</details></div>";
+    });
+    p.innerHTML = h + "</div>";
+  }
+
+  /* ---------- shell ---------- */
+  var RENDER = { walk: renderWalk, stage: renderStage, focus: renderFocusShell, timers: renderTimers };
+  var DONE = {};
+  function renderCurrent() { RENDER[tab](); DONE[tab] = true; }
+  function setTab(t) {
+    tab = t;
+    ["walk", "stage", "focus", "timers"].forEach(function (k) {
+      $("p-" + k).hidden = k !== t;
+      $("t-" + k).setAttribute("aria-selected", String(k === t));
+    });
+    renderCurrent();
+    $("sheet").hidden = true;
+    try { sessionStorage.setItem("rm-tab", t); } catch (e) {}
+  }
+  $("tabs").addEventListener("click", function (ev) { var b = ev.target.closest(".tab"); if (b) setTab(b.getAttribute("data-tab")); });
+  $("adminTog").addEventListener("change", function () {
+    admin = this.checked; document.body.classList.toggle("admin", admin);
+    buildIdx(); renderCurrent();
+    try { localStorage.setItem("rm-admin", admin ? "1" : "0"); } catch (e) {}
+  });
+  function applyTheme(t) {
+    if (t) document.documentElement.setAttribute("data-theme", t); else document.documentElement.removeAttribute("data-theme");
+  }
+  $("themeTog").addEventListener("click", function () {
+    var cur = document.documentElement.getAttribute("data-theme");
+    if (!cur) cur = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    var nx = cur === "dark" ? "light" : "dark"; applyTheme(nx);
+    try { localStorage.setItem("rm-theme", nx); } catch (e) {}
+  });
+  try { var th = localStorage.getItem("rm-theme"); if (th) applyTheme(th); } catch (e) {}
+
+  var c = D.cov || {};
+  $("prov").innerHTML = "<span>Built from " + (c.activeRules != null ? c.activeRules : "?") + " active workflow rules (" + (c.exports || "?") + " exports)</span>" +
+    "<span>Rules snapshot " + esc((D.gen || "").slice(0, 10)) + "</span>";
+  ALL = searchable();
+  buildIdx();
+  var first = D.wt.length ? "walk" : "stage";
+  try { if (localStorage.getItem("rm-admin") === "1") { admin = true; $("adminTog").checked = true; document.body.classList.add("admin"); buildIdx(); } } catch (e) {}
+  setTab(first);
+  window.__rulesMap = { setTab: setTab, focus: gotoFocus, N: N, D: D };
+})();
+</script>
