@@ -120,7 +120,17 @@ flags hyphen/en-dash mismatches.
 4. Review `docs/RULES_CROSSREF.md`: unknown task/subtask types, hyphen/en-dash mismatches,
    tasks with no rule. Also check duplicates across exports (e.g. `Subtask_AppraisalCancel`
    appears twice; identical ids collapse to one rule).
-5. Commit exports, `rules/by_event/`, `rules/rules.json`, and the generated docs together.
+5. Rebuild the map: `python rules_graph.py && python rules_cascades.py && python rules_map.py && python rules_map_docs.py`.
+   New fields appear in the map with raw ids; add them to `rules/field_labels.csv` (keep existing labels).
+6. Commit exports, `rules/by_event/`, `rules/rules.json`, and the generated docs together.
+
+## Rules map
+
+`docs/rules_map.html` (linked from `roadmap.html`) explains the rules to operations staff:
+walkthroughs of named scenarios, a stage map, a "what happens when…" search, and timers.
+`docs/RULES_MAP.md` is the GitHub-rendered equivalent. Both are generated from `rules/graph.json`
+and `rules/cascades.json`; plain-English labels come from `rules/field_labels.csv` and
+`rules/annotations.json`. Plan and design notes: `docs/RULES_MAP_PLAN.md`.
 
 ## Renaming types - the rule
 

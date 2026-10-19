@@ -43,6 +43,10 @@ mortgage-tasks/
 ├── reconcile_refresh.py       ← script: refresh the reconciliation artefacts without exports
 ├── parse_rules.py             ← script: parse rules/exports into by_event/, rules.json, catalogue
 ├── rules_crossref.py          ← script: validate rule → task/subtask type references
+├── rules_graph.py             ← script: rules + tasks + roadmap → rules/graph.json
+├── rules_cascades.py          ← script: graph → rules/cascades.json (walkthroughs, chains)
+├── rules_map.py               ← script: graph + cascades → docs/rules_map.html
+├── rules_map_docs.py          ← script: graph → docs/RULES_MAP.md (Mermaid + per-task tables)
 └── rules/
     ├── exports/               ← raw Encompass rule exports (never hand-edit)
     ├── by_event/              ← generated: one importable XML per rule, grouped by event
@@ -263,6 +267,10 @@ Full guide: **`docs/RULES.md`**.
 ```bash
 python parse_rules.py [--json]   # rules/exports → by_event/, rules.json, docs/RULES_CATALOG.md
 python rules_crossref.py         # → docs/RULES_CROSSREF.md, docs/rules_crossref.json
+python rules_graph.py            # → rules/graph.json
+python rules_cascades.py         # → rules/cascades.json
+python rules_map.py              # → docs/rules_map.html (staff-facing interactive map)
+python rules_map_docs.py         # → docs/RULES_MAP.md
 ```
 
 | Output | Purpose |
@@ -271,9 +279,15 @@ python rules_crossref.py         # → docs/RULES_CROSSREF.md, docs/rules_crossr
 | `rules/rules.json` | Parsed rules, derived `match`, `effects`, `timers` index |
 | `docs/RULES_CATALOG.md` | Catalogue: by task type, timer chains, per-event list |
 | `docs/RULES_CROSSREF.md` / `rules_crossref.json` | Missing types, hyphen/en-dash mismatches, tasks with no rule |
+| `rules/graph.json` / `rules/cascades.json` | Interaction graph and traced walkthroughs behind the map |
+| `docs/rules_map.html` | Interactive map for operations staff (linked from `roadmap.html`); edit `docs/rules_map_template.html`, not the output |
+| `docs/RULES_MAP.md` | GitHub-rendered stage/timer diagrams and per-task "how it is driven" tables |
+
+Hand-maintained inputs to the map: `rules/field_labels.csv` (field id → plain-English label)
+and `rules/annotations.json` (milestone → stage, notification/service labels, walkthrough scenarios).
 
 Generated files are overwritten on each run; never hand-edit them or `rules/exports/`.
-New export: drop it in `rules/exports/` (must be UTF-8), run both scripts, review the crossref.
+New export: drop it in `rules/exports/` (must be UTF-8), run all six scripts in the order above, review the crossref.
 **Before renaming a task or subtask `type`, check `rules/rules.json` / `docs/RULES_CROSSREF.md`.**
 
 ---
