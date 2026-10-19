@@ -40,7 +40,13 @@ mortgage-tasks/
 ├── export_joined.py           ← script: merge XMLs into one joined file
 ├── compare_configured.py      ← script: diff this repo against live Encompass exports
 ├── reconcile_adopt.py         ← script: adopt the Encompass side of a ledger row
-└── reconcile_refresh.py       ← script: refresh the reconciliation artefacts without exports
+├── reconcile_refresh.py       ← script: refresh the reconciliation artefacts without exports
+├── parse_rules.py             ← script: parse rules/exports into by_event/, rules.json, catalogue
+├── rules_crossref.py          ← script: validate rule → task/subtask type references
+└── rules/
+    ├── exports/               ← raw Encompass rule exports (never hand-edit)
+    ├── by_event/              ← generated: one importable XML per rule, grouped by event
+    └── rules.json             ← generated: parsed rules + timers index
 ```
 
 ---
@@ -244,6 +250,31 @@ python reconcile_refresh.py --resolved Processing_FileSetup_PullDeed
 `reconcile_adopt.py` self-verifies after writing and exits non-zero if any recorded delta
 is left unresolved. Decisions and open items go in `docs/reconciliation_resolutions.json`.
 If the raw exports *are* present, `compare_configured.py` supersedes `reconcile_refresh.py`.
+
+---
+
+## Workflow Rules
+
+`rules/exports/` holds workflow automation rules (Encompass "event triggers") exported from
+Encompass. They create/complete tasks and subtasks, start timers, update fields, etc., and
+reference tasks and subtasks by their **`type`** — the same import keys as `tasks/`.
+Full guide: **`docs/RULES.md`**.
+
+```bash
+python parse_rules.py [--json]   # rules/exports → by_event/, rules.json, docs/RULES_CATALOG.md
+python rules_crossref.py         # → docs/RULES_CROSSREF.md, docs/rules_crossref.json
+```
+
+| Output | Purpose |
+|---|---|
+| `rules/by_event/{event}/{rule}.xml` | One importable file per rule |
+| `rules/rules.json` | Parsed rules, derived `match`, `effects`, `timers` index |
+| `docs/RULES_CATALOG.md` | Catalogue: by task type, timer chains, per-event list |
+| `docs/RULES_CROSSREF.md` / `rules_crossref.json` | Missing types, hyphen/en-dash mismatches, tasks with no rule |
+
+Generated files are overwritten on each run; never hand-edit them or `rules/exports/`.
+New export: drop it in `rules/exports/` (must be UTF-8), run both scripts, review the crossref.
+**Before renaming a task or subtask `type`, check `rules/rules.json` / `docs/RULES_CROSSREF.md`.**
 
 ---
 
@@ -474,6 +505,7 @@ The 15 remaining **planned** tasks (highest priority first — work these first)
 | Using the roadmap 1-10 priority in XML | Map to 1-5 scale (see Priority Mapping table above) |
 | Skipping `conditional`/`later` subtasks | Include them in XML with `autoCreate="false"` |
 | Setting `required="false"` on any subtask | Always use `required="true"` — `autoCreate` is the conditional field, not `required` |
+| Renaming a task or subtask `type` without checking rules | Workflow rules match on the exact `type`; search `rules/rules.json` / `docs/RULES_CROSSREF.md` first or the rule silently stops firing |
 | Forgetting to update `metadata.completedTasks` | Always increment this counter |
 | Committing without updating activityLog | Always append a log entry (the array is `activityLog`, entries use an `author` field — there is no `agentLog`) |
 | Confusing `--workspace-uid` with `--associations` | `--workspace-uid` is a shorthand that appends one workspace entry; use `--associations` for role assignees or multiple association types |
@@ -535,6 +567,10 @@ own collision and is mirrored deliberately — `type` is the import matching key
 | `tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml` | Real task with multiple subtask associations |
 | `docs/conventions.md` | Authoritative XML rules |
 | `docs/RECONCILIATION_RUNBOOK.md` | How to resolve an Encompass ↔ repo ledger row |
+| `docs/RULES.md` | Workflow rules guide: model, URN glossary, timers, ingest workflow |
+| `docs/RULES_CATALOG.md` | Generated catalogue of all rules |
+| `docs/RULES_CROSSREF.md` | Rule references vs. `tasks/` types; tasks with no rule |
+| `rules/rules.json` | Parsed rules, machine-readable |
 | `docs/reconciliation_resolutions.json` | Which side won each resolved row, and why |
 | `AGENT_INSTRUCTIONS.md` | Full agent workflow with examples |
 | `SUBTASK_TYPES.md` | Subtask type decision tree |

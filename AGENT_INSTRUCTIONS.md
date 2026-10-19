@@ -399,6 +399,7 @@ Before marking complete, verify:
 - [ ] Metadata counts are accurate
 - [ ] Agent log entry is complete and descriptive
 - [ ] No `taskTemplateId` inside subtask elements
+- [ ] If a task or subtask `type` was changed, `rules/rules.json` / `docs/RULES_CROSSREF.md` checked for rules referencing the old type (see `docs/RULES.md`)
 
 ## Reference Files
 

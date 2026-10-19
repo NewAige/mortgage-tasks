@@ -1,0 +1,2229 @@
+{
+  "anomalies": {
+    "copyPrefixedNames": [
+      "copy_Service_UndisclosedDebtActivate"
+    ],
+    "inactiveRules": [
+      "SubTask_FileClosure_InitialDocs",
+      "Task_HOIReview"
+    ],
+    "mixedCaseCxUdPilot": [
+      "Scheduler_UndisclosedDebtCancel"
+    ],
+    "roleIdUndefined": [
+      "Processor/Underwriter Assign (Wholesale): Loan Processor"
+    ],
+    "subtaskTypeHyphenNotEnDash": [
+      "Disclosures_NOI: Notice of Incomplete - Send"
+    ]
+  },
+  "brokenSubtasks": [
+    {
+      "class": "no-match",
+      "closest": "Confirm Funding – Add Funding Worksheet to eFolder",
+      "detail": "no matching subtask",
+      "refs": [
+        {
+          "role": "subtask-creates",
+          "rule": "SubTask_ConfirmFunding_Disbursement"
+        }
+      ],
+      "subtask": "Confirm Funding – Complete Settlement Worksheet",
+      "task": "Funding_Funding_ConfirmFunding"
+    },
+    {
+      "class": "no-match",
+      "closest": "Review Credit – Review Liens",
+      "detail": "no matching subtask",
+      "refs": [
+        {
+          "role": "subtask-trigger",
+          "rule": "Condition_CreditReview_Inquiry"
+        }
+      ],
+      "subtask": "Review Credit – Inquiries",
+      "task": "Processing_FileSetup_ReviewCredit"
+    },
+    {
+      "class": "task-missing",
+      "detail": "task type not in tasks/",
+      "refs": [
+        {
+          "role": "subtask-trigger",
+          "rule": "Disclosures_AVM Delivery"
+        }
+      ],
+      "subtask": "Send AVM – Send AVM",
+      "task": "Processing_SendAVM"
+    }
+  ],
+  "brokenTasks": [
+    {
+      "closest": "Funding_FundLoan",
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_1008_Final"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_Flood_Determination"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_HO_Insurance_Dates"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_Index_Set_Date"
+    },
+    {
+      "closest": "Funding_FundLoan",
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_Land_MLA"
+    },
+    {
+      "closest": "Funding_FundLoan",
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_Loan_Estimates"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_MI_Certificate"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "FundingQC_Verbal_VOE"
+    },
+    {
+      "closest": "FundingQC_Fraud_X_Report",
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        },
+        {
+          "role": "creates",
+          "rule": "Task_FraudXReview"
+        },
+        {
+          "role": "trigger",
+          "rule": "Task_FraudXReviewComplete"
+        }
+      ],
+      "task": "PreClosing_Fraud_X_Report"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "PreDisclosure_PreApproval_1003"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "creates",
+          "rule": "Task_PreApp_Credit"
+        }
+      ],
+      "task": "PreDisclosure_PreApproval_Credit"
+    },
+    {
+      "closest": "Processing_Misc_SendDenial",
+      "refs": [
+        {
+          "role": "subtask-trigger",
+          "rule": "Disclosures_AVM Delivery"
+        },
+        {
+          "role": "creates",
+          "rule": "Task_AVM"
+        }
+      ],
+      "task": "Processing_SendAVM"
+    },
+    {
+      "closest": "Underwriting_Counter_Second",
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "Underwriting_ContractUWApproval"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "auto_2d3dfd67-84a6-4d55-a443-23a2d8ba79c7"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "auto_7d75e7e7-32bd-438c-aa31-46bf68fe03db"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "auto_931feddf-bfbb-4d68-8621-89aef47a46e6"
+    },
+    {
+      "closest": null,
+      "refs": [
+        {
+          "role": "completes",
+          "rule": "Task_Cancel_AllAdverse"
+        }
+      ],
+      "task": "auto_d8e42d32-3cab-4b9b-980d-d36ade5e8d79"
+    }
+  ],
+  "duplicateRepoTaskTypes": [],
+  "inactiveRules": [
+    {
+      "name": "SubTask_FileClosure_InitialDocs",
+      "xmlFile": "rules/by_event/task_created/subtask_fileclosure_initialdocs.xml"
+    },
+    {
+      "name": "Task_HOIReview",
+      "xmlFile": "rules/by_event/file_attached/task_hoireview.xml"
+    }
+  ],
+  "linkage": [
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_071",
+      "name": "File Follow Up (15 Day)",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Live App Follow Up (15 Days)"
+        ],
+        "subtask-trigger": [
+          "Task_CreateNOI_15Day"
+        ]
+      },
+      "stage": "1_origination",
+      "status": "completed",
+      "taskTypes": [
+        "PipelineMgt_PreApp_FollowUp15"
+      ],
+      "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_15_day_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_072",
+      "name": "File Follow Up (30 Day)",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Live App Follow Up (30 Days)"
+        ],
+        "subtask-trigger": [
+          "Task_CreateNOI_30Day"
+        ]
+      },
+      "stage": "1_origination",
+      "status": "completed",
+      "taskTypes": [
+        "PipelineMgt_PreApp_FollowUp"
+      ],
+      "xmlFile": "tasks/1_origination/pipeline_management/file_follow_up_30_day_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_001",
+      "name": "Review Credit",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "subtask-trigger": [
+          "Condition_CreditReview_Inquiry"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_FileSetup_ReviewCredit"
+      ],
+      "xmlFile": "tasks/2_processing/credit_review/review_credit_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_002",
+      "name": "Send Disclosures",
+      "ruleStatus": null,
+      "rules": {},
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_FileSetup_SendDisclosures"
+      ],
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_002b",
+      "name": "Send Disclosures (HELOC)",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "subtask-creates": [
+          "Task_HELOCIntiailDocs2"
+        ],
+        "subtask-trigger": [
+          "Disclosures_HELOCInitialDocs"
+        ],
+        "trigger": [
+          "Task_HELOCIntiailDocs2"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_FileSetup_SendDisclosuresHELOC"
+      ],
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_063",
+      "name": "Pull Deed",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_HELOCIntiailDocs2"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_FileSetup_PullDeed"
+      ],
+      "xmlFile": "tasks/2_processing/pull_deed/pull_deed_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_002c",
+      "name": "Notice of Incomplete",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "TaskComplete_NOIExtension",
+          "Task_CreateNOI_15Day",
+          "Task_CreateNOI_30Day"
+        ],
+        "subtask-trigger": [
+          "Disclosures_NOI"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_NoticeOfIncomplete"
+      ],
+      "xmlFile": "tasks/2_processing/misc/Notice of Incomplete.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_002d",
+      "name": "Mailing Initial Disclosures",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "Disclosures_HELOCInitialDocs"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_MailingInitialDisclosures"
+      ],
+      "xmlFile": "tasks/2_processing/misc/mailing_initial_disclosures_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_003",
+      "name": "Appraisal Invoice",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task-OrderAppraisalEquity-AVMFail",
+          "Task_HELOCIntiailDocs2"
+        ],
+        "subtask-creates": [
+          "SubtTask_OrderAppraisal1",
+          "Subtask_AppraisalQuote"
+        ],
+        "subtask-trigger": [
+          "Subtask_QuoteComplete"
+        ],
+        "trigger": [
+          "SubtTask_OrderAppraisal1",
+          "Subtask_AppraisalQuote"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Appraisal_Order"
+      ],
+      "xmlFile": "tasks/2_processing/appraisal/order_appraisal_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_004",
+      "name": "Order Title",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "subtask-creates": [
+          "SubTask_TitleOrderEquity"
+        ],
+        "subtask-trigger": [
+          "ConditionUpdate_TitleOrderEquity"
+        ],
+        "trigger": [
+          "SubTask_TitleOrderEquity"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_OrderTitle"
+      ],
+      "xmlFile": "tasks/2_processing/title/order_title_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_005",
+      "name": "Order Flood Certificate",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_HELOCIntiailDocs2"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_OrderFloodCertificate"
+      ],
+      "xmlFile": "tasks/2_processing/flood_certificate/order_flood_certificate_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_006",
+      "name": "ARM Disclosure",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ARM_Disclosure"
+      ],
+      "xmlFile": "tasks/2_processing/arm_disclosure/arm_disclosure_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Partial",
+      "id": "task_016",
+      "name": "Credit Score Disclosure",
+      "ruleStatus": "Partial",
+      "rules": {},
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Disclosures_CreditScoreDisclosure"
+      ],
+      "xmlFile": "tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_036",
+      "name": "Withdraw Loan",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "Withdraw_TaskCreation"
+        ],
+        "subtask-trigger": [
+          "Disclosures_Withdrawn_Letter"
+        ],
+        "trigger": [
+          "Task_Post_Withdraw"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_WithdrawLoan"
+      ],
+      "xmlFile": "tasks/2_processing/misc/withdraw_loan_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_037",
+      "name": "Send Denial",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "Denial_SecondReview"
+        ],
+        "subtask-creates": [
+          "Subtask_Denial"
+        ],
+        "subtask-trigger": [
+          "Disclosures_Denial"
+        ],
+        "trigger": [
+          "Subtask_Denial"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_SendDenial"
+      ],
+      "xmlFile": "tasks/2_processing/misc/send_denial_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_052",
+      "name": "File Closure Documents",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "CounterOffer_Verdict",
+          "Denial_SecondReview",
+          "TaskComplete_PostNOI",
+          "Task_DocumentReceipt",
+          "Task_Post_Withdraw"
+        ],
+        "subtask-completes": [
+          "Subtask_Complete_1003Park"
+        ],
+        "subtask-creates": [
+          "SubTask_FileClosure_InitialDocs",
+          "SubTask_FileClosure_InitialDocs1003"
+        ],
+        "trigger": [
+          "SubTask_FileClosure_InitialDocs",
+          "SubTask_FileClosure_InitialDocs1003",
+          "Task_TransfertoCold_Adverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_FileClosureDocuments"
+      ],
+      "xmlFile": "tasks/2_processing/misc/file_closure_documents_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_053",
+      "name": "Cancel Flood Certificate",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "CounterOffer_Verdict",
+          "Denial_SecondReview",
+          "TaskComplete_PostNOI",
+          "Task_Post_Withdraw"
+        ],
+        "subtask-trigger": [
+          "Subtask_CancelFlood"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_CancelFloodCertificate"
+      ],
+      "xmlFile": "tasks/2_processing/misc/cancel_flood_certificate_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_060",
+      "name": "Notice of Incomplete Expiration",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "NOI_DocsRec_Cancel",
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "NOI_Expiration_Closure"
+        ],
+        "subtask-trigger": [
+          "TaskComplete_NOIExtension",
+          "TaskComplete_PostNOI"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_NOIExpiration"
+      ],
+      "xmlFile": "tasks/2_processing/misc/notice_of_incomplete_expiration_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Not Started",
+      "id": "task_054",
+      "name": "Appraisal Refund",
+      "ruleStatus": "Not Started",
+      "rules": {
+        "creates": [
+          "CounterOffer_Verdict",
+          "Denial_SecondReview",
+          "TaskComplete_PostNOI",
+          "Task_Post_Withdraw"
+        ],
+        "subtask-completes": [
+          "Task_AppraisaRefundCancel"
+        ],
+        "subtask-creates": [
+          "Subtask_AppraisalCancel"
+        ],
+        "subtask-trigger": [
+          "Task_AppraisaRefundCancel"
+        ],
+        "trigger": [
+          "Subtask_AppraisalCancel"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_AppraisalRefund"
+      ],
+      "xmlFile": "tasks/2_processing/misc/appraisal_refund_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_007",
+      "name": "Order SSA-89",
+      "ruleStatus": "Not Started",
+      "rules": {},
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_OrderSSA89"
+      ],
+      "xmlFile": "tasks/2_processing/ssa89/order_ssa89_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_008",
+      "name": "Order Tax Transcripts",
+      "ruleStatus": "Not Started",
+      "rules": {},
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_OrderTaxTranscripts"
+      ],
+      "xmlFile": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_046",
+      "name": "Order AVM",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "SubTask_AVMFailCompletion",
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_HELOCIntiailDocs2"
+        ],
+        "subtask-trigger": [
+          "SubTask_AVMFailCompletion",
+          "Task-OrderAppraisalEquity-AVMFail"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_OrderAVM"
+      ],
+      "xmlFile": "tasks/2_processing/avm/order_avm_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_047",
+      "name": "Flood Certificate Review",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_FloodCertificateReview"
+      ],
+      "xmlFile": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_049",
+      "name": "Order PAR",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "subtask-trigger": [
+          "Subtask_PARRequest"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_OrderPAR"
+      ],
+      "xmlFile": "tasks/2_processing/service_orders/order_par_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_055",
+      "name": "Recheck Flood",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_RecheckFloodCertificate"
+      ],
+      "xmlFile": "tasks/2_processing/service_orders/recheck_flood_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_048",
+      "name": "Pre-Underwriting Checklist",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_PreUnderwriting_PreUWChecklist"
+      ],
+      "xmlFile": "tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_015",
+      "name": "Order HOI",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_PostUnderwriting_OrderHOI"
+      ],
+      "xmlFile": "tasks/3_underwriting/post_underwriting/order_hoi_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_050",
+      "name": "HOI Review",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_HOIReview"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_PostUnderwriting_HOIReview"
+      ],
+      "xmlFile": "tasks/3_underwriting/post_underwriting/hoi_review_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_035",
+      "name": "Send Commitment Letter",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_SendApproval"
+        ],
+        "subtask-completes": [
+          "Task_SendApproval_Save"
+        ],
+        "subtask-trigger": [
+          "Disclosures_Approval_CL"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_PostUnderwriting_SendCommitmentLetter"
+      ],
+      "xmlFile": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_073",
+      "name": "Order Appraisal",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_OrderAppraisal"
+        ],
+        "subtask-creates": [
+          "SubTask_AppraisalOrder"
+        ],
+        "trigger": [
+          "SubTask_AppraisalOrder"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Appraisal_Ordering"
+      ],
+      "xmlFile": "tasks/2_processing/appraisal/order_appraisal_ordering_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_074",
+      "name": "Order FraudX",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_FraudX"
+      ],
+      "xmlFile": "tasks/2_processing/service_orders/order_fraudx_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_075",
+      "name": "Order SSVN",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_ServiceOrders_SSVN"
+      ],
+      "xmlFile": "tasks/2_processing/service_orders/order_ssvn_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_076",
+      "name": "Redisclose HELOC Disclosure",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "subtask-trigger": [
+          "Disclosures_HELOCImportantTerms"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Disclosures_HELOCDisclosure"
+      ],
+      "xmlFile": "tasks/2_processing/disclosures/redisclose_heloc_disclosure_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_077",
+      "name": "Send Disclosures Alert",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_FileSetup_DislosureAlert"
+      ],
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_alert_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_002e",
+      "name": "Send Disclosures Closed End",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "subtask-trigger": [
+          "Disclosures_ClosedEnd"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_FileSetup_SendDisclosuresClosedEnd"
+      ],
+      "xmlFile": "tasks/2_processing/disclosures/send_disclosures_closed_end_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_086",
+      "name": "Cancel PAR",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "CounterOffer_Verdict",
+          "TaskComplete_PostNOI",
+          "Task_Post_Withdraw"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_CancelPAR"
+      ],
+      "xmlFile": "tasks/2_processing/misc/cancel_par_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_087",
+      "name": "Cancel Title",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "CounterOffer_Verdict",
+          "TaskComplete_PostNOI",
+          "Task_Post_Withdraw"
+        ]
+      },
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_Misc_CancelTitle"
+      ],
+      "xmlFile": "tasks/2_processing/misc/cancel_title_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Partial",
+      "id": "task_088",
+      "name": "Pull Property Field Card",
+      "ruleStatus": "Partial",
+      "rules": {},
+      "stage": "2_processing",
+      "status": "completed",
+      "taskTypes": [
+        "Processing_FileSetup_PullPropertyFieldCard"
+      ],
+      "xmlFile": "tasks/2_processing/pull_property_field_card/pull_property_field_card_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_017",
+      "name": "Underwrite",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "CounterOffer_Verdict",
+          "Processing_DenialReviewRequest",
+          "Task_ExtendApproval_ClosingDate",
+          "Task_Underwrite_Expired"
+        ],
+        "subtask-completes": [
+          "CounterOffer_FirstReview",
+          "Denial_FirstReview",
+          "Task_SendApproval",
+          "Task_UnderwriteCompletion"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Submittal_Underwrite"
+      ],
+      "xmlFile": "tasks/3_underwriting/submittal/underwrite_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_018",
+      "name": "Title (Ownership Report)",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_TitleOwnershipReport"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/title_ownership_report_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_019",
+      "name": "Review Appraisal",
+      "ruleStatus": "Complete",
+      "rules": {
+        "subtask-completes": [
+          "SubTask_AppraisalExternal_Complete",
+          "Task_AppraisalReview_Complete"
+        ],
+        "subtask-creates": [
+          "SubTask_AppraisalExternal_Complete"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_ReviewAppraisal"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_057",
+      "name": "Send Appraisal",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_AppraisalReview_Complete"
+        ],
+        "subtask-trigger": [
+          "Disclosures_AppraisalDelivery"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_SendAppraisal"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/send_appraisal_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Complete",
+      "id": "task_070",
+      "name": "Send AVM",
+      "ruleStatus": "Complete",
+      "rules": {},
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_SendAVM"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/send_avm_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_058",
+      "name": "Review Appraisal – Second Review",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "SubTask_AppraisalExternal_Complete"
+        ],
+        "subtask-completes": [
+          "Task_AppraisalReview_Complete"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_ReviewAppraisalSecondReview"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_020",
+      "name": "Review Flood Insurance",
+      "ruleStatus": "Planned",
+      "rules": {},
+      "stage": "3_underwriting",
+      "status": "planned",
+      "taskTypes": [],
+      "xmlFile": null
+    },
+    {
+      "flag": null,
+      "id": "task_051",
+      "name": "Review PAR (1st Review)",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse",
+          "Task_PARReview2"
+        ],
+        "creates": [
+          "Task_PARReview"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_ReviewPAR"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_par_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_021",
+      "name": "Clear to Close",
+      "ruleStatus": "Planned",
+      "rules": {},
+      "stage": "3_underwriting",
+      "status": "planned",
+      "taskTypes": [],
+      "xmlFile": null
+    },
+    {
+      "flag": null,
+      "id": "task_056",
+      "name": "Master Property Insurance Review",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_PostUnderwriting_CondoMasterReview"
+      ],
+      "xmlFile": "tasks/3_underwriting/post_underwriting/master_property_insurance_review_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_034",
+      "name": "Send Counteroffer",
+      "ruleStatus": "Partial",
+      "rules": {
+        "creates": [
+          "CounterOffer_SecondReview"
+        ],
+        "subtask-creates": [
+          "Subtask_Counter"
+        ],
+        "subtask-trigger": [
+          "Disclosures_Counter"
+        ],
+        "trigger": [
+          "Subtask_Counter"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Misc_SendCounteroffer"
+      ],
+      "xmlFile": "tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_078",
+      "name": "Review PAR (2nd Review)",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse",
+          "Task_PARReview3"
+        ],
+        "creates": [
+          "Task_PARReview2"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_ReviewPAR2"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/review_par_second_review_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_079",
+      "name": "Appraisal - Ready in ValueLink Follow Up",
+      "ruleStatus": "Planned",
+      "rules": {},
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Resubmittal_AppraisalReviewFollow"
+      ],
+      "xmlFile": "tasks/3_underwriting/resubmittal/appraisal_ready_in_valuelink_follow_up_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_080",
+      "name": "Counteroffer Second Review",
+      "ruleStatus": "Planned",
+      "rules": {
+        "creates": [
+          "CounterOffer_FirstReview"
+        ],
+        "subtask-completes": [
+          "CounterOffer_SecondReview"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Counter_Second"
+      ],
+      "xmlFile": "tasks/3_underwriting/uw_misc/counteroffer_second_review_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_081",
+      "name": "Denial – Second Look",
+      "ruleStatus": "Planned",
+      "rules": {
+        "creates": [
+          "Denial_FirstReview"
+        ],
+        "subtask-completes": [
+          "Denial_SecondReview"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Denial_Second"
+      ],
+      "xmlFile": "tasks/3_underwriting/uw_misc/denial_second_look_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_085",
+      "name": "Counteroffer Closure",
+      "ruleStatus": "Planned",
+      "rules": {
+        "creates": [
+          "Counteroffer_Expiration_Task"
+        ],
+        "subtask-completes": [
+          "CounterOffer_ClosuerTask_Accepted",
+          "CounterOffer_ClosuerTask_Declined",
+          "CounterOffer_ClosuerTask_Extend"
+        ],
+        "subtask-trigger": [
+          "CounterOffer_ClosuerTask_Accepted",
+          "CounterOffer_ClosuerTask_Declined",
+          "CounterOffer_ClosuerTask_Extend"
+        ]
+      },
+      "stage": "3_underwriting",
+      "status": "completed",
+      "taskTypes": [
+        "Underwriting_Misc_CounterofferClosure"
+      ],
+      "xmlFile": "tasks/3_underwriting/uw_misc/counteroffer_closure_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_022",
+      "name": "Confirm Scheduling",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "BranchScheduling_CTC"
+        ],
+        "subtask-completes": [
+          "BranchScheduling_Complete"
+        ]
+      },
+      "stage": "4_closing",
+      "status": "completed",
+      "taskTypes": [
+        "Closing_PreClosing_Scheduling"
+      ],
+      "xmlFile": "tasks/4_closing/pre_closing/scheduling_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_064",
+      "name": "Request Closing Disclosure",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_ICD_CreateRequest"
+        ],
+        "subtask-completes": [
+          "Task_AppraisalReview_Complete",
+          "Task_Complete_CD_Request_Equity",
+          "Task_ICDSentNA"
+        ],
+        "subtask-trigger": [
+          "Task_ICD_Requested"
+        ],
+        "trigger": [
+          "Task_Complete_CD_Request_Equity"
+        ]
+      },
+      "stage": "4_closing",
+      "status": "completed",
+      "taskTypes": [
+        "Closing_PreClosing_RequestClosingDisclosure"
+      ],
+      "xmlFile": "tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_023",
+      "name": "Send Initial Closing Disclosure",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_ICD_Requested"
+        ],
+        "subtask-completes": [
+          "Task_ICD_Sent"
+        ],
+        "subtask-creates": [
+          "Task_ICD_RequestedSubtasks"
+        ],
+        "subtask-trigger": [
+          "Disclosures_Early_CD"
+        ],
+        "trigger": [
+          "Task_ICD_RequestedSubtasks"
+        ]
+      },
+      "stage": "4_closing",
+      "status": "completed",
+      "taskTypes": [
+        "Closing_PreClosing_SendInitialClosingDisclosure"
+      ],
+      "xmlFile": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_024",
+      "name": "Balance CD",
+      "ruleStatus": "Planned",
+      "rules": {},
+      "stage": "4_closing",
+      "status": "planned",
+      "taskTypes": [],
+      "xmlFile": null
+    },
+    {
+      "flag": null,
+      "id": "task_025",
+      "name": "Create Closing Package",
+      "ruleStatus": "Partial",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_ClosingPackage"
+        ]
+      },
+      "stage": "4_closing",
+      "status": "completed",
+      "taskTypes": [
+        "Closing_DocPrep_CreateClosingPackage"
+      ],
+      "xmlFile": "tasks/4_closing/doc_prep/create_closing_package_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_061",
+      "name": "Closing Setup",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "BranchScheduling_Complete"
+        ],
+        "trigger": [
+          "Service_FraudX_Automated",
+          "Task_ClosingPackage"
+        ]
+      },
+      "stage": "4_closing",
+      "status": "completed",
+      "taskTypes": [
+        "Closing_ClosingSetup_ClosingSetup"
+      ],
+      "xmlFile": "tasks/4_closing/closing_setup/closing_setup_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_062",
+      "name": "Prepare Payoff Letters",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "BranchScheduling_Complete"
+        ]
+      },
+      "stage": "4_closing",
+      "status": "completed",
+      "taskTypes": [
+        "Closing_ClosingSetup_PreparePayoffLetters"
+      ],
+      "xmlFile": "tasks/4_closing/closing_setup/prepare_payoff_letters_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_026",
+      "name": "Confirm Funding",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "BranchScheduling_Complete"
+        ],
+        "subtask-completes": [
+          "Subtask_FundingGLSheet",
+          "Task_Funding_Funding_Request"
+        ],
+        "subtask-creates": [
+          "SubTask_ConfirmFunding_Disbursement"
+        ],
+        "trigger": [
+          "SubTask_ConfirmFunding_Disbursement"
+        ]
+      },
+      "stage": "5_funding",
+      "status": "completed",
+      "taskTypes": [
+        "Funding_Funding_ConfirmFunding"
+      ],
+      "xmlFile": "tasks/5_funding/funding/confirm_funding_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_059",
+      "name": "Approve Wire",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "5_funding",
+      "status": "completed",
+      "taskTypes": [
+        "Funding_Wire_Approval"
+      ],
+      "xmlFile": "tasks/5_funding/funding/approve_wire_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_027",
+      "name": "Approve Funding Figures",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse",
+          "Task_Funding_Funding_Approval"
+        ],
+        "creates": [
+          "Task_Funding_Funding_Request"
+        ]
+      },
+      "stage": "5_funding",
+      "status": "completed",
+      "taskTypes": [
+        "Funding_Funding_Approval"
+      ],
+      "xmlFile": "tasks/5_funding/funding/approve_funding_v1.xml"
+    },
+    {
+      "flag": "rules-exist-but-status-Planned",
+      "id": "task_028",
+      "name": "Fund Loan",
+      "ruleStatus": "Planned",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_Funding_Fund_Loan"
+        ]
+      },
+      "stage": "5_funding",
+      "status": "completed",
+      "taskTypes": [
+        "Funding_FundLoan"
+      ],
+      "xmlFile": "tasks/5_funding/funding/fund_loan_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_029",
+      "name": "Board Loan",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_Funding_Fund_Loan"
+        ],
+        "subtask-completes": [
+          "SubTask_CompleteBoarding"
+        ]
+      },
+      "stage": "5_funding",
+      "status": "completed",
+      "taskTypes": [
+        "Funding_Boarding_BoardLoan"
+      ],
+      "xmlFile": "tasks/5_funding/boarding/board_loan_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_030",
+      "name": "Run UCD",
+      "ruleStatus": "Planned",
+      "rules": {},
+      "stage": "5_funding",
+      "status": "planned",
+      "taskTypes": [],
+      "xmlFile": null
+    },
+    {
+      "flag": null,
+      "id": "task_031",
+      "name": "Activate MERS",
+      "ruleStatus": "Planned",
+      "rules": {},
+      "stage": "5_funding",
+      "status": "planned",
+      "taskTypes": [],
+      "xmlFile": null
+    },
+    {
+      "flag": null,
+      "id": "task_032",
+      "name": "Activate MI",
+      "ruleStatus": "Planned",
+      "rules": {},
+      "stage": "5_funding",
+      "status": "planned",
+      "taskTypes": [],
+      "xmlFile": null
+    },
+    {
+      "flag": null,
+      "id": "task_009",
+      "name": "Credit Refresh",
+      "ruleStatus": null,
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ]
+      },
+      "stage": "6_pre-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "FundingQC_Credit_Refresh"
+      ],
+      "xmlFile": "tasks/6_pre-closing-qc/funding-qc/credit-refresh_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Partial",
+      "id": "task_010",
+      "name": "Fraud X Report",
+      "ruleStatus": "Partial",
+      "rules": {},
+      "stage": "6_pre-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "FundingQC_Fraud_X_Report"
+      ],
+      "xmlFile": "tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_038",
+      "name": "Deliver Note",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_DeliverNoteMtg"
+        ],
+        "subtask-trigger": [
+          "Subtask_NoteDelivery_LocationOperations",
+          "Subtask_NoteDelivery_LocationSecondary"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_DeliverNote"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/deliver_note_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_039",
+      "name": "Record Mortgage",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_DeliverNoteMtg"
+        ],
+        "subtask-creates": [
+          "SubTask_RecordMortgage"
+        ],
+        "trigger": [
+          "SubTask_RecordMortgage"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_RecordMortgage"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/record_mortgage_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_040",
+      "name": "Deliver Mortgage",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_DeliverNoteMtg"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_DeliverMortgage"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/deliver_mortgage_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_043",
+      "name": "Transfer to Cold Storage",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_ColdStorage_Boarding",
+          "Task_ColdStorage_PostBoarding",
+          "Task_TransfertoCold_Adverse"
+        ],
+        "subtask-trigger": [
+          "Subtask_ColdStorage"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_TransferToColdStorage"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/transfer_to_cold_storage_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_044",
+      "name": "Transfer to SaaS",
+      "ruleStatus": null,
+      "rules": {},
+      "stage": "7_post-closing-qc",
+      "status": "planned",
+      "taskTypes": [],
+      "xmlFile": null
+    },
+    {
+      "flag": null,
+      "id": "task_045",
+      "name": "Initial Document Quality Assurance",
+      "ruleStatus": "Complete",
+      "rules": {
+        "completes": [
+          "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_InitialDocsRec"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "QualityAssurance_InitialDocReview"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_065",
+      "name": "Document Receipt",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_DocumentReceipt"
+        ],
+        "subtask-completes": [
+          "SubTask_DocReceipt_WetSignBack",
+          "SubTask_DocReceipt_eSignBack"
+        ],
+        "trigger": [
+          "Task_ClosingDocumentQA"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_DocumentReceipt"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/document_receipt_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_066",
+      "name": "Physical Package Receipt",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_DocumentReceipt"
+        ],
+        "subtask-trigger": [
+          "Task_DeliverNoteMtg"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_PhysicalPackageReceipt"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/physical_package_receipt_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Complete",
+      "id": "task_067",
+      "name": "Recording Confirmation",
+      "ruleStatus": "Complete",
+      "rules": {},
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_RecordingConfirmation"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/recording_confirmation_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_068",
+      "name": "Closing Document Quality Assurance",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_ClosingDocumentQA"
+        ],
+        "required": [
+          "Task_ColdStorage_Boarding"
+        ],
+        "trigger": [
+          "Task_ColdStorage_PostBoarding"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_QualityAssurance_ClosingDocReview"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/quality_assurance/closing_document_quality_assurance_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Complete",
+      "id": "task_069",
+      "name": "Pre-Closing Document Quality Assurance",
+      "ruleStatus": "Complete",
+      "rules": {},
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_QualityAssurance_PreClosingDocReview"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/quality_assurance/pre_closing_document_quality_assurance_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Complete",
+      "id": "task_082",
+      "name": "Order HELOC Checks",
+      "ruleStatus": "Complete",
+      "rules": {},
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_OrderHELOCChecks"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/order_heloc_checks_v1.xml"
+    },
+    {
+      "flag": "no-rules-but-status-Complete",
+      "id": "task_083",
+      "name": "Disbursement Check Receipt",
+      "ruleStatus": "Complete",
+      "rules": {},
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_DisbursementCheckReceipt"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/disbursement_check_receipt_v1.xml"
+    },
+    {
+      "flag": null,
+      "id": "task_084",
+      "name": "Fill in CIP",
+      "ruleStatus": "Complete",
+      "rules": {
+        "creates": [
+          "Task_ClosingDocumentQA"
+        ]
+      },
+      "stage": "7_post-closing-qc",
+      "status": "completed",
+      "taskTypes": [
+        "PostClosingQC_DocumentProcessing_FillInCIP"
+      ],
+      "xmlFile": "tasks/7_post-closing-qc/document_processing/fill_in_cip_v1.xml"
+    }
+  ],
+  "orphanTasks": [
+    {
+      "file": "tasks/6_pre-closing-qc/funding-qc/fraudx_v1.xml",
+      "type": "FundingQC_Fraud_X_Report"
+    },
+    {
+      "file": "tasks/7_post-closing-qc/document_processing/disbursement_check_receipt_v1.xml",
+      "type": "PostClosingQC_DocumentProcessing_DisbursementCheckReceipt"
+    },
+    {
+      "file": "tasks/7_post-closing-qc/document_processing/order_heloc_checks_v1.xml",
+      "type": "PostClosingQC_DocumentProcessing_OrderHELOCChecks"
+    },
+    {
+      "file": "tasks/7_post-closing-qc/document_processing/recording_confirmation_v1.xml",
+      "type": "PostClosingQC_DocumentProcessing_RecordingConfirmation"
+    },
+    {
+      "file": "tasks/7_post-closing-qc/quality_assurance/pre_closing_document_quality_assurance_v1.xml",
+      "type": "PostClosingQC_QualityAssurance_PreClosingDocReview"
+    },
+    {
+      "file": "tasks/2_processing/credit_score_disclosure/credit_score_disclosure_v1.xml",
+      "type": "Processing_Disclosures_CreditScoreDisclosure"
+    },
+    {
+      "file": "tasks/2_processing/disclosures/notice_of_incomplete_v1.xml",
+      "type": "Processing_Disclosures_NoticeOfIncomplete"
+    },
+    {
+      "file": "tasks/2_processing/pull_property_field_card/pull_property_field_card_v1.xml",
+      "type": "Processing_FileSetup_PullPropertyFieldCard"
+    },
+    {
+      "file": "tasks/2_processing/disclosures/send_disclosures_v1.xml",
+      "type": "Processing_FileSetup_SendDisclosures"
+    },
+    {
+      "file": "tasks/2_processing/ssa89/order_ssa89_v1.xml",
+      "type": "Processing_ServiceOrders_OrderSSA89"
+    },
+    {
+      "file": "tasks/2_processing/tax_transcripts/order_tax_transcripts_v1.xml",
+      "type": "Processing_ServiceOrders_OrderTaxTranscripts"
+    },
+    {
+      "file": "tasks/3_underwriting/resubmittal/appraisal_ready_in_valuelink_follow_up_v1.xml",
+      "type": "Underwriting_Resubmittal_AppraisalReviewFollow"
+    },
+    {
+      "file": "tasks/3_underwriting/resubmittal/send_avm_v1.xml",
+      "type": "Underwriting_Resubmittal_SendAVM"
+    }
+  ],
+  "repoFilesNotInRoadmap": [
+    "tasks/2_processing/disclosures/notice_of_incomplete_v1.xml"
+  ],
+  "summary": {
+    "brokenSubtaskByClass": {
+      "near-match": 0,
+      "no-match": 2,
+      "other-task": 0,
+      "task-missing": 1
+    },
+    "brokenSubtaskPairs": 3,
+    "brokenTaskRefs": 20,
+    "brokenTaskTypes": 17,
+    "distinctTaskTypesReferenced": 83,
+    "duplicateTaskTypesInRepo": 0,
+    "flaggedNoRulesButCompleteOrPartial": 8,
+    "flaggedRulesExistButPlannedOrNotStarted": 20,
+    "inactiveRules": 2,
+    "orphanTaskTypes": 13,
+    "roadmapTasks": 85,
+    "rules": 119,
+    "taskReferences": 264,
+    "taskTemplateIdMismatches": 22,
+    "taskTemplateIdsChecked": 22,
+    "taskTypesInRepo": 79
+  },
+  "taskTemplateIdMismatches": [
+    {
+      "file": "tasks/4_closing/pre_closing/request_closing_disclosure_v1.xml",
+      "repoId": "dbace57b-c4a2-43f7-b858-383b4f9f685c",
+      "ruleTaskTemplateId": "16d4be66-9227-4b28-8fca-05abb2ef8645",
+      "rules": [
+        "Task_AppraisalReview_Complete",
+        "Task_Complete_CD_Request_Equity",
+        "Task_ICDSentNA"
+      ],
+      "task": "Closing_PreClosing_RequestClosingDisclosure"
+    },
+    {
+      "file": "tasks/4_closing/pre_closing/scheduling_v1.xml",
+      "repoId": "7d3d3f91-39c3-4e97-8299-7d51f8ab1594",
+      "ruleTaskTemplateId": "279a4c53-80bc-496f-ade6-99e1020b846a",
+      "rules": [
+        "BranchScheduling_Complete"
+      ],
+      "task": "Closing_PreClosing_Scheduling"
+    },
+    {
+      "file": "tasks/4_closing/pre_closing/send_initial_closing_disclosure_v1.xml",
+      "repoId": "91768104-76b1-4eb8-a0ac-77f04dc6c2a6",
+      "ruleTaskTemplateId": "5d594f33-25b3-427c-9c5a-90f2ca34cc22",
+      "rules": [
+        "Task_ICD_RequestedSubtasks",
+        "Task_ICD_Sent"
+      ],
+      "task": "Closing_PreClosing_SendInitialClosingDisclosure"
+    },
+    {
+      "file": "tasks/5_funding/boarding/board_loan_v1.xml",
+      "repoId": "84c1613c-9956-41ae-ba74-d187360a182b",
+      "ruleTaskTemplateId": "2c3dbf47-4631-43e8-a81e-e62dc2d7957d",
+      "rules": [
+        "SubTask_CompleteBoarding"
+      ],
+      "task": "Funding_Boarding_BoardLoan"
+    },
+    {
+      "file": "tasks/5_funding/funding/confirm_funding_v1.xml",
+      "repoId": "91d9410c-8122-42d5-9ae8-2892faed14c7",
+      "ruleTaskTemplateId": "a73dc3e4-249d-411d-9458-da6a30420ca4",
+      "rules": [
+        "SubTask_ConfirmFunding_Disbursement",
+        "Subtask_FundingGLSheet",
+        "Task_Funding_Funding_Request"
+      ],
+      "task": "Funding_Funding_ConfirmFunding"
+    },
+    {
+      "file": "tasks/7_post-closing-qc/document_processing/document_receipt_v1.xml",
+      "repoId": "36c2051d-20d7-4f45-a995-8a7480614d80",
+      "ruleTaskTemplateId": "0215622f-bce5-4df5-af0b-8cd21b94d759",
+      "rules": [
+        "SubTask_DocReceipt_WetSignBack",
+        "SubTask_DocReceipt_eSignBack"
+      ],
+      "task": "PostClosingQC_DocumentProcessing_DocumentReceipt"
+    },
+    {
+      "file": "tasks/7_post-closing-qc/document_processing/record_mortgage_v1.xml",
+      "repoId": "a90a89aa-5e32-4165-95f0-78d5d140f8a0",
+      "ruleTaskTemplateId": "a0371267-2ab2-493a-855e-8e426fddc20e",
+      "rules": [
+        "SubTask_RecordMortgage"
+      ],
+      "task": "PostClosingQC_DocumentProcessing_RecordMortgage"
+    },
+    {
+      "file": "tasks/2_processing/appraisal/order_appraisal_v1.xml",
+      "repoId": "f42b91f1-8e34-4f9a-9d5e-1a8aaf3c1a02",
+      "ruleTaskTemplateId": "35788e0d-2dcf-42ac-bce3-9a5ea4971eaa",
+      "rules": [
+        "SubtTask_OrderAppraisal1",
+        "Subtask_AppraisalQuote"
+      ],
+      "task": "Processing_Appraisal_Order"
+    },
+    {
+      "file": "tasks/2_processing/appraisal/order_appraisal_ordering_v1.xml",
+      "repoId": "33673f78-2973-41f6-a40c-cc4072428c8c",
+      "ruleTaskTemplateId": "3544a511-d6a1-486c-8588-7c3f95816248",
+      "rules": [
+        "SubTask_AppraisalOrder"
+      ],
+      "task": "Processing_Appraisal_Ordering"
+    },
+    {
+      "file": "tasks/2_processing/disclosures/send_disclosures_heloc_v1.xml",
+      "repoId": "a36c1e26-eac2-48ba-b146-f19e38c0d55b",
+      "ruleTaskTemplateId": "4244ef3b-94d9-4569-9495-309e06b38961",
+      "rules": [
+        "Task_HELOCIntiailDocs2"
+      ],
+      "task": "Processing_FileSetup_SendDisclosuresHELOC"
+    },
+    {
+      "file": "tasks/2_processing/misc/appraisal_refund_v1.xml",
+      "repoId": "a003b736-baa9-454f-9ef6-a5553deeafff",
+      "ruleTaskTemplateId": "f56695bf-1fef-48b2-9958-d3e1c2b376be",
+      "rules": [
+        "Subtask_AppraisalCancel",
+        "Task_AppraisaRefundCancel"
+      ],
+      "task": "Processing_Misc_AppraisalRefund"
+    },
+    {
+      "file": "tasks/2_processing/misc/file_closure_documents_v1.xml",
+      "repoId": "ee5b0fbe-12da-4874-834e-945b2c54b413",
+      "ruleTaskTemplateId": "beabf52f-5418-407e-8446-15610978e5e3",
+      "rules": [
+        "SubTask_FileClosure_InitialDocs",
+        "SubTask_FileClosure_InitialDocs1003",
+        "Subtask_Complete_1003Park"
+      ],
+      "task": "Processing_Misc_FileClosureDocuments"
+    },
+    {
+      "file": "tasks/2_processing/misc/send_denial_v1.xml",
+      "repoId": "592b7ec6-5da3-4834-a7d0-bc112881ce70",
+      "ruleTaskTemplateId": "24ed3c4d-5bc9-4897-ad93-4e08e75443d7",
+      "rules": [
+        "Subtask_Denial"
+      ],
+      "task": "Processing_Misc_SendDenial"
+    },
+    {
+      "file": "tasks/3_underwriting/post_underwriting/send_commitment_letter_v1.xml",
+      "repoId": "c7b8a424-a401-49df-8706-85d1dd5f69aa",
+      "ruleTaskTemplateId": "cd70d3e3-6fae-43c5-b082-a635d5706d11",
+      "rules": [
+        "Task_SendApproval_Save"
+      ],
+      "task": "Processing_PostUnderwriting_SendCommitmentLetter"
+    },
+    {
+      "file": "tasks/2_processing/title/order_title_v1.xml",
+      "repoId": "bd6ec107-4e49-479f-86a5-28d67dd575e3",
+      "ruleTaskTemplateId": "494fd821-5d0a-42ed-a019-7d060132e81d",
+      "rules": [
+        "SubTask_TitleOrderEquity"
+      ],
+      "task": "Processing_ServiceOrders_OrderTitle"
+    },
+    {
+      "file": "tasks/3_underwriting/uw_misc/counteroffer_second_review_v1.xml",
+      "repoId": "1a3742d5-b8a8-45bd-990e-beae497375a3",
+      "ruleTaskTemplateId": "7508448b-c976-43a0-8490-7113c5ba48b7",
+      "rules": [
+        "CounterOffer_SecondReview"
+      ],
+      "task": "Underwriting_Counter_Second"
+    },
+    {
+      "file": "tasks/3_underwriting/uw_misc/denial_second_look_v1.xml",
+      "repoId": "c49237bc-e941-4b27-82bc-5ead41d10379",
+      "ruleTaskTemplateId": "ddbb7781-4dec-4051-80e2-d4472172447e",
+      "rules": [
+        "Denial_SecondReview"
+      ],
+      "task": "Underwriting_Denial_Second"
+    },
+    {
+      "file": "tasks/3_underwriting/uw_misc/counteroffer_closure_v1.xml",
+      "repoId": "5703e3f2-dc07-42e7-ad0b-d01b6e7b98bd",
+      "ruleTaskTemplateId": "45445a57-5811-42a7-b2c9-8ffee9a5c22d",
+      "rules": [
+        "CounterOffer_ClosuerTask_Accepted",
+        "CounterOffer_ClosuerTask_Declined",
+        "CounterOffer_ClosuerTask_Extend"
+      ],
+      "task": "Underwriting_Misc_CounterofferClosure"
+    },
+    {
+      "file": "tasks/3_underwriting/uw_misc/send_counteroffer_v1.xml",
+      "repoId": "c3000fcd-9356-42d8-869f-591494f55888",
+      "ruleTaskTemplateId": "d45cc392-fb8f-4e37-a60f-5d3b65dc7163",
+      "rules": [
+        "Subtask_Counter"
+      ],
+      "task": "Underwriting_Misc_SendCounteroffer"
+    },
+    {
+      "file": "tasks/3_underwriting/resubmittal/review_appraisal_v1.xml",
+      "repoId": "9d438ed8-8c20-4539-a227-64b8e21ac17b",
+      "ruleTaskTemplateId": "b140fc5c-0888-4637-b98b-7ceadb072d86",
+      "rules": [
+        "SubTask_AppraisalExternal_Complete",
+        "Task_AppraisalReview_Complete"
+      ],
+      "task": "Underwriting_Resubmittal_ReviewAppraisal"
+    },
+    {
+      "file": "tasks/3_underwriting/resubmittal/review_appraisal_second_review_v1.xml",
+      "repoId": "73ae3f83-81a8-4b36-8644-36d8af177c51",
+      "ruleTaskTemplateId": "47c8a6b9-2b3a-49eb-bb2e-5002e8a263d4",
+      "rules": [
+        "Task_AppraisalReview_Complete"
+      ],
+      "task": "Underwriting_Resubmittal_ReviewAppraisalSecondReview"
+    },
+    {
+      "file": "tasks/3_underwriting/submittal/underwrite_v1.xml",
+      "repoId": "1b5082fc-be81-43d2-ae3a-d5bc1e0f9987",
+      "ruleTaskTemplateId": "bb566a61-8cb6-438b-b845-2847e96ae30e",
+      "rules": [
+        "CounterOffer_FirstReview",
+        "Denial_FirstReview",
+        "Task_SendApproval",
+        "Task_UnderwriteCompletion"
+      ],
+      "task": "Underwriting_Submittal_Underwrite"
+    }
+  ]
+}
