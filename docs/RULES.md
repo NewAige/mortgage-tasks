@@ -19,6 +19,8 @@ in the task XMLs - so a type rename silently breaks every rule that points at it
 
 Never edit generated files; re-run the scripts.
 
+`docs/SUBTASK_ACTIONS.md` is the hand-maintained subtask → action mapping questionnaire (not generated; never overwritten by the scripts).
+
 ## Model
 
 ```
