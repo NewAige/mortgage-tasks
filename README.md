@@ -6,6 +6,8 @@ This repository contains task templates for the mortgage process, organized by s
 - `docs/` – conventions and import guides
 - `tasks/` – active XML task templates, organized by category
 - `archive/` – retired/old versions
+- `rules/` – workflow automation rules exported from Encompass (`exports/` raw, `by_event/` per-rule XML, `rules.json` parsed); see `docs/RULES.md`
+- `parse_rules.py` / `rules_crossref.py` – regenerate the rules outputs and validate rule references against `tasks/`
 - `roadmap.json` – task planning and tracking data
 - `roadmap.html` – visual dashboard for roadmap
 - `AGENT_INSTRUCTIONS.md` – guide for AI agents to create tasks
