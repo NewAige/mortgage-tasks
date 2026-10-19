@@ -144,6 +144,12 @@ def build_payload(graph, annotations, cascades):
         if kind in ("effects", "cancels"):
             o["ef"] = e.get("effect", "")
             o["sn"] = clean(e.get("sentence", ""))
+            # "When <trigger>, Encompass <action>." -> the action alone, for the step-by-step trace
+            head, sep, tail = o["sn"].partition(", Encompass ")
+            if sep:
+                o["ac"] = "Encompass " + tail
+            if e.get("heardBy"):
+                o["hb"] = ["rule:" + r for r in e["heardBy"]]
             if e.get("openEffect"):
                 o["oe"] = 1
         elif kind == "enters":
@@ -151,6 +157,8 @@ def build_payload(graph, annotations, cascades):
             o["ev"] = e.get("event", "")
         elif kind == "triggers":
             o["ev"] = e.get("event", "")
+            # "When <trigger>, the rule "X" runs." -> "When <trigger>"
+            o["sn"] = clean(e.get("sentence", "")).split(", the rule ")[0]
         if e.get("brokenRef"):
             o["rb"] = 1
         if e.get("inactive"):
