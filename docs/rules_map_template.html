@@ -246,6 +246,7 @@
   .lane-sub { font-size: 10.5px; fill: var(--ink-soft); font-family: var(--mono); }
   .lane-line { stroke: var(--rule); stroke-width: 1; }
   .gut-title { font-size: 10.5px; fill: var(--ink-soft); font-family: var(--mono); letter-spacing: .1em; }
+  .gut-count { font-size: 10.5px; fill: var(--ink-soft); font-family: var(--mono); }
   .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-mid); align-items: center; }
   .legend i { display: inline-block; width: 16px; height: 16px; border-radius: 3px; color: #fff; font-style: normal;
               font-family: var(--mono); font-size: 10px; font-weight: 700; text-align: center; line-height: 16px; margin-right: 5px; vertical-align: -3px; }
@@ -799,21 +800,22 @@
 
   /* ---------- Stage map ---------- */
   var FLOW = null;
-  function sourcesOf(rule, seen, via) {
+  function sourcesOf(rule, seen, via, evs) {
     var out = []; if (seen[rule]) return out;
     var s2 = {}; for (var k in seen) s2[k] = 1; s2[rule] = 1;
+    evs = (evs || []).concat(N[rule] && N[rule].ev ? [N[rule].ev] : []);
     (X.ruleSrc[rule] || []).forEach(function (s) {
       var n = N[s]; if (!n) return;
-      if (n.k === "task" || n.k === "subtask") { var t = parentTask(s); if (t) out.push({ g: t, via: via }); }
-      else if (n.k === "milestone") out.push({ g: s, via: via });
-      else if (n.k === "document") out.push({ g: "g:file", via: via });
-      else if (n.k === "entry") out.push({ g: "g:loan", via: via });
+      if (n.k === "task" || n.k === "subtask") { var t = parentTask(s); if (t) out.push({ g: t, via: via, evs: evs }); }
+      else if (n.k === "milestone") out.push({ g: s, via: via, evs: evs });
+      else if (n.k === "document") out.push({ g: "g:file", via: via, evs: evs });
+      else if (n.k === "entry") out.push({ g: "g:loan", via: via, evs: evs });
       else if (n.k === "field") {
-        out.push({ g: "g:field", via: via });
-        (X.effTo[s] || []).forEach(function (e) { if (e.ef === "field:update") out = out.concat(sourcesOf(e.r, s2, via)); });
+        out.push({ g: "g:field", via: via, evs: evs });
+        (X.effTo[s] || []).forEach(function (e) { if (e.ef === "field:update") out = out.concat(sourcesOf(e.r, s2, via, evs)); });
       } else if (n.k === "timer") {
         (X.effTo[s] || []).forEach(function (e) {
-          if (e.ef === "timer:start") out = out.concat(sourcesOf(e.r, s2, (via || []).concat([n.l])));
+          if (e.ef === "timer:start") out = out.concat(sourcesOf(e.r, s2, (via || []).concat([n.l]), evs));
         });
       }
     });
@@ -832,9 +834,10 @@
         srcs.forEach(function (s) {
           if (s.g === T) return;
           var key = s.g + ">" + T;
-          var f = flows[key] || (flows[key] = { f: s.g, t: T, items: [] });
+          var f = flows[key] || (flows[key] = { f: s.g, t: T, items: [], evs: {} });
           var sn = (s.via && s.via.length ? "(after ⏱ " + s.via.join(", ") + " runs out) " : "") + e.sn;
           if (f.items.indexOf(sn) < 0) f.items.push(sn);
+          (s.evs || []).forEach(function (ev) { f.evs[ev] = 1; });
         });
       } else if (tn.k === "external") {
         srcs = sourcesOf(e.r, {}, null);
@@ -849,11 +852,21 @@
     });
     FLOW = { flows: flows, badges: badges };
   }
-  var GUT = [["g:loan", "Loan created"], ["g:field", "A loan field changes"], ["g:file", "A file is attached"]];
+  // Every rule trigger event. The first three draw their own arrows; the rest start from a task,
+  // milestone or timer already on the map, so selecting them highlights those arrows instead.
+  var GUT = [["g:loan", "Loan created", "loan_created"], ["g:field", "A loan field changes", "field_modified"],
+    ["g:file", "A file is attached", "file_attached"], ["g:ev:milestone_completed", "A milestone is completed", "milestone_completed"],
+    ["g:ev:task_created", "A task is created", "task_created"], ["g:ev:task_completed", "A task is completed", "task_completed"],
+    ["g:ev:subtask_completed", "A subtask is marked Done", "subtask_completed"], ["g:ev:timer_completed", "A timer runs out", "timer_completed"]];
+  function gutOf(id) { return GUT.filter(function (g) { return g[0] === id; })[0]; }
+  function rulesOn(ev) {
+    return Object.keys(N).filter(function (id) { return N[id].k === "rule" && N[id].ev === ev && X.ruleEff[id]; }).length;
+  }
   function renderStage() {
     var p = $("p-stage");
     p.innerHTML = '<p class="intro">The loan moves left to right through its stages. Each box is a task; arrows mean a workflow rule makes one thing cause another. ' +
       "Hover an arrow to read what it does. Click a task, milestone or loan event to isolate its arrows and read the details. " +
+      "The loan events on the left are everything that can set a rule off; click one to light up the arrows it drives. " +
       "Outside actions appear as small badges on the task they belong to.</p>" +
       '<div class="legend" id="legend"></div><div class="dbox" id="stageBox" style="max-height:78vh"></div><div id="stagePanel"></div>';
     var lg = "";
@@ -897,7 +910,8 @@
     });
     // gutter
     var gt = el("text", { x: 12, y: 22, "class": "gut-title" }, svg); gt.textContent = "LOAN EVENTS";
-    GUT.forEach(function (g, i) { geo[g[0]] = { x: 10, y: HH + 20 + i * 58, w: GW - 30, h: 40 }; });
+    GUT.forEach(function (g, i) { geo[g[0]] = { x: 10, y: HH + 20 + i * 62, w: GW - 30, h: 48 }; });
+    H = Math.max(H, HH + 20 + GUT.length * 62 + 10);
     // arrows
     var ag = el("g", null, svg), keys = Object.keys(FLOW.flows).sort();
     var placed = function (id) { return !!geo[id]; };
@@ -908,7 +922,8 @@
       else if (Math.abs(B.x - A.x) < 2) { x2 = B.x + B.w; var bu = 22 + Math.abs(y2 - y1) * 0.12; d = "M" + x1 + " " + y1 + " C" + (x1 + bu) + " " + y1 + " " + (x2 + bu) + " " + y2 + " " + x2 + " " + y2; }
       else { x2 = B.x; d = "M" + x1 + " " + y1 + " C" + (x1 + 50) + " " + y1 + " " + (x2 - 50) + " " + y2 + " " + x2 + " " + y2; }
       var tipText = f.items.slice(0, 3).join("\n\n") + (f.items.length > 3 ? "\n\n(+" + (f.items.length - 3) + " more)" : "");
-      var g = el("g", { "class": "a faint" + (String(f.f).indexOf("g:") === 0 ? " fromgut" : ""), "data-f": f.f, "data-t": f.t, "data-tip": tipText }, ag);
+      var g = el("g", { "class": "a faint" + (String(f.f).indexOf("g:") === 0 ? " fromgut" : ""), "data-f": f.f, "data-t": f.t,
+        "data-ev": Object.keys(f.evs).sort().join(" "), "data-tip": tipText }, ag);
       el("path", { d: d, "class": "hit" }, g);
       el("path", { d: d, "class": "line", "marker-end": "url(#ahs)" }, g);
     });
@@ -944,16 +959,20 @@
       });
     });
     GUT.forEach(function (g) {
-      var geom = geo[g[0]], gn = node(g[0], g[1], "k-entry", g[1] + " — workflow rules react when this happens");
-      var lines = wrap(g[1], 20, 2);
-      lines.forEach(function (ln, i) { var t = el("text", { x: geom.x + geom.w / 2, y: geom.y + 17 + i * 14, "text-anchor": "middle" }, gn); t.textContent = ln; });
+      var geom = geo[g[0]], cnt = rulesOn(g[2]);
+      var gn = node(g[0], g[1], "k-entry", g[1] + " — " + cnt + " workflow rule" + (cnt === 1 ? " reacts" : "s react") + " when this happens. Click to see them.");
+      var t = el("text", { x: geom.x + geom.w / 2, y: geom.y + 20, "text-anchor": "middle" }, gn); t.textContent = trunc(g[1], 24);
+      var c = el("text", { x: geom.x + geom.w / 2, y: geom.y + 36, "text-anchor": "middle", "class": "gut-count" }, gn);
+      c.textContent = cnt + " rule" + (cnt === 1 ? "" : "s");
     });
     var box = $("stageBox"); box.appendChild(svg);
     function select(id) {
       S.stageSel = id;
       svg.classList.toggle("has-sel", !!id);
+      var gev = id && gutOf(id) ? gutOf(id)[2] : null;
       svg.querySelectorAll(".a").forEach(function (a) {
-        var on = id && (a.getAttribute("data-f") === id || a.getAttribute("data-t") === id);
+        var on = id && (a.getAttribute("data-f") === id || a.getAttribute("data-t") === id ||
+          (gev && (" " + a.getAttribute("data-ev") + " ").indexOf(" " + gev + " ") >= 0));
         a.classList.toggle("hl", !!on); a.classList.toggle("dim", !!(id && !on));
       });
       svg.querySelectorAll(".n").forEach(function (n) { n.classList.toggle("hl", n.getAttribute("data-id") === id); });
@@ -973,10 +992,19 @@
     var p = $("stagePanel");
     if (!id) { p.innerHTML = ""; return; }
     if (id.indexOf("g:") === 0) {
-      var f = FLOW, h = '<div class="card pad selpanel"><h3 class="title">' + esc(GUT.filter(function (g) { return g[0] === id; })[0][1]) + '</h3><ul class="sent">';
-      var seen = {};
-      Object.keys(f.flows).sort().forEach(function (k) { var fl = f.flows[k]; if (fl.f === id) fl.items.forEach(function (s) { if (!seen[s]) { seen[s] = 1; h += "<li>" + esc(s) + "</li>"; } }); });
-      p.innerHTML = h + "</ul></div>"; return;
+      // every action of every rule that fires on this event, not only the ones drawn as arrows
+      var gu = gutOf(id), seen = {}, items = [];
+      Object.keys(X.ruleEff).sort().forEach(function (r) {
+        if (!N[r] || N[r].ev !== gu[2]) return;
+        X.ruleEff[r].forEach(function (e) { if (e.sn && !seen[e.sn]) { seen[e.sn] = 1; items.push(e.sn); } });
+      });
+      items.sort();
+      var cnt = rulesOn(gu[2]);
+      var h = '<div class="card pad selpanel"><h3 class="title">' + esc(gu[1]) + '</h3><p class="muted">' + cnt + " workflow rule" +
+        (cnt === 1 ? " reacts" : "s react") + " to this. Highlighted arrows on the map show the tasks involved. Everything they do:</p>";
+      p.innerHTML = h + (items.length ? '<ul class="sent">' + items.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul>"
+        : '<p class="muted">No known rule reacts to this yet.</p>') + "</div>";
+      return;
     }
     var n = N[id], h2 = '<div class="card pad selpanel"><h3 class="title">' + esc(lab(id)) + "</h3>";
     if (n.k === "task") h2 += '<p class="muted">' + esc(STAGE_NAME[n.s] || "Stage not known") + " · " + (X.children[id] || []).length + " subtasks</p>";
