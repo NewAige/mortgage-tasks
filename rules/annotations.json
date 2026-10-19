@@ -3,7 +3,8 @@
   "milestones": {
     "Boarding - E": {
       "confirmed": false,
-      "stage": "5_funding"
+      "stage": "5_funding",
+      "track": "equity"
     },
     "Broker Import": {
       "confirmed": false,
@@ -11,7 +12,8 @@
     },
     "Clear to Close - E": {
       "confirmed": false,
-      "stage": "3_underwriting"
+      "stage": "3_underwriting",
+      "track": "equity"
     },
     "Cond. Approval": {
       "confirmed": false,
@@ -19,11 +21,13 @@
     },
     "Cond. Approval - E": {
       "confirmed": false,
-      "stage": "3_underwriting"
+      "stage": "3_underwriting",
+      "track": "equity"
     },
     "Doc Prep - E": {
       "confirmed": false,
-      "stage": "4_closing"
+      "stage": "4_closing",
+      "track": "equity"
     },
     "Funding": {
       "confirmed": false,
@@ -43,11 +47,13 @@
     },
     "Processing - E": {
       "confirmed": false,
-      "stage": "2_processing"
+      "stage": "2_processing",
+      "track": "equity"
     },
     "Submittal - E": {
       "confirmed": false,
-      "stage": "3_underwriting"
+      "stage": "3_underwriting",
+      "track": "equity"
     }
   },
   "notifications": {

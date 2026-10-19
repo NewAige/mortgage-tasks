@@ -168,8 +168,8 @@ crossref, and the rules can be used to define their subtasks.
   from the rule names.
 - `rules_graph.py` merges both files. A missing label falls back to the raw ID and never fails
   the build.
-- **Proposed milestone → stage map** (to be confirmed by the user). The *"- E"* suffix is
-  assumed to mean the Equity/HELOC track:
+- **Proposed milestone → stage map** (to be confirmed by the user). The *"- E"* suffix means
+  the Equity track (confirmed by the user, 2026-10-19); these milestones carry `"track": "equity"`:
 
   | Milestone | Stage |
   |---|---|
@@ -227,6 +227,6 @@ Decided (user, 2026-10-19):
 
 Open:
 1. **Field labels.** The user fills in `rules/field_labels.csv`. Until then the map shows raw IDs.
-2. **Milestone → stage map.** Confirm the table in WP-6, including what *"- E"* means.
+2. **Milestone → stage map.** Confirm the table in WP-6 (*"- E"* = Equity track is confirmed).
 3. **Hosting.** Is a repo file (`docs/rules_map.html`, opened from `roadmap.html`) enough, or is a
    shareable hosted page also wanted for staff?
