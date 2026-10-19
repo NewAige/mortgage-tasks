@@ -31,19 +31,19 @@ CX.TODAYS,Today,trigger,1,Scheduler_DayRefresh,
 CX.TODAYS.DATE,Today,set,1,SchedulerCompeted_DayRefresh,today()
 CX.UCDFANNIE,Run UCD/LCA Trigger,trigger; condition,1,Service - UCD and LCA Order,
 CX.UDPILOT,Undisclosed Debt Pilot Loan,condition,3,Scheduler_UndisclosedDebtCancel; Service_UndisclosedDebtActivate; copy_Service_UndisclosedDebtActivate,Y
-CX.UW.ADVERSE.ACTION.1,,trigger,1,Scheduler_CoutnerOffer,Counter
-CX.UW.ADVERSE.ACTION.2,,trigger,1,Scheduler_CoutnerOffer,Counter
-CX.UW.ADVERSE.ACTION.3,,trigger,1,Scheduler_CoutnerOffer,Counter
-CX.UW.ADVERSE.ACTION.4,,trigger,1,Scheduler_CoutnerOffer,Counter
-CX.UW.ADVERSE.SIGNER2.1,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
-CX.UW.ADVERSE.SIGNER2.2,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
-CX.UW.ADVERSE.SIGNER2.3,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
-CX.UW.ADVERSE.SIGNER2.4,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
-CX.UW.APPROVAL.LATEST.NAME,,trigger,2,Task_SendApproval; Task_UnderwriteCompletion,
-CX.UW.APPROVALSENTASK,,set,1,Disclosures_Approval_CL,now()
-CX.VALUATONTYPE,,condition,2,Disclosures_AppraisalDelivery; HELOC Initial Docs,AVM; Appraisal
-CX.WIREAPPROVED,,trigger,1,Task_Funding_Wire_Approval,
-CX.WIREAPPRREQ,,trigger,1,Task_Funding_Wire_Request,Y
+CX.UW.ADVERSE.ACTION.1,Adverse Action Reason 1,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.ACTION.2,Adverse Action Reason 2,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.ACTION.3,Adverse Action Reason 3,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.ACTION.4,Adverse Action Reason 4,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.SIGNER2.1,Second Signer (Adverse) 1,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.ADVERSE.SIGNER2.2,Second Signer (Adverse) 2,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.ADVERSE.SIGNER2.3,Second Signer (Adverse) 3,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.ADVERSE.SIGNER2.4,Second Signer (Adverse) 4,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.APPROVAL.LATEST.NAME,Latest Approval Name,trigger,2,Task_SendApproval; Task_UnderwriteCompletion,
+CX.UW.APPROVALSENTASK,Approval Sent Timestamp,set,1,Disclosures_Approval_CL,now()
+CX.VALUATONTYPE,Valuation Type,condition,2,Disclosures_AppraisalDelivery; HELOC Initial Docs,AVM; Appraisal
+CX.WIREAPPROVED,Wire Approved,trigger,1,Task_Funding_Wire_Approval,
+CX.WIREAPPRREQ,Wire Approval Requested,trigger,1,Task_Funding_Wire_Request,Y
 1041,Property Type,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,Attached; Condominium; Detached; DetachedCondo; HighRiseCondominium; PUD
 11,,condition,4,PreApp Follow Up 15; Task_PreApp_1003; Task_PreApp_1003_GMI; Task_PreApp_Credit,TBD
 1172,Loan Type,condition,19,BranchScheduling_Complete; Disclosures_Approval_CL; Disclosures_HELOCInitialDocs; Disclosures_Withdrawn_Letter; HELOC Initial Docs; OR_Disclosures_HELOCInitialDocs; SubTask_RecordMortgage; SubtTask_OrderAppraisal1; SubtTask_OrderAppraisal2; Task_DocumentReceipt; Task_Funding_Fund_Loan; Task_HELOCImportantTermsRedisclosure; Task_HELOCIntiailDocs; Task_ICD_CreateRequest; Task_IntiailDocsAlert; Task_QualityAssurance_InitialDocReview_1; Task_QualityAssurance_InitialDocReview_2; Task_SendApproval; Task_SendApproval_Save,HELOC
