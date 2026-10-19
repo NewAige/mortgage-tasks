@@ -40,7 +40,7 @@
      "toIds": [
       "subtask:Processing_Misc_SendDenial|Send Denial – Send Counteroffer Electronically"
      ],
-     "sentence": "Encompass adds the subtask Send Denial – Send Counteroffer Electronically (only if NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))).",
+     "sentence": "Encompass adds the subtask Send Denial – Send Counteroffer Electronically (only if NOT((NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )) OR IsEmpty([eConsent Date]))).",
      "kind": "effects",
      "ruleName": "Subtask_Denial"
     },
@@ -104,7 +104,7 @@
      "toIds": [
       "subtask:Processing_Misc_SendDenial|Send Denial – MA Review Board Form"
      ],
-     "sentence": "Encompass adds the subtask Send Denial – MA Review Board Form (only if NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
+     "sentence": "Encompass adds the subtask Send Denial – MA Review Board Form (only if NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )).",
      "kind": "effects",
      "ruleName": "Subtask_Denial"
     },
@@ -120,7 +120,7 @@
      "toIds": [
       "subtask:Processing_Misc_SendDenial|Send Denial – Mail Counteroffer"
      ],
-     "sentence": "Encompass adds the subtask Send Denial – Mail Counteroffer (only if (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])).",
+     "sentence": "Encompass adds the subtask Send Denial – Mail Counteroffer (only if (NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )) OR IsEmpty([eConsent Date])).",
      "kind": "effects",
      "ruleName": "Subtask_Denial"
     },
@@ -136,7 +136,7 @@
      "toIds": [
       "rule:96f65fe3-c41c-442e-9bce-be10d331798e"
      ],
-     "sentence": "When field CX.ADVERSESIGNER1 changes to a value:",
+     "sentence": "When Adverse Decision First Signer (name/date stamp) changes to a value:",
      "kind": "triggers",
      "ruleName": "Denial_FirstReview"
     },
@@ -152,7 +152,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – CounterOffer"
      ],
-     "sentence": "Encompass marks Underwrite – CounterOffer as not applicable (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass marks Underwrite – CounterOffer as not applicable (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_FirstReview"
     },
@@ -168,7 +168,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – Return to Processor"
      ],
-     "sentence": "Encompass marks Underwrite – Return to Processor as not applicable (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass marks Underwrite – Return to Processor as not applicable (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_FirstReview"
     },
@@ -184,7 +184,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – Approve"
      ],
-     "sentence": "Encompass marks Underwrite – Approve as not applicable (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass marks Underwrite – Approve as not applicable (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_FirstReview"
     },
@@ -200,7 +200,7 @@
      "toIds": [
       "task:Underwriting_Denial_Second"
      ],
-     "sentence": "Encompass creates the task Denial – Second Look (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass creates the task Denial – Second Look (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_FirstReview"
     },
@@ -216,7 +216,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – Deny"
      ],
-     "sentence": "Encompass marks Underwrite – Deny as Done (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass marks Underwrite – Deny as Done (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_FirstReview"
     },
@@ -248,7 +248,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8f4ad7b7) (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([420] <> \"FirstLien\") AND ([URLA.X73] <> \"TBD\")).",
+     "sentence": "Encompass sends the notification (template 8f4ad7b7) (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Lien Position] <> \"FirstLien\") AND ([Subject Property Address] <> \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -264,7 +264,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification \"Denial notice\" (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([420] <> \"FirstLien\") AND ([URLA.X73] <> \"TBD\")).",
+     "sentence": "Encompass sends the notification \"Denial notice\" (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Lien Position] <> \"FirstLien\") AND ([Subject Property Address] <> \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -280,7 +280,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure and Statement of Denial to the borrower (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([420] <> \"FirstLien\") AND ([URLA.X73] <> \"TBD\")).",
+     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure and Statement of Denial to the borrower (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Lien Position] <> \"FirstLien\") AND ([Subject Property Address] <> \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -296,7 +296,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if NOT IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([URLA.X73] = \"TBD\")).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if NOT IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Subject Property Address] = \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -312,7 +312,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification \"Denial notice\" (only if NOT IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([URLA.X73] = \"TBD\")).",
+     "sentence": "Encompass sends the notification \"Denial notice\" (only if NOT IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Subject Property Address] = \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -328,7 +328,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends Statement of Denial to the borrower (only if NOT IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([URLA.X73] = \"TBD\")).",
+     "sentence": "Encompass sends Statement of Denial to the borrower (only if NOT IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Subject Property Address] = \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -344,7 +344,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([420] = \"FirstLien\") AND ([URLA.X73] <> \"TBD\")).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Lien Position] = \"FirstLien\") AND ([Subject Property Address] <> \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -360,7 +360,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification \"Denial notice\" (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([420] = \"FirstLien\") AND ([URLA.X73] <> \"TBD\")).",
+     "sentence": "Encompass sends the notification \"Denial notice\" (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Lien Position] = \"FirstLien\") AND ([Subject Property Address] <> \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -376,7 +376,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure, Notice to Right to Copy of Appraisal and Statement of Denial to the borrower (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([420] = \"FirstLien\") AND ([URLA.X73] <> \"TBD\")).",
+     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure, Notice to Right to Copy of Appraisal and Statement of Denial to the borrower (only if IsEmpty([Document.DateOrdered.1003 - URLA]) AND ([Lien Position] = \"FirstLien\") AND ([Subject Property Address] <> \"TBD\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Denial"
     },
@@ -392,7 +392,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.1 changes:",
+     "sentence": "When Second Signer (Adverse) 1 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -408,7 +408,7 @@
      "toIds": [
       "task:Processing_Misc_AppraisalRefund"
      ],
-     "sentence": "Encompass creates the task Appraisal Refund (only if [CX.COUNTEROFFER] <> \"Y\" and Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\")).",
+     "sentence": "Encompass creates the task Appraisal Refund (only if [Denial Is a Counteroffer] <> \"Y\" and Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\")).",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -424,7 +424,7 @@
      "toIds": [
       "task:Processing_Misc_CancelFloodCertificate"
      ],
-     "sentence": "Encompass creates the task Cancel Flood Certificate (only if [CX.COUNTEROFFER] <> \"Y\" and Not IsEmpty([Document.DateOrdered.Flood Certificate])).",
+     "sentence": "Encompass creates the task Cancel Flood Certificate (only if [Denial Is a Counteroffer] <> \"Y\" and Not IsEmpty([Document.DateOrdered.Flood Certificate])).",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -440,7 +440,7 @@
      "toIds": [
       "external:folder"
      ],
-     "sentence": "Encompass moves the loan to the \"Adverse Loans\" folder (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass moves the loan to the \"Adverse Loans\" folder (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -456,7 +456,7 @@
      "toIds": [
       "field:1393"
      ],
-     "sentence": "Encompass sets field 1393 to \"Application denied\" (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass sets Current Loan Status to \"Application denied\" (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -472,7 +472,7 @@
      "toIds": [
       "subtask:Underwriting_Denial_Second|Denial – Second Look"
      ],
-     "sentence": "Encompass marks Denial – Second Look – Second Look as Done (only if [CX.COUNTEROFFER] <> \"Y\" and [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass marks Denial – Second Look – Second Look as Done (only if [Denial Is a Counteroffer] <> \"Y\" and [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -488,7 +488,7 @@
      "toIds": [
       "task:Processing_Misc_FileClosureDocuments"
      ],
-     "sentence": "Encompass creates the task File Closure Documents (only if [CX.COUNTEROFFER] <> \"Y\" and [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass creates the task File Closure Documents (only if [Denial Is a Counteroffer] <> \"Y\" and [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -504,7 +504,7 @@
      "toIds": [
       "task:Processing_Misc_SendDenial"
      ],
-     "sentence": "Encompass creates the task Send Denial (only if [CX.COUNTEROFFER] <> \"Y\" and [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass creates the task Send Denial (only if [Denial Is a Counteroffer] <> \"Y\" and [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -520,7 +520,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.2 changes:",
+     "sentence": "When Second Signer (Adverse) 2 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -536,7 +536,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.3 changes:",
+     "sentence": "When Second Signer (Adverse) 3 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -552,7 +552,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.4 changes:",
+     "sentence": "When Second Signer (Adverse) 4 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -584,7 +584,7 @@
      "toIds": [
       "subtask:Processing_Misc_AppraisalRefund|Appraisal Refund – Cancel Appraisal"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [CX.APPRAISALSTATUS] <> \"\" AND [CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\").",
+     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [Appraisal Status] <> \"\" AND [Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\").",
      "kind": "effects",
      "ruleName": "Subtask_AppraisalCancel"
     },
@@ -600,7 +600,7 @@
      "toIds": [
       "rule:1c751a3a-15e7-43e9-a4b1-75e636e2e9d6"
      ],
-     "sentence": "When field 1393 changes:",
+     "sentence": "When Current Loan Status changes:",
      "kind": "triggers",
      "ruleName": "Task_Cancel_AllAdverse"
     },
@@ -726,7 +726,7 @@
       "task:Processing_PostUnderwriting_SendCommitmentLetter",
       "task:Processing_FileSetup_DislosureAlert"
      ],
-     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([1393] = \"Application denied\" OR [1393] = \"File Closed for incompleteness\" OR [1393] = \"Application withdrawn\")).",
+     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([Current Loan Status] = \"Application denied\" OR [Current Loan Status] = \"File Closed for incompleteness\" OR [Current Loan Status] = \"Application withdrawn\")).",
      "kind": "effects",
      "ruleName": "Task_Cancel_AllAdverse",
      "grouped": 56
@@ -1033,7 +1033,7 @@
      "toIds": [
       "rule:02531ad7-601c-4914-b69e-d75ce4d75ea2"
      ],
-     "sentence": "When field CX.ADVERSESIGNER1 changes to a value:",
+     "sentence": "When Adverse Decision First Signer (name/date stamp) changes to a value:",
      "kind": "triggers",
      "ruleName": "CounterOffer_FirstReview"
     },
@@ -1049,7 +1049,7 @@
      "toIds": [
       "task:Underwriting_Counter_Second"
      ],
-     "sentence": "Encompass creates the task Counteroffer Second Review (only if [CX.COUNTEROFFER] = \"Y\" and [CX.COUNTEROFFER] = \"Y\").",
+     "sentence": "Encompass creates the task Counteroffer Second Review (only if [Denial Is a Counteroffer] = \"Y\" and [Denial Is a Counteroffer] = \"Y\").",
      "kind": "effects",
      "ruleName": "CounterOffer_FirstReview"
     },
@@ -1065,7 +1065,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – CounterOffer"
      ],
-     "sentence": "Encompass marks Underwrite – CounterOffer as Done (only if [CX.COUNTEROFFER] = \"Y\").",
+     "sentence": "Encompass marks Underwrite – CounterOffer as Done (only if [Denial Is a Counteroffer] = \"Y\").",
      "kind": "effects",
      "ruleName": "CounterOffer_FirstReview"
     },
@@ -1081,7 +1081,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – Return to Processor"
      ],
-     "sentence": "Encompass marks Underwrite – Return to Processor as not applicable (only if [CX.COUNTEROFFER] = \"Y\").",
+     "sentence": "Encompass marks Underwrite – Return to Processor as not applicable (only if [Denial Is a Counteroffer] = \"Y\").",
      "kind": "effects",
      "ruleName": "CounterOffer_FirstReview"
     },
@@ -1097,7 +1097,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – Deny"
      ],
-     "sentence": "Encompass marks Underwrite – Deny as not applicable (only if [CX.COUNTEROFFER] = \"Y\").",
+     "sentence": "Encompass marks Underwrite – Deny as not applicable (only if [Denial Is a Counteroffer] = \"Y\").",
      "kind": "effects",
      "ruleName": "CounterOffer_FirstReview"
     },
@@ -1113,7 +1113,7 @@
      "toIds": [
       "subtask:Underwriting_Submittal_Underwrite|Underwrite – Approve"
      ],
-     "sentence": "Encompass marks Underwrite – Approve as not applicable (only if [CX.COUNTEROFFER] = \"Y\").",
+     "sentence": "Encompass marks Underwrite – Approve as not applicable (only if [Denial Is a Counteroffer] = \"Y\").",
      "kind": "effects",
      "ruleName": "CounterOffer_FirstReview"
     },
@@ -1129,7 +1129,7 @@
      "toIds": [
       "rule:195d804b-0556-41bd-b8e2-8854cd117555"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.1 changes:",
+     "sentence": "When Second Signer (Adverse) 1 changes:",
      "kind": "triggers",
      "ruleName": "CounterOffer_SecondReview"
     },
@@ -1145,7 +1145,7 @@
      "toIds": [
       "task:Underwriting_Misc_SendCounteroffer"
      ],
-     "sentence": "Encompass creates the task Send Counteroffer (only if [CX.COUNTEROFFER] = \"Y\").",
+     "sentence": "Encompass creates the task Send Counteroffer (only if [Denial Is a Counteroffer] = \"Y\").",
      "kind": "effects",
      "ruleName": "CounterOffer_SecondReview"
     },
@@ -1161,7 +1161,7 @@
      "toIds": [
       "subtask:Underwriting_Counter_Second|CounterOffer – Second Look"
      ],
-     "sentence": "Encompass marks Counteroffer Second Review – Second Look as Done (only if [CX.COUNTEROFFER] = \"Y\").",
+     "sentence": "Encompass marks Counteroffer Second Review – Second Look as Done (only if [Denial Is a Counteroffer] = \"Y\").",
      "kind": "effects",
      "ruleName": "CounterOffer_SecondReview"
     },
@@ -1177,7 +1177,7 @@
      "toIds": [
       "rule:195d804b-0556-41bd-b8e2-8854cd117555"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.2 changes:",
+     "sentence": "When Second Signer (Adverse) 2 changes:",
      "kind": "triggers",
      "ruleName": "CounterOffer_SecondReview"
     },
@@ -1193,7 +1193,7 @@
      "toIds": [
       "rule:195d804b-0556-41bd-b8e2-8854cd117555"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.3 changes:",
+     "sentence": "When Second Signer (Adverse) 3 changes:",
      "kind": "triggers",
      "ruleName": "CounterOffer_SecondReview"
     },
@@ -1209,7 +1209,7 @@
      "toIds": [
       "rule:195d804b-0556-41bd-b8e2-8854cd117555"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.4 changes:",
+     "sentence": "When Second Signer (Adverse) 4 changes:",
      "kind": "triggers",
      "ruleName": "CounterOffer_SecondReview"
     },
@@ -1321,7 +1321,7 @@
      "toIds": [
       "subtask:Underwriting_Misc_SendCounteroffer|Send Counteroffer – Send Counteroffer Electronically"
      ],
-     "sentence": "Encompass adds the subtask Send Counteroffer – Send Counteroffer Electronically (only if [CX.COUNTEROFFER] = \"Y\" and NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") ))).",
+     "sentence": "Encompass adds the subtask Send Counteroffer – Send Counteroffer Electronically (only if [Denial Is a Counteroffer] = \"Y\" and NOT(NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") ))).",
      "kind": "effects",
      "ruleName": "Subtask_Counter"
     },
@@ -1337,7 +1337,7 @@
      "toIds": [
       "subtask:Underwriting_Misc_SendCounteroffer|Send Counteroffer – MA Review Form Board Required"
      ],
-     "sentence": "Encompass adds the subtask Send Counteroffer – MA Review Form Board Required (only if [CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
+     "sentence": "Encompass adds the subtask Send Counteroffer – MA Review Form Board Required (only if [Denial Is a Counteroffer] = \"Y\" and NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )).",
      "kind": "effects",
      "ruleName": "Subtask_Counter"
     },
@@ -1353,7 +1353,7 @@
      "toIds": [
       "subtask:Underwriting_Misc_SendCounteroffer|Send Counteroffer – Mail Counteroffer"
      ],
-     "sentence": "Encompass adds the subtask Send Counteroffer – Mail Counteroffer (only if [CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
+     "sentence": "Encompass adds the subtask Send Counteroffer – Mail Counteroffer (only if [Denial Is a Counteroffer] = \"Y\" and NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )).",
      "kind": "effects",
      "ruleName": "Subtask_Counter"
     },
@@ -1369,7 +1369,7 @@
      "toIds": [
       "rule:f0fae4f6-01a9-4b73-bb33-2e795169c30c"
      ],
-     "sentence": "When field CX.UW.ADVERSE.ACTION.1 changes to \"Counter\":",
+     "sentence": "When Adverse Action Reason 1 changes to \"Counter\":",
      "kind": "triggers",
      "ruleName": "Scheduler_CoutnerOffer"
     },
@@ -1417,7 +1417,7 @@
      "toIds": [
       "rule:f0fae4f6-01a9-4b73-bb33-2e795169c30c"
      ],
-     "sentence": "When field CX.UW.ADVERSE.ACTION.2 changes to \"Counter\":",
+     "sentence": "When Adverse Action Reason 2 changes to \"Counter\":",
      "kind": "triggers",
      "ruleName": "Scheduler_CoutnerOffer"
     },
@@ -1433,7 +1433,7 @@
      "toIds": [
       "rule:f0fae4f6-01a9-4b73-bb33-2e795169c30c"
      ],
-     "sentence": "When field CX.UW.ADVERSE.ACTION.3 changes to \"Counter\":",
+     "sentence": "When Adverse Action Reason 3 changes to \"Counter\":",
      "kind": "triggers",
      "ruleName": "Scheduler_CoutnerOffer"
     },
@@ -1449,7 +1449,7 @@
      "toIds": [
       "rule:f0fae4f6-01a9-4b73-bb33-2e795169c30c"
      ],
-     "sentence": "When field CX.UW.ADVERSE.ACTION.4 changes to \"Counter\":",
+     "sentence": "When Adverse Action Reason 4 changes to \"Counter\":",
      "kind": "triggers",
      "ruleName": "Scheduler_CoutnerOffer"
     },
@@ -1644,7 +1644,7 @@
      "toIds": [
       "field:4458"
      ],
-     "sentence": "Encompass sets field 4458 to \"Declined\".",
+     "sentence": "Encompass sets Counteroffer Response to \"Declined\".",
      "kind": "effects",
      "ruleName": "CounterOffer_ClosuerTask_Declined"
     },
@@ -1820,7 +1820,7 @@
      "toIds": [
       "field:4458"
      ],
-     "sentence": "Encompass sets field 4458 to \"Accepted\".",
+     "sentence": "Encompass sets Counteroffer Response to \"Accepted\".",
      "kind": "effects",
      "ruleName": "CounterOffer_ClosuerTask_Accepted"
     },
@@ -1916,7 +1916,7 @@
      "toIds": [
       "rule:da301a8b-e7cc-44df-bba7-7f412e641cb7"
      ],
-     "sentence": "When field 4458 changes:",
+     "sentence": "When Counteroffer Response changes:",
      "kind": "triggers",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -1932,7 +1932,7 @@
      "toIds": [
       "task:Processing_Misc_CancelTitle"
      ],
-     "sentence": "Encompass creates the task Cancel Title (only if Not IsEmpty([CX.TITLEORDERED]) AND IsEmpty([Document.DateReceived.Title Order])).",
+     "sentence": "Encompass creates the task Cancel Title (only if Not IsEmpty([Title Ordered Date]) AND IsEmpty([Document.DateReceived.Title Order])).",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -1948,7 +1948,7 @@
      "toIds": [
       "task:Processing_Misc_CancelPAR"
      ],
-     "sentence": "Encompass creates the task Cancel PAR (only if Not IsEmpty([CX.PARORDERED]) AND IsEmpty([Document.DateReceived.Property Assessment Report (PAR)])).",
+     "sentence": "Encompass creates the task Cancel PAR (only if Not IsEmpty([PAR Ordered Date]) AND IsEmpty([Document.DateReceived.Property Assessment Report (PAR)])).",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -1964,7 +1964,7 @@
      "toIds": [
       "timer:324aed3b-32dd-4e67-a984-b0e56b94377c"
      ],
-     "sentence": "Encompass cancels the Counteroffer Warning timer (only if [4458]=\"Declined\" OR [4458]=\"Accepted\").",
+     "sentence": "Encompass cancels the Counteroffer Warning timer (only if [Counteroffer Response]=\"Declined\" OR [Counteroffer Response]=\"Accepted\").",
      "kind": "cancels",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -1980,7 +1980,7 @@
      "toIds": [
       "timer:a4d551c7-8038-4f96-b47c-c37fe8b98add"
      ],
-     "sentence": "Encompass cancels the Counteroffer Closure timer (only if [4458]=\"Declined\" OR [4458]=\"Accepted\").",
+     "sentence": "Encompass cancels the Counteroffer Closure timer (only if [Counteroffer Response]=\"Declined\" OR [Counteroffer Response]=\"Accepted\").",
      "kind": "cancels",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -1996,7 +1996,7 @@
      "toIds": [
       "external:folder"
      ],
-     "sentence": "Encompass moves the loan to the \"Adverse Loans\" folder (only if [4458]=\"Declined\").",
+     "sentence": "Encompass moves the loan to the \"Adverse Loans\" folder (only if [Counteroffer Response]=\"Declined\").",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -2012,7 +2012,7 @@
      "toIds": [
       "task:Processing_Misc_AppraisalRefund"
      ],
-     "sentence": "Encompass creates the task Appraisal Refund (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\") AND [4458]=\"Declined\").",
+     "sentence": "Encompass creates the task Appraisal Refund (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\") AND [Counteroffer Response]=\"Declined\").",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -2028,7 +2028,7 @@
      "toIds": [
       "field:1393"
      ],
-     "sentence": "Encompass sets field 1393 to \"Application denied\" (only if [4458]=\"Declined\").",
+     "sentence": "Encompass sets Current Loan Status to \"Application denied\" (only if [Counteroffer Response]=\"Declined\").",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -2044,7 +2044,7 @@
      "toIds": [
       "task:Processing_Misc_CancelFloodCertificate"
      ],
-     "sentence": "Encompass creates the task Cancel Flood Certificate (only if Not IsEmpty([Document.DateOrdered.Flood Certificate]) AND [4458]=\"Declined\").",
+     "sentence": "Encompass creates the task Cancel Flood Certificate (only if Not IsEmpty([Document.DateOrdered.Flood Certificate]) AND [Counteroffer Response]=\"Declined\").",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -2060,7 +2060,7 @@
      "toIds": [
       "task:Processing_Misc_FileClosureDocuments"
      ],
-     "sentence": "Encompass creates the task File Closure Documents (only if [4458]=\"Declined\").",
+     "sentence": "Encompass creates the task File Closure Documents (only if [Counteroffer Response]=\"Declined\").",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -2076,7 +2076,7 @@
      "toIds": [
       "task:Underwriting_Submittal_Underwrite"
      ],
-     "sentence": "Encompass creates the task Underwrite (only if [4458]=\"Accepted\").",
+     "sentence": "Encompass creates the task Underwrite (only if [Counteroffer Response]=\"Accepted\").",
      "kind": "effects",
      "ruleName": "CounterOffer_Verdict"
     },
@@ -2108,7 +2108,7 @@
      "toIds": [
       "subtask:Processing_Misc_AppraisalRefund|Appraisal Refund – Cancel Appraisal"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [CX.APPRAISALSTATUS] <> \"\" AND [CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\").",
+     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [Appraisal Status] <> \"\" AND [Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\").",
      "kind": "effects",
      "ruleName": "Subtask_AppraisalCancel"
     },
@@ -2124,7 +2124,7 @@
      "toIds": [
       "rule:1c751a3a-15e7-43e9-a4b1-75e636e2e9d6"
      ],
-     "sentence": "When field 1393 changes:",
+     "sentence": "When Current Loan Status changes:",
      "kind": "triggers",
      "ruleName": "Task_Cancel_AllAdverse"
     },
@@ -2250,7 +2250,7 @@
       "task:Processing_PostUnderwriting_SendCommitmentLetter",
       "task:Processing_FileSetup_DislosureAlert"
      ],
-     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([1393] = \"Application denied\" OR [1393] = \"File Closed for incompleteness\" OR [1393] = \"Application withdrawn\")).",
+     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([Current Loan Status] = \"Application denied\" OR [Current Loan Status] = \"File Closed for incompleteness\" OR [Current Loan Status] = \"Application withdrawn\")).",
      "kind": "effects",
      "ruleName": "Task_Cancel_AllAdverse",
      "grouped": 56
@@ -2609,7 +2609,7 @@
      "toIds": [
       "subtask:Processing_Appraisal_Order|Order Appraisal – Send Invoice"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Invoice – Send Invoice (only if ([1172] = \"HELOC\")).",
+     "sentence": "Encompass adds the subtask Appraisal Invoice – Send Invoice (only if ([Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "SubtTask_OrderAppraisal1"
     },
@@ -2625,7 +2625,7 @@
      "toIds": [
       "subtask:Processing_Appraisal_Order|Order Appraisal – Obtain Quote"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Invoice – Obtain Quote (only if [#2] >= 1000000).",
+     "sentence": "Encompass adds the subtask Appraisal Invoice – Obtain Quote (only if [Loan Amount] >= 1000000).",
      "kind": "effects",
      "ruleName": "SubtTask_OrderAppraisal1"
     },
@@ -2641,7 +2641,7 @@
      "toIds": [
       "rule:36c3b6c3-14cf-4259-a69c-719da13731ab"
      ],
-     "sentence": "When field CUST40FV changes to a value:",
+     "sentence": "When Second Review Date changes to a value:",
      "kind": "triggers",
      "ruleName": "Task_AppraisalReview_Complete"
     },
@@ -2657,7 +2657,7 @@
      "toIds": [
       "subtask:Closing_PreClosing_RequestClosingDisclosure|Request Closing Disclosure – Request CD"
      ],
-     "sentence": "Encompass marks Request Closing Disclosure – Request CD as Done (only if NOT [617].Contains(\"PAR\") and NOT [CUST36FV].Contains(\"External\") AND [1401].Contains(\"Loan\")).",
+     "sentence": "Encompass marks Request Closing Disclosure – Request CD as Done (only if NOT [Appraiser Company Name].Contains(\"PAR\") and NOT [First Review Name].Contains(\"External\") AND [Loan Program].Contains(\"Loan\")).",
      "kind": "effects",
      "ruleName": "Task_AppraisalReview_Complete"
     },
@@ -2673,7 +2673,7 @@
      "toIds": [
       "subtask:Underwriting_Resubmittal_ReviewAppraisalSecondReview|Review Appraisal – Second Review – Document Second Review"
      ],
-     "sentence": "Encompass marks Review Appraisal – Second Review – Document Second Review as Done (only if NOT [617].Contains(\"PAR\") and NOT [CUST36FV].Contains(\"External\") AND NOT [617].Contains(\"PAR\")).",
+     "sentence": "Encompass marks Review Appraisal – Second Review – Document Second Review as Done (only if NOT [Appraiser Company Name].Contains(\"PAR\") and NOT [First Review Name].Contains(\"External\") AND NOT [Appraiser Company Name].Contains(\"PAR\")).",
      "kind": "effects",
      "ruleName": "Task_AppraisalReview_Complete"
     },
@@ -2689,7 +2689,7 @@
      "toIds": [
       "subtask:Underwriting_Resubmittal_ReviewAppraisal|Review Appraisal – Second Review"
      ],
-     "sentence": "Encompass marks Review Appraisal – Second Review as Done (only if NOT [617].Contains(\"PAR\") and [CUST36FV].Contains(\"External\") AND NOT [617].Contains(\"PAR\")).",
+     "sentence": "Encompass marks Review Appraisal – Second Review as Done (only if NOT [Appraiser Company Name].Contains(\"PAR\") and [First Review Name].Contains(\"External\") AND NOT [Appraiser Company Name].Contains(\"PAR\")).",
      "kind": "effects",
      "ruleName": "Task_AppraisalReview_Complete"
     },
@@ -2705,7 +2705,7 @@
      "toIds": [
       "task:Underwriting_Resubmittal_SendAppraisal"
      ],
-     "sentence": "Encompass creates the task Send Appraisal (only if NOT [617].Contains(\"PAR\") and NOT [617].Contains(\"PAR\")).",
+     "sentence": "Encompass creates the task Send Appraisal (only if NOT [Appraiser Company Name].Contains(\"PAR\") and NOT [Appraiser Company Name].Contains(\"PAR\")).",
      "kind": "effects",
      "ruleName": "Task_AppraisalReview_Complete"
     },
@@ -2721,7 +2721,7 @@
      "toIds": [
       "external:condition"
      ],
-     "sentence": "Encompass sets the Underwriting condition \"Appraisal\" to Cleared (only if NOT [617].Contains(\"PAR\") and NOT [617].Contains(\"PAR\")).",
+     "sentence": "Encompass sets the Underwriting condition \"Appraisal\" to Cleared (only if NOT [Appraiser Company Name].Contains(\"PAR\") and NOT [Appraiser Company Name].Contains(\"PAR\")).",
      "kind": "effects",
      "ruleName": "Task_AppraisalReview_Complete"
     },
@@ -2753,7 +2753,7 @@
      "toIds": [
       "task:Processing_Appraisal_Order"
      ],
-     "sentence": "Encompass creates the task Appraisal Invoice (only if [4002] = \"Firstimer\" OR [CX.TASKPILOT] = \"Y\").",
+     "sentence": "Encompass creates the task Appraisal Invoice (only if [Borrower Last Name] = \"Firstimer\" OR [Task Pilot Loan] = \"Y\").",
      "kind": "effects",
      "ruleName": "Task_OrderAppraisalFirstMtg"
     },
@@ -2801,7 +2801,7 @@
      "toIds": [
       "task:Processing_Appraisal_Order"
      ],
-     "sentence": "Encompass creates the task Appraisal Invoice (only if [#2] > 400000 AND [4002] = \"Firstimer\").",
+     "sentence": "Encompass creates the task Appraisal Invoice (only if [Loan Amount] > 400000 AND [Borrower Last Name] = \"Firstimer\").",
      "kind": "effects",
      "ruleName": "Task_OrderAppraisalEquity"
     },
@@ -2817,7 +2817,7 @@
      "toIds": [
       "rule:fe09edfd-7df2-41cf-8e0f-b31d603183a5"
      ],
-     "sentence": "When field CX.APPRAISALSTATUS changes:",
+     "sentence": "When Appraisal Status changes:",
      "kind": "triggers",
      "ruleName": "Task_AppraisalReview"
     },
@@ -2833,7 +2833,7 @@
      "toIds": [
       "task:Underwriting_Resubmittal_ReviewAppraisal"
      ],
-     "sentence": "Encompass creates the task Review Appraisal (only if [CX.APPRAISALSTATUS] = \"Report Accepted\").",
+     "sentence": "Encompass creates the task Review Appraisal (only if [Appraisal Status] = \"Report Accepted\").",
      "kind": "effects",
      "ruleName": "Task_AppraisalReview"
     },
@@ -2849,7 +2849,7 @@
      "toIds": [
       "external:condition"
      ],
-     "sentence": "Encompass sets the Underwriting condition \"Appraisal\" to Received (only if [CX.APPRAISALSTATUS] = \"Report Accepted\" and [ENHANCEDCOND.X1] = \"Y\").",
+     "sentence": "Encompass sets the Underwriting condition \"Appraisal\" to Received (only if [Appraisal Status] = \"Report Accepted\" and [Enhanced vs Legacy Conditions] = \"Y\").",
      "kind": "effects",
      "ruleName": "Task_AppraisalReview"
     },
@@ -2913,7 +2913,7 @@
      "toIds": [
       "field:CX.ICDREQUEST"
      ],
-     "sentence": "Encompass sets field CX.ICDREQUEST to \"Y\".",
+     "sentence": "Encompass sets Initial CD Requested to \"Y\".",
      "kind": "effects",
      "ruleName": "Task_ICD_Requested"
     },
@@ -2945,7 +2945,7 @@
      "toIds": [
       "subtask:Processing_Appraisal_Order|Order Appraisal – Obtain Quote"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Invoice – Obtain Quote (only if [#1821] >= 1000000 OR [15] = \"02535\" OR [15] = \"02539\" OR [15] = \"02557\" OR [15] = \"02568\" OR [15] = \"02575\" OR [15] = \"02807\").",
+     "sentence": "Encompass adds the subtask Appraisal Invoice – Obtain Quote (only if [Estimated Value] >= 1000000 OR [Property Zip] = \"02535\" OR [Property Zip] = \"02539\" OR [Property Zip] = \"02557\" OR [Property Zip] = \"02568\" OR [Property Zip] = \"02575\" OR [Property Zip] = \"02807\").",
      "kind": "effects",
      "ruleName": "Subtask_AppraisalQuote"
     },
@@ -2961,7 +2961,7 @@
      "toIds": [
       "subtask:Processing_Appraisal_Order|Order Appraisal – Send Invoice"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Invoice – Send Invoice (only if [#1821] >= 1000000 OR [15] = \"02535\" OR [15] = \"02539\" OR [15] = \"02557\" OR [15] = \"02568\" OR [15] = \"02575\" OR [15] = \"02807\").",
+     "sentence": "Encompass adds the subtask Appraisal Invoice – Send Invoice (only if [Estimated Value] >= 1000000 OR [Property Zip] = \"02535\" OR [Property Zip] = \"02539\" OR [Property Zip] = \"02557\" OR [Property Zip] = \"02568\" OR [Property Zip] = \"02575\" OR [Property Zip] = \"02807\").",
      "kind": "effects",
      "ruleName": "Subtask_AppraisalQuote"
     },
@@ -3154,7 +3154,7 @@
      "toIds": [
       "subtask:Processing_Misc_AppraisalRefund|Appraisal Refund – Cancel Appraisal"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [CX.APPRAISALSTATUS] <> \"\" AND [CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\").",
+     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [Appraisal Status] <> \"\" AND [Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\").",
      "kind": "effects",
      "ruleName": "Subtask_AppraisalCancel"
     },
@@ -3250,7 +3250,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.1 changes:",
+     "sentence": "When Second Signer (Adverse) 1 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -3266,7 +3266,7 @@
      "toIds": [
       "task:Processing_Misc_AppraisalRefund"
      ],
-     "sentence": "Encompass creates the task Appraisal Refund (only if [CX.COUNTEROFFER] <> \"Y\" and Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\")).",
+     "sentence": "Encompass creates the task Appraisal Refund (only if [Denial Is a Counteroffer] <> \"Y\" and Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\")).",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -3282,7 +3282,7 @@
      "toIds": [
       "task:Processing_Misc_CancelFloodCertificate"
      ],
-     "sentence": "Encompass creates the task Cancel Flood Certificate (only if [CX.COUNTEROFFER] <> \"Y\" and Not IsEmpty([Document.DateOrdered.Flood Certificate])).",
+     "sentence": "Encompass creates the task Cancel Flood Certificate (only if [Denial Is a Counteroffer] <> \"Y\" and Not IsEmpty([Document.DateOrdered.Flood Certificate])).",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -3298,7 +3298,7 @@
      "toIds": [
       "external:folder"
      ],
-     "sentence": "Encompass moves the loan to the \"Adverse Loans\" folder (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass moves the loan to the \"Adverse Loans\" folder (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -3314,7 +3314,7 @@
      "toIds": [
       "field:1393"
      ],
-     "sentence": "Encompass sets field 1393 to \"Application denied\" (only if [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass sets Current Loan Status to \"Application denied\" (only if [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -3330,7 +3330,7 @@
      "toIds": [
       "subtask:Underwriting_Denial_Second|Denial – Second Look"
      ],
-     "sentence": "Encompass marks Denial – Second Look – Second Look as Done (only if [CX.COUNTEROFFER] <> \"Y\" and [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass marks Denial – Second Look – Second Look as Done (only if [Denial Is a Counteroffer] <> \"Y\" and [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -3346,7 +3346,7 @@
      "toIds": [
       "task:Processing_Misc_FileClosureDocuments"
      ],
-     "sentence": "Encompass creates the task File Closure Documents (only if [CX.COUNTEROFFER] <> \"Y\" and [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass creates the task File Closure Documents (only if [Denial Is a Counteroffer] <> \"Y\" and [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -3362,7 +3362,7 @@
      "toIds": [
       "task:Processing_Misc_SendDenial"
      ],
-     "sentence": "Encompass creates the task Send Denial (only if [CX.COUNTEROFFER] <> \"Y\" and [CX.COUNTEROFFER] <> \"Y\").",
+     "sentence": "Encompass creates the task Send Denial (only if [Denial Is a Counteroffer] <> \"Y\" and [Denial Is a Counteroffer] <> \"Y\").",
      "kind": "effects",
      "ruleName": "Denial_SecondReview"
     },
@@ -3378,7 +3378,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.2 changes:",
+     "sentence": "When Second Signer (Adverse) 2 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -3394,7 +3394,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.3 changes:",
+     "sentence": "When Second Signer (Adverse) 3 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -3410,7 +3410,7 @@
      "toIds": [
       "rule:f408e107-285a-4217-bbe7-bf57684fcb86"
      ],
-     "sentence": "When field CX.UW.ADVERSE.SIGNER2.4 changes:",
+     "sentence": "When Second Signer (Adverse) 4 changes:",
      "kind": "triggers",
      "ruleName": "Denial_SecondReview"
     },
@@ -3426,7 +3426,7 @@
      "toIds": [
       "rule:1c751a3a-15e7-43e9-a4b1-75e636e2e9d6"
      ],
-     "sentence": "When field 1393 changes:",
+     "sentence": "When Current Loan Status changes:",
      "kind": "triggers",
      "ruleName": "Task_Cancel_AllAdverse"
     },
@@ -3552,7 +3552,7 @@
       "task:Processing_PostUnderwriting_SendCommitmentLetter",
       "task:Processing_FileSetup_DislosureAlert"
      ],
-     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([1393] = \"Application denied\" OR [1393] = \"File Closed for incompleteness\" OR [1393] = \"Application withdrawn\")).",
+     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([Current Loan Status] = \"Application denied\" OR [Current Loan Status] = \"File Closed for incompleteness\" OR [Current Loan Status] = \"Application withdrawn\")).",
      "kind": "effects",
      "ruleName": "Task_Cancel_AllAdverse",
      "grouped": 56
@@ -3633,7 +3633,7 @@
      "toIds": [
       "subtask:Processing_Misc_SendDenial|Send Denial – Send Counteroffer Electronically"
      ],
-     "sentence": "Encompass adds the subtask Send Denial – Send Counteroffer Electronically (only if NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))).",
+     "sentence": "Encompass adds the subtask Send Denial – Send Counteroffer Electronically (only if NOT((NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )) OR IsEmpty([eConsent Date]))).",
      "kind": "effects",
      "ruleName": "Subtask_Denial"
     },
@@ -3697,7 +3697,7 @@
      "toIds": [
       "subtask:Processing_Misc_SendDenial|Send Denial – MA Review Board Form"
      ],
-     "sentence": "Encompass adds the subtask Send Denial – MA Review Board Form (only if NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
+     "sentence": "Encompass adds the subtask Send Denial – MA Review Board Form (only if NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )).",
      "kind": "effects",
      "ruleName": "Subtask_Denial"
     },
@@ -3713,7 +3713,7 @@
      "toIds": [
       "subtask:Processing_Misc_SendDenial|Send Denial – Mail Counteroffer"
      ],
-     "sentence": "Encompass adds the subtask Send Denial – Mail Counteroffer (only if (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])).",
+     "sentence": "Encompass adds the subtask Send Denial – Mail Counteroffer (only if (NOT ([Loan Program] = \"MassHousing\" and [Lien Position] = \"Second Lien\") and ( NOT [Loan Program].Contains(\"Equity\") or ([Lien Position] = \"First Lien\" and [Loan Program].Contains(\"Equity\") and [TRID Purpose] = \"Refinance\") )) OR IsEmpty([eConsent Date])).",
      "kind": "effects",
      "ruleName": "Subtask_Denial"
     },
@@ -3971,7 +3971,7 @@
      "toIds": [
       "task:Processing_ServiceOrders_FloodCertificateReview"
      ],
-     "sentence": "Encompass creates the task Flood Certificate Review (only if [4002] = \"Firstimer\" OR [CX.TASKPILOT] = \"Y\").",
+     "sentence": "Encompass creates the task Flood Certificate Review (only if [Borrower Last Name] = \"Firstimer\" OR [Task Pilot Loan] = \"Y\").",
      "kind": "effects",
      "ruleName": "Task_ServiceOrders_FloodCertificateReview"
     },
@@ -4003,7 +4003,7 @@
      "toIds": [
       "task:Processing_ServiceOrders_OrderFloodCertificate"
      ],
-     "sentence": "Encompass completes the task Order Flood Certificate (only if loan channel is Banked - Wholesale or Banked - Retail and [@3142] >= #03/01/2025#).",
+     "sentence": "Encompass completes the task Order Flood Certificate (only if loan channel is Banked - Wholesale or Banked - Retail and [TRID Application Date] >= #03/01/2025#).",
      "kind": "effects",
      "ruleName": "Service - Flood Order Task"
     },
@@ -4019,7 +4019,7 @@
      "toIds": [
       "external:order"
      ],
-     "sentence": "Encompass places the service order Flood certificate order (only if loan channel is Banked - Wholesale or Banked - Retail and [@3142] >= #03/01/2025#).",
+     "sentence": "Encompass places the service order Flood certificate order (only if loan channel is Banked - Wholesale or Banked - Retail and [TRID Application Date] >= #03/01/2025#).",
      "kind": "effects",
      "ruleName": "Service - Flood Order Task"
     },
@@ -4035,7 +4035,7 @@
      "toIds": [
       "rule:77b9f3ab-6d65-49d8-8b7f-e0282649097e"
      ],
-     "sentence": "When field CX.FLOODAUTOMATE changes to \"Y\":",
+     "sentence": "When Automated Flood Order changes to \"Y\":",
      "kind": "triggers",
      "ruleName": "Service - Flood Order"
     },
@@ -4051,7 +4051,7 @@
      "toIds": [
       "task:Processing_ServiceOrders_OrderFloodCertificate"
      ],
-     "sentence": "Encompass completes the task Order Flood Certificate (only if loan channel is Banked - Wholesale or Banked - Retail and [@3142] >= #03/01/2025#).",
+     "sentence": "Encompass completes the task Order Flood Certificate (only if loan channel is Banked - Wholesale or Banked - Retail and [TRID Application Date] >= #03/01/2025#).",
      "kind": "effects",
      "ruleName": "Service - Flood Order"
     },
@@ -4067,7 +4067,7 @@
      "toIds": [
       "external:order"
      ],
-     "sentence": "Encompass places the service order Flood certificate order (only if loan channel is Banked - Wholesale or Banked - Retail and [@3142] >= #03/01/2025#).",
+     "sentence": "Encompass places the service order Flood certificate order (only if loan channel is Banked - Wholesale or Banked - Retail and [TRID Application Date] >= #03/01/2025#).",
      "kind": "effects",
      "ruleName": "Service - Flood Order"
     },
@@ -4131,7 +4131,7 @@
      "toIds": [
       "rule:f79ed53a-6a6a-4732-9c33-6cd83d72ca2c"
      ],
-     "sentence": "When field 2366 changes to \"Y\":",
+     "sentence": "When Flood Zone Indicator changes to \"Y\":",
      "kind": "triggers",
      "ruleName": "Processing_FloodZone"
     },
@@ -4147,7 +4147,7 @@
      "toIds": [
       "external:condition"
      ],
-     "sentence": "Encompass adds the Underwriting condition \"Massachusetts Flood Hazard Notice Acknowledgement\" (only if [14]=\"MA\").",
+     "sentence": "Encompass adds the Underwriting condition \"Massachusetts Flood Hazard Notice Acknowledgement\" (only if [Property State]=\"MA\").",
      "kind": "effects",
      "ruleName": "Processing_FloodZone"
     },
@@ -4276,7 +4276,7 @@
      "toIds": [
       "rule:8ae8fdeb-344c-46e6-986d-ebe2f3379138"
      ],
-     "sentence": "When field CX.WIREAPPROVED changes to a value:",
+     "sentence": "When Wire Approved changes to a value:",
      "kind": "triggers",
      "ruleName": "Task_Funding_Wire_Approval"
     },
@@ -4308,7 +4308,7 @@
      "toIds": [
       "rule:b125f254-5379-4167-a67e-5e59073e2c6e"
      ],
-     "sentence": "When field CX.WIREAPPRREQ changes to \"Y\":",
+     "sentence": "When Wire Approval Requested changes to \"Y\":",
      "kind": "triggers",
      "ruleName": "Task_Funding_Wire_Request"
     },
@@ -4340,7 +4340,7 @@
      "toIds": [
       "rule:d20a1b20-b35d-4832-8468-eeaff1a20c92"
      ],
-     "sentence": "When field CX.FUNDINGCONFIRMED changes to a value:",
+     "sentence": "When Funding Confirmed changes to a value:",
      "kind": "triggers",
      "ruleName": "Task_Funding_Funding_Request"
     },
@@ -4388,7 +4388,7 @@
      "toIds": [
       "rule:d701bf8d-5da9-4204-8d07-24c6b11578c0"
      ],
-     "sentence": "When field CX.FUNDINGAPPROVED changes to a value:",
+     "sentence": "When Funding Approved changes to a value:",
      "kind": "triggers",
      "ruleName": "Task_Funding_Funding_Approval"
     },
@@ -4452,7 +4452,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification \"Fund loan notice\" (only if ([1172] = \"HELOC\")).",
+     "sentence": "Encompass sends the notification \"Fund loan notice\" (only if ([Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "Task_Funding_Fund_Loan"
     },
@@ -4569,7 +4569,7 @@
      "toIds": [
       "task:Processing_Misc_CancelPAR"
      ],
-     "sentence": "Encompass creates the task Cancel PAR (only if Not IsEmpty([CX.PARORDERED]) AND IsEmpty([Document.DateReceived.Property Assessment Report (PAR)])).",
+     "sentence": "Encompass creates the task Cancel PAR (only if Not IsEmpty([PAR Ordered Date]) AND IsEmpty([Document.DateReceived.Property Assessment Report (PAR)])).",
      "kind": "effects",
      "ruleName": "Task_Post_Withdraw"
     },
@@ -4585,7 +4585,7 @@
      "toIds": [
       "task:Processing_Misc_CancelTitle"
      ],
-     "sentence": "Encompass creates the task Cancel Title (only if Not IsEmpty([CX.TITLEORDERED]) AND IsEmpty([Document.DateReceived.Title Order])).",
+     "sentence": "Encompass creates the task Cancel Title (only if Not IsEmpty([Title Ordered Date]) AND IsEmpty([Document.DateReceived.Title Order])).",
      "kind": "effects",
      "ruleName": "Task_Post_Withdraw"
     },
@@ -4633,7 +4633,7 @@
      "toIds": [
       "task:Processing_Misc_AppraisalRefund"
      ],
-     "sentence": "Encompass creates the task Appraisal Refund (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\")).",
+     "sentence": "Encompass creates the task Appraisal Refund (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\")).",
      "kind": "effects",
      "ruleName": "Task_Post_Withdraw"
     },
@@ -4665,7 +4665,7 @@
      "toIds": [
       "rule:8f6c2561-1bfb-496c-9f57-b36b5cbf068b"
      ],
-     "sentence": "When field 1393 changes to \"Application withdrawn\":",
+     "sentence": "When Current Loan Status changes to \"Application withdrawn\":",
      "kind": "triggers",
      "ruleName": "Withdraw_TaskCreation"
     },
@@ -4713,7 +4713,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [Lien Position] = \"FirstLien\" and ( (IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4729,7 +4729,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends 1003 - URLA, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
+     "sentence": "Encompass sends 1003 - URLA, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [Lien Position] = \"FirstLien\" and ( (IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4745,7 +4745,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and [Lien Position] = \"FirstLien\" and ( (IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4761,7 +4761,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends 1003 - URLA, Appraisal Report Acknowledgement (AVM), AVM, Credit Score Disclosure, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
+     "sentence": "Encompass sends 1003 - URLA, Appraisal Report Acknowledgement (AVM), AVM, Credit Score Disclosure, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and [Lien Position] = \"FirstLien\" and ( (IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4777,7 +4777,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and [Lien Position] <> \"FirstLien\" and ( (IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4793,7 +4793,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure, Withdrawn Letter, AVM and Appraisal Report Acknowledgement (AVM) to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
+     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure, Withdrawn Letter, AVM and Appraisal Report Acknowledgement (AVM) to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and [Lien Position] <> \"FirstLien\" and ( (IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4809,7 +4809,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ((IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) and [Lien Position] <> \"FirstLien\" and ((IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4825,7 +4825,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure and Withdrawn Letter to the borrower (only if IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ((IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
+     "sentence": "Encompass sends 1003 - URLA, Credit Score Disclosure and Withdrawn Letter to the borrower (only if IsEmpty([Document.DateReceived.AVM]) and [Lien Position] <> \"FirstLien\" and ((IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4841,7 +4841,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) and not IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ((IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) and not IsEmpty([Document.DateReceived.CreditReport]) and [Lien Position] = \"FirstLien\" and ((IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4857,7 +4857,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends Withdrawn Letter, Notice to Right to Copy of Appraisal, Credit Score Disclosure and 1003 - URLA to the borrower (only if IsEmpty([Document.DateReceived.AVM]) and not IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ((IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
+     "sentence": "Encompass sends Withdrawn Letter, Notice to Right to Copy of Appraisal, Credit Score Disclosure and 1003 - URLA to the borrower (only if IsEmpty([Document.DateReceived.AVM]) and not IsEmpty([Document.DateReceived.CreditReport]) and [Lien Position] = \"FirstLien\" and ((IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or ([Loan Type] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])))).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4873,7 +4873,7 @@
      "toIds": [
       "external:notification"
      ],
-     "sentence": "Encompass sends the notification (template 8b09da63) (only if (not IsEmpty([3152]) and [1172] <> \"HELOC\") or (not IsEmpty([Document.DateOrdered.1003 - URLA]) and [1172] = \"HELOC\")).",
+     "sentence": "Encompass sends the notification (template 8b09da63) (only if (not IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or (not IsEmpty([Document.DateOrdered.1003 - URLA]) and [Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4889,7 +4889,7 @@
      "toIds": [
       "external:docRequest"
      ],
-     "sentence": "Encompass sends Withdrawn Letter to the borrower (only if (not IsEmpty([3152]) and [1172] <> \"HELOC\") or (not IsEmpty([Document.DateOrdered.1003 - URLA]) and [1172] = \"HELOC\")).",
+     "sentence": "Encompass sends Withdrawn Letter to the borrower (only if (not IsEmpty([Initial LE Sent Date]) and [Loan Type] <> \"HELOC\") or (not IsEmpty([Document.DateOrdered.1003 - URLA]) and [Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "Disclosures_Withdrawn_Letter"
     },
@@ -4921,7 +4921,7 @@
      "toIds": [
       "subtask:Processing_Misc_AppraisalRefund|Appraisal Refund – Cancel Appraisal"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [CX.APPRAISALSTATUS] <> \"\" AND [CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\").",
+     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [Appraisal Status] <> \"\" AND [Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\").",
      "kind": "effects",
      "ruleName": "Subtask_AppraisalCancel"
     },
@@ -5147,7 +5147,7 @@
      "toIds": [
       "task:Processing_Misc_CancelTitle"
      ],
-     "sentence": "Encompass creates the task Cancel Title (only if Not IsEmpty([CX.TITLEORDERED]) AND IsEmpty([Document.DateReceived.Title Order])).",
+     "sentence": "Encompass creates the task Cancel Title (only if Not IsEmpty([Title Ordered Date]) AND IsEmpty([Document.DateReceived.Title Order])).",
      "kind": "effects",
      "ruleName": "TaskComplete_PostNOI"
     },
@@ -5163,7 +5163,7 @@
      "toIds": [
       "task:Processing_Misc_CancelPAR"
      ],
-     "sentence": "Encompass creates the task Cancel PAR (only if Not IsEmpty([CX.PARORDERED]) AND IsEmpty([Document.DateReceived.Property Assessment Report (PAR)])).",
+     "sentence": "Encompass creates the task Cancel PAR (only if Not IsEmpty([PAR Ordered Date]) AND IsEmpty([Document.DateReceived.Property Assessment Report (PAR)])).",
      "kind": "effects",
      "ruleName": "TaskComplete_PostNOI"
     },
@@ -5179,7 +5179,7 @@
      "toIds": [
       "task:Processing_Misc_AppraisalRefund"
      ],
-     "sentence": "Encompass creates the task Appraisal Refund (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\")).",
+     "sentence": "Encompass creates the task Appraisal Refund (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\")).",
      "kind": "effects",
      "ruleName": "TaskComplete_PostNOI"
     },
@@ -5227,7 +5227,7 @@
      "toIds": [
       "field:1393"
      ],
-     "sentence": "Encompass sets field 1393 to \"File Closed for incompleteness\".",
+     "sentence": "Encompass sets Current Loan Status to \"File Closed for incompleteness\".",
      "kind": "effects",
      "ruleName": "TaskComplete_PostNOI"
     },
@@ -5387,7 +5387,7 @@
      "toIds": [
       "subtask:Processing_Misc_AppraisalRefund|Appraisal Refund – Cancel Appraisal"
      ],
-     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [CX.APPRAISALSTATUS] <> \"\" AND [CX.APPRAISALSTATUS] <> \"Revision Requested\" AND [CX.APPRAISALSTATUS] <> \"File in Review\" AND [CX.APPRAISALSTATUS] <> \"SSR Report(s) Available\" AND [CX.APPRAISALSTATUS] <> \"ROV Requested By Borrower\" AND [CX.APPRAISALSTATUS] <> \"Completed\" AND [CX.APPRAISALSTATUS] <> \"Report Accepted\").",
+     "sentence": "Encompass adds the subtask Appraisal Refund – Cancel Appraisal (only if [Appraisal Status] <> \"\" AND [Appraisal Status] <> \"Revision Requested\" AND [Appraisal Status] <> \"File in Review\" AND [Appraisal Status] <> \"SSR Report(s) Available\" AND [Appraisal Status] <> \"ROV Requested By Borrower\" AND [Appraisal Status] <> \"Completed\" AND [Appraisal Status] <> \"Report Accepted\").",
      "kind": "effects",
      "ruleName": "Subtask_AppraisalCancel"
     },
@@ -5403,7 +5403,7 @@
      "toIds": [
       "rule:1c751a3a-15e7-43e9-a4b1-75e636e2e9d6"
      ],
-     "sentence": "When field 1393 changes:",
+     "sentence": "When Current Loan Status changes:",
      "kind": "triggers",
      "ruleName": "Task_Cancel_AllAdverse"
     },
@@ -5529,7 +5529,7 @@
       "task:Processing_PostUnderwriting_SendCommitmentLetter",
       "task:Processing_FileSetup_DislosureAlert"
      ],
-     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([1393] = \"Application denied\" OR [1393] = \"File Closed for incompleteness\" OR [1393] = \"Application withdrawn\")).",
+     "sentence": "Encompass closes 56 tasks as not applicable: Fund Loan, HOI Review, HO Insurance Dates, Index Set Date, Credit Refresh, File Follow Up (15 Day), File Follow Up (30 Day), Flood Certificate Review, Flood Determination, Fraud X Report, Unknown task (Encompass ID 7d75e7e7), Notice of Incomplete Expiration, Unknown task (Encompass ID 2d3dfd67), Order Appraisal, Order AVM, Order Flood Certificate, Initial Document Quality Assurance, Land MLA, Loan Estimates, Master Property Insurance Review, MI Certificate, Notice of Incomplete, Prepare Payoff Letters, Pre-Underwriting Checklist, Pull Deed, Recheck Flood, Redisclose HELOC Disclosure, Review Credit, Order FraudX, Order HOI, Order PAR, Order SSVN, Order Title, Send Disclosures Closed End, Send Disclosures (HELOC), Send Initial Closing Disclosure, Pre Approval 1003, Unknown task (Encompass ID d8e42d32), 1008 Final, Title (Ownership Report), Confirm Scheduling, Appraisal Invoice, Underwrite, Approve Funding, Contract UWApproval, Verbal VOE, Approve Wire, Create Closing Package, ARM Disclosure, Unknown task (Encompass ID 931feddf), Closing Setup, Confirm Funding, Review PAR (1st Review), Review PAR (2nd Review), Send Commitment Letter, Send Disclosures Alert (only if ([Current Loan Status] = \"Application denied\" OR [Current Loan Status] = \"File Closed for incompleteness\" OR [Current Loan Status] = \"Application withdrawn\")).",
      "kind": "effects",
      "ruleName": "Task_Cancel_AllAdverse",
      "grouped": 56
@@ -5832,7 +5832,7 @@
      "toIds": [
       "task:PostClosingQC_DocumentProcessing_TransferToColdStorage"
      ],
-     "sentence": "Encompass creates the task Transfer to Cold Storage (only if ([1393] = \"Application denied\" OR [1393] = \"Application withdrawn\" OR [1393] = \"File Closed for incompleteness\" OR [1393] = \"Application approved but not accepted\")).",
+     "sentence": "Encompass creates the task Transfer to Cold Storage (only if ([Current Loan Status] = \"Application denied\" OR [Current Loan Status] = \"Application withdrawn\" OR [Current Loan Status] = \"File Closed for incompleteness\" OR [Current Loan Status] = \"Application approved but not accepted\")).",
      "kind": "effects",
      "ruleName": "Task_TransfertoCold_Adverse"
     },
@@ -5864,7 +5864,7 @@
      "toIds": [
       "task:PostClosingQC_DocumentProcessing_TransferToColdStorage"
      ],
-     "sentence": "Encompass creates the task Transfer to Cold Storage (only if [CX.EI.UPLOAD.STATUS] <> \"\").",
+     "sentence": "Encompass creates the task Transfer to Cold Storage (only if [Core Boarding Status] <> \"\").",
      "kind": "effects",
      "ruleName": "Task_ColdStorage_PostBoarding"
     },
@@ -5880,7 +5880,7 @@
      "toIds": [
       "rule:954716a7-8060-471c-ae83-de7e505f0495"
      ],
-     "sentence": "When field CX.EI.UPLOAD.STATUS changes to a value:",
+     "sentence": "When Core Boarding Status changes to a value:",
      "kind": "triggers",
      "ruleName": "Task_ColdStorage_Boarding"
     },
@@ -6024,7 +6024,7 @@
      "toIds": [
       "task:Processing_Misc_FileClosureDocuments"
      ],
-     "sentence": "Encompass creates the task File Closure Documents (only if ([1172] = \"HELOC\")).",
+     "sentence": "Encompass creates the task File Closure Documents (only if ([Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "Task_DocumentReceipt"
     },
@@ -6040,7 +6040,7 @@
      "toIds": [
       "task:PostClosingQC_DocumentProcessing_PhysicalPackageReceipt"
      ],
-     "sentence": "Encompass creates the task Physical Package Receipt (only if ([1172] = \"HELOC\")).",
+     "sentence": "Encompass creates the task Physical Package Receipt (only if ([Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "Task_DocumentReceipt"
     },
@@ -6056,7 +6056,7 @@
      "toIds": [
       "task:PostClosingQC_DocumentProcessing_DocumentReceipt"
      ],
-     "sentence": "Encompass creates the task Document Receipt (only if ([1172] = \"HELOC\")).",
+     "sentence": "Encompass creates the task Document Receipt (only if ([Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "Task_DocumentReceipt"
     },
@@ -6120,7 +6120,7 @@
      "toIds": [
       "subtask:PostClosingQC_DocumentProcessing_RecordMortgage|Record Mortgage – 1-to-4 Family Rider"
      ],
-     "sentence": "Encompass adds the subtask Record Mortgage – 1-to-4 Family Rider (only if ([1172] = \"HELOC\") and [#16] > 1).",
+     "sentence": "Encompass adds the subtask Record Mortgage – 1-to-4 Family Rider (only if ([Loan Type] = \"HELOC\") and [Number of Units] > 1).",
      "kind": "effects",
      "ruleName": "SubTask_RecordMortgage"
     },
@@ -6136,7 +6136,7 @@
      "toIds": [
       "subtask:PostClosingQC_DocumentProcessing_RecordMortgage|Record Mortgage – Condo Rider"
      ],
-     "sentence": "Encompass adds the subtask Record Mortgage – Condo Rider (only if ([1172] = \"HELOC\") and ([1041] = \"Condominium\" OR [1041] = \"DetachedCondo\" OR [1041] = \"HighRiseCondominium\")).",
+     "sentence": "Encompass adds the subtask Record Mortgage – Condo Rider (only if ([Loan Type] = \"HELOC\") and ([Property Type] = \"Condominium\" OR [Property Type] = \"DetachedCondo\" OR [Property Type] = \"HighRiseCondominium\")).",
      "kind": "effects",
      "ruleName": "SubTask_RecordMortgage"
     },
@@ -6152,7 +6152,7 @@
      "toIds": [
       "subtask:PostClosingQC_DocumentProcessing_RecordMortgage|Record Mortgage – HELOC Rider"
      ],
-     "sentence": "Encompass adds the subtask Record Mortgage – HELOC Rider (only if ([1172] = \"HELOC\") and ([1172] = \"HELOC\")).",
+     "sentence": "Encompass adds the subtask Record Mortgage – HELOC Rider (only if ([Loan Type] = \"HELOC\") and ([Loan Type] = \"HELOC\")).",
      "kind": "effects",
      "ruleName": "SubTask_RecordMortgage"
     },
@@ -6168,7 +6168,7 @@
      "toIds": [
       "subtask:PostClosingQC_DocumentProcessing_RecordMortgage|Record Mortgage – PUD Rider"
      ],
-     "sentence": "Encompass adds the subtask Record Mortgage – PUD Rider (only if ([1172] = \"HELOC\") and [1041] = \"PUD\").",
+     "sentence": "Encompass adds the subtask Record Mortgage – PUD Rider (only if ([Loan Type] = \"HELOC\") and [Property Type] = \"PUD\").",
      "kind": "effects",
      "ruleName": "SubTask_RecordMortgage"
     },
@@ -6184,7 +6184,7 @@
      "toIds": [
       "subtask:PostClosingQC_DocumentProcessing_RecordMortgage|Record Mortgage – Second Home Rider"
      ],
-     "sentence": "Encompass adds the subtask Record Mortgage – Second Home Rider (only if ([1172] = \"HELOC\") and ([1811] = \"SecondHome\")).",
+     "sentence": "Encompass adds the subtask Record Mortgage – Second Home Rider (only if ([Loan Type] = \"HELOC\") and ([Occupancy Type] = \"SecondHome\")).",
      "kind": "effects",
      "ruleName": "SubTask_RecordMortgage"
     },
@@ -6726,7 +6726,7 @@
   },
   {
    "entry": "field:1393",
-   "label": "A user (or an integration) changes 1393",
+   "label": "A user (or an integration) changes Current Loan Status",
    "maxDepth": 1,
    "nodeIds": [
     "field:1393",
@@ -6858,7 +6858,7 @@
   },
   {
    "entry": "field:1401",
-   "label": "A user (or an integration) changes 1401",
+   "label": "A user (or an integration) changes Loan Program",
    "maxDepth": 0,
    "nodeIds": [
     "field:1401",
@@ -6872,7 +6872,7 @@
   },
   {
    "entry": "field:2302",
-   "label": "A user (or an integration) changes 2302",
+   "label": "A user (or an integration) changes Approval Expiration Date",
    "maxDepth": 1,
    "nodeIds": [
     "external:notification",
@@ -6892,7 +6892,7 @@
   },
   {
    "entry": "field:2314",
-   "label": "A user (or an integration) changes 2314",
+   "label": "A user (or an integration) changes Appraisal Approval Date (second signer)",
    "maxDepth": 0,
    "nodeIds": [
     "field:2314",
@@ -6910,7 +6910,7 @@
   },
   {
    "entry": "field:2366",
-   "label": "A user (or an integration) changes 2366",
+   "label": "A user (or an integration) changes Flood Zone Indicator",
    "maxDepth": 0,
    "nodeIds": [
     "external:condition",
@@ -6925,7 +6925,7 @@
   },
   {
    "entry": "field:3142",
-   "label": "A user (or an integration) changes 3142",
+   "label": "A user (or an integration) changes TRID Application Date",
    "maxDepth": 1,
    "nodeIds": [
     "external:notification",
@@ -6960,7 +6960,7 @@
   },
   {
    "entry": "field:3152",
-   "label": "A user (or an integration) changes 3152",
+   "label": "A user (or an integration) changes Initial LE Sent Date",
    "maxDepth": 0,
    "nodeIds": [
     "external:notification",
@@ -6974,7 +6974,7 @@
   },
   {
    "entry": "field:3977",
-   "label": "A user (or an integration) changes 3977",
+   "label": "A user (or an integration) changes ICD Sent Date",
    "maxDepth": 0,
    "nodeIds": [
     "field:3977",
@@ -6992,7 +6992,7 @@
   },
   {
    "entry": "field:3983",
-   "label": "A user (or an integration) changes 3983",
+   "label": "A user (or an integration) changes eConsent Date",
    "maxDepth": 0,
    "nodeIds": [
     "field:3983",
@@ -7006,7 +7006,7 @@
   },
   {
    "entry": "field:4458",
-   "label": "A user (or an integration) changes 4458",
+   "label": "A user (or an integration) changes Counteroffer Response",
    "maxDepth": 2,
    "nodeIds": [
     "external:folder",
@@ -7165,7 +7165,7 @@
   },
   {
    "entry": "field:4950",
-   "label": "A user (or an integration) changes 4950",
+   "label": "A user (or an integration) changes NOI Docs Received Back",
    "maxDepth": 0,
    "nodeIds": [
     "field:4950",
@@ -7183,7 +7183,7 @@
   },
   {
    "entry": "field:608",
-   "label": "A user (or an integration) changes 608",
+   "label": "A user (or an integration) changes Amortization Type",
    "maxDepth": 0,
    "nodeIds": [
     "external:notification",
@@ -7199,7 +7199,7 @@
   },
   {
    "entry": "field:748",
-   "label": "A user (or an integration) changes 748",
+   "label": "A user (or an integration) changes Closing Date",
    "maxDepth": 2,
    "nodeIds": [
     "external:notification",
@@ -7255,7 +7255,7 @@
   },
   {
    "entry": "field:Alert.KeyPricingFieldAlert.AlertCount",
-   "label": "A user (or an integration) changes Alert.KeyPricingFieldAlert.AlertCount",
+   "label": "A user (or an integration) changes Key Pricing Alert Count",
    "maxDepth": 0,
    "nodeIds": [
     "external:notification",
@@ -7269,7 +7269,7 @@
   },
   {
    "entry": "field:CUST39FV",
-   "label": "A user (or an integration) changes CUST39FV",
+   "label": "A user (or an integration) changes First Review Date",
    "maxDepth": 0,
    "nodeIds": [
     "external:condition",
@@ -7298,7 +7298,7 @@
   },
   {
    "entry": "field:CUST40FV",
-   "label": "A user (or an integration) changes CUST40FV",
+   "label": "A user (or an integration) changes Second Review Date",
    "maxDepth": 2,
    "nodeIds": [
     "external:condition",
@@ -7343,7 +7343,7 @@
   },
   {
    "entry": "field:CX.ADVERSESIGNER1",
-   "label": "A user (or an integration) changes CX.ADVERSESIGNER1",
+   "label": "A user (or an integration) changes Adverse Decision First Signer (name/date stamp)",
    "maxDepth": 0,
    "nodeIds": [
     "field:CX.ADVERSESIGNER1",
@@ -7373,7 +7373,7 @@
   },
   {
    "entry": "field:CX.APPRAISALSTATUS",
-   "label": "A user (or an integration) changes CX.APPRAISALSTATUS",
+   "label": "A user (or an integration) changes Appraisal Status",
    "maxDepth": 1,
    "nodeIds": [
     "external:condition",
@@ -7405,7 +7405,7 @@
   },
   {
    "entry": "field:CX.BCSBBRANCH",
-   "label": "A user (or an integration) changes CX.BCSBBRANCH",
+   "label": "A user (or an integration) changes Branch (BCSB)",
    "maxDepth": 0,
    "nodeIds": [
     "external:role",
@@ -7436,7 +7436,7 @@
   },
   {
    "entry": "field:CX.CURRENTADDRESSSTRING",
-   "label": "A user (or an integration) changes CX.CURRENTADDRESSSTRING",
+   "label": "A user (or an integration) changes Borrower Current Address (combined)",
    "maxDepth": 0,
    "nodeIds": [
     "field:CX.CURRENTADDRESSSTRING",
@@ -7450,7 +7450,7 @@
   },
   {
    "entry": "field:CX.DENIALREVIEW",
-   "label": "A user (or an integration) changes CX.DENIALREVIEW",
+   "label": "A user (or an integration) changes Denial Review Requested",
    "maxDepth": 0,
    "nodeIds": [
     "external:notification",
@@ -7466,7 +7466,7 @@
   },
   {
    "entry": "field:CX.DISCLOSUREREVIEW",
-   "label": "A user (or an integration) changes CX.DISCLOSUREREVIEW",
+   "label": "A user (or an integration) changes Disclosure Review Decision",
    "maxDepth": 0,
    "nodeIds": [
     "external:disclosure",
@@ -7484,7 +7484,7 @@
   },
   {
    "entry": "field:CX.EI.UPLOAD.STATUS",
-   "label": "A user (or an integration) changes CX.EI.UPLOAD.STATUS",
+   "label": "A user (or an integration) changes Core Boarding Status",
    "maxDepth": 0,
    "nodeIds": [
     "field:CX.EI.UPLOAD.STATUS",
@@ -7502,7 +7502,7 @@
   },
   {
    "entry": "field:CX.FLOODAUTOMATE",
-   "label": "A user (or an integration) changes CX.FLOODAUTOMATE",
+   "label": "A user (or an integration) changes Automated Flood Order",
    "maxDepth": 0,
    "nodeIds": [
     "external:order",
@@ -7518,7 +7518,7 @@
   },
   {
    "entry": "field:CX.FUNDINGAPPROVED",
-   "label": "A user (or an integration) changes CX.FUNDINGAPPROVED",
+   "label": "A user (or an integration) changes Funding Approved",
    "maxDepth": 1,
    "nodeIds": [
     "external:notification",
@@ -7542,7 +7542,7 @@
   },
   {
    "entry": "field:CX.FUNDINGCONFIRMED",
-   "label": "A user (or an integration) changes CX.FUNDINGCONFIRMED",
+   "label": "A user (or an integration) changes Funding Confirmed",
    "maxDepth": 0,
    "nodeIds": [
     "field:CX.FUNDINGCONFIRMED",
@@ -7558,7 +7558,7 @@
   },
   {
    "entry": "field:CX.LOANFOLDER",
-   "label": "A user (or an integration) changes CX.LOANFOLDER",
+   "label": "A user (or an integration) changes Loan Folder",
    "maxDepth": 0,
    "nodeIds": [
     "external:folder",
@@ -7572,7 +7572,7 @@
   },
   {
    "entry": "field:CX.PREQUALIFIED",
-   "label": "A user (or an integration) changes CX.PREQUALIFIED",
+   "label": "A user (or an integration) changes Prequalified",
    "maxDepth": 0,
    "nodeIds": [
     "external:folder",
@@ -7590,7 +7590,7 @@
   },
   {
    "entry": "field:CX.TODAYS",
-   "label": "A user (or an integration) changes CX.TODAYS",
+   "label": "A user (or an integration) changes Today",
    "maxDepth": 1,
    "nodeIds": [
     "field:CX.TODAYS",
@@ -7608,7 +7608,7 @@
   },
   {
    "entry": "field:CX.UCDFANNIE",
-   "label": "A user (or an integration) changes CX.UCDFANNIE",
+   "label": "A user (or an integration) changes Run UCD/LCA Trigger",
    "maxDepth": 0,
    "nodeIds": [
     "external:notification",
@@ -7624,7 +7624,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.ACTION.1",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.ACTION.1",
+   "label": "A user (or an integration) changes Adverse Action Reason 1",
    "maxDepth": 1,
    "nodeIds": [
     "external:notification",
@@ -7649,7 +7649,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.ACTION.2",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.ACTION.2",
+   "label": "A user (or an integration) changes Adverse Action Reason 2",
    "maxDepth": 1,
    "nodeIds": [
     "external:notification",
@@ -7674,7 +7674,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.ACTION.3",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.ACTION.3",
+   "label": "A user (or an integration) changes Adverse Action Reason 3",
    "maxDepth": 1,
    "nodeIds": [
     "external:notification",
@@ -7699,7 +7699,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.ACTION.4",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.ACTION.4",
+   "label": "A user (or an integration) changes Adverse Action Reason 4",
    "maxDepth": 1,
    "nodeIds": [
     "external:notification",
@@ -7724,7 +7724,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.SIGNER2.1",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.SIGNER2.1",
+   "label": "A user (or an integration) changes Second Signer (Adverse) 1",
    "maxDepth": 2,
    "nodeIds": [
     "external:folder",
@@ -7906,7 +7906,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.SIGNER2.2",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.SIGNER2.2",
+   "label": "A user (or an integration) changes Second Signer (Adverse) 2",
    "maxDepth": 2,
    "nodeIds": [
     "external:folder",
@@ -8088,7 +8088,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.SIGNER2.3",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.SIGNER2.3",
+   "label": "A user (or an integration) changes Second Signer (Adverse) 3",
    "maxDepth": 2,
    "nodeIds": [
     "external:folder",
@@ -8270,7 +8270,7 @@
   },
   {
    "entry": "field:CX.UW.ADVERSE.SIGNER2.4",
-   "label": "A user (or an integration) changes CX.UW.ADVERSE.SIGNER2.4",
+   "label": "A user (or an integration) changes Second Signer (Adverse) 4",
    "maxDepth": 2,
    "nodeIds": [
     "external:folder",
@@ -8452,7 +8452,7 @@
   },
   {
    "entry": "field:CX.UW.APPROVAL.LATEST.NAME",
-   "label": "A user (or an integration) changes CX.UW.APPROVAL.LATEST.NAME",
+   "label": "A user (or an integration) changes Latest Approval Name",
    "maxDepth": 0,
    "nodeIds": [
     "field:CX.UW.APPROVAL.LATEST.NAME",
@@ -8480,7 +8480,7 @@
   },
   {
    "entry": "field:CX.WIREAPPROVED",
-   "label": "A user (or an integration) changes CX.WIREAPPROVED",
+   "label": "A user (or an integration) changes Wire Approved",
    "maxDepth": 0,
    "nodeIds": [
     "field:CX.WIREAPPROVED",
@@ -8494,7 +8494,7 @@
   },
   {
    "entry": "field:CX.WIREAPPRREQ",
-   "label": "A user (or an integration) changes CX.WIREAPPRREQ",
+   "label": "A user (or an integration) changes Wire Approval Requested",
    "maxDepth": 0,
    "nodeIds": [
     "field:CX.WIREAPPRREQ",
@@ -8508,7 +8508,7 @@
   },
   {
    "entry": "field:Document.DateOrdered.MA Notice of Flood Insurance Coverage",
-   "label": "A user (or an integration) changes Document.DateOrdered.MA Notice of Flood Insurance Coverage",
+   "label": "A user (or an integration) changes MA Flood Notice Ordered Date",
    "maxDepth": 0,
    "nodeIds": [
     "external:condition",
@@ -8522,7 +8522,7 @@
   },
   {
    "entry": "field:Document.DateOrdered.Notice of Special Flood Hazards and Availability of Federal Disaster Relief Assistance",
-   "label": "A user (or an integration) changes Document.DateOrdered.Notice of Special Flood Hazards and Availability of Federal Disaster Relief Assistance",
+   "label": "A user (or an integration) changes Federal Flood Notice Ordered Date",
    "maxDepth": 0,
    "nodeIds": [
     "external:condition",
@@ -8536,7 +8536,7 @@
   },
   {
    "entry": "field:Document.DateReceived.Commitment Acknowledgment",
-   "label": "A user (or an integration) changes Document.DateReceived.Commitment Acknowledgment",
+   "label": "A user (or an integration) changes Commitment Acknowledgment Received Date",
    "maxDepth": 0,
    "nodeIds": [
     "external:condition",
@@ -8550,7 +8550,7 @@
   },
   {
    "entry": "field:REQUEST.X26",
-   "label": "A user (or an integration) changes REQUEST.X26",
+   "label": "A user (or an integration) changes Disclosure Trigger Helper",
    "maxDepth": 0,
    "nodeIds": [
     "external:condition",

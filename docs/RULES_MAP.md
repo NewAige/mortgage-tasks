@@ -25,7 +25,7 @@ This page explains how the Encompass workflow rules connect the task templates. 
 flowchart LR
     n1["File Follow Up (15 Day)"]
     n2["File Follow Up (30 Day)"]
-    n3("Field: 1393 changes")
+    n3("Field: Current Loan Status changes")
     n4(["⏱ Live Follow Up (15 Days)"])
     n5(["⏱ File Started Follow Up (15 Days) - Pre-Approval"])
     n6["→ Stage 2: Processing (24 tasks): ARM Disclosure, Appraisal Invoice,…"]
@@ -82,21 +82,21 @@ flowchart LR
     n12["Send Disclosures (HELOC)"]
     n13["Send Disclosures Alert"]
     n14["Send Disclosures Closed End"]
-    n15("Field: 1401 changes")
-    n16("Field: 1393 changes")
+    n15("Field: Loan Program changes")
+    n16("Field: Current Loan Status changes")
     n17["Same stage (14 tasks): HOI Review, Mailing Initial Disclosures, Notic…"]
     class n17 stub
-    n18("Field: 3142 changes")
+    n18("Field: TRID Application Date changes")
     n19("File attached: Flood Certificate")
     n20("Milestone: Pre Processing completed")
     n21("Milestone: Processing completed")
     n22("Milestone: Processing - E completed")
     n23("File attached: Appraisal Check")
-    n24("Field: CX.FLOODAUTOMATE changes")
-    n25("Field: 608 changes")
+    n24("Field: Automated Flood Order changes")
+    n25("Field: Amortization Type changes")
     n26("File attached: Acknowledgement of Intent to Proceed")
     n27("Milestone: Broker Import completed")
-    n28("Field: CX.CURRENTADDRESSSTRING changes")
+    n28("Field: Borrower Current Address (combined) changes")
     n29["→ Stage 5: Funding (4 tasks): Approve Funding, Approve Wire, Confirm…"]
     class n29 stub
     n30["→ Not in template library (15 tasks): 1008 Final, Contract UWApproval…"]
@@ -182,29 +182,29 @@ flowchart LR
     n10["Withdraw Loan"]
     n11["→ Stage 7: Post-Closing QC (4 tasks): Document Receipt, Initial Docum…"]
     class n11 stub
-    n12("Field: 4950 changes")
-    n13("Field: 1393 changes")
+    n12("Field: NOI Docs Received Back changes")
+    n13("Field: Current Loan Status changes")
     n14("File attached: Conversation Log")
     n15["Same stage (21 tasks): ARM Disclosure, Appraisal Invoice, Flood Certi…"]
     class n15 stub
     n16("File attached: Disclosure Tracking Sheet")
     n17("File attached: 1003 - URLA")
-    n18("Field: 3983 changes")
+    n18("Field: eConsent Date changes")
     n19(["⏱ Notice of Incomplete Warning"])
     n20["→ Stage 1: Origination · File Follow Up (15 Day)"]
     class n20 stub
     n21["→ Stage 1: Origination · File Follow Up (30 Day)"]
     class n21 stub
-    n22("Field: REQUEST.X26 changes")
+    n22("Field: Disclosure Trigger Helper changes")
     n23("File attached: eConsent")
     n24(["⏱ Notice of Incomplete Closure"])
     n25("File attached: USA Patriot Act Information Disclosure")
-    n26("Field: 4458 changes")
+    n26("Field: Counteroffer Response changes")
     n27(["⏱ Closing"])
-    n28("Field: CX.UW.ADVERSE.SIGNER2.1 changes")
-    n29("Field: CX.UW.ADVERSE.SIGNER2.2 changes")
-    n30("Field: CX.UW.ADVERSE.SIGNER2.3 changes")
-    n31("Field: CX.UW.ADVERSE.SIGNER2.4 changes")
+    n28("Field: Second Signer (Adverse) 1 changes")
+    n29("Field: Second Signer (Adverse) 2 changes")
+    n30("Field: Second Signer (Adverse) 3 changes")
+    n31("Field: Second Signer (Adverse) 4 changes")
     n32["→ Stage 3: Underwriting (9 tasks): Counteroffer Closure, Counteroffer…"]
     class n32 stub
     n33["→ Stage 5: Funding (4 tasks): Approve Funding, Approve Wire, Confirm…"]
@@ -309,9 +309,9 @@ flowchart LR
     n11["Pull Property Field Card"]
     n12["Recheck Flood"]
     n13["Send Commitment Letter"]
-    n14("Field: 1393 changes")
+    n14("Field: Current Loan Status changes")
     n15("File attached: Homeowner's Insurance Policy")
-    n16("Field: CX.UW.APPROVAL.LATEST.NAME changes")
+    n16("Field: Latest Approval Name changes")
     n17["Same stage (14 tasks): ARM Disclosure, Appraisal Invoice, Flood Certi…"]
     class n17 stub
     n18("Milestone: Cond. Approval - E completed")
@@ -377,15 +377,15 @@ flowchart LR
     n7["Send AVM"]
     n8["Send Appraisal"]
     n9["Title (Ownership Report)"]
-    n10("Field: 1393 changes")
-    n11("Field: CUST39FV changes")
+    n10("Field: Current Loan Status changes")
+    n11("Field: First Review Date changes")
     n12("File attached: Property Assessment Report (PAR)")
-    n13("Field: CUST40FV changes")
+    n13("Field: Second Review Date changes")
     n14("File attached: Appraisal")
     n15(["⏱ SSR Report(s) Available Scheduler"])
     n16("File attached: Title Report")
     n17("File attached: Appraisal Review Form")
-    n18("Field: CX.APPRAISALSTATUS changes")
+    n18("Field: Appraisal Status changes")
     n19["→ Stage 5: Funding (4 tasks): Approve Funding, Approve Wire, Confirm…"]
     class n19 stub
     n20["→ Stage 2: Processing (24 tasks): ARM Disclosure, Appraisal Invoice,…"]
@@ -447,18 +447,18 @@ flowchart LR
     n3["Denial – Second Look"]
     n4["Send Counteroffer"]
     n5["Underwrite"]
-    n6("Field: 4458 changes")
-    n7("Field: CX.ADVERSESIGNER1 changes")
-    n8("Field: CX.UW.ADVERSE.SIGNER2.1 changes")
-    n9("Field: CX.UW.ADVERSE.SIGNER2.2 changes")
-    n10("Field: CX.UW.ADVERSE.SIGNER2.3 changes")
-    n11("Field: CX.UW.ADVERSE.SIGNER2.4 changes")
-    n12("Field: 1393 changes")
+    n6("Field: Counteroffer Response changes")
+    n7("Field: Adverse Decision First Signer (name/date stamp) changes")
+    n8("Field: Second Signer (Adverse) 1 changes")
+    n9("Field: Second Signer (Adverse) 2 changes")
+    n10("Field: Second Signer (Adverse) 3 changes")
+    n11("Field: Second Signer (Adverse) 4 changes")
+    n12("Field: Current Loan Status changes")
     n13(["⏱ Counteroffer Closure"])
     n14(["⏱ Counteroffer Warning"])
-    n15("Field: CX.UW.APPROVAL.LATEST.NAME changes")
-    n16("Field: 748 changes")
-    n17("Field: CX.DENIALREVIEW changes")
+    n15("Field: Latest Approval Name changes")
+    n16("Field: Closing Date changes")
+    n17("Field: Denial Review Requested changes")
     n18(["⏱ Approval Expiration"])
     n19("Milestone: Submittal - E completed")
     n20["→ Stage 5: Funding (4 tasks): Approve Funding, Approve Wire, Confirm…"]
@@ -556,10 +556,10 @@ flowchart LR
     n4["Prepare Payoff Letters"]
     n5["Request Closing Disclosure"]
     n6["Send Initial Closing Disclosure"]
-    n7("Field: 3977 changes")
-    n8("Field: 1393 changes")
-    n9("Field: CUST40FV changes")
-    n10("Field: 748 changes")
+    n7("Field: ICD Sent Date changes")
+    n8("Field: Current Loan Status changes")
+    n9("Field: Second Review Date changes")
+    n10("Field: Closing Date changes")
     n11("Milestone: Clear to Close - E completed")
     n12("Milestone: Cond. Approval completed")
     n13("Milestone: Cond. Approval - E completed")
@@ -631,16 +631,16 @@ flowchart LR
     n3["Board Loan"]
     n4["Confirm Funding"]
     n5["Fund Loan"]
-    n6("Field: CX.EI.UPLOAD.STATUS changes")
-    n7("Field: 1393 changes")
+    n6("Field: Core Boarding Status changes")
+    n7("Field: Current Loan Status changes")
     n8("Milestone: Funding completed")
     n9("Milestone: Boarding - E completed")
-    n10("Field: CX.WIREAPPROVED changes")
-    n11("Field: 748 changes")
-    n12("Field: CX.WIREAPPRREQ changes")
+    n10("Field: Wire Approved changes")
+    n11("Field: Closing Date changes")
+    n12("Field: Wire Approval Requested changes")
     n13("File attached: Funding/Boarding Documents")
-    n14("Field: CX.FUNDINGCONFIRMED changes")
-    n15("Field: CX.FUNDINGAPPROVED changes")
+    n14("Field: Funding Confirmed changes")
+    n15("Field: Funding Approved changes")
     n16(["⏱ Funding"])
     n17["→ Stage 2: Processing (25 tasks): ARM Disclosure, Appraisal Invoice,…"]
     class n17 stub
@@ -703,7 +703,7 @@ flowchart LR
 flowchart LR
     n1["Credit Refresh"]
     n2["Fraud X Report"]
-    n3("Field: 1393 changes")
+    n3("Field: Current Loan Status changes")
     n4["→ Stage 5: Funding (4 tasks): Approve Funding, Approve Wire, Confirm…"]
     class n4 stub
     n5["→ Stage 2: Processing (24 tasks): ARM Disclosure, Appraisal Invoice,…"]
@@ -754,8 +754,8 @@ flowchart LR
     n14["→ Stage 2: Processing (25 tasks): ARM Disclosure, Appraisal Invoice,…"]
     class n14 stub
     n15("File attached: USA Patriot Act Information Disclosure")
-    n16("Field: 1393 changes")
-    n17("Field: CX.EI.UPLOAD.STATUS changes")
+    n16("Field: Current Loan Status changes")
+    n17("Field: Core Boarding Status changes")
     n18("File attached: Equal Credit Opportunity Act Notice")
     n19(["⏱ Closing"])
     n20("File attached: Home Equity Line of Credit Agreement")
@@ -811,7 +811,7 @@ Each picture shows what starts the timer, what happens when it runs out, and (do
 ```mermaid
 flowchart LR
     n1(["⏱ Approval Expiration"])
-    n2("Field: 2302 changes")
+    n2("Field: Approval Expiration Date changes")
     n3["Notification: Approval expired / extended notice"]
     n4["Underwrite"]
     n2 -->|"starts"| n1
@@ -826,7 +826,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     n1(["⏱ Cancel Undisclosed Debt Monitoring"])
-    n2("Field: 748 changes")
+    n2("Field: Closing Date changes")
     n3["Service order: Undisclosed debt monitoring - cancel"]
     n2 -->|"starts"| n1
     n1 -->|"runs out"| n3
@@ -839,7 +839,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     n1(["⏱ Closing"])
-    n2("Field: 748 changes")
+    n2("Field: Closing Date changes")
     n3["File Closure Documents"]
     n4["Physical Package Receipt"]
     n5["Document Receipt"]
@@ -859,11 +859,11 @@ flowchart LR
     n2["Counteroffer Closure – Extension Request"]
     n3["Send Counteroffer – Send Counteroffer Electronically"]
     n4(["⏱ Counteroffer Warning"])
-    n5("Field: CX.UW.ADVERSE.ACTION.1 changes")
-    n6("Field: CX.UW.ADVERSE.ACTION.2 changes")
-    n7("Field: CX.UW.ADVERSE.ACTION.3 changes")
-    n8("Field: CX.UW.ADVERSE.ACTION.4 changes")
-    n9("Field: 4458 changes")
+    n5("Field: Adverse Action Reason 1 changes")
+    n6("Field: Adverse Action Reason 2 changes")
+    n7("Field: Adverse Action Reason 3 changes")
+    n8("Field: Adverse Action Reason 4 changes")
+    n9("Field: Counteroffer Response changes")
     n10["Counteroffer Closure"]
     n2 -->|"Extension Request: Done → starts"| n1
     n3 -->|"Send Counteroffer Electronically: Done → starts"| n1
@@ -885,11 +885,11 @@ flowchart LR
     n1(["⏱ Counteroffer Warning"])
     n2["Counteroffer Closure – Extension Request"]
     n3["Send Counteroffer – Send Counteroffer Electronically"]
-    n4("Field: CX.UW.ADVERSE.ACTION.1 changes")
-    n5("Field: CX.UW.ADVERSE.ACTION.2 changes")
-    n6("Field: CX.UW.ADVERSE.ACTION.3 changes")
-    n7("Field: CX.UW.ADVERSE.ACTION.4 changes")
-    n8("Field: 4458 changes")
+    n4("Field: Adverse Action Reason 1 changes")
+    n5("Field: Adverse Action Reason 2 changes")
+    n6("Field: Adverse Action Reason 3 changes")
+    n7("Field: Adverse Action Reason 4 changes")
+    n8("Field: Counteroffer Response changes")
     n9(["⏱ Counteroffer Closure"])
     n10["Notification: Counteroffer expiration warning"]
     n2 -->|"Extension Request: Done → starts"| n1
@@ -910,8 +910,8 @@ flowchart LR
 ```mermaid
 flowchart LR
     n1(["⏱ Day Refresh"])
-    n2("Field: CX.TODAYS changes")
-    n3("Field: CX.TODAYS.DATE set")
+    n2("Field: Today changes")
+    n3("Field: Today set")
     n2 -->|"starts"| n1
     n1 -->|"runs out → sets field"| n3
     classDef stub stroke-dasharray: 4 3
@@ -924,9 +924,9 @@ flowchart LR
 flowchart LR
     n1(["⏱ File Started Follow Up (15 Days) - Pre-Approval"])
     n2("Loan created")
-    n3("Field: 2314 changes")
-    n4("Field: CX.PREQUALIFIED changes")
-    n5("Field: 3142 changes")
+    n3("Field: Appraisal Approval Date (second signer) changes")
+    n4("Field: Prequalified changes")
+    n5("Field: TRID Application Date changes")
     n6["File Follow Up (15 Day)"]
     n7["Notification: Application follow-up (15 days)"]
     n2 -->|"starts"| n1
@@ -945,9 +945,9 @@ flowchart LR
 flowchart LR
     n1(["⏱ File Started Follow Up (30 Days) - Pre-Approval"])
     n2("Loan created")
-    n3("Field: 2314 changes")
-    n4("Field: CX.PREQUALIFIED changes")
-    n5("Field: 3142 changes")
+    n3("Field: Appraisal Approval Date (second signer) changes")
+    n4("Field: Prequalified changes")
+    n5("Field: TRID Application Date changes")
     n6["File Follow Up (30 Day)"]
     n7["Notification: Application follow-up (30 days)"]
     n2 -->|"starts"| n1
@@ -965,7 +965,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     n1(["⏱ Funding"])
-    n2("Field: CX.FUNDINGAPPROVED changes")
+    n2("Field: Funding Approved changes")
     n3["Notification: Fund loan notice"]
     n4["Board Loan"]
     n5["Fund Loan"]
@@ -982,8 +982,8 @@ flowchart LR
 ```mermaid
 flowchart LR
     n1(["⏱ Live Follow Up (15 Days)"])
-    n2("Field: 3142 changes")
-    n3("Field: 2314 changes")
+    n2("Field: TRID Application Date changes")
+    n3("Field: Appraisal Approval Date (second signer) changes")
     n4["File Follow Up (15 Day)"]
     n5["Notification: Application follow-up (15 days)"]
     n2 -->|"starts"| n1
@@ -999,7 +999,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     n1(["⏱ Live Follow Up (30 Days)"])
-    n2("Field: 3142 changes")
+    n2("Field: TRID Application Date changes")
     n3["Notification: Application follow-up (30 days)"]
     n4["File Follow Up (30 Day)"]
     n2 -->|"starts"| n1
@@ -1015,7 +1015,7 @@ flowchart LR
 flowchart LR
     n1(["⏱ Notice of Incomplete Closure"])
     n2(["⏱ Notice of Incomplete Warning"])
-    n3("Field: 4950 changes")
+    n3("Field: NOI Docs Received Back changes")
     n4["Notice of Incomplete Expiration"]
     n2 -->|"runs out → starts"| n1
     n3 -.->|"cancels"| n1
@@ -1030,7 +1030,7 @@ flowchart LR
 flowchart LR
     n1(["⏱ Notice of Incomplete Warning"])
     n2["Notice of Incomplete – Sub-Task Name"]
-    n3("Field: 4950 changes")
+    n3("Field: NOI Docs Received Back changes")
     n4(["⏱ Notice of Incomplete Closure"])
     n5["Notification: Notice of Incomplete expiration warning"]
     n2 -->|"Sub-Task Name: Done → starts"| n1
@@ -1046,7 +1046,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     n1(["⏱ SSR Report(s) Available Scheduler"])
-    n2("Field: CX.APPRAISALSTATUS changes")
+    n2("Field: Appraisal Status changes")
     n3["Appraisal - Ready in ValueLink Follow Up"]
     n2 -->|"starts"| n1
     n2 -.->|"cancels"| n1
@@ -1063,96 +1063,96 @@ One row per task template (79 templates in `tasks/`). *Created by* lists the rul
 
 | Task | Created by | Conditional subtasks a rule adds | Conditional subtasks no known rule adds | Subtasks with rules on Done / on Issue | Completed by |
 |---|---|---|---|---|---|
-| **File Follow Up (15 Day)**<br>Pipeline Management<br>`PipelineMgt_PreApp_FollowUp15` | When the Live Follow Up (15 Days) timer runs out (only if [@2025] >= #08/19/2024# and IsEmpty([2301]) AND NOT ([1393] = "Application denied" OR [13…) `Live App Follow Up (15 Days)`<br>When the File Started Follow Up (15 Days) - Pre-Approval timer runs out (only if IsEmpty([2301]) AND NOT ([1393] = "Application denied" OR [1393] = "Application withdrawn…) `PreApp Follow Up 15`<br>When the File Started Follow Up (15 Days) - Pre-Approval timer runs out (only if [@2025] >= #08/19/2024# and IsEmpty([2301]) AND NOT ([1393] = "Application denied" OR [13…) `Pre-App Follow Up (15 Days)` | — | — | Issue: Decision Status (Task_CreateNOI_15Day) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **File Follow Up (30 Day)**<br>Pipeline Management<br>`PipelineMgt_PreApp_FollowUp` | When the Live Follow Up (30 Days) timer runs out (only if [@2025] >= #08/19/2024# and IsEmpty([2301]) AND NOT ([1393] = "Application denied" OR [13…) `Live App Follow Up (30 Days)`<br>When the File Started Follow Up (30 Days) - Pre-Approval timer runs out (only if loan channel is Banked - Retail or Banked - Wholesale and [@745] >= #01/20/2026# and IsEm…) `Pre-App Follow Up (30 Days)` | — | — | Issue: Decision Status (Task_CreateNOI_30Day) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **File Follow Up (15 Day)**<br>Pipeline Management<br>`PipelineMgt_PreApp_FollowUp15` | When the Live Follow Up (15 Days) timer runs out (only if [File Creation Date] >= #08/19/2024# and IsEmpty([Approval Date (approval letter)]) AND N…) `Live App Follow Up (15 Days)`<br>When the File Started Follow Up (15 Days) - Pre-Approval timer runs out (only if IsEmpty([Approval Date (approval letter)]) AND NOT ([Current Loan Status] = "Application …) `PreApp Follow Up 15`<br>When the File Started Follow Up (15 Days) - Pre-Approval timer runs out (only if [File Creation Date] >= #08/19/2024# and IsEmpty([Approval Date (approval letter)]) AND N…) `Pre-App Follow Up (15 Days)` | — | — | Issue: Decision Status (Task_CreateNOI_15Day) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **File Follow Up (30 Day)**<br>Pipeline Management<br>`PipelineMgt_PreApp_FollowUp` | When the Live Follow Up (30 Days) timer runs out (only if [File Creation Date] >= #08/19/2024# and IsEmpty([Approval Date (approval letter)]) AND N…) `Live App Follow Up (30 Days)`<br>When the File Started Follow Up (30 Days) - Pre-Approval timer runs out (only if loan channel is Banked - Retail or Banked - Wholesale and [File Start Date] >= #01/20/202…) `Pre-App Follow Up (30 Days)` | — | — | Issue: Decision Status (Task_CreateNOI_30Day) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 
 ### Stage 2: Processing (34 task templates)
 
 | Task | Created by | Conditional subtasks a rule adds | Conditional subtasks no known rule adds | Subtasks with rules on Done / on Issue | Completed by |
 |---|---|---|---|---|---|
-| **Appraisal Invoice**<br>Appraisal<br>`Processing_Appraisal_Order` | When Order AVM is completed as Issue `Task_AVMFailCompletion`<br>When Order AVM – Value Sufficient is marked Issue `Task-OrderAppraisalEquity-AVMFail`<br>When Send Disclosures (HELOC) is created (only if [#2] > 400000) `Task_HELOCIntiailDocs2`<br>+2 more | Obtain Quote (2 rules)<br>Send Invoice (3 rules) | — | Done: Obtain Quote (Subtask_QuoteComplete); Send Invoice (Appraisal Invoice Notification) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Order Appraisal**<br>Appraisal<br>`Processing_Appraisal_Ordering` | When a file is attached to the Appraisal Check document (only if [CX.TASKPILOT] = "Y") `Task_OrderAppraisal` | Automated Order (1 rule)<br>Manual Order (1 rule)<br>Quote Assignment (1 rule) | Order 1004<br>Order 1025<br>Order 1073<br>Payment Recording | Done: Automated Order (Service_AppraisalOrder) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **ARM Disclosure**<br>ARM Disclosure<br>`Processing_ARM_Disclosure` | When field 608 changes to "AdjustableRate" (only if Not IsEmpty([3152]) AND [CX.LASTDISCLOSEDAMORTIZATION] <> [608]) `Amortization Type Change Notice and Task` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Order AVM**<br>AVM<br>`Processing_ServiceOrders_OrderAVM` | When Send Disclosures (HELOC) is created (only if [#2] <= 400000) `Task_HELOCIntiailDocs2` | — | — | Done: Ready to Send (SubTask_AVMSuccessCompletion)<br>Issue: Save AVM to eFolder (SubTask_AVMFailCompletion); Value Sufficient (Task-OrderAppraisalEquity-AVMFail) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When Order AVM – Save AVM to eFolder is marked Issue `SubTask_AVMFailCompletion`<br>When Order AVM – Ready to Send is marked Done `SubTask_AVMSuccessCompletion` |
-| **Review Credit**<br>Credit Review<br>`Processing_FileSetup_ReviewCredit` | When the Pre Processing milestone is completed, the Processing milestone is completed or the Processing - E milestone is completed (only if [4002] = "Firstimer" OR [CX.TASKPILOT] = "Y") `Task_CreditReview` | — | — | Done: Red Flag Form (Condition_CreditReview_RedFlagForm)<br>Issue: Address Discrepancy (Condition_CreditReview_Address); Fraud Alerts (Condition_CreditReview_Fraud); Frozen Score (Condition_CreditReview_Frozen); Name Discrepancy (Condition_CreditReview_Name); +2 more | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Appraisal Invoice**<br>Appraisal<br>`Processing_Appraisal_Order` | When Order AVM is completed as Issue `Task_AVMFailCompletion`<br>When Order AVM – Value Sufficient is marked Issue `Task-OrderAppraisalEquity-AVMFail`<br>When Send Disclosures (HELOC) is created (only if [Loan Amount] > 400000) `Task_HELOCIntiailDocs2`<br>+2 more | Obtain Quote (2 rules)<br>Send Invoice (3 rules) | — | Done: Obtain Quote (Subtask_QuoteComplete); Send Invoice (Appraisal Invoice Notification) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Order Appraisal**<br>Appraisal<br>`Processing_Appraisal_Ordering` | When a file is attached to the Appraisal Check document (only if [Task Pilot Loan] = "Y") `Task_OrderAppraisal` | Automated Order (1 rule)<br>Manual Order (1 rule)<br>Quote Assignment (1 rule) | Order 1004<br>Order 1025<br>Order 1073<br>Payment Recording | Done: Automated Order (Service_AppraisalOrder) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **ARM Disclosure**<br>ARM Disclosure<br>`Processing_ARM_Disclosure` | When Amortization Type changes to "AdjustableRate" (only if Not IsEmpty([Initial LE Sent Date]) AND [Last Disclosed Amortization Type] <> [Amortizati…) `Amortization Type Change Notice and Task` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Order AVM**<br>AVM<br>`Processing_ServiceOrders_OrderAVM` | When Send Disclosures (HELOC) is created (only if [Loan Amount] <= 400000) `Task_HELOCIntiailDocs2` | — | — | Done: Ready to Send (SubTask_AVMSuccessCompletion)<br>Issue: Save AVM to eFolder (SubTask_AVMFailCompletion); Value Sufficient (Task-OrderAppraisalEquity-AVMFail) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When Order AVM – Save AVM to eFolder is marked Issue `SubTask_AVMFailCompletion`<br>When Order AVM – Ready to Send is marked Done `SubTask_AVMSuccessCompletion` |
+| **Review Credit**<br>Credit Review<br>`Processing_FileSetup_ReviewCredit` | When the Pre Processing milestone is completed, the Processing milestone is completed or the Processing - E milestone is completed (only if [Borrower Last Name] = "Firstimer" OR [Task Pilot Loan] = "Y") `Task_CreditReview` | — | — | Done: Red Flag Form (Condition_CreditReview_RedFlagForm)<br>Issue: Address Discrepancy (Condition_CreditReview_Address); Fraud Alerts (Condition_CreditReview_Fraud); Frozen Score (Condition_CreditReview_Frozen); Name Discrepancy (Condition_CreditReview_Name); +2 more | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Credit Score Disclosure**<br>Credit Score Disclosure<br>`Processing_Disclosures_CreditScoreDisclosure` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
 | **Notice of Incomplete**<br>Disclosures<br>`Processing_Disclosures_NoticeOfIncomplete` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Redisclose HELOC Disclosure**<br>Disclosures<br>`Processing_Disclosures_HELOCDisclosure` | When field 1401 changes to a value (only if [CX.DISCLOSEDPRODUCT] <> "" AND ([1172] = "HELOC") AND [CX.TASKPILOT] = "Y" AND [CX.DISCL…) `Task_HELOCImportantTermsRedisclosure` | — | — | Done: Revised Disclosure Needed (Disclosures_HELOCImportantTerms) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Redisclose HELOC Disclosure**<br>Disclosures<br>`Processing_Disclosures_HELOCDisclosure` | When Loan Program changes to a value (only if [Product Changed from Disclosed] <> "" AND ([Loan Type] = "HELOC") AND [Task Pilot Loan] …) `Task_HELOCImportantTermsRedisclosure` | — | — | Done: Revised Disclosure Needed (Disclosures_HELOCImportantTerms) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Send Disclosures**<br>Disclosures<br>`Processing_FileSetup_SendDisclosures` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Send Disclosures (HELOC)**<br>Disclosures<br>`Processing_FileSetup_SendDisclosuresHELOC` | When the Processing - E milestone is completed (only if ([4002] = "Firstimer" OR [CX.TASKPILOT] = "Y") AND ([1172] = "HELOC")) `Task_HELOCIntiailDocs` | Order AVM (1 rule) | — | Done: FACT Act Disclosure – Ready to Send (Disclosures_HELOCInitialDocs) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Send Disclosures Alert**<br>Disclosures<br>`Processing_FileSetup_DislosureAlert` | When field 3142 changes to a value (only if [CX.TASKPILOT] = "Y"AND ([1172] = "HELOC")) `Task_IntiailDocsAlert` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When the Processing - E milestone is completed (only if ([4002] = "Firstimer" OR [CX.TASKPILOT] = "Y") AND ([1172] = "HELOC")) `Task_HELOCIntiailDocs` |
-| **Send Disclosures Closed End**<br>Disclosures<br>`Processing_FileSetup_SendDisclosuresClosedEnd` | Nothing known — probably added by hand | — | Index | Done: FACT Act Disclosure – Ready to Send (Disclosures_ClosedEnd) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Flood Certificate Review**<br>Flood Certificate<br>`Processing_ServiceOrders_FloodCertificateReview` | When a file is attached to the Flood Certificate document (only if [4002] = "Firstimer" OR [CX.TASKPILOT] = "Y") `Task_ServiceOrders_FloodCertificateReview` | Sub-Task Name (1 rule) | — | Done: Address Matches System (FloodCertificateReview_Address)<br>Issue: Sub-Task Name (Task_FloodRecheck) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Order Flood Certificate**<br>Flood Certificate<br>`Processing_ServiceOrders_OrderFloodCertificate` | When Send Disclosures (HELOC) is created `Task_HELOCIntiailDocs2` | — | Resubmit with Supporting Documents | Done: Submit Order (Service - Flood Order Task) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When Order Flood Certificate – Submit Order is marked Done (only if loan channel is Banked - Wholesale or Banked - Retail and [@3142] >= #03/01/2025#) `Service - Flood Order Task`<br>When field CX.FLOODAUTOMATE changes to "Y" (only if loan channel is Banked - Wholesale or Banked - Retail and [@3142] >= #03/01/2025#) `Service - Flood Order` |
-| **Appraisal Refund**<br>Misc<br>`Processing_Misc_AppraisalRefund` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> "Revisi…) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> "Revisi…) `TaskComplete_PostNOI`<br>When field 4458 changes (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([CX.APPRAISALSTATUS] <> "Revisi…) `CounterOffer_Verdict`<br>+1 more | Cancel Appraisal (1 rule) | — | Issue: Cancel Appraisal (Task_AppraisaRefundCancel) | Staff (no rule known) |
-| **Cancel Flood Certificate**<br>Misc<br>`Processing_Misc_CancelFloodCertificate` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([Document.DateOrdered.Flood Certificate])) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([Document.DateReceived.Flood Certificate])) `TaskComplete_PostNOI`<br>When field 4458 changes (only if Not IsEmpty([Document.DateOrdered.Flood Certificate]) AND [4458]="Declined") `CounterOffer_Verdict`<br>+1 more | — | — | Done: Cancel Flood Certificate on Xactus Website (Subtask_CancelFlood) | Staff (no rule known) |
-| **Cancel PAR**<br>Misc<br>`Processing_Misc_CancelPAR` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([CX.PARORDERED]) AND IsEmpty([Document.DateReceived.Property Assessment Repor…) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([CX.PARORDERED]) AND IsEmpty([Document.DateReceived.Property Assessment Repor…) `TaskComplete_PostNOI`<br>When field 4458 changes (only if Not IsEmpty([CX.PARORDERED]) AND IsEmpty([Document.DateReceived.Property Assessment Repor…) `CounterOffer_Verdict` | — | — | — | Staff (no rule known) |
-| **Cancel Title**<br>Misc<br>`Processing_Misc_CancelTitle` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([CX.TITLEORDERED]) AND IsEmpty([Document.DateReceived.Title Order])) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([CX.TITLEORDERED]) AND IsEmpty([Document.DateReceived.Title Order])) `TaskComplete_PostNOI`<br>When field 4458 changes (only if Not IsEmpty([CX.TITLEORDERED]) AND IsEmpty([Document.DateReceived.Title Order])) `CounterOffer_Verdict` | — | — | — | Staff (no rule known) |
-| **File Closure Documents**<br>Misc<br>`Processing_Misc_FileClosureDocuments` | When Withdraw Loan is completed as Complete `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done `TaskComplete_PostNOI`<br>When field 4458 changes (only if [4458]="Declined") `CounterOffer_Verdict`<br>+2 more | 1003 (1 rule)<br>Initial Disclosures (2 rules) | — | — | Staff (no rule known) |
-| **Mailing Initial Disclosures**<br>Misc<br>`Processing_Misc_MailingInitialDisclosures` | When Send Disclosures (HELOC) – FACT Act Disclosure – Ready to Send is marked Done (only if [1172]="HELOC" and IsEmpty([3983])) `Disclosures_HELOCInitialDocs`<br>When field REQUEST.X26 changes to "HELOCDOCSPLS" (only if [1172]="HELOC" and IsEmpty([3983])) `OR_Disclosures_HELOCInitialDocs` | — | — | — | When field 3983 changes to a value (only if [@3983] <= [@3143]) `Task_Cancel_Mailed Disclosures` |
-| **Notice of Incomplete**<br>Misc<br>`Processing_Misc_NoticeOfIncomplete` | When File Follow Up (15 Day) – Decision Status is marked Issue `Task_CreateNOI_15Day`<br>When File Follow Up (30 Day) – Decision Status is marked Issue `Task_CreateNOI_30Day`<br>When Notice of Incomplete Expiration – NOI Expired is marked Issue `TaskComplete_NOIExtension` | — | — | Done: Sub-Task Name (Disclosures_NOI) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Notice of Incomplete Expiration**<br>Misc<br>`Processing_Misc_NOIExpiration` | When the Notice of Incomplete Closure timer runs out `NOI_Expiration_Closure` | — | — | Done: NOI Expired (TaskComplete_PostNOI)<br>Issue: NOI Expired (TaskComplete_NOIExtension) | When field 4950 changes to a value `NOI_DocsRec_Cancel`<br>When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Send Denial**<br>Misc<br>`Processing_Misc_SendDenial` | When any of 4 events (field CX.UW.ADVERSE.SIGNER2.1 changes, ...) occurs (only if [CX.COUNTEROFFER] <> "Y" and [CX.COUNTEROFFER] <> "Y") `Denial_SecondReview` | Credit Score Disclosure (1 rule)<br>ECOA Right to Copy of Appraisal (1 rule)<br>MA Review Board Form (1 rule)<br>Mail Counteroffer (1 rule)<br>Massachusetts MGL Disclosure (1 rule)<br>Send Counteroffer Electronically (1 rule) | — | Done: Send Counteroffer Electronically (Disclosures_Denial) | Staff (no rule known) |
-| **Withdraw Loan**<br>Misc<br>`Processing_Misc_WithdrawLoan` | When field 1393 changes to "Application withdrawn" `Withdraw_TaskCreation` | — | — | Done: Send Withdrawal Notice (Disclosures_Withdrawn_Letter) | Staff (no rule known) |
-| **Pre-Underwriting Checklist**<br>Pre Underwriting Checklist<br>`Processing_PreUnderwriting_PreUWChecklist` | Nothing known — probably added by hand | Non-Traditional Income (1 rule)<br>Rental Income (1 rule)<br>Run AUS (1 rule)<br>Self-Employed Income (1 rule)<br>Verify Assets (1 rule)<br>Verify Purpose (1 rule) | Verify Employment | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Pull Deed**<br>Pull Deed<br>`Processing_FileSetup_PullDeed` | When Send Disclosures (HELOC) is created `Task_HELOCIntiailDocs2` | — | Add Non-Borrowing Owner<br>Trust | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Send Disclosures (HELOC)**<br>Disclosures<br>`Processing_FileSetup_SendDisclosuresHELOC` | When the Processing - E milestone is completed (only if ([Borrower Last Name] = "Firstimer" OR [Task Pilot Loan] = "Y") AND ([Loan Type] = "HELOC…) `Task_HELOCIntiailDocs` | Order AVM (1 rule) | — | Done: FACT Act Disclosure – Ready to Send (Disclosures_HELOCInitialDocs) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Send Disclosures Alert**<br>Disclosures<br>`Processing_FileSetup_DislosureAlert` | When TRID Application Date changes to a value (only if [Task Pilot Loan] = "Y"AND ([Loan Type] = "HELOC")) `Task_IntiailDocsAlert` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When the Processing - E milestone is completed (only if ([Borrower Last Name] = "Firstimer" OR [Task Pilot Loan] = "Y") AND ([Loan Type] = "HELOC…) `Task_HELOCIntiailDocs` |
+| **Send Disclosures Closed End**<br>Disclosures<br>`Processing_FileSetup_SendDisclosuresClosedEnd` | Nothing known — probably added by hand | — | Index | Done: FACT Act Disclosure – Ready to Send (Disclosures_ClosedEnd) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Flood Certificate Review**<br>Flood Certificate<br>`Processing_ServiceOrders_FloodCertificateReview` | When a file is attached to the Flood Certificate document (only if [Borrower Last Name] = "Firstimer" OR [Task Pilot Loan] = "Y") `Task_ServiceOrders_FloodCertificateReview` | Sub-Task Name (1 rule) | — | Done: Address Matches System (FloodCertificateReview_Address)<br>Issue: Sub-Task Name (Task_FloodRecheck) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Order Flood Certificate**<br>Flood Certificate<br>`Processing_ServiceOrders_OrderFloodCertificate` | When Send Disclosures (HELOC) is created `Task_HELOCIntiailDocs2` | — | Resubmit with Supporting Documents | Done: Submit Order (Service - Flood Order Task) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When Order Flood Certificate – Submit Order is marked Done (only if loan channel is Banked - Wholesale or Banked - Retail and [TRID Application Date] >= #03/…) `Service - Flood Order Task`<br>When Automated Flood Order changes to "Y" (only if loan channel is Banked - Wholesale or Banked - Retail and [TRID Application Date] >= #03/…) `Service - Flood Order` |
+| **Appraisal Refund**<br>Misc<br>`Processing_Misc_AppraisalRefund` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> "Revision…) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> "Revision…) `TaskComplete_PostNOI`<br>When Counteroffer Response changes (only if Not IsEmpty([Document.DateReceived.Appraisal Check]) AND ([Appraisal Status] <> "Revision…) `CounterOffer_Verdict`<br>+1 more | Cancel Appraisal (1 rule) | — | Issue: Cancel Appraisal (Task_AppraisaRefundCancel) | Staff (no rule known) |
+| **Cancel Flood Certificate**<br>Misc<br>`Processing_Misc_CancelFloodCertificate` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([Document.DateOrdered.Flood Certificate])) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([Document.DateReceived.Flood Certificate])) `TaskComplete_PostNOI`<br>When Counteroffer Response changes (only if Not IsEmpty([Document.DateOrdered.Flood Certificate]) AND [Counteroffer Response]="Declin…) `CounterOffer_Verdict`<br>+1 more | — | — | Done: Cancel Flood Certificate on Xactus Website (Subtask_CancelFlood) | Staff (no rule known) |
+| **Cancel PAR**<br>Misc<br>`Processing_Misc_CancelPAR` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([PAR Ordered Date]) AND IsEmpty([Document.DateReceived.Property Assessment Re…) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([PAR Ordered Date]) AND IsEmpty([Document.DateReceived.Property Assessment Re…) `TaskComplete_PostNOI`<br>When Counteroffer Response changes (only if Not IsEmpty([PAR Ordered Date]) AND IsEmpty([Document.DateReceived.Property Assessment Re…) `CounterOffer_Verdict` | — | — | — | Staff (no rule known) |
+| **Cancel Title**<br>Misc<br>`Processing_Misc_CancelTitle` | When Withdraw Loan is completed as Complete (only if Not IsEmpty([Title Ordered Date]) AND IsEmpty([Document.DateReceived.Title Order])) `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done (only if Not IsEmpty([Title Ordered Date]) AND IsEmpty([Document.DateReceived.Title Order])) `TaskComplete_PostNOI`<br>When Counteroffer Response changes (only if Not IsEmpty([Title Ordered Date]) AND IsEmpty([Document.DateReceived.Title Order])) `CounterOffer_Verdict` | — | — | — | Staff (no rule known) |
+| **File Closure Documents**<br>Misc<br>`Processing_Misc_FileClosureDocuments` | When Withdraw Loan is completed as Complete `Task_Post_Withdraw`<br>When Notice of Incomplete Expiration – NOI Expired is marked Done `TaskComplete_PostNOI`<br>When Counteroffer Response changes (only if [Counteroffer Response]="Declined") `CounterOffer_Verdict`<br>+2 more | 1003 (1 rule)<br>Initial Disclosures (2 rules) | — | — | Staff (no rule known) |
+| **Mailing Initial Disclosures**<br>Misc<br>`Processing_Misc_MailingInitialDisclosures` | When Send Disclosures (HELOC) – FACT Act Disclosure – Ready to Send is marked Done (only if [Loan Type]="HELOC" and IsEmpty([eConsent Date])) `Disclosures_HELOCInitialDocs`<br>When Disclosure Trigger Helper changes to "HELOCDOCSPLS" (only if [Loan Type]="HELOC" and IsEmpty([eConsent Date])) `OR_Disclosures_HELOCInitialDocs` | — | — | — | When eConsent Date changes to a value (only if [eConsent Date] <= [Disclosure Due Date]) `Task_Cancel_Mailed Disclosures` |
+| **Notice of Incomplete**<br>Misc<br>`Processing_Misc_NoticeOfIncomplete` | When File Follow Up (15 Day) – Decision Status is marked Issue `Task_CreateNOI_15Day`<br>When File Follow Up (30 Day) – Decision Status is marked Issue `Task_CreateNOI_30Day`<br>When Notice of Incomplete Expiration – NOI Expired is marked Issue `TaskComplete_NOIExtension` | — | — | Done: Sub-Task Name (Disclosures_NOI) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Notice of Incomplete Expiration**<br>Misc<br>`Processing_Misc_NOIExpiration` | When the Notice of Incomplete Closure timer runs out `NOI_Expiration_Closure` | — | — | Done: NOI Expired (TaskComplete_PostNOI)<br>Issue: NOI Expired (TaskComplete_NOIExtension) | When NOI Docs Received Back changes to a value `NOI_DocsRec_Cancel`<br>When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Send Denial**<br>Misc<br>`Processing_Misc_SendDenial` | When any of 4 events (Second Signer (Adverse) 1 changes, ...) occurs (only if [Denial Is a Counteroffer] <> "Y" and [Denial Is a Counteroffer] <> "Y") `Denial_SecondReview` | Credit Score Disclosure (1 rule)<br>ECOA Right to Copy of Appraisal (1 rule)<br>MA Review Board Form (1 rule)<br>Mail Counteroffer (1 rule)<br>Massachusetts MGL Disclosure (1 rule)<br>Send Counteroffer Electronically (1 rule) | — | Done: Send Counteroffer Electronically (Disclosures_Denial) | Staff (no rule known) |
+| **Withdraw Loan**<br>Misc<br>`Processing_Misc_WithdrawLoan` | When Current Loan Status changes to "Application withdrawn" `Withdraw_TaskCreation` | — | — | Done: Send Withdrawal Notice (Disclosures_Withdrawn_Letter) | Staff (no rule known) |
+| **Pre-Underwriting Checklist**<br>Pre Underwriting Checklist<br>`Processing_PreUnderwriting_PreUWChecklist` | Nothing known — probably added by hand | Non-Traditional Income (1 rule)<br>Rental Income (1 rule)<br>Run AUS (1 rule)<br>Self-Employed Income (1 rule)<br>Verify Assets (1 rule)<br>Verify Purpose (1 rule) | Verify Employment | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Pull Deed**<br>Pull Deed<br>`Processing_FileSetup_PullDeed` | When Send Disclosures (HELOC) is created `Task_HELOCIntiailDocs2` | — | Add Non-Borrowing Owner<br>Trust | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Pull Property Field Card**<br>Pull Property Field Card<br>`Processing_FileSetup_PullPropertyFieldCard` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Order FraudX**<br>Service Orders<br>`Processing_ServiceOrders_FraudX` | Nothing known — probably added by hand | — | Buyer Agent<br>Seller Agent<br>Sellers | Done: Order (Service_FraudX) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Order PAR**<br>Service Orders<br>`Processing_ServiceOrders_OrderPAR` | When the Cond. Approval - E milestone is completed (only if [4002] = "Firstimer" OR [CX.TASKPILOT] = "Y" and [CX.AVMACCEPTANCE] = "PASS, Sufficient") `Task_PostApprovalEquity` | — | — | Done: Place PAR Order (Subtask_PARRequest) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Order SSVN**<br>Service Orders<br>`Processing_ServiceOrders_SSVN` | Nothing known — probably added by hand | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Recheck Flood**<br>Service Orders<br>`Processing_ServiceOrders_RecheckFloodCertificate` | When Flood Certificate Review – Sub-Task Name is marked Issue `Task_FloodRecheck` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Order FraudX**<br>Service Orders<br>`Processing_ServiceOrders_FraudX` | Nothing known — probably added by hand | — | Buyer Agent<br>Seller Agent<br>Sellers | Done: Order (Service_FraudX) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Order PAR**<br>Service Orders<br>`Processing_ServiceOrders_OrderPAR` | When the Cond. Approval - E milestone is completed (only if [Borrower Last Name] = "Firstimer" OR [Task Pilot Loan] = "Y" and [AVM Result] = "PASS, S…) `Task_PostApprovalEquity` | — | — | Done: Place PAR Order (Subtask_PARRequest) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Order SSVN**<br>Service Orders<br>`Processing_ServiceOrders_SSVN` | Nothing known — probably added by hand | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Recheck Flood**<br>Service Orders<br>`Processing_ServiceOrders_RecheckFloodCertificate` | When Flood Certificate Review – Sub-Task Name is marked Issue `Task_FloodRecheck` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Order SSA-89**<br>SSA-89<br>`Processing_ServiceOrders_OrderSSA89` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
 | **Order Tax Transcripts**<br>Tax Transcripts<br>`Processing_ServiceOrders_OrderTaxTranscripts` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Order Title**<br>Title<br>`Processing_ServiceOrders_OrderTitle` | When the Cond. Approval - E milestone is completed (only if [4002] = "Firstimer" OR [CX.TASKPILOT] = "Y") `Task_PostApprovalEquity` | Order Title Ownership Report – Equity Attorney (Trust) (1 rule)<br>Order Title Ownership Report – Old Republic (1 rule) | Obtain Quote – New Deed Prep<br>Order Title – Bank Attorney | Done: Order Title Ownership Report – Old Republic (ConditionUpdate_TitleOrderEquity) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Order Title**<br>Title<br>`Processing_ServiceOrders_OrderTitle` | When the Cond. Approval - E milestone is completed (only if [Borrower Last Name] = "Firstimer" OR [Task Pilot Loan] = "Y") `Task_PostApprovalEquity` | Order Title Ownership Report – Equity Attorney (Trust) (1 rule)<br>Order Title Ownership Report – Old Republic (1 rule) | Obtain Quote – New Deed Prep<br>Order Title – Bank Attorney | Done: Order Title Ownership Report – Old Republic (ConditionUpdate_TitleOrderEquity) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 
 ### Stage 3: Underwriting (17 task templates)
 
 | Task | Created by | Conditional subtasks a rule adds | Conditional subtasks no known rule adds | Subtasks with rules on Done / on Issue | Completed by |
 |---|---|---|---|---|---|
-| **HOI Review**<br>Post Underwriting<br>`Underwriting_PostUnderwriting_HOIReview` | When a file is attached to the Homeowner's Insurance Policy document (only if [CX.TASKPILOT] = "Y") `Task_HOIReview` | — | Builders Risk<br>Name of Trust | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Master Property Insurance Review**<br>Post Underwriting<br>`Underwriting_PostUnderwriting_CondoMasterReview` | Nothing known — probably added by hand | — | Mortgagee Clause Review<br>Per-Unit Deductible Amount Review | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Order HOI**<br>Post Underwriting<br>`Underwriting_PostUnderwriting_OrderHOI` | Nothing known — probably added by hand | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Send Commitment Letter**<br>Post Underwriting<br>`Processing_PostUnderwriting_SendCommitmentLetter` | When field CX.UW.APPROVAL.LATEST.NAME changes to a value (only if [CX.TASKPILOT] = "Y"AND ([1172] = "HELOC")) `Task_SendApproval` | — | — | Done: Send Commitment Letter (Disclosures_Approval_CL) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **HOI Review**<br>Post Underwriting<br>`Underwriting_PostUnderwriting_HOIReview` | When a file is attached to the Homeowner's Insurance Policy document (only if [Task Pilot Loan] = "Y") `Task_HOIReview` | — | Builders Risk<br>Name of Trust | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Master Property Insurance Review**<br>Post Underwriting<br>`Underwriting_PostUnderwriting_CondoMasterReview` | Nothing known — probably added by hand | — | Mortgagee Clause Review<br>Per-Unit Deductible Amount Review | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Order HOI**<br>Post Underwriting<br>`Underwriting_PostUnderwriting_OrderHOI` | Nothing known — probably added by hand | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Send Commitment Letter**<br>Post Underwriting<br>`Processing_PostUnderwriting_SendCommitmentLetter` | When Latest Approval Name changes to a value (only if [Task Pilot Loan] = "Y"AND ([Loan Type] = "HELOC")) `Task_SendApproval` | — | — | Done: Send Commitment Letter (Disclosures_Approval_CL) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Appraisal - Ready in ValueLink Follow Up**<br>Resubmittal<br>`Underwriting_Resubmittal_AppraisalReviewFollow` | When the SSR Report(s) Available Scheduler timer runs out `Task_SSRAvailableFollowUp` | — | — | — | Staff (no rule known) |
-| **Review Appraisal**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewAppraisal` | When field CX.APPRAISALSTATUS changes (only if [CX.APPRAISALSTATUS] = "Report Accepted") `Task_AppraisalReview` | Attach Appraisal Review Form (1 rule)<br>Second Review (1 rule) | — | — | Staff (no rule known) |
-| **Review Appraisal – Second Review**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewAppraisalSecondReview` | When field CUST39FV changes to a value (only if NOT [CUST36FV].Contains("External") AND NOT [617].Contains("PAR")) `SubTask_AppraisalExternal_Complete` | — | Attach Appraisal Review Form | — | Staff (no rule known) |
-| **Review PAR (1st Review)**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewPAR` | When a file is attached to the Property Assessment Report (PAR) document (only if [4002]="Firstimer" OR [CX.TASKPILOT] = "Y") `Task_PARReview` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When field CUST39FV changes to a value (only if documents present: Property Assessment Report (PAR) and [4002]="Firstimer" OR [CX.TASKPIL…) `Task_PARReview2` |
-| **Review PAR (2nd Review)**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewPAR2` | When field CUST39FV changes to a value (only if documents present: Property Assessment Report (PAR) and [4002]="Firstimer" OR [CX.TASKPIL…) `Task_PARReview2` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When field CUST40FV changes (only if documents present: Property Assessment Report (PAR) and [4002]="Firstimer" OR [CX.TASKPIL…) `Task_PARReview3` |
+| **Review Appraisal**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewAppraisal` | When Appraisal Status changes (only if [Appraisal Status] = "Report Accepted") `Task_AppraisalReview` | Attach Appraisal Review Form (1 rule)<br>Second Review (1 rule) | — | — | Staff (no rule known) |
+| **Review Appraisal – Second Review**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewAppraisalSecondReview` | When First Review Date changes to a value (only if NOT [First Review Name].Contains("External") AND NOT [Appraiser Company Name].Contains("P…) `SubTask_AppraisalExternal_Complete` | — | Attach Appraisal Review Form | — | Staff (no rule known) |
+| **Review PAR (1st Review)**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewPAR` | When a file is attached to the Property Assessment Report (PAR) document (only if [Borrower Last Name]="Firstimer" OR [Task Pilot Loan] = "Y") `Task_PARReview` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When First Review Date changes to a value (only if documents present: Property Assessment Report (PAR) and [Borrower Last Name]="Firstimer" …) `Task_PARReview2` |
+| **Review PAR (2nd Review)**<br>Resubmittal<br>`Underwriting_Resubmittal_ReviewPAR2` | When First Review Date changes to a value (only if documents present: Property Assessment Report (PAR) and [Borrower Last Name]="Firstimer" …) `Task_PARReview2` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When Second Review Date changes (only if documents present: Property Assessment Report (PAR) and [Borrower Last Name]="Firstimer" …) `Task_PARReview3` |
 | **Send AVM**<br>Resubmittal<br>`Underwriting_Resubmittal_SendAVM` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Send Appraisal**<br>Resubmittal<br>`Underwriting_Resubmittal_SendAppraisal` | When field CUST40FV changes to a value (only if NOT [617].Contains("PAR") and NOT [617].Contains("PAR")) `Task_AppraisalReview_Complete` | — | — | Done: Send Appraisal (Disclosures_AppraisalDelivery) | Staff (no rule known) |
-| **Title (Ownership Report)**<br>Resubmittal<br>`Underwriting_Resubmittal_TitleOwnershipReport` | When a file is attached to the Title Report document (only if [CX.TASKPILOT] = "Y") `Title Review` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Underwrite**<br>Submittal<br>`Underwriting_Submittal_Underwrite` | When field 748 changes (only if [@748] > [@2302]) `Task_ExtendApproval_ClosingDate`<br>When field 4458 changes (only if [4458]="Accepted") `CounterOffer_Verdict`<br>When field CX.DENIALREVIEW changes to a value `Processing_DenialReviewRequest`<br>+2 more | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Send Appraisal**<br>Resubmittal<br>`Underwriting_Resubmittal_SendAppraisal` | When Second Review Date changes to a value (only if NOT [Appraiser Company Name].Contains("PAR") and NOT [Appraiser Company Name].Contains("P…) `Task_AppraisalReview_Complete` | — | — | Done: Send Appraisal (Disclosures_AppraisalDelivery) | Staff (no rule known) |
+| **Title (Ownership Report)**<br>Resubmittal<br>`Underwriting_Resubmittal_TitleOwnershipReport` | When a file is attached to the Title Report document (only if [Task Pilot Loan] = "Y") `Title Review` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Underwrite**<br>Submittal<br>`Underwriting_Submittal_Underwrite` | When Closing Date changes (only if [Closing Date] > [Approval Expiration Date]) `Task_ExtendApproval_ClosingDate`<br>When Counteroffer Response changes (only if [Counteroffer Response]="Accepted") `CounterOffer_Verdict`<br>When Denial Review Requested changes to a value `Processing_DenialReviewRequest`<br>+2 more | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Counteroffer Closure**<br>UW Misc<br>`Underwriting_Misc_CounterofferClosure` | When the Counteroffer Closure timer runs out `Counteroffer_Expiration_Task` | — | — | Done: Counteroffer Accepted (CounterOffer_ClosuerTask_Accepted); Counteroffer Declined (CounterOffer_ClosuerTask_Declined); Extension Request (CounterOffer_ClosuerTask_Extend) | Staff (no rule known) |
-| **Counteroffer Second Review**<br>UW Misc<br>`Underwriting_Counter_Second` | When field CX.ADVERSESIGNER1 changes to a value (only if [CX.COUNTEROFFER] = "Y" and [CX.COUNTEROFFER] = "Y") `CounterOffer_FirstReview` | — | — | — | Staff (no rule known) |
-| **Denial – Second Look**<br>UW Misc<br>`Underwriting_Denial_Second` | When field CX.ADVERSESIGNER1 changes to a value (only if [CX.COUNTEROFFER] <> "Y") `Denial_FirstReview` | — | — | — | Staff (no rule known) |
-| **Send Counteroffer**<br>UW Misc<br>`Underwriting_Misc_SendCounteroffer` | When any of 4 events (field CX.UW.ADVERSE.SIGNER2.1 changes, ...) occurs (only if [CX.COUNTEROFFER] = "Y") `CounterOffer_SecondReview` | MA Review Form Board Required (1 rule)<br>Mail Counteroffer (1 rule)<br>Send Counteroffer Electronically (1 rule) | — | Done: Send Counteroffer Electronically (Disclosures_Counter) | Staff (no rule known) |
+| **Counteroffer Second Review**<br>UW Misc<br>`Underwriting_Counter_Second` | When Adverse Decision First Signer (name/date stamp) changes to a value (only if [Denial Is a Counteroffer] = "Y" and [Denial Is a Counteroffer] = "Y") `CounterOffer_FirstReview` | — | — | — | Staff (no rule known) |
+| **Denial – Second Look**<br>UW Misc<br>`Underwriting_Denial_Second` | When Adverse Decision First Signer (name/date stamp) changes to a value (only if [Denial Is a Counteroffer] <> "Y") `Denial_FirstReview` | — | — | — | Staff (no rule known) |
+| **Send Counteroffer**<br>UW Misc<br>`Underwriting_Misc_SendCounteroffer` | When any of 4 events (Second Signer (Adverse) 1 changes, ...) occurs (only if [Denial Is a Counteroffer] = "Y") `CounterOffer_SecondReview` | MA Review Form Board Required (1 rule)<br>Mail Counteroffer (1 rule)<br>Send Counteroffer Electronically (1 rule) | — | Done: Send Counteroffer Electronically (Disclosures_Counter) | Staff (no rule known) |
 
 ### Stage 4: Closing (6 task templates)
 
 | Task | Created by | Conditional subtasks a rule adds | Conditional subtasks no known rule adds | Subtasks with rules on Done / on Issue | Completed by |
 |---|---|---|---|---|---|
-| **Closing Setup**<br>Closing Setup<br>`Closing_ClosingSetup_ClosingSetup` | When field 748 changes (only if ([1172] = "HELOC")) `BranchScheduling_Complete` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Prepare Payoff Letters**<br>Closing Setup<br>`Closing_ClosingSetup_PreparePayoffLetters` | When field 748 changes (only if ([1172] = "HELOC") and [#URLA.X145]>0 OR [#26] > 0) `BranchScheduling_Complete` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Create Closing Package**<br>Doc Prep<br>`Closing_DocPrep_CreateClosingPackage` | When Closing Setup is completed as Complete `Task_ClosingPackage` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Confirm Scheduling**<br>Pre Closing<br>`Closing_PreClosing_Scheduling` | When the Clear to Close - E milestone is completed `BranchScheduling_CTC` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Request Closing Disclosure**<br>Pre Closing<br>`Closing_PreClosing_RequestClosingDisclosure` | When the Cond. Approval milestone is completed or the Cond. Approval - E milestone is completed (only if ([1172] <> "HELOC")) `Task_ICD_CreateRequest` | — | — | Done: Request CD (Task_ICD_Requested) | Staff (no rule known) |
-| **Send Initial Closing Disclosure**<br>Pre Closing<br>`Closing_PreClosing_SendInitialClosingDisclosure` | When Request Closing Disclosure – Request CD is marked Done `Task_ICD_Requested` | Enter CD Issue Date (1 rule)<br>Enter Closing Date (1 rule)<br>Enter Plan Code (1 rule)<br>Reconcile Appraisal Fee (1 rule) | — | Issue: Send Initial CD (Disclosures_Early_CD) | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Closing Setup**<br>Closing Setup<br>`Closing_ClosingSetup_ClosingSetup` | When Closing Date changes (only if ([Loan Type] = "HELOC")) `BranchScheduling_Complete` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Prepare Payoff Letters**<br>Closing Setup<br>`Closing_ClosingSetup_PreparePayoffLetters` | When Closing Date changes (only if ([Loan Type] = "HELOC") and [Non-Mortgage Debt Paid Off]>0 OR [Liens to Be Paid Off] > 0) `BranchScheduling_Complete` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Create Closing Package**<br>Doc Prep<br>`Closing_DocPrep_CreateClosingPackage` | When Closing Setup is completed as Complete `Task_ClosingPackage` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Confirm Scheduling**<br>Pre Closing<br>`Closing_PreClosing_Scheduling` | When the Clear to Close - E milestone is completed `BranchScheduling_CTC` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Request Closing Disclosure**<br>Pre Closing<br>`Closing_PreClosing_RequestClosingDisclosure` | When the Cond. Approval milestone is completed or the Cond. Approval - E milestone is completed (only if ([Loan Type] <> "HELOC")) `Task_ICD_CreateRequest` | — | — | Done: Request CD (Task_ICD_Requested) | Staff (no rule known) |
+| **Send Initial Closing Disclosure**<br>Pre Closing<br>`Closing_PreClosing_SendInitialClosingDisclosure` | When Request Closing Disclosure – Request CD is marked Done `Task_ICD_Requested` | Enter CD Issue Date (1 rule)<br>Enter Closing Date (1 rule)<br>Enter Plan Code (1 rule)<br>Reconcile Appraisal Fee (1 rule) | — | Issue: Send Initial CD (Disclosures_Early_CD) | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 
 ### Stage 5: Funding (5 task templates)
 
 | Task | Created by | Conditional subtasks a rule adds | Conditional subtasks no known rule adds | Subtasks with rules on Done / on Issue | Completed by |
 |---|---|---|---|---|---|
 | **Board Loan**<br>Boarding<br>`Funding_Boarding_BoardLoan` | When the Funding timer runs out `Task_Funding_Fund_Loan` | — | — | — | Staff (no rule known) |
-| **Approve Funding**<br>Funding<br>`Funding_Funding_Approval` | When field CX.FUNDINGCONFIRMED changes to a value `Task_Funding_Funding_Request` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When field CX.FUNDINGAPPROVED changes to a value `Task_Funding_Funding_Approval` |
-| **Approve Wire**<br>Funding<br>`Funding_Wire_Approval` | When field CX.WIREAPPRREQ changes to "Y" `Task_Funding_Wire_Request` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When field CX.WIREAPPROVED changes to a value `Task_Funding_Wire_Approval` |
-| **Confirm Funding**<br>Funding<br>`Funding_Funding_ConfirmFunding` | When field 748 changes (only if ([1172] = "HELOC")) `BranchScheduling_Complete` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
-| **Fund Loan**<br>Funding<br>`Funding_FundLoan` | When the Funding timer runs out `Task_Funding_Fund_Loan` | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse`<br>When the Funding milestone is completed or the Boarding - E milestone is completed `Task_Funding_Fund_Complete` |
+| **Approve Funding**<br>Funding<br>`Funding_Funding_Approval` | When Funding Confirmed changes to a value `Task_Funding_Funding_Request` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When Funding Approved changes to a value `Task_Funding_Funding_Approval` |
+| **Approve Wire**<br>Funding<br>`Funding_Wire_Approval` | When Wire Approval Requested changes to "Y" `Task_Funding_Wire_Request` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When Wire Approved changes to a value `Task_Funding_Wire_Approval` |
+| **Confirm Funding**<br>Funding<br>`Funding_Funding_ConfirmFunding` | When Closing Date changes (only if ([Loan Type] = "HELOC")) `BranchScheduling_Complete` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
+| **Fund Loan**<br>Funding<br>`Funding_FundLoan` | When the Funding timer runs out `Task_Funding_Fund_Loan` | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse`<br>When the Funding milestone is completed or the Boarding - E milestone is completed `Task_Funding_Fund_Complete` |
 
 ### Stage 6: Pre-Closing QC (2 task templates)
 
 | Task | Created by | Conditional subtasks a rule adds | Conditional subtasks no known rule adds | Subtasks with rules on Done / on Issue | Completed by |
 |---|---|---|---|---|---|
-| **Credit Refresh**<br>Funding QC<br>`FundingQC_Credit_Refresh` | Nothing known — probably added by hand | — | — | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Credit Refresh**<br>Funding QC<br>`FundingQC_Credit_Refresh` | Nothing known — probably added by hand | — | — | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Fraud X Report**<br>Funding QC<br>`FundingQC_Fraud_X_Report` | Nothing known — probably added by hand | — | Appraiser License<br>Buyer Agent<br>Non-Borrowing Owners<br>Seller Agent | — | Staff (no rule known) |
 
 ### Stage 7: Post-Closing QC (13 task templates)
@@ -1162,14 +1162,14 @@ One row per task template (79 templates in `tasks/`). *Created by* lists the rul
 | **Deliver Mortgage**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_DeliverMortgage` | When Physical Package Receipt – Receipt of Physical Package is marked Done `Task_DeliverNoteMtg` | — | Add Loan Number to First Page<br>Deliver to Secondary<br>Send to Operations<br>Upload to Identifi | — | Staff (no rule known) |
 | **Deliver Note**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_DeliverNote` | When Physical Package Receipt – Receipt of Physical Package is marked Done `Task_DeliverNoteMtg` | — | Add Loan Number to First Page<br>Deliver to Secondary<br>Send to Operations<br>Upload to Identifi | Done: Deliver to Secondary (Subtask_NoteDelivery_LocationSecondary); Send to Operations (Subtask_NoteDelivery_LocationOperations) | Staff (no rule known) |
 | **Disbursement Check Receipt**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_DisbursementCheckReceipt` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Document Receipt**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_DocumentReceipt` | When the Closing timer runs out (only if ([1172] = "HELOC")) `Task_DocumentReceipt` | — | — | — | Staff (no rule known) |
+| **Document Receipt**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_DocumentReceipt` | When the Closing timer runs out (only if ([Loan Type] = "HELOC")) `Task_DocumentReceipt` | — | — | — | Staff (no rule known) |
 | **Fill in CIP**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_FillInCIP` | When Document Receipt is completed as Complete `Task_ClosingDocumentQA` | — | — | — | Staff (no rule known) |
 | **Order HELOC Checks**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_OrderHELOCChecks` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Physical Package Receipt**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_PhysicalPackageReceipt` | When the Closing timer runs out (only if ([1172] = "HELOC")) `Task_DocumentReceipt` | — | — | Done: Receipt of Physical Package (Task_DeliverNoteMtg) | Staff (no rule known) |
+| **Physical Package Receipt**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_PhysicalPackageReceipt` | When the Closing timer runs out (only if ([Loan Type] = "HELOC")) `Task_DocumentReceipt` | — | — | Done: Receipt of Physical Package (Task_DeliverNoteMtg) | Staff (no rule known) |
 | **Record Mortgage**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_RecordMortgage` | When Physical Package Receipt – Receipt of Physical Package is marked Done `Task_DeliverNoteMtg` | 1-to-4 Family Rider (1 rule)<br>Condo Rider (1 rule)<br>HELOC Rider (1 rule)<br>PUD Rider (1 rule)<br>Second Home Rider (1 rule) | — | — | Staff (no rule known) |
 | **Recording Confirmation**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_RecordingConfirmation` | Nothing known — probably added by hand | — | — | — | Staff (no rule known) |
-| **Transfer to Cold Storage**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_TransferToColdStorage` | When File Closure Documents is completed as Complete (only if ([1393] = "Application denied" OR [1393] = "Application withdrawn" OR [1393] = "File Clos…) `Task_TransfertoCold_Adverse`<br>When Closing Document Quality Assurance is completed (only if [CX.EI.UPLOAD.STATUS] <> "") `Task_ColdStorage_PostBoarding`<br>When field CX.EI.UPLOAD.STATUS changes to a value (only if tasks present: PostClosingQC_QualityAssurance_ClosingDocReview) `Task_ColdStorage_Boarding` | — | — | Done: Transfer to Cold Storage (Subtask_ColdStorage) | Staff (no rule known) |
-| **Initial Document Quality Assurance**<br>Initial Doc QC<br>`QualityAssurance_InitialDocReview` | When a file is attached to the USA Patriot Act Information Disclosure document (only if [4002]="Firstimer" OR [CX.TASKPILOT] = "Y" and IsEmpty([3983])) `Task_InitialDocsRec` | Sub-Task Name (1 rule)<br>1003 – Demographic Info Addendum (2 rules)<br>1003 – Demographic Info Addendum Signed (2 rules)<br>2015 Settlement Service List (2 rules)<br>Acknowledgement of Intent to Proceed (1 rule)<br>HELOC Important Terms Disclosure (1 rule)<br>+8 more | ARM Disclosure<br>CHARM Booklet<br>HELOC Booklet<br>Notice of Right to Copy of Appraisal (ECOA)<br>Privacy Policy – Opt Out Signed<br>eConsent – Docs Mailed if No eConsent | — | When field 1393 changes (only if ([1393] = "Application denied" OR [1393] = "File Closed for incompleteness" OR [1393] = "…) `Task_Cancel_AllAdverse` |
+| **Transfer to Cold Storage**<br>Document Processing<br>`PostClosingQC_DocumentProcessing_TransferToColdStorage` | When File Closure Documents is completed as Complete (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "Application wit…) `Task_TransfertoCold_Adverse`<br>When Closing Document Quality Assurance is completed (only if [Core Boarding Status] <> "") `Task_ColdStorage_PostBoarding`<br>When Core Boarding Status changes to a value (only if tasks present: PostClosingQC_QualityAssurance_ClosingDocReview) `Task_ColdStorage_Boarding` | — | — | Done: Transfer to Cold Storage (Subtask_ColdStorage) | Staff (no rule known) |
+| **Initial Document Quality Assurance**<br>Initial Doc QC<br>`QualityAssurance_InitialDocReview` | When a file is attached to the USA Patriot Act Information Disclosure document (only if [Borrower Last Name]="Firstimer" OR [Task Pilot Loan] = "Y" and IsEmpty([eConsent Date])) `Task_InitialDocsRec` | Sub-Task Name (1 rule)<br>1003 – Demographic Info Addendum (2 rules)<br>1003 – Demographic Info Addendum Signed (2 rules)<br>2015 Settlement Service List (2 rules)<br>Acknowledgement of Intent to Proceed (1 rule)<br>HELOC Important Terms Disclosure (1 rule)<br>+8 more | ARM Disclosure<br>CHARM Booklet<br>HELOC Booklet<br>Notice of Right to Copy of Appraisal (ECOA)<br>Privacy Policy – Opt Out Signed<br>eConsent – Docs Mailed if No eConsent | — | When Current Loan Status changes (only if ([Current Loan Status] = "Application denied" OR [Current Loan Status] = "File Closed for…) `Task_Cancel_AllAdverse` |
 | **Closing Document Quality Assurance**<br>Quality Assurance<br>`PostClosingQC_QualityAssurance_ClosingDocReview` | When Document Receipt is completed as Complete `Task_ClosingDocumentQA` | — | — | — | Staff (no rule known) |
 | **Pre-Closing Document Quality Assurance**<br>Quality Assurance<br>`PostClosingQC_QualityAssurance_PreClosingDocReview` | Nothing known — probably added by hand | — | Counteroffer<br>RI HLPA 3 Form | — | Staff (no rule known) |
 
