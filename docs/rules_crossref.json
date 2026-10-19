@@ -4,6 +4,7 @@
       "copy_Service_UndisclosedDebtActivate"
     ],
     "inactiveRules": [
+      "Pre-App Follow Up (15 Days)",
       "SubTask_FileClosure_InitialDocs",
       "Task_HOIReview"
     ],
@@ -11,10 +12,12 @@
       "Scheduler_UndisclosedDebtCancel"
     ],
     "roleIdUndefined": [
+      "Processor/Underwriter Assign (Retail): Loan Processor",
       "Processor/Underwriter Assign (Wholesale): Loan Processor"
     ],
     "subtaskTypeHyphenNotEnDash": [
-      "Disclosures_NOI: Notice of Incomplete - Send"
+      "Disclosures_NOI: Notice of Incomplete - Send",
+      "Service_FraudX: Order FraudX - Order"
     ]
   },
   "brokenSubtasks": [
@@ -30,6 +33,58 @@
       ],
       "subtask": "Confirm Funding – Complete Settlement Worksheet",
       "task": "Funding_Funding_ConfirmFunding"
+    },
+    {
+      "class": "task-missing",
+      "detail": "task type not in tasks/",
+      "refs": [
+        {
+          "role": "subtask-trigger",
+          "rule": "Fail_Disclosures_PreApp_1003"
+        },
+        {
+          "role": "subtask-creates",
+          "rule": "Task_PreApp_1003_GMI"
+        }
+      ],
+      "subtask": "1003_QA_10",
+      "task": "PreDisclosure_PreApproval_1003"
+    },
+    {
+      "class": "task-missing",
+      "detail": "task type not in tasks/",
+      "refs": [
+        {
+          "role": "subtask-creates",
+          "rule": "Task_PreApp_1003_GMI"
+        }
+      ],
+      "subtask": "1003_QA_11",
+      "task": "PreDisclosure_PreApproval_1003"
+    },
+    {
+      "class": "task-missing",
+      "detail": "task type not in tasks/",
+      "refs": [
+        {
+          "role": "subtask-trigger",
+          "rule": "Disclosures_PreApp_1003"
+        }
+      ],
+      "subtask": "Action_1003_QA",
+      "task": "PreDisclosure_PreApproval_1003"
+    },
+    {
+      "class": "task-missing",
+      "detail": "task type not in tasks/",
+      "refs": [
+        {
+          "role": "subtask-trigger",
+          "rule": "Disclosures_PreApp_Credit"
+        }
+      ],
+      "subtask": "FACT Act Disclosure 6",
+      "task": "PreDisclosure_PreApproval_Credit"
     },
     {
       "class": "no-match",
@@ -160,8 +215,28 @@
       "closest": null,
       "refs": [
         {
+          "role": "subtask-trigger",
+          "rule": "Disclosures_PreApp_1003"
+        },
+        {
+          "role": "subtask-trigger",
+          "rule": "Fail_Disclosures_PreApp_1003"
+        },
+        {
           "role": "completes",
           "rule": "Task_Cancel_AllAdverse"
+        },
+        {
+          "role": "creates",
+          "rule": "Task_PreApp_1003"
+        },
+        {
+          "role": "subtask-creates",
+          "rule": "Task_PreApp_1003_GMI"
+        },
+        {
+          "role": "trigger",
+          "rule": "Task_PreApp_1003_GMI"
         }
       ],
       "task": "PreDisclosure_PreApproval_1003"
@@ -169,6 +244,10 @@
     {
       "closest": null,
       "refs": [
+        {
+          "role": "subtask-trigger",
+          "rule": "Disclosures_PreApp_Credit"
+        },
         {
           "role": "creates",
           "rule": "Task_PreApp_Credit"
@@ -196,6 +275,10 @@
         {
           "role": "completes",
           "rule": "Task_Cancel_AllAdverse"
+        },
+        {
+          "role": "creates",
+          "rule": "Task_ContractUW_Approval"
         }
       ],
       "task": "Underwriting_ContractUWApproval"
@@ -244,6 +327,10 @@
   "duplicateRepoTaskTypes": [],
   "inactiveRules": [
     {
+      "name": "Pre-App Follow Up (15 Days)",
+      "xmlFile": "rules/by_event/timer_completed/pre_app_follow_up_15_days.xml"
+    },
+    {
       "name": "SubTask_FileClosure_InitialDocs",
       "xmlFile": "rules/by_event/task_created/subtask_fileclosure_initialdocs.xml"
     },
@@ -263,7 +350,9 @@
           "Task_Cancel_AllAdverse"
         ],
         "creates": [
-          "Live App Follow Up (15 Days)"
+          "Live App Follow Up (15 Days)",
+          "Pre-App Follow Up (15 Days)",
+          "PreApp Follow Up 15"
         ],
         "subtask-trigger": [
           "Task_CreateNOI_15Day"
@@ -286,7 +375,8 @@
           "Task_Cancel_AllAdverse"
         ],
         "creates": [
-          "Live App Follow Up (30 Days)"
+          "Live App Follow Up (30 Days)",
+          "Pre-App Follow Up (30 Days)"
         ],
         "subtask-trigger": [
           "Task_CreateNOI_30Day"
@@ -308,8 +398,18 @@
         "completes": [
           "Task_Cancel_AllAdverse"
         ],
+        "creates": [
+          "Task_CreditReview"
+        ],
         "subtask-trigger": [
-          "Condition_CreditReview_Inquiry"
+          "Condition_CreditReview_Address",
+          "Condition_CreditReview_Fraud",
+          "Condition_CreditReview_Frozen",
+          "Condition_CreditReview_Inquiry",
+          "Condition_CreditReview_Name",
+          "Condition_CreditReview_OFAC",
+          "Condition_CreditReview_RedFlagForm",
+          "Condition_CreditReview_SSVN"
         ]
       },
       "stage": "2_processing",
@@ -340,6 +440,14 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_HELOCIntiailDocs"
+        ],
+        "subtask-completes": [
+          "Task_AVMFailCompletion",
+          "Task_AVMSuccessCompletion",
+          "Task_FloodReviewCompletionInitial"
         ],
         "subtask-creates": [
           "Task_HELOCIntiailDocs2"
@@ -409,8 +517,12 @@
       "name": "Mailing Initial Disclosures",
       "ruleStatus": "Partial",
       "rules": {
+        "completes": [
+          "Task_Cancel_Mailed Disclosures"
+        ],
         "creates": [
-          "Disclosures_HELOCInitialDocs"
+          "Disclosures_HELOCInitialDocs",
+          "OR_Disclosures_HELOCInitialDocs"
         ]
       },
       "stage": "2_processing",
@@ -431,13 +543,18 @@
         ],
         "creates": [
           "Task-OrderAppraisalEquity-AVMFail",
-          "Task_HELOCIntiailDocs2"
+          "Task_AVMFailCompletion",
+          "Task_HELOCIntiailDocs2",
+          "Task_OrderAppraisalEquity",
+          "Task_OrderAppraisalFirstMtg"
         ],
         "subtask-creates": [
           "SubtTask_OrderAppraisal1",
+          "SubtTask_OrderAppraisal2",
           "Subtask_AppraisalQuote"
         ],
         "subtask-trigger": [
+          "Appraisal Invoice Notification",
           "Subtask_QuoteComplete"
         ],
         "trigger": [
@@ -460,6 +577,9 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_PostApprovalEquity"
         ],
         "subtask-creates": [
           "SubTask_TitleOrderEquity"
@@ -485,10 +605,15 @@
       "ruleStatus": "Complete",
       "rules": {
         "completes": [
+          "Service - Flood Order",
+          "Service - Flood Order Task",
           "Task_Cancel_AllAdverse"
         ],
         "creates": [
           "Task_HELOCIntiailDocs2"
+        ],
+        "subtask-trigger": [
+          "Service - Flood Order Task"
         ]
       },
       "stage": "2_processing",
@@ -506,6 +631,9 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Amortization Type Change Notice and Task"
         ]
       },
       "stage": "2_processing",
@@ -591,7 +719,11 @@
           "Task_Post_Withdraw"
         ],
         "subtask-completes": [
-          "Subtask_Complete_1003Park"
+          "Subtask_Complete_1003Park",
+          "Subtask_Complete_ConvoPark",
+          "Subtask_Complete_DisclosureTrackingPark",
+          "Subtask_Complete_InitialDisclosurePark",
+          "Subtask_Complete_eConsetPark"
         ],
         "subtask-creates": [
           "SubTask_FileClosure_InitialDocs",
@@ -724,6 +856,7 @@
       "rules": {
         "completes": [
           "SubTask_AVMFailCompletion",
+          "SubTask_AVMSuccessCompletion",
           "Task_Cancel_AllAdverse"
         ],
         "creates": [
@@ -731,7 +864,12 @@
         ],
         "subtask-trigger": [
           "SubTask_AVMFailCompletion",
+          "SubTask_AVMSuccessCompletion",
           "Task-OrderAppraisalEquity-AVMFail"
+        ],
+        "trigger": [
+          "Task_AVMFailCompletion",
+          "Task_AVMSuccessCompletion"
         ]
       },
       "stage": "2_processing",
@@ -749,6 +887,19 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_ServiceOrders_FloodCertificateReview"
+        ],
+        "subtask-creates": [
+          "Task_FloodCertificateReview_AddressMismatch"
+        ],
+        "subtask-trigger": [
+          "FloodCertificateReview_Address",
+          "Task_FloodRecheck"
+        ],
+        "trigger": [
+          "Task_FloodReviewCompletionInitial"
         ]
       },
       "stage": "2_processing",
@@ -766,6 +917,9 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_PostApprovalEquity"
         ],
         "subtask-trigger": [
           "Subtask_PARRequest"
@@ -786,6 +940,9 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Task_FloodRecheck"
         ]
       },
       "stage": "2_processing",
@@ -803,6 +960,12 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "subtask-creates": [
+          "Subtask_Processing_PreUndewriting"
+        ],
+        "trigger": [
+          "Subtask_Processing_PreUndewriting"
         ]
       },
       "stage": "2_processing",
@@ -890,6 +1053,9 @@
         "subtask-creates": [
           "SubTask_AppraisalOrder"
         ],
+        "subtask-trigger": [
+          "Service_AppraisalOrder"
+        ],
         "trigger": [
           "SubTask_AppraisalOrder"
         ]
@@ -909,6 +1075,9 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "subtask-trigger": [
+          "Service_FraudX"
         ]
       },
       "stage": "2_processing",
@@ -944,6 +1113,9 @@
         "completes": [
           "Task_Cancel_AllAdverse"
         ],
+        "creates": [
+          "Task_HELOCImportantTermsRedisclosure"
+        ],
         "subtask-trigger": [
           "Disclosures_HELOCImportantTerms"
         ]
@@ -962,7 +1134,11 @@
       "ruleStatus": "Planned",
       "rules": {
         "completes": [
-          "Task_Cancel_AllAdverse"
+          "Task_Cancel_AllAdverse",
+          "Task_HELOCIntiailDocs"
+        ],
+        "creates": [
+          "Task_IntiailDocsAlert"
         ]
       },
       "stage": "2_processing",
@@ -1056,6 +1232,7 @@
           "CounterOffer_Verdict",
           "Processing_DenialReviewRequest",
           "Task_ExtendApproval_ClosingDate",
+          "Task_Underwrite_Conditions",
           "Task_Underwrite_Expired"
         ],
         "subtask-completes": [
@@ -1080,6 +1257,9 @@
       "rules": {
         "completes": [
           "Task_Cancel_AllAdverse"
+        ],
+        "creates": [
+          "Title Review"
         ]
       },
       "stage": "3_underwriting",
@@ -1095,8 +1275,13 @@
       "name": "Review Appraisal",
       "ruleStatus": "Complete",
       "rules": {
+        "creates": [
+          "Task_AppraisalReview"
+        ],
         "subtask-completes": [
           "SubTask_AppraisalExternal_Complete",
+          "SubTask_AppraisalReviewForm_Complete",
+          "SubTask_AppraisalTransfer_Complete",
           "Task_AppraisalReview_Complete"
         ],
         "subtask-creates": [
@@ -1271,11 +1456,15 @@
       "xmlFile": "tasks/3_underwriting/resubmittal/review_par_second_review_v1.xml"
     },
     {
-      "flag": null,
+      "flag": "rules-exist-but-status-Planned",
       "id": "task_079",
       "name": "Appraisal - Ready in ValueLink Follow Up",
       "ruleStatus": "Planned",
-      "rules": {},
+      "rules": {
+        "creates": [
+          "Task_SSRAvailableFollowUp"
+        ]
+      },
       "stage": "3_underwriting",
       "status": "completed",
       "taskTypes": [
@@ -1545,7 +1734,11 @@
       "ruleStatus": "Planned",
       "rules": {
         "completes": [
-          "Task_Cancel_AllAdverse"
+          "Task_Cancel_AllAdverse",
+          "Task_Funding_Wire_Approval"
+        ],
+        "creates": [
+          "Task_Funding_Wire_Request"
         ]
       },
       "stage": "5_funding",
@@ -1583,7 +1776,8 @@
       "ruleStatus": "Planned",
       "rules": {
         "completes": [
-          "Task_Cancel_AllAdverse"
+          "Task_Cancel_AllAdverse",
+          "Task_Funding_Fund_Complete"
         ],
         "creates": [
           "Task_Funding_Fund_Loan"
@@ -1784,6 +1978,14 @@
         ],
         "creates": [
           "Task_InitialDocsRec"
+        ],
+        "subtask-creates": [
+          "Task_QualityAssurance_InitialDocReview_1",
+          "Task_QualityAssurance_InitialDocReview_2"
+        ],
+        "trigger": [
+          "Task_QualityAssurance_InitialDocReview_1",
+          "Task_QualityAssurance_InitialDocReview_2"
         ]
       },
       "stage": "7_post-closing-qc",
@@ -1976,10 +2178,6 @@
       "type": "Processing_ServiceOrders_OrderTaxTranscripts"
     },
     {
-      "file": "tasks/3_underwriting/resubmittal/appraisal_ready_in_valuelink_follow_up_v1.xml",
-      "type": "Underwriting_Resubmittal_AppraisalReviewFollow"
-    },
-    {
       "file": "tasks/3_underwriting/resubmittal/send_avm_v1.xml",
       "type": "Underwriting_Resubmittal_SendAVM"
     }
@@ -1992,22 +2190,22 @@
       "near-match": 0,
       "no-match": 2,
       "other-task": 0,
-      "task-missing": 1
+      "task-missing": 5
     },
-    "brokenSubtaskPairs": 3,
-    "brokenTaskRefs": 20,
+    "brokenSubtaskPairs": 7,
+    "brokenTaskRefs": 27,
     "brokenTaskTypes": 17,
-    "distinctTaskTypesReferenced": 83,
+    "distinctTaskTypesReferenced": 84,
     "duplicateTaskTypesInRepo": 0,
     "flaggedNoRulesButCompleteOrPartial": 8,
-    "flaggedRulesExistButPlannedOrNotStarted": 20,
-    "inactiveRules": 2,
-    "orphanTaskTypes": 13,
+    "flaggedRulesExistButPlannedOrNotStarted": 21,
+    "inactiveRules": 3,
+    "orphanTaskTypes": 12,
     "roadmapTasks": 85,
-    "rules": 119,
-    "taskReferences": 264,
-    "taskTemplateIdMismatches": 22,
-    "taskTemplateIdsChecked": 22,
+    "rules": 192,
+    "taskReferences": 355,
+    "taskTemplateIdMismatches": 25,
+    "taskTemplateIdsChecked": 25,
     "taskTypesInRepo": 79
   },
   "taskTemplateIdMismatches": [
@@ -2086,6 +2284,7 @@
       "ruleTaskTemplateId": "35788e0d-2dcf-42ac-bce3-9a5ea4971eaa",
       "rules": [
         "SubtTask_OrderAppraisal1",
+        "SubtTask_OrderAppraisal2",
         "Subtask_AppraisalQuote"
       ],
       "task": "Processing_Appraisal_Order"
@@ -2104,6 +2303,9 @@
       "repoId": "a36c1e26-eac2-48ba-b146-f19e38c0d55b",
       "ruleTaskTemplateId": "4244ef3b-94d9-4569-9495-309e06b38961",
       "rules": [
+        "Task_AVMFailCompletion",
+        "Task_AVMSuccessCompletion",
+        "Task_FloodReviewCompletionInitial",
         "Task_HELOCIntiailDocs2"
       ],
       "task": "Processing_FileSetup_SendDisclosuresHELOC"
@@ -2125,7 +2327,11 @@
       "rules": [
         "SubTask_FileClosure_InitialDocs",
         "SubTask_FileClosure_InitialDocs1003",
-        "Subtask_Complete_1003Park"
+        "Subtask_Complete_1003Park",
+        "Subtask_Complete_ConvoPark",
+        "Subtask_Complete_DisclosureTrackingPark",
+        "Subtask_Complete_InitialDisclosurePark",
+        "Subtask_Complete_eConsetPark"
       ],
       "task": "Processing_Misc_FileClosureDocuments"
     },
@@ -2148,6 +2354,24 @@
       "task": "Processing_PostUnderwriting_SendCommitmentLetter"
     },
     {
+      "file": "tasks/2_processing/pre_underwriting_checklist/pre_uw_checklist_v1.xml",
+      "repoId": "5a1bf817-ba36-4fdb-b2d9-57744ab4358b",
+      "ruleTaskTemplateId": "f3e090f8-f369-4db2-bc0b-bfda3731be8b",
+      "rules": [
+        "Subtask_Processing_PreUndewriting"
+      ],
+      "task": "Processing_PreUnderwriting_PreUWChecklist"
+    },
+    {
+      "file": "tasks/2_processing/flood_certificate/flood_certificate_review_v1.xml",
+      "repoId": "3856971d-c782-4c81-8a7c-c1c7c6dd9cd1",
+      "ruleTaskTemplateId": "ff02e159-3f69-444b-b043-74f2e655c55a",
+      "rules": [
+        "Task_FloodCertificateReview_AddressMismatch"
+      ],
+      "task": "Processing_ServiceOrders_FloodCertificateReview"
+    },
+    {
       "file": "tasks/2_processing/title/order_title_v1.xml",
       "repoId": "bd6ec107-4e49-479f-86a5-28d67dd575e3",
       "ruleTaskTemplateId": "494fd821-5d0a-42ed-a019-7d060132e81d",
@@ -2155,6 +2379,16 @@
         "SubTask_TitleOrderEquity"
       ],
       "task": "Processing_ServiceOrders_OrderTitle"
+    },
+    {
+      "file": "tasks/7_post-closing-qc/initial_doc_qc/initial_document_quality_assurance_v1.xml",
+      "repoId": "17b54847-7ac0-4782-8f29-7ce745f48b54",
+      "ruleTaskTemplateId": "2b76e5e0-c89d-428e-8a8e-13381daec188",
+      "rules": [
+        "Task_QualityAssurance_InitialDocReview_1",
+        "Task_QualityAssurance_InitialDocReview_2"
+      ],
+      "task": "QualityAssurance_InitialDocReview"
     },
     {
       "file": "tasks/3_underwriting/uw_misc/counteroffer_second_review_v1.xml",
@@ -2200,6 +2434,8 @@
       "ruleTaskTemplateId": "b140fc5c-0888-4637-b98b-7ceadb072d86",
       "rules": [
         "SubTask_AppraisalExternal_Complete",
+        "SubTask_AppraisalReviewForm_Complete",
+        "SubTask_AppraisalTransfer_Complete",
         "Task_AppraisalReview_Complete"
       ],
       "task": "Underwriting_Resubmittal_ReviewAppraisal"
