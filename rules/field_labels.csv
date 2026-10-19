@@ -1,0 +1,122 @@
+field_id,label,used_as,rule_count,rules,values_seen
+CX.ADVERSESIGNER1,,trigger,2,CounterOffer_FirstReview; Denial_FirstReview,
+CX.APPRAISALQUOTE,,condition; set,2,SubTask_AppraisalOrder; Subtask_QuoteComplete,Yes
+CX.APPRAISALSTATUS,,trigger; condition,9,Appraisal Complete; Appraisal Initial Review; CounterOffer_Verdict; Denial_SecondReview; Scheduler_SSRReportsAvailable; Subtask_AppraisalCancel; TaskComplete_PostNOI; Task_AppraisalReview; Task_Post_Withdraw,Completed; File in Review; ROV Requested By Borrower; Report Accepted; Revision Requested; SSR Report(s) Available
+CX.AVMACCEPTANCE,,condition,2,Task_Complete_CD_Request_Equity; Task_PostApprovalEquity,"PASS, Sufficient"
+CX.AVMFAIL,,set,1,SubTask_AVMFailCompletion,Y
+CX.AVMSENDINITIALDOCS,,condition; set,4,Disclosures_ClosedEnd; Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; SubTask_AVMSuccessCompletion,Y
+CX.BCSBBRANCH,,trigger; condition,4,Branch_Assignment_1; Branch_Assignment_1_Creation; Branch_Assignment_2; Branch_Assignment_2_Creation,"Attleboro; Cumberland, RI; Dartmouth; East Freetown; Fall River; Greenville, RI; New Bedford - Ashley Boulevard; New Bedford - Downtown; North Attleboro; Pawtucket, RI; Providence; Raynham -- Center; Raynham -- North; Rehoboth; Taunton - County Street; Taunton - Main Office"
+CX.COUNTEROFFER,,condition,5,CounterOffer_FirstReview; CounterOffer_SecondReview; Denial_FirstReview; Denial_SecondReview; Subtask_Counter,Y
+CX.CURRENTADDRESSSTRING,,trigger; condition,1,Task_FloodCertificateReview_AddressMismatch,
+CX.DENIALREVIEW,,trigger,1,Processing_DenialReviewRequest,
+CX.DISCLOSEDPRODUCT,,condition; set,4,Disclosures_HELOCImportantTerms; Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; Task_HELOCImportantTermsRedisclosure,NEW
+CX.DISCLOSUREREVIEW,,trigger; condition,1,HELOC Initial Docs,Send
+CX.EI.UPLOAD.STATUS,,trigger; condition,3,SubTask_CompleteBoarding; Task_ColdStorage_Boarding; Task_ColdStorage_PostBoarding,
+CX.FLOODADDRESS,,condition,1,Task_FloodCertificateReview_AddressMismatch,
+CX.FLOODADDRESSCHECK,,set,1,FloodCertificateReview_Address,now()
+CX.FLOODAUTOMATE,,trigger,1,Service - Flood Order,Y
+CX.FLOODCANCEL,,set,1,Subtask_CancelFlood,today()
+CX.FUNDINGAPPROVED,,trigger,1,Task_Funding_Funding_Approval,
+CX.FUNDINGCONFIRMED,,trigger,1,Task_Funding_Funding_Request,
+CX.ICDREQUEST,,condition; set,2,Task_ICDSentNA; Task_ICD_Requested,Y
+CX.LASTDISCLOSEDAMORTIZATION,,condition,1,Amortization Type Change Notice and Task,
+CX.LOANFOLDER,,trigger; condition,6,Archive; Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15,Archive
+CX.NOTESENT,,set,2,Subtask_NoteDelivery_LocationOperations; Subtask_NoteDelivery_LocationSecondary,Operations; Secondary
+CX.PARORDERED,,condition; set,4,CounterOffer_Verdict; Subtask_PARRequest; TaskComplete_PostNOI; Task_Post_Withdraw,today()
+CX.PREQUALIFIED,,trigger,1,Disclosures_Prequalification,
+CX.QC.COMPLETION.DATE,,set,1,Subtask_ColdStorage,today()
+CX.TASKPILOT,,condition,23,Service_FraudX_Automated; Subtask_PARRequest; Task_ContractUW_Approval; Task_CreditReview; Task_FraudXReview; Task_FraudXReviewComplete; Task_HELOCImportantTermsRedisclosure; Task_HELOCIntiailDocs; Task_HOIReview; Task_InitialDocsRec; Task_IntiailDocsAlert; Task_OrderAppraisal; Task_OrderAppraisalFirstMtg; Task_PARReview; Task_PARReview2; Task_PARReview3; Task_PostApprovalEquity; Task_SendApproval; Task_SendApproval_Save; Task_ServiceOrders_FloodCertificateReview; Task_UnderwriteCompletion; Task_Underwrite_Conditions; Title Review,Y
+CX.TITLEORDERED,,condition; set,4,ConditionUpdate_TitleOrderEquity; CounterOffer_Verdict; TaskComplete_PostNOI; Task_Post_Withdraw,today()
+CX.TODAYS,,trigger,1,Scheduler_DayRefresh,
+CX.TODAYS.DATE,,set,1,SchedulerCompeted_DayRefresh,today()
+CX.UCDFANNIE,,trigger; condition,1,Service - UCD and LCA Order,
+CX.UDPILOT,,condition,3,Scheduler_UndisclosedDebtCancel; Service_UndisclosedDebtActivate; copy_Service_UndisclosedDebtActivate,Y
+CX.UW.ADVERSE.ACTION.1,,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.ACTION.2,,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.ACTION.3,,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.ACTION.4,,trigger,1,Scheduler_CoutnerOffer,Counter
+CX.UW.ADVERSE.SIGNER2.1,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.ADVERSE.SIGNER2.2,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.ADVERSE.SIGNER2.3,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.ADVERSE.SIGNER2.4,,trigger,2,CounterOffer_SecondReview; Denial_SecondReview,
+CX.UW.APPROVAL.LATEST.NAME,,trigger,2,Task_SendApproval; Task_UnderwriteCompletion,
+CX.UW.APPROVALSENTASK,,set,1,Disclosures_Approval_CL,now()
+CX.VALUATONTYPE,,condition,2,Disclosures_AppraisalDelivery; HELOC Initial Docs,AVM; Appraisal
+CX.WIREAPPROVED,,trigger,1,Task_Funding_Wire_Approval,
+CX.WIREAPPRREQ,,trigger,1,Task_Funding_Wire_Request,Y
+1041,,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,Attached; Condominium; Detached; DetachedCondo; HighRiseCondominium; PUD
+11,,condition,4,PreApp Follow Up 15; Task_PreApp_1003; Task_PreApp_1003_GMI; Task_PreApp_Credit,TBD
+1172,,condition,19,BranchScheduling_Complete; Disclosures_Approval_CL; Disclosures_HELOCInitialDocs; Disclosures_Withdrawn_Letter; HELOC Initial Docs; OR_Disclosures_HELOCInitialDocs; SubTask_RecordMortgage; SubtTask_OrderAppraisal1; SubtTask_OrderAppraisal2; Task_DocumentReceipt; Task_Funding_Fund_Loan; Task_HELOCImportantTermsRedisclosure; Task_HELOCIntiailDocs; Task_ICD_CreateRequest; Task_IntiailDocsAlert; Task_QualityAssurance_InitialDocReview_1; Task_QualityAssurance_InitialDocReview_2; Task_SendApproval; Task_SendApproval_Save,HELOC
+13,,condition,1,SubTask_AppraisalOrder,Bristol
+1393,,trigger; condition; set,14,CounterOffer_Verdict; Denial_SecondReview; Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15; Subtask_Complete_1003Park; Subtask_Complete_InitialDisclosurePark; TaskComplete_PostNOI; Task_Cancel_AllAdverse; Task_TransfertoCold_Adverse; Task_Underwrite_Expired; Withdraw_TaskCreation,Active Loan; Application approved but not accepted; Application denied; Application withdrawn; File Closed for incompleteness; Loan Originated; Loan purchased by your institution; Preapproval request approved but not accepted; Preapproval request denied by financial institution
+14,,condition,4,Processing_FloodZone; SubTask_AppraisalOrder; Task_QualityAssurance_InitialDocReview_1; Task_QualityAssurance_InitialDocReview_2,MA; RI
+1401,,trigger; condition,14,Disclosures_Approval_CL; Key Pricing Fields Change; Processor/Underwriter Assign (Retail); Service_FraudX_Automated; SubTask_TitleOrderEquity; Subtask_Counter; Subtask_Denial; Subtask_Processing_PreUndewriting; Task_AppraisalReview_Complete; Task_Complete_CD_Request_Equity; Task_HELOCImportantTermsRedisclosure; Task_PreApp_1003_GMI; Task_QualityAssurance_InitialDocReview_1; Task_QualityAssurance_InitialDocReview_2,MassHousing
+15,,condition,1,Subtask_AppraisalQuote,02535; 02539; 02557; 02568; 02575; 02807
+16,,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,
+1811,,condition,2,SubTask_AppraisalOrder; SubTask_RecordMortgage,PrimaryResidence; SecondHome
+1821,,condition,1,Subtask_AppraisalQuote,
+1888,,condition,1,SubTask_ConfirmFunding_Disbursement,
+19,,condition,1,SubTask_AppraisalOrder,Cash-Out Refinance; NoCash-Out Refinance; Purchase
+2,,condition,4,SubtTask_OrderAppraisal1; Task_HELOCIntiailDocs2; Task_OrderAppraisalEquity; Task_QualityAssurance_InitialDocReview_1,RI
+2301,,condition,5,Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-App Follow Up (30 Days); PreApp Follow Up 15,
+2302,,trigger,1,Scheduler_ApprovalExpiration,
+2314,,trigger,1,File Scheduler Decisioned Cancel,
+2356,,set,1,Task_PARReview,Other
+2366,,trigger,1,Processing_FloodZone,Y
+26,,condition,1,BranchScheduling_Complete,
+300,,condition,1,Archive,
+3142,,trigger,2,File Live Scheduler Cancel/Create; Task_IntiailDocsAlert,
+3152,,trigger; condition,3,Amortization Type Change Notice and Task; Disclosures_Withdrawn_Letter; Wholesale Disclosure Notice,
+3624,,condition; set,1,Disclosures_AppraisalDelivery,today()
+3857,,set,1,Disclosures_AppraisalDelivery,today()
+3858,,set,1,Disclosures_AVM Delivery,today()
+3977,,trigger,2,Task_ICDSentNA; Task_ICD_Sent,
+3983,,trigger; condition,5,Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; Subtask_Denial; Task_Cancel_Mailed Disclosures; Task_InitialDocsRec,
+4002,,condition,12,Fail_Disclosures_PreApp_1003; Subtask_PARRequest; Task_CreditReview; Task_HELOCIntiailDocs; Task_InitialDocsRec; Task_OrderAppraisalEquity; Task_OrderAppraisalFirstMtg; Task_PARReview; Task_PARReview2; Task_PARReview3; Task_PostApprovalEquity; Task_ServiceOrders_FloodCertificateReview,Firstimer
+420,,condition,5,Disclosures_Denial; Disclosures_Withdrawn_Letter; Subtask_Counter; Subtask_Denial; Subtask_Processing_PreUndewriting,First Lien; FirstLien; Second Lien; SecondLien
+4458,,trigger; condition; set,3,CounterOffer_ClosuerTask_Accepted; CounterOffer_ClosuerTask_Declined; CounterOffer_Verdict,Accepted; Declined
+4950,,trigger,1,NOI_DocsRec_Cancel,
+608,,trigger; condition,1,Amortization Type Change Notice and Task,AdjustableRate
+617,,condition; set,5,SubTask_AppraisalExternal_Complete; Task_AppraisalReview_Complete; Task_PARReview; Task_PARReview2; Task_PARReview3,Xactus/PAR
+618,,set,1,Task_PARReview,N/A
+65,,condition,1,Archive,
+748,,trigger; condition,5,BranchScheduling_Complete; Scheduler_ClosingDate; Scheduler_UndisclosedDebtCancel; Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
+@2025,,condition,6,File Live Scheduler Cancel/Create; File Scheduler Decisioned Cancel; Live App Follow Up (15 Days); Live App Follow Up (30 Days); Pre-App Follow Up (15 Days); Pre-Approval Scheduler Start,
+@2302,,condition,2,Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
+@3142,,condition,4,Appraisal Invoice Notification; Service - Flood Order; Service - Flood Order Task; Wholesale Disclosure Notice,
+@3143,,condition,1,Task_Cancel_Mailed Disclosures,
+@3983,,condition,1,Task_Cancel_Mailed Disclosures,
+@745,,condition,1,Pre-App Follow Up (30 Days),
+@748,,condition,2,Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired,
+Alert.KeyPricingFieldAlert.AlertCount,,trigger,1,Key Pricing Fields Change,
+CUST36FV,,condition,2,SubTask_AppraisalExternal_Complete; Task_AppraisalReview_Complete,
+CUST39FV,,trigger,2,SubTask_AppraisalExternal_Complete; Task_PARReview2,
+CUST40FV,,trigger,2,Task_AppraisalReview_Complete; Task_PARReview3,
+Document.DateOrdered.MA Notice of Flood Insurance Coverage,,trigger,1,MA Flood Notice,
+Document.DateOrdered.Notice of Special Flood Hazards and Availability of Federal Disaster Relief Assistance,,trigger,1,Federal Flood Notice,
+Document.DateReceived.Commitment Acknowledgment,,trigger,1,CommittmentAck_Clear,
+ENHANCEDCOND.X1,,condition,2,Disclosures_Approval_CL; Task_AppraisalReview,Y
+FE0115,,condition,1,Subtask_Processing_PreUndewriting,Y
+FE0215,,condition,1,Subtask_Processing_PreUndewriting,Y
+FE0315,,condition,1,Subtask_Processing_PreUndewriting,Y
+FE0415,,condition,1,Subtask_Processing_PreUndewriting,Y
+FE0515,,condition,1,Subtask_Processing_PreUndewriting,Y
+FE0615,,condition,1,Subtask_Processing_PreUndewriting,Y
+FE0715,,condition,1,Subtask_Processing_PreUndewriting,Y
+FE0815,,condition,1,Subtask_Processing_PreUndewriting,Y
+FM0120,,condition,1,Subtask_Processing_PreUndewriting,
+FM0220,,condition,1,Subtask_Processing_PreUndewriting,
+FM0320,,condition,1,Subtask_Processing_PreUndewriting,
+FM0420,,condition,1,Subtask_Processing_PreUndewriting,
+FM0520,,condition,1,Subtask_Processing_PreUndewriting,
+FM0620,,condition,1,Subtask_Processing_PreUndewriting,
+FM0720,,condition,1,Subtask_Processing_PreUndewriting,
+LE1.X4,,condition,2,Subtask_Counter; Subtask_Denial,Refinance
+LE2.X28,,condition,1,Disclosures_Early_CD,N; Y
+LoanTeamMember.Name.Loan Officer,,condition,1,Processor/Underwriter Assign (Retail),
+REQUEST.X26,,trigger,4,Disclosures_HELOCImportantTerms_CL; Disclosures_PreApproval_CL; OR_Disclosures_HELOCInitialDocs; copy_Service_UndisclosedDebtActivate,ACTIVATE; HELOCDOCSPLS; PREAPP; TERMSLETTER
+ULDD.X220,,condition,1,SubTask_AppraisalOrder,Y
+URLA.X140,,condition,1,SubTask_TitleOrderEquity,LandTrust; LivingTrust
+URLA.X145,,condition,1,BranchScheduling_Complete,
+URLA.X44,,condition,1,Subtask_Processing_PreUndewriting,
+URLA.X73,,condition,1,Disclosures_Denial,TBD

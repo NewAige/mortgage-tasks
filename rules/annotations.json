@@ -1,0 +1,341 @@
+{
+  "_comment": "Hand-maintained labels merged by rules_graph.py; missing entries fall back to raw IDs. Labels are guesses from rule names until confirmed.",
+  "milestones": {
+    "Boarding - E": {
+      "confirmed": false,
+      "stage": "5_funding",
+      "track": "equity"
+    },
+    "Broker Import": {
+      "confirmed": false,
+      "stage": "1_origination"
+    },
+    "Clear to Close - E": {
+      "confirmed": false,
+      "stage": "3_underwriting",
+      "track": "equity"
+    },
+    "Cond. Approval": {
+      "confirmed": false,
+      "stage": "3_underwriting"
+    },
+    "Cond. Approval - E": {
+      "confirmed": false,
+      "stage": "3_underwriting",
+      "track": "equity"
+    },
+    "Doc Prep - E": {
+      "confirmed": false,
+      "stage": "4_closing",
+      "track": "equity"
+    },
+    "Funding": {
+      "confirmed": false,
+      "stage": "5_funding"
+    },
+    "Pre Processing": {
+      "confirmed": false,
+      "stage": "2_processing"
+    },
+    "Pre-Qual/App": {
+      "confirmed": false,
+      "stage": "1_origination"
+    },
+    "Processing": {
+      "confirmed": false,
+      "stage": "2_processing"
+    },
+    "Processing - E": {
+      "confirmed": false,
+      "stage": "2_processing",
+      "track": "equity"
+    },
+    "Submittal - E": {
+      "confirmed": false,
+      "stage": "3_underwriting",
+      "track": "equity"
+    }
+  },
+  "notifications": {
+    "0635540d-e250-4d0e-bd4f-20239c78a3c0": {
+      "confirmed": false,
+      "inferredFrom": "Amortization Type Change Notice and Task",
+      "label": "Amortization type change notice"
+    },
+    "0a94b146-d702-4ec6-806b-78a5c815b8d7": {
+      "confirmed": false,
+      "inferredFrom": "Task_Funding_Fund_Loan",
+      "label": "Fund loan notice"
+    },
+    "0ab765e0-d0d8-4ecf-b692-7e234d70dde6": {
+      "confirmed": false,
+      "inferredFrom": "Task-OrderAppraisalEquity-AVMFail",
+      "label": "Equity appraisal order AVM failure notice"
+    },
+    "0cb53cdf-0508-40ca-b27f-48b49530c17e": {
+      "confirmed": false,
+      "inferredFrom": "Disclosures_ClosedEnd; Disclosures_HELOCInitialDocs; HELOC Initial Docs; OR_Disclosures_HELOCInitialDocs",
+      "label": ""
+    },
+    "103d96db-73f7-4173-8de4-e44821fc65a5": {
+      "confirmed": false,
+      "inferredFrom": "Wholesale Disclosure Notice",
+      "label": "Wholesale disclosure notice"
+    },
+    "12e3a3ba-cabd-4506-9bfa-a8fd082af413": {
+      "confirmed": false,
+      "inferredFrom": "Task_ICD_Requested",
+      "label": "Initial Closing Disclosure requested notice"
+    },
+    "1dbc0842-7e5d-41cd-ad45-734036a5d3bd": {
+      "confirmed": false,
+      "inferredFrom": "SubTask_AVMFailCompletion",
+      "label": "AVM failure notice"
+    },
+    "22b40507-4dc9-4de7-a08b-997aac81335b": {
+      "confirmed": false,
+      "inferredFrom": "Key Pricing Fields Change",
+      "label": "Key pricing fields change notice"
+    },
+    "2a64b001-ea99-4b5c-8561-fb27be1e206e": {
+      "confirmed": false,
+      "inferredFrom": "Service - UCD and LCA Order",
+      "label": "UCD and LCA order notice"
+    },
+    "371fccaa-80c3-430b-b2c8-f6285346a11d": {
+      "confirmed": false,
+      "inferredFrom": "Live App Follow Up (15 Days); Pre-App Follow Up (15 Days); PreApp Follow Up 15",
+      "label": "Application follow-up (15 days)"
+    },
+    "47ec0bc5-ccaf-40dc-b046-5412ba444ce9": {
+      "confirmed": false,
+      "inferredFrom": "BranchScheduling_CTC",
+      "label": "Branch scheduling (clear to close) notice"
+    },
+    "509ebd88-2ecc-43fd-8aa8-4ce00059c147": {
+      "confirmed": false,
+      "inferredFrom": "Appraisal Complete",
+      "label": "Appraisal complete notice"
+    },
+    "804e096c-fe9c-446a-95ab-a850bf3e095c": {
+      "confirmed": false,
+      "inferredFrom": "Appraisal Invoice Notification",
+      "label": "Appraisal invoice notice"
+    },
+    "8b09da63-466f-4acb-b4a6-74c8f4fa46b3": {
+      "confirmed": false,
+      "inferredFrom": "Disclosures_AppraisalDelivery; Disclosures_Approval_CL; Disclosures_Denial; Disclosures_HELOCImportantTerms; Disclosures_HELOCInitialDocs; Disclosures_Withdrawn_Letter; OR_Disclosures_HELOCInitialDocs",
+      "label": ""
+    },
+    "8f4ad7b7-3dac-477c-9e12-39a8276eab43": {
+      "confirmed": false,
+      "inferredFrom": "Disclosures_ClosedEnd; Disclosures_Denial",
+      "label": ""
+    },
+    "99c51d21-c39f-452b-8fde-29d56c02d672": {
+      "confirmed": false,
+      "inferredFrom": "Scheduling Requested",
+      "label": "Scheduling requested notice"
+    },
+    "9c36a486-31e4-4ed8-bd5e-ee01508bd1ea": {
+      "confirmed": false,
+      "inferredFrom": "Counteroffer_Expiration_Warning",
+      "label": "Counteroffer expiration warning"
+    },
+    "a0b0a0a2-457b-4f5f-b02f-1a352b357920": {
+      "confirmed": false,
+      "inferredFrom": "Notifcation_EquityClosingInstructions",
+      "label": "Equity closing instructions notice"
+    },
+    "a64d9397-6ac7-4f5c-ad0f-7b2259ec2f70": {
+      "confirmed": false,
+      "inferredFrom": "Appraisal Initial Review",
+      "label": "Appraisal initial review notice"
+    },
+    "b0639339-10e3-464b-96cd-63b307b2f992": {
+      "confirmed": false,
+      "inferredFrom": "Processing_DenialReviewRequest",
+      "label": "Denial review request notice"
+    },
+    "b6edbd62-b23e-445f-835c-ba552179fffe": {
+      "confirmed": false,
+      "inferredFrom": "Live App Follow Up (30 Days); Pre-App Follow Up (30 Days)",
+      "label": "Application follow-up (30 days)"
+    },
+    "ca4aa6d6-3968-4331-90b9-2442eb7bd8a6": {
+      "confirmed": false,
+      "inferredFrom": "NOI_Expiration_Warning",
+      "label": "Notice of Incomplete expiration warning"
+    },
+    "cac2f68d-9614-494a-843b-038f4df41413": {
+      "confirmed": false,
+      "inferredFrom": "Task_ExtendApproval_ClosingDate; Task_Underwrite_Expired",
+      "label": "Approval expired / extended notice"
+    },
+    "d7f815b5-6a21-4723-b414-4499aa53adea": {
+      "confirmed": false,
+      "inferredFrom": "Disclosures_Counter",
+      "label": "Counteroffer disclosure notice"
+    },
+    "dd2c4cfb-ad5b-4658-af67-aa7554049333": {
+      "confirmed": false,
+      "inferredFrom": "Disclosures_Denial",
+      "label": "Denial notice"
+    },
+    "f622a4da-b318-47df-bb8d-1e2e3b4ce5bc": {
+      "confirmed": false,
+      "inferredFrom": "Task_PreApp_Credit",
+      "label": "Pre-app credit notice"
+    }
+  },
+  "serviceRules": {
+    "5800e6c3-671a-4d2c-8daa-93c03cc330f3": {
+      "confirmed": false,
+      "inferredFrom": "Service_UndisclosedDebtActivate; copy_Service_UndisclosedDebtActivate",
+      "label": "Undisclosed debt monitoring - activate"
+    },
+    "5d306ccb-d142-4d47-ad01-6c8b97b38cf7": {
+      "confirmed": false,
+      "inferredFrom": "Service - Flood Order; Service - Flood Order Task",
+      "label": "Flood certificate order"
+    },
+    "602e8a1c-c507-43c5-af4c-af07bbc83254": {
+      "confirmed": false,
+      "inferredFrom": "Service_AppraisalOrder",
+      "label": "Appraisal order"
+    },
+    "692d7337-076b-455b-9383-38b34c1b14b4": {
+      "confirmed": false,
+      "inferredFrom": "Service_UndisclosedDebtCanel",
+      "label": "Undisclosed debt monitoring - cancel"
+    },
+    "a63fd997-9e97-4717-aeed-da04eda84757": {
+      "confirmed": false,
+      "inferredFrom": "Service_FraudX; Service_FraudX_Automated",
+      "label": "FraudX report order"
+    },
+    "be13ff9e-f20a-42d2-88af-7528afd965bf": {
+      "confirmed": false,
+      "inferredFrom": "Service - HMDA Geocoding",
+      "label": "HMDA geocoding"
+    },
+    "d75e1054-8573-4309-8f12-68c7b6f18c01": {
+      "confirmed": false,
+      "inferredFrom": "Service - UCD and LCA Order",
+      "label": "UCD and LCA order"
+    }
+  },
+  "walkthroughCandidates": [
+    {
+      "entryRules": [
+        "Denial_FirstReview",
+        "Denial_SecondReview",
+        "Subtask_Denial",
+        "Disclosures_Denial"
+      ],
+      "title": "A loan is denied",
+      "why": "Two-step denial review leads to the send-denial task, adverse-action notices and cancellation of vendor orders."
+    },
+    {
+      "entryRules": [
+        "CounterOffer_FirstReview",
+        "CounterOffer_SecondReview",
+        "Subtask_Counter",
+        "Disclosures_Counter",
+        "Scheduler_CoutnerOffer"
+      ],
+      "title": "A counteroffer is made",
+      "why": "Counteroffer review, send, disclosure and the warning/closure timers."
+    },
+    {
+      "entryRules": [
+        "Counteroffer_Expiration_Warning",
+        "Counteroffer_Expiration_Task",
+        "CounterOffer_ClosuerTask_Accepted",
+        "CounterOffer_ClosuerTask_Declined",
+        "CounterOffer_ClosuerTask_Extend",
+        "CounterOffer_Verdict"
+      ],
+      "title": "A counteroffer is accepted, declined or runs out",
+      "why": "What happens when the counteroffer timer fires or staff record the borrower's answer."
+    },
+    {
+      "entryRules": [
+        "Task_OrderAppraisalFirstMtg",
+        "Task_OrderAppraisalEquity",
+        "SubtTask_OrderAppraisal1",
+        "Service_AppraisalOrder",
+        "Task_AppraisalReview",
+        "Task_AppraisalReview_Complete"
+      ],
+      "title": "An appraisal is ordered and received",
+      "why": "From order task through vendor order, invoice, receipt and underwriting appraisal review."
+    },
+    {
+      "entryRules": [
+        "Subtask_AppraisalCancel",
+        "Denial_SecondReview",
+        "Task_AppraisaRefundCancel"
+      ],
+      "title": "An appraisal is cancelled and refunded",
+      "why": "Cancellation creates the refund task; shows how denial and withdrawal feed it."
+    },
+    {
+      "entryRules": [
+        "Service - Flood Order",
+        "Service - Flood Order Task",
+        "Task_ServiceOrders_FloodCertificateReview",
+        "Processing_FloodZone",
+        "Task_FloodRecheck"
+      ],
+      "title": "Flood certificate ordered and reviewed",
+      "why": "Flood order, review, address mismatch, flood-zone conditions and recheck."
+    },
+    {
+      "entryRules": [
+        "Task_Funding_Funding_Request",
+        "Task_Funding_Funding_Approval",
+        "Task_Funding_Wire_Request",
+        "Task_Funding_Wire_Approval",
+        "Task_Funding_Fund_Loan",
+        "Task_Funding_Fund_Complete"
+      ],
+      "title": "Funding and wire",
+      "why": "Funding request and approval, wire request and approval, then the fund-loan timer and boarding."
+    },
+    {
+      "entryRules": [
+        "Withdraw_TaskCreation",
+        "Task_Post_Withdraw",
+        "Disclosures_Withdrawn_Letter"
+      ],
+      "title": "A loan is withdrawn",
+      "why": "Withdrawal task, cancellation of title/PAR/flood, folder move and withdrawal letter."
+    },
+    {
+      "entryRules": [
+        "Disclosures_NOI",
+        "Task_CreateNOI_15Day",
+        "Task_CreateNOI_30Day",
+        "NOI_Expiration_Warning",
+        "NOI_Expiration_Closure",
+        "TaskComplete_PostNOI"
+      ],
+      "title": "Notice of Incomplete",
+      "why": "Incomplete-application notice, warning and closure timers, then cleanup of vendor orders."
+    },
+    {
+      "entryRules": [
+        "Task_DocumentReceipt",
+        "SubTask_DocReceipt_eSignBack",
+        "SubTask_DocReceipt_WetSignBack",
+        "Task_DeliverNoteMtg",
+        "Task_ColdStorage_Boarding",
+        "Task_ColdStorage_PostBoarding",
+        "Task_TransfertoCold_Adverse"
+      ],
+      "title": "Closing documents received and cold storage",
+      "why": "Post-closing document receipt, note/mortgage delivery, recording and transfer to cold storage."
+    }
+  ]
+}
