@@ -1,20 +1,20 @@
 field_id,label,used_as,rule_count,rules,values_seen
-CX.ADVERSESIGNER1,,trigger,2,CounterOffer_FirstReview; Denial_FirstReview,
-CX.APPRAISALQUOTE,,condition; set,2,SubTask_AppraisalOrder; Subtask_QuoteComplete,Yes
-CX.APPRAISALSTATUS,,trigger; condition,9,Appraisal Complete; Appraisal Initial Review; CounterOffer_Verdict; Denial_SecondReview; Scheduler_SSRReportsAvailable; Subtask_AppraisalCancel; TaskComplete_PostNOI; Task_AppraisalReview; Task_Post_Withdraw,Completed; File in Review; ROV Requested By Borrower; Report Accepted; Revision Requested; SSR Report(s) Available
-CX.AVMACCEPTANCE,,condition,2,Task_Complete_CD_Request_Equity; Task_PostApprovalEquity,"PASS, Sufficient"
-CX.AVMFAIL,,set,1,SubTask_AVMFailCompletion,Y
-CX.AVMSENDINITIALDOCS,,condition; set,4,Disclosures_ClosedEnd; Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; SubTask_AVMSuccessCompletion,Y
-CX.BCSBBRANCH,,trigger; condition,4,Branch_Assignment_1; Branch_Assignment_1_Creation; Branch_Assignment_2; Branch_Assignment_2_Creation,"Attleboro; Cumberland, RI; Dartmouth; East Freetown; Fall River; Greenville, RI; New Bedford - Ashley Boulevard; New Bedford - Downtown; North Attleboro; Pawtucket, RI; Providence; Raynham -- Center; Raynham -- North; Rehoboth; Taunton - County Street; Taunton - Main Office"
-CX.COUNTEROFFER,,condition,5,CounterOffer_FirstReview; CounterOffer_SecondReview; Denial_FirstReview; Denial_SecondReview; Subtask_Counter,Y
-CX.CURRENTADDRESSSTRING,,trigger; condition,1,Task_FloodCertificateReview_AddressMismatch,
-CX.DENIALREVIEW,,trigger,1,Processing_DenialReviewRequest,
-CX.DISCLOSEDPRODUCT,,condition; set,4,Disclosures_HELOCImportantTerms; Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; Task_HELOCImportantTermsRedisclosure,NEW
-CX.DISCLOSUREREVIEW,,trigger; condition,1,HELOC Initial Docs,Send
-CX.EI.UPLOAD.STATUS,,trigger; condition,3,SubTask_CompleteBoarding; Task_ColdStorage_Boarding; Task_ColdStorage_PostBoarding,
-CX.FLOODADDRESS,,condition,1,Task_FloodCertificateReview_AddressMismatch,
-CX.FLOODADDRESSCHECK,,set,1,FloodCertificateReview_Address,now()
-CX.FLOODAUTOMATE,,trigger,1,Service - Flood Order,Y
+CX.ADVERSESIGNER1,Adverse Decision First Signer (name/date stamp),trigger,2,CounterOffer_FirstReview; Denial_FirstReview,
+CX.APPRAISALQUOTE,Appraisal Quote Received,condition; set,2,SubTask_AppraisalOrder; Subtask_QuoteComplete,Yes
+CX.APPRAISALSTATUS,Appraisal Status,trigger; condition,9,Appraisal Complete; Appraisal Initial Review; CounterOffer_Verdict; Denial_SecondReview; Scheduler_SSRReportsAvailable; Subtask_AppraisalCancel; TaskComplete_PostNOI; Task_AppraisalReview; Task_Post_Withdraw,Completed; File in Review; ROV Requested By Borrower; Report Accepted; Revision Requested; SSR Report(s) Available
+CX.AVMACCEPTANCE,AVM Result,condition,2,Task_Complete_CD_Request_Equity; Task_PostApprovalEquity,"PASS, Sufficient"
+CX.AVMFAIL,AVM Failed,set,1,SubTask_AVMFailCompletion,Y
+CX.AVMSENDINITIALDOCS,Send AVM with Initial Docs,condition; set,4,Disclosures_ClosedEnd; Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; SubTask_AVMSuccessCompletion,Y
+CX.BCSBBRANCH,Branch (BCSB),trigger; condition,4,Branch_Assignment_1; Branch_Assignment_1_Creation; Branch_Assignment_2; Branch_Assignment_2_Creation,"Attleboro; Cumberland, RI; Dartmouth; East Freetown; Fall River; Greenville, RI; New Bedford - Ashley Boulevard; New Bedford - Downtown; North Attleboro; Pawtucket, RI; Providence; Raynham -- Center; Raynham -- North; Rehoboth; Taunton - County Street; Taunton - Main Office"
+CX.COUNTEROFFER,Denial Is a Counteroffer,condition,5,CounterOffer_FirstReview; CounterOffer_SecondReview; Denial_FirstReview; Denial_SecondReview; Subtask_Counter,Y
+CX.CURRENTADDRESSSTRING,Borrower Current Address (combined),trigger; condition,1,Task_FloodCertificateReview_AddressMismatch,
+CX.DENIALREVIEW,Denial Review Requested,trigger,1,Processing_DenialReviewRequest,
+CX.DISCLOSEDPRODUCT,Product Changed from Disclosed,condition; set,4,Disclosures_HELOCImportantTerms; Disclosures_HELOCInitialDocs; OR_Disclosures_HELOCInitialDocs; Task_HELOCImportantTermsRedisclosure,NEW
+CX.DISCLOSUREREVIEW,Disclosure Review Decision,trigger; condition,1,HELOC Initial Docs,Send
+CX.EI.UPLOAD.STATUS,Core Boarding Status,trigger; condition,3,SubTask_CompleteBoarding; Task_ColdStorage_Boarding; Task_ColdStorage_PostBoarding,
+CX.FLOODADDRESS,Flood Cert Address,condition,1,Task_FloodCertificateReview_AddressMismatch,
+CX.FLOODADDRESSCHECK,Flood Address Check Timestamp,set,1,FloodCertificateReview_Address,now()
+CX.FLOODAUTOMATE,Automated Flood Order,trigger,1,Service - Flood Order,Y
 CX.FLOODCANCEL,,set,1,Subtask_CancelFlood,today()
 CX.FUNDINGAPPROVED,,trigger,1,Task_Funding_Funding_Approval,
 CX.FUNDINGCONFIRMED,,trigger,1,Task_Funding_Funding_Request,
