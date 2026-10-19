@@ -121,7 +121,7 @@
   .toggles label { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
   .themetog { font-family: var(--mono); font-size: 12px; padding: 6px 11px; border-radius: 2px;
               border: 1px solid var(--rule); background: var(--surface); cursor: pointer; color: var(--ink-mid); }
-  :is(.tab, .themetog, .btn, .step, .scn, .res, .chip, .search, summary, input[type=checkbox]):focus-visible {
+  :is(.tab, .themetog, .btn, .step, .scn, .res, .chip, .search, .tr-follow, summary, input[type=checkbox]):focus-visible {
     outline: 2px solid var(--focus); outline-offset: 2px; }
 
   .intro { color: var(--ink-mid); max-width: 76ch; font-size: 15px; }
@@ -287,6 +287,36 @@
   .kdchip { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; padding: 1px 8px;
             border: 1px solid var(--rule); border-radius: 10px; color: var(--ink-mid); margin-right: 6px; }
 
+  /* ---- trace ------------------------------------------------------------- */
+  .tr-grid { display: grid; grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 18px; align-items: start; margin-top: 14px; }
+  @media (max-width: 860px) { .tr-grid { grid-template-columns: minmax(0, 1fr); } }
+  .tr-start { display: flex; flex-direction: column; }
+  .tr-h { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-soft);
+          padding-bottom: 8px; border-bottom: 1px solid var(--rule-soft); }
+  .scn[disabled] { opacity: .45; cursor: default; }
+  .tr-pick { padding: 10px 12px 12px; border-bottom: 1px solid var(--rule-soft); background: var(--surface-alt); font-size: 13.5px; }
+  .tr-pick .search { font-size: 14px; padding: 7px 9px; margin: 8px 0 0; }
+  .tr-items { display: flex; flex-direction: column; max-height: 380px; overflow: auto; margin-top: 8px;
+              border: 1px solid var(--rule); border-radius: 3px; background: var(--surface); }
+  .tr-item { flex-direction: column; gap: 2px; font-size: 14px; }
+  .tr-item[aria-pressed="true"] { background: var(--repo-wash); box-shadow: inset 3px 0 0 var(--repo); }
+  .tr-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .tr-crumbs { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tr-step { border-top: 3px solid var(--repo); scroll-margin-top: 12px; }
+  .tr-num { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  .tr-rule { margin-top: 14px; }
+  .tr-when { font-size: 13.5px; color: var(--ink-mid); margin-bottom: 6px; }
+  .tr-effs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .tr-effs li { padding: 7px 10px 7px 12px; border-left: 3px solid var(--rule); font-size: 14.5px; overflow-wrap: anywhere; }
+  .tr-effs li.ia { opacity: .55; }
+  .tr-effs li.bt { padding: 0; border-left: 0; }
+  .tr-follow { display: flex; width: 100%; gap: 12px; justify-content: space-between; align-items: center; text-align: left;
+               background: var(--surface-alt); border: 1px solid var(--rule); border-left: 3px solid var(--repo); border-radius: 2px;
+               padding: 8px 10px 8px 12px; cursor: pointer; font-size: 14.5px; color: var(--ink); overflow-wrap: anywhere; }
+  .tr-follow:hover { border-color: var(--repo); }
+  .tr-follow[aria-pressed="true"] { background: var(--repo-wash); border-color: var(--repo); }
+  .tr-follow .go { flex: none; font-family: var(--mono); font-size: 11.5px; color: var(--repo); white-space: nowrap; }
+
   /* ---- detail sheet ------------------------------------------------------ */
   #sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; max-height: 45vh; overflow: auto;
            background: var(--surface); border-top: 2px solid var(--repo); box-shadow: 0 -8px 24px -12px rgba(0,0,0,.35);
@@ -320,7 +350,7 @@
   <div class="topbar">
     <div class="tabs" role="tablist" id="tabs">
       <button class="tab" role="tab" data-tab="walk" id="t-walk">Walkthroughs</button>
-      <button class="tab" role="tab" data-tab="stage" id="t-stage">Stage map</button>
+      <button class="tab" role="tab" data-tab="stage" id="t-stage">Trace step by step</button>
       <button class="tab" role="tab" data-tab="focus" id="t-focus">What happens when&hellip;</button>
       <button class="tab" role="tab" data-tab="timers" id="t-timers">Timers</button>
     </div>
@@ -332,7 +362,7 @@
 
   <!-- Walkthroughs -->
   <section id="p-walk" role="tabpanel" aria-labelledby="t-walk" hidden></section>
-  <!-- Stage map -->
+  <!-- Trace (step by step), with the full stage map behind a toggle -->
   <section id="p-stage" role="tabpanel" aria-labelledby="t-stage" hidden></section>
   <!-- What happens when -->
   <section id="p-focus" role="tabpanel" aria-labelledby="t-focus" hidden></section>
@@ -351,7 +381,8 @@
   var N = D.n;
   var admin = false, tab = "walk";
   var X = null;           // indexes (rebuilt when admin toggles)
-  var S = { wt: null, step: 0, focus: null, query: "", stageSel: null, expanded: {} };
+  var S = { wt: null, step: 0, focus: null, query: "", stageSel: null, expanded: {},
+            stageFull: false, tr: { ev: "field_modified", q: "", trail: [], sel: [] } };
   var SVGNS = "http://www.w3.org/2000/svg";
   var STAGE_NAME = {}; D.stages.forEach(function (s) { STAGE_NAME[s[0]] = s[1]; });
   var STAGE_NUM = {}; D.stages.forEach(function (s, i) { STAGE_NUM[s[0]] = i + 1; });
@@ -403,13 +434,13 @@
 
   /* ---------- indexes ---------- */
   function buildIdx() {
-    var x = { ruleSrc: {}, trigFrom: {}, ruleEff: {}, effTo: {}, enters: {}, children: {}, condBy: {}, byId: {} };
+    var x = { ruleSrc: {}, trigFrom: {}, trigBy: {}, ruleEff: {}, effTo: {}, enters: {}, children: {}, condBy: {}, byId: {} };
     function push(o, k, v) { (o[k] || (o[k] = [])).push(v); }
     D.e.forEach(function (e) {
       if (!admin && e.ia) return;
       if (e.k === "conditionReads") { if (admin) push(x.condBy, e.s, e); return; }
       x.byId[e.i] = e;
-      if (e.k === "triggers") { push(x.ruleSrc, e.r, e.s); push(x.trigFrom, e.s, e.r); }
+      if (e.k === "triggers") { push(x.ruleSrc, e.r, e.s); push(x.trigFrom, e.s, e.r); push(x.trigBy, e.s + "|" + e.ev, e); }
       else if (e.k === "effects" || e.k === "cancels") { push(x.ruleEff, e.r, e); push(x.effTo, e.t, e); }
       else if (e.k === "enters") { push(x.enters, e.t, e); }
     });
@@ -682,6 +713,10 @@
     if (g) { var id = g.getAttribute("data-goto"); $("sheet").hidden = true; gotoFocus(id); }
     var m = t.closest ? t.closest("[data-more]") : null;
     if (m) { S.expanded[m.getAttribute("data-more")] = 1; renderCurrent(); }
+    var tm = t.closest ? t.closest("[data-trace-mode]") : null;
+    if (tm) { S.stageFull = tm.getAttribute("data-trace-mode") === "full"; renderCurrent(); }
+    var tf = t.closest ? t.closest("[data-trace-from]") : null;
+    if (tf) traceFrom(tf.getAttribute("data-trace-from"));
   });
 
   /* ---------- Walkthroughs ---------- */
@@ -798,6 +833,208 @@
     else if (st) selectStep(+st.getAttribute("data-i"), true);
   });
 
+  /* ---------- Trace: follow one change, one step at a time ---------- */
+  // A step is "event ev happens to node". Its rules come from X.trigBy; following an effect
+  // narrows them to the rules graph.json says actually hear it (heardBy honours resolutions).
+  var NEXT_EV = { "task:create": "task_created", "task:complete": "task_completed", "subtask:complete": "subtask_completed",
+    "field:update": "field_modified", "timer:start": "timer_completed" };
+  var START_EV = [
+    ["loan_created", "A loan is created", ""],
+    ["field_modified", "A loan field changes", "Pick the field that changes. Only fields a workflow rule watches are listed."],
+    ["file_attached", "A file is attached", "Pick the document the file goes into."],
+    ["milestone_completed", "A milestone is completed", "Pick the milestone."],
+    ["task_created", "A task is created", "Pick the task."],
+    ["subtask_completed", "Someone marks a subtask Done", "Pick the subtask."],
+    ["task_completed", "A task is completed", "Pick the task."],
+    ["timer_completed", "A timer runs out", "Pick the timer."]];
+  var TOPT = [];          // follow targets of the trail as last drawn, indexed by data-topt
+  function stepKey(st) { return st.node + "|" + st.ev; }
+  function uniqRules(ts) { var u = []; (ts || []).forEach(function (t) { if (u.indexOf(t.r) < 0) u.push(t.r); }); return u; }
+  function stepTriggers(st) {
+    var ts = X.trigBy[stepKey(st)] || [];
+    if (st.via) { var hb = st.via.hb || []; ts = ts.filter(function (t) { return hb.indexOf(t.r) >= 0; }); }
+    return ts;
+  }
+  // after a task is created, the work passes to people: subtasks (and the task) whose completion sets off rules
+  function personNext(taskId) {
+    var out = [];
+    (X.children[taskId] || []).forEach(function (s) {
+      if ((X.trigBy[s + "|subtask_completed"] || []).length) out.push({ node: s, ev: "subtask_completed", person: 1 });
+    });
+    if ((X.trigBy[taskId + "|task_completed"] || []).length) out.push({ node: taskId, ev: "task_completed", person: 1 });
+    return out;
+  }
+  function nextStep(e) {
+    if (e.k !== "effects" || !N[e.t]) return null;
+    var ev = NEXT_EV[e.ef];
+    if (ev) {
+      var st = { node: e.t, ev: ev, via: e };
+      return stepTriggers(st).length || (ev === "task_created" && personNext(e.t).length) ? st : null;
+    }
+    if (e.ef === "subtask:create" && (X.trigBy[e.t + "|subtask_completed"] || []).length) return { node: e.t, ev: "subtask_completed", person: 1 };
+    return null;
+  }
+  function traceEv(id) {
+    var n = N[id]; if (!n) return null;
+    function has(ev) { return (X.trigBy[id + "|" + ev] || []).length > 0; }
+    var ev = { field: "field_modified", document: "file_attached", milestone: "milestone_completed", timer: "timer_completed",
+               subtask: "subtask_completed", entry: "loan_created" }[n.k];
+    if (ev) return has(ev) ? ev : null;
+    if (n.k === "task") return has("task_created") || personNext(id).length ? "task_created" : has("task_completed") ? "task_completed" : null;
+    return null;
+  }
+  function traceFrom(id) {
+    var ev = traceEv(id); if (!ev) return;
+    S.stageFull = false;
+    S.tr = { ev: ev, q: "", trail: [{ node: id, ev: ev, person: N[id].k === "subtask" ? 1 : 0 }], sel: [] };
+    $("sheet").hidden = true;
+    setTab("stage");
+    window.scrollTo({ top: $("p-stage").offsetTop - 10 });
+  }
+  function stepTitle(st) {
+    var n = N[st.node] || {}, l = plainLab(st.node);
+    switch (st.ev) {
+      case "loan_created": return "A new loan is created";
+      case "field_modified": return l + " changes";
+      case "file_attached": return "A file is attached to " + l;
+      case "milestone_completed": return "The " + l + (n.tr === "equity" ? " (Equity)" : "") + " milestone is completed";
+      case "task_created": return l + " is created";
+      case "task_completed": return l + " is completed";
+      case "subtask_completed": return st.person ? "Someone marks " + l + " Done" : l + " is marked Done";
+      case "timer_completed": return "The " + l + " timer runs out";
+    }
+    return l;
+  }
+  function startItems(ev) {
+    var out = [];
+    Object.keys(X.trigBy).forEach(function (k) {
+      var i = k.lastIndexOf("|"), id = k.slice(0, i);
+      if (k.slice(i + 1) === ev && N[id]) out.push(id);
+    });
+    return out.sort(function (a, b) {
+      return (STAGE_NUM[N[a].s] || 99) - (STAGE_NUM[N[b].s] || 99) || N[a].l.localeCompare(N[b].l);
+    });
+  }
+  function startStep(id, ev) { return { node: id, ev: ev, person: ev === "subtask_completed" ? 1 : 0 }; }
+  function renderTrace() {
+    if (S.stageFull) { renderStage(); return; }
+    var T = S.tr, p = $("p-stage");
+    var h = '<p class="intro">Follow one change through the workflow, one step at a time. Pick what happens on the left; ' +
+      "each step lists what Encompass does in response. Click any line marked “Follow” to see what that sets off next.</p>" +
+      '<p style="margin-top:8px"><button class="btn" data-trace-mode="full">Show the full stage map (everything at once)</button></p>' +
+      '<div class="tr-grid"><div class="card tr-start"><div class="pad tr-h">Start from</div>';
+    START_EV.forEach(function (s) {
+      var items = startItems(s[0]), on = T.ev === s[0];
+      h += '<button class="scn" data-tev="' + s[0] + '" aria-pressed="' + on + '"' + (items.length ? "" : " disabled") + "><b>" + esc(s[1]) + "</b><span>" +
+        (s[0] === "loan_created" ? uniqRules(X.trigBy["entry:loan_created|loan_created"]).length + " rules react"
+          : items.length + " to choose from") + "</span></button>";
+      if (on && s[0] !== "loan_created" && items.length) h += pickerHtml(s, items);
+    });
+    h += '</div><div class="tr-main" id="trMain"></div></div>';
+    p.innerHTML = h;
+    var q = $("trQ");
+    if (q) { q.addEventListener("input", function () { T.q = this.value; filterPicker(); }); filterPicker(); }
+    drawTrail();
+  }
+  function pickerHtml(s, items) {
+    var T = S.tr, cur = T.trail[0];
+    var h = '<div class="tr-pick"><span class="muted">' + esc(s[2]) + "</span>";
+    if (items.length > 8) h += '<input id="trQ" class="search" type="search" autocomplete="off" aria-label="Filter" placeholder="Filter by name or field number" value="' + esc(T.q) + '">';
+    h += '<div class="tr-items">';
+    items.forEach(function (id) {
+      var n = N[id], nr = uniqRules(X.trigBy[id + "|" + s[0]]).length;
+      var sub = (n.k === "field" ? n.raw : STAGE_NAME[n.s] || "");
+      h += '<button class="res tr-item" data-start="' + esc(id) + '" data-hay="' + esc((n.l + " " + (n.raw || "") + " " + sub).toLowerCase()) +
+        '" aria-pressed="' + !!(cur && cur.node === id && cur.ev === s[0]) + '"><span>' + esc(n.l) + '</span><span class="sub">' +
+        esc((sub ? sub + " · " : "") + nr + " rule" + (nr === 1 ? "" : "s")) + "</span></button>";
+    });
+    return h + "</div></div>";
+  }
+  function filterPicker() {
+    var toks = S.tr.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    document.querySelectorAll("#p-stage .tr-item").forEach(function (b) {
+      var hay = b.getAttribute("data-hay");
+      b.hidden = !toks.every(function (t) { return hay.indexOf(t) >= 0; });
+    });
+  }
+  function drawTrail() {
+    var T = S.tr, box = $("trMain"); if (!box) return;
+    TOPT = [];
+    if (!T.trail.length) {
+      box.innerHTML = '<div class="card pad muted">Pick a starting point on the left. For example, choose “A loan field changes” and then a field ' +
+        "to see every rule that watches it, what each one does, and where that leads.</div>";
+      return;
+    }
+    var h = '<ol class="tr-crumbs" aria-label="Steps so far">';
+    T.trail.forEach(function (st, i) { h += '<li><button class="chip" data-tstep="' + i + '">' + (i + 1) + ". " + esc(trunc(stepTitle(st), 46)) + "</button></li>"; });
+    h += "</ol>";
+    T.trail.forEach(function (st, i) { h += stepHtml(st, i); });
+    box.innerHTML = h;
+  }
+  function followBtn(i, key, st, text) {
+    var T = S.tr, nr = uniqRules(stepTriggers(st)).length, k = TOPT.length;
+    TOPT.push({ i: i, key: key, st: st });
+    var loop = T.trail.map(stepKey).indexOf(stepKey(st));
+    if (loop >= 0 && loop <= i) return "<li>" + esc(text) + '<span class="flag">leads back to step ' + (loop + 1) + "</span></li>";
+    var go = nr ? "Follow → " + nr + " rule" + (nr === 1 ? "" : "s") : "Follow →";
+    return '<li class="bt"><button class="tr-follow" data-topt="' + k + '" aria-pressed="' + (T.sel[i] === key) + '"><span>' + esc(text) +
+      '</span><span class="go">' + go + "</span></button></li>";
+  }
+  function stepHtml(st, i) {
+    var n = N[st.node] || {}, ts = stepTriggers(st), byRule = {}, order = [];
+    ts.forEach(function (t) { if (!byRule[t.r]) { byRule[t.r] = t; order.push(t.r); } });
+    var meta = [n.k === "field" && n.raw ? "Field " + n.raw : kindWord(n.k)];
+    if (n.s && STAGE_NAME[n.s]) meta.push(STAGE_NAME[n.s]);
+    if (n.k === "subtask" && N[n.p]) meta.push("Part of " + N[n.p].l);
+    var h = '<article class="card pad tr-step" id="trs' + i + '"><div class="tr-num">Step ' + (i + 1) + "</div>" +
+      '<h3 class="title" style="font-size:19px;margin:2px 0 4px">' + esc(stepTitle(st)) + '</h3><p class="muted" style="font-size:13px">' +
+      esc(meta.join(" · ")) + "</p>";
+    order.forEach(function (r) {
+      var t = byRule[r];
+      h += '<div class="tr-rule"><div class="tr-when">' + esc(t.sn || "When this happens") + ":" + flags({ r: r, ia: t.ia }) + '</div><ul class="tr-effs">';
+      (X.ruleEff[r] || []).forEach(function (e) {
+        var nx = nextStep(e), text = e.ac || e.sn;
+        h += nx ? followBtn(i, e.i, nx, text) : '<li class="' + (e.ia ? "ia" : "") + '">' + esc(text) + flags({ oe: e.oe, rb: e.rb, ia: e.ia }) + "</li>";
+      });
+      h += "</ul></div>";
+    });
+    var pn = st.ev === "task_created" ? personNext(st.node) : [];
+    if (pn.length) {
+      h += '<div class="tr-rule"><div class="tr-when">' + (order.length ? "Then, as people work the task:" :
+        "No rule runs the moment it is created. The next automation comes as people work it:") + '</div><ul class="tr-effs">';
+      pn.forEach(function (nx) { h += followBtn(i, "p:" + stepKey(nx), nx, stepTitle(nx)); });
+      h += "</ul></div>";
+    }
+    if (!order.length && !pn.length) h += '<p class="muted" style="margin-top:10px">No workflow rule reacts to this, so the trail ends here.</p>';
+    if (n.k === "task" || n.k === "subtask" || n.k === "field" || n.k === "timer")
+      h += '<p style="margin-top:12px"><button class="btn" data-goto="' + esc(st.node) + '">Everything around ' + esc(trunc(n.l, 40)) + "</button></p>";
+    return h + "</article>";
+  }
+  $("p-stage").addEventListener("click", function (ev) {
+    if (S.stageFull) return;
+    var T = S.tr, b;
+    if ((b = ev.target.closest("[data-tev]"))) {
+      var e2 = b.getAttribute("data-tev");
+      if (e2 === T.ev && e2 !== "loan_created") return;
+      T.ev = e2; T.q = "";
+      if (e2 === "loan_created") { T.trail = [startStep("entry:loan_created", e2)]; T.sel = []; }
+      renderTrace();
+    } else if ((b = ev.target.closest("[data-start]"))) {
+      T.trail = [startStep(b.getAttribute("data-start"), T.ev)]; T.sel = [];
+      document.querySelectorAll("#p-stage .tr-item").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      drawTrail();
+      if (window.innerWidth <= 860) $("trs0").scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if ((b = ev.target.closest("[data-topt]"))) {
+      var o = TOPT[+b.getAttribute("data-topt")]; if (!o) return;
+      T.trail = T.trail.slice(0, o.i + 1).concat([o.st]);
+      T.sel = T.sel.slice(0, o.i + 1); T.sel[o.i] = o.key;
+      drawTrail();
+      var nx = $("trs" + (o.i + 1)); if (nx) nx.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if ((b = ev.target.closest("[data-tstep]"))) {
+      var s3 = $("trs" + b.getAttribute("data-tstep")); if (s3) s3.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
   /* ---------- Stage map ---------- */
   var FLOW = null;
   function sourcesOf(rule, seen, via, evs) {
@@ -864,7 +1101,8 @@
   }
   function renderStage() {
     var p = $("p-stage");
-    p.innerHTML = '<p class="intro">The loan moves left to right through its stages. Each box is a task; arrows mean a workflow rule makes one thing cause another. ' +
+    p.innerHTML = '<p style="margin-bottom:10px"><button class="btn" data-trace-mode="trace">&larr; Back to the step-by-step trace</button></p>' +
+      '<p class="intro">The loan moves left to right through its stages. Each box is a task; arrows mean a workflow rule makes one thing cause another. ' +
       "Hover an arrow to read what it does. Click a task, milestone or loan event to isolate its arrows and read the details. " +
       "The loan events on the left are everything that can set a rule off; click one to light up the arrows it drives. " +
       "Outside actions appear as small badges on the task they belong to.</p>" +
@@ -1021,7 +1259,8 @@
       '</div><div class="sec"><h3>What it causes</h3>' +
       listHtml(causes(id, 2), HOPNAME_C, "sc" + id, "No known rule reacts to this yet.") + "</div></div>" +
       '<details class="tech"><summary>Details</summary>' + techHtml(id) + "</details>" +
-      '<p style="margin-top:10px"><button class="btn" data-goto="' + esc(id) + '">Open in “What happens when…”</button></p></div>';
+      '<p style="margin-top:10px"><button class="btn" data-goto="' + esc(id) + '">Open in “What happens when…”</button>' +
+      (traceEv(id) ? ' <button class="btn" data-trace-from="' + esc(id) + '">Trace step by step</button>' : "") + "</p></div>";
     p.innerHTML = h2;
   }
 
@@ -1110,7 +1349,8 @@
       '<div class="cols2" style="margin-top:14px"><div class="sec"><h3>What starts it</h3>' +
       listHtml(ss, HOPNAME_S, "fs" + id, "Nothing in the current rules starts this. It is created or done by a person.") +
       '</div><div class="sec"><h3>What it causes</h3>' + listHtml(cs, HOPNAME_C, "fc" + id, "No known rule reacts to this yet.") +
-      '</div></div><details class="tech"><summary>Details</summary>' + techHtml(id) + "</details></div>" +
+      '</div></div><details class="tech"><summary>Details</summary>' + techHtml(id) + "</details>" +
+      (traceEv(id) ? '<p style="margin-top:10px"><button class="btn" data-trace-from="' + esc(id) + '">Trace step by step</button></p>' : "") + "</div>" +
       '<div class="dbox" id="fdiag" style="margin-top:14px"></div><p class="muted" style="font-size:13px">Click any box in the diagram to explore from there. Dotted arrows are field checks; dashed ones lead nowhere known yet.</p>';
     o.innerHTML = h;
     var d = focusDiagram(id, cs, ss);
@@ -1154,7 +1394,7 @@
   }
 
   /* ---------- shell ---------- */
-  var RENDER = { walk: renderWalk, stage: renderStage, focus: renderFocusShell, timers: renderTimers };
+  var RENDER = { walk: renderWalk, stage: renderTrace, focus: renderFocusShell, timers: renderTimers };
   var DONE = {};
   function renderCurrent() { RENDER[tab](); DONE[tab] = true; }
   function setTab(t) {

@@ -127,7 +127,9 @@ flags hyphen/en-dash mismatches.
 ## Rules map
 
 `docs/rules_map.html` (linked from `roadmap.html`) explains the rules to operations staff:
-walkthroughs of named scenarios, a stage map, a "what happens when…" search, and timers.
+walkthroughs of named scenarios, a step-by-step trace (pick a loan event, e.g. a field change, then
+the field, and click through what each rule does and what that sets off next; the full stage map
+sits behind a toggle on the same tab), a "what happens when…" search, and timers.
 `docs/RULES_MAP.md` is the GitHub-rendered equivalent. Both are generated from `rules/graph.json`
 and `rules/cascades.json`; plain-English labels come from `rules/field_labels.csv` and
 `rules/annotations.json`. Plan and design notes: `docs/RULES_MAP_PLAN.md`.
