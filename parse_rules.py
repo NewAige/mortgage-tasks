@@ -190,6 +190,12 @@ def parse_conditions(parent):
                     OrderedDict([("title", r.findtext("title")),
                                  ("isAttachmentRequired", to_bool(r.findtext("isAttachmentRequired")))])
                     for r in p.findall("requiredDocuments")]
+            if p.find("requiredFields") is not None:
+                d["requiredFields"] = [
+                    OrderedDict([("fieldId", r.findtext("fieldId")),
+                                 ("fieldType", r.findtext("fieldType")),
+                                 ("fieldName", r.findtext("fieldName"))])
+                    for r in p.findall("requiredFields")]
             if p.find("originationChannels") is not None:
                 d["originationChannels"] = [
                     o.text or "" for o in p.findall("originationChannels")]
@@ -561,12 +567,15 @@ def effect_text(e, tname=None):
     if k == "disclosure:send":
         return "Send disclosures"
     if k == "enhancedcondition:create":
+        if not e.get("conditionType") and not e.get("title"):
+            return "Create enhanced conditions (no parameters: all applicable conditions)"
         return "Create %s condition %s" % (cs(e["conditionType"]), cs(e["title"]))
     if k == "enhancedcondition:updatetracking":
         return "Set %s condition %s to %s" % (cs(e["conditionType"]), cs(e["title"]), cs(e["status"]))
     if k == "role:assign":
         return "Assign %s role (%s %s) to %s" % (
-            cs(e.get("roleName")), e.get("loanAssociateType") or "", "id " + cs(e.get("roleId")), cs(e.get("assignee")))
+            cs(e.get("roleName")), e.get("loanAssociateType") or "",
+            ("id " + cs(e.get("roleId"))) if e.get("roleId") else "no role id", cs(e.get("assignee")))
     if k == "folder:move":
         return "Move loan to folder %s" % cs(e["folderName"])
     if k == "order:create":
@@ -587,6 +596,10 @@ def cond_md(c, indent=""):
         return "%sRequires document(s): %s" % (indent, ", ".join(
             "`%s`%s" % (d["title"], " (attachment required)" if d["isAttachmentRequired"] else "")
             for d in c.get("requiredDocuments", [])))
+    if t == "requiredFields":
+        return "%sRequires field(s) populated: %s" % (indent, ", ".join(
+            "`%s`%s" % (f["fieldId"], " (%s)" % f["fieldName"] if f.get("fieldName") else "")
+            for f in c.get("requiredFields", [])))
     if t == "originationChannels":
         return "%sOrigination channel: %s" % (indent, join_or(c.get("originationChannels", [])))
     return "%s%s" % (indent, json.dumps(c, ensure_ascii=False))
