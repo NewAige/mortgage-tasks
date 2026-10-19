@@ -4,29 +4,29 @@
 
 ## Summary
 
-- **119 unique rules** (120 export entries, 1 duplicate removed) from 12 export files
+- **192 unique rules** (194 export entries, 2 duplicate removed) from 20 export files
 
 | Event | Rules |
 |---|---|
-| Loan field modified (`field_modified`) | 37 |
-| File attached (`file_attached`) | 12 |
-| Loan created (`loan_created`) | 3 |
-| Milestone completed (`milestone_completed`) | 5 |
-| Subtask completed (`subtask_completed`) | 31 |
-| Task completed (`task_completed`) | 7 |
-| Task created (`task_created`) | 14 |
-| Timer completed (`timer_completed`) | 10 |
+| Loan field modified (`field_modified`) | 58 |
+| File attached (`file_attached`) | 23 |
+| Loan created (`loan_created`) | 5 |
+| Milestone completed (`milestone_completed`) | 15 |
+| Subtask completed (`subtask_completed`) | 48 |
+| Task completed (`task_completed`) | 10 |
+| Task created (`task_created`) | 18 |
+| Timer completed (`timer_completed`) | 15 |
 
 | Status | Rules |
 |---|---|
-| ACTIVE | 117 |
-| INACTIVE | 2 |
+| ACTIVE | 189 |
+| INACTIVE | 3 |
 
-Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09462) appeared in `rules/exports/Rules_4_19.xml`, `rules/exports/Rules_5_19.xml`
+Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09462) appeared in `rules/exports/Rules_4_19.xml`, `rules/exports/Rules_5_19.xml`; `Task_Funding_Wire_Request` (b125f254-5379-4167-a67e-5e59073e2c6e) appeared in `rules/exports/Rules_18_19.xml`, `rules/exports/Rules_19_19.xml`
 
 ## Rules by task type
 
-83 task types are referenced by at least one rule filter, condition or effect.
+84 task types are referenced by at least one rule filter, condition or effect.
 
 ### `auto_2d3dfd67-84a6-4d55-a443-23a2d8ba79c7`
 
@@ -101,11 +101,12 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 ### `Funding_FundLoan`
 
 - **Created by:** `Task_Funding_Fund_Loan`
-- **Completed by:** `Task_Cancel_AllAdverse`
+- **Completed by:** `Task_Cancel_AllAdverse`, `Task_Funding_Fund_Complete`
 
 ### `Funding_Wire_Approval`
 
-- **Completed by:** `Task_Cancel_AllAdverse`
+- **Created by:** `Task_Funding_Wire_Request`
+- **Completed by:** `Task_Cancel_AllAdverse`, `Task_Funding_Wire_Approval`
 
 ### `FundingQC_1008_Final`
 
@@ -146,13 +147,13 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 ### `PipelineMgt_PreApp_FollowUp`
 
 - **Triggered by:** `Task_CreateNOI_30Day`
-- **Created by:** `Live App Follow Up (30 Days)`
+- **Created by:** `Live App Follow Up (30 Days)`, `Pre-App Follow Up (30 Days)`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `PipelineMgt_PreApp_FollowUp15`
 
 - **Triggered by:** `Task_CreateNOI_15Day`
-- **Created by:** `Live App Follow Up (15 Days)`
+- **Created by:** `Live App Follow Up (15 Days)`, `Pre-App Follow Up (15 Days)`, `PreApp Follow Up 15`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `PostClosingQC_DocumentProcessing_DeliverMortgage`
@@ -204,38 +205,45 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 
 ### `PreDisclosure_PreApproval_1003`
 
+- **Triggered by:** `Disclosures_PreApp_1003`, `Fail_Disclosures_PreApp_1003`, `Task_PreApp_1003_GMI`
+- **Created by:** `Task_PreApp_1003`
 - **Completed by:** `Task_Cancel_AllAdverse`
+- **Subtasks added by:** `Task_PreApp_1003_GMI`
 
 ### `PreDisclosure_PreApproval_Credit`
 
+- **Triggered by:** `Disclosures_PreApp_Credit`
 - **Created by:** `Task_PreApp_Credit`
 
 ### `Processing_Appraisal_Order`
 
-- **Triggered by:** `SubtTask_OrderAppraisal1`, `Subtask_AppraisalQuote`, `Subtask_QuoteComplete`
-- **Created by:** `Task-OrderAppraisalEquity-AVMFail`, `Task_HELOCIntiailDocs2`
+- **Triggered by:** `Appraisal Invoice Notification`, `SubtTask_OrderAppraisal1`, `Subtask_AppraisalQuote`, `Subtask_QuoteComplete`
+- **Created by:** `Task-OrderAppraisalEquity-AVMFail`, `Task_AVMFailCompletion`, `Task_HELOCIntiailDocs2`, `Task_OrderAppraisalEquity`, `Task_OrderAppraisalFirstMtg`
 - **Completed by:** `Task_Cancel_AllAdverse`
-- **Subtasks added by:** `SubtTask_OrderAppraisal1`, `Subtask_AppraisalQuote`
+- **Subtasks added by:** `SubtTask_OrderAppraisal1`, `SubtTask_OrderAppraisal2`, `Subtask_AppraisalQuote`
 
 ### `Processing_Appraisal_Ordering`
 
-- **Triggered by:** `SubTask_AppraisalOrder`
+- **Triggered by:** `Service_AppraisalOrder`, `SubTask_AppraisalOrder`
 - **Created by:** `Task_OrderAppraisal`
 - **Completed by:** `Task_Cancel_AllAdverse`
 - **Subtasks added by:** `SubTask_AppraisalOrder`
 
 ### `Processing_ARM_Disclosure`
 
+- **Created by:** `Amortization Type Change Notice and Task`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Processing_Disclosures_HELOCDisclosure`
 
 - **Triggered by:** `Disclosures_HELOCImportantTerms`
+- **Created by:** `Task_HELOCImportantTermsRedisclosure`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Processing_FileSetup_DislosureAlert`
 
-- **Completed by:** `Task_Cancel_AllAdverse`
+- **Created by:** `Task_IntiailDocsAlert`
+- **Completed by:** `Task_Cancel_AllAdverse`, `Task_HELOCIntiailDocs`
 
 ### `Processing_FileSetup_PullDeed`
 
@@ -244,7 +252,8 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 
 ### `Processing_FileSetup_ReviewCredit`
 
-- **Triggered by:** `Condition_CreditReview_Inquiry`
+- **Triggered by:** `Condition_CreditReview_Address`, `Condition_CreditReview_Fraud`, `Condition_CreditReview_Frozen`, `Condition_CreditReview_Inquiry`, `Condition_CreditReview_Name`, `Condition_CreditReview_OFAC`, `Condition_CreditReview_RedFlagForm`, `Condition_CreditReview_SSVN`
+- **Created by:** `Task_CreditReview`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Processing_FileSetup_SendDisclosuresClosedEnd`
@@ -255,8 +264,10 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 ### `Processing_FileSetup_SendDisclosuresHELOC`
 
 - **Triggered by:** `Disclosures_HELOCInitialDocs`, `Task_HELOCIntiailDocs2`
+- **Created by:** `Task_HELOCIntiailDocs`
 - **Completed by:** `Task_Cancel_AllAdverse`
 - **Subtasks added by:** `Task_HELOCIntiailDocs2`
+- **Subtasks completed by:** `Task_AVMFailCompletion`, `Task_AVMSuccessCompletion`, `Task_FloodReviewCompletionInitial`
 
 ### `Processing_Misc_AppraisalRefund`
 
@@ -283,11 +294,12 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 - **Triggered by:** `SubTask_FileClosure_InitialDocs`, `SubTask_FileClosure_InitialDocs1003`, `Task_TransfertoCold_Adverse`
 - **Created by:** `CounterOffer_Verdict`, `Denial_SecondReview`, `TaskComplete_PostNOI`, `Task_DocumentReceipt`, `Task_Post_Withdraw`
 - **Subtasks added by:** `SubTask_FileClosure_InitialDocs`, `SubTask_FileClosure_InitialDocs1003`
-- **Subtasks completed by:** `Subtask_Complete_1003Park`
+- **Subtasks completed by:** `Subtask_Complete_1003Park`, `Subtask_Complete_ConvoPark`, `Subtask_Complete_DisclosureTrackingPark`, `Subtask_Complete_InitialDisclosurePark`, `Subtask_Complete_eConsetPark`
 
 ### `Processing_Misc_MailingInitialDisclosures`
 
-- **Created by:** `Disclosures_HELOCInitialDocs`
+- **Created by:** `Disclosures_HELOCInitialDocs`, `OR_Disclosures_HELOCInitialDocs`
+- **Completed by:** `Task_Cancel_Mailed Disclosures`
 
 ### `Processing_Misc_NOIExpiration`
 
@@ -321,7 +333,9 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 
 ### `Processing_PreUnderwriting_PreUWChecklist`
 
+- **Triggered by:** `Subtask_Processing_PreUndewriting`
 - **Completed by:** `Task_Cancel_AllAdverse`
+- **Subtasks added by:** `Subtask_Processing_PreUndewriting`
 
 ### `Processing_SendAVM`
 
@@ -330,36 +344,44 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 
 ### `Processing_ServiceOrders_FloodCertificateReview`
 
+- **Triggered by:** `FloodCertificateReview_Address`, `Task_FloodRecheck`, `Task_FloodReviewCompletionInitial`
+- **Created by:** `Task_ServiceOrders_FloodCertificateReview`
 - **Completed by:** `Task_Cancel_AllAdverse`
+- **Subtasks added by:** `Task_FloodCertificateReview_AddressMismatch`
 
 ### `Processing_ServiceOrders_FraudX`
 
+- **Triggered by:** `Service_FraudX`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Processing_ServiceOrders_OrderAVM`
 
-- **Triggered by:** `SubTask_AVMFailCompletion`, `Task-OrderAppraisalEquity-AVMFail`
+- **Triggered by:** `SubTask_AVMFailCompletion`, `SubTask_AVMSuccessCompletion`, `Task-OrderAppraisalEquity-AVMFail`, `Task_AVMFailCompletion`, `Task_AVMSuccessCompletion`
 - **Created by:** `Task_HELOCIntiailDocs2`
-- **Completed by:** `SubTask_AVMFailCompletion`, `Task_Cancel_AllAdverse`
+- **Completed by:** `SubTask_AVMFailCompletion`, `SubTask_AVMSuccessCompletion`, `Task_Cancel_AllAdverse`
 
 ### `Processing_ServiceOrders_OrderFloodCertificate`
 
+- **Triggered by:** `Service - Flood Order Task`
 - **Created by:** `Task_HELOCIntiailDocs2`
-- **Completed by:** `Task_Cancel_AllAdverse`
+- **Completed by:** `Service - Flood Order`, `Service - Flood Order Task`, `Task_Cancel_AllAdverse`
 
 ### `Processing_ServiceOrders_OrderPAR`
 
 - **Triggered by:** `Subtask_PARRequest`
+- **Created by:** `Task_PostApprovalEquity`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Processing_ServiceOrders_OrderTitle`
 
 - **Triggered by:** `ConditionUpdate_TitleOrderEquity`, `SubTask_TitleOrderEquity`
+- **Created by:** `Task_PostApprovalEquity`
 - **Completed by:** `Task_Cancel_AllAdverse`
 - **Subtasks added by:** `SubTask_TitleOrderEquity`
 
 ### `Processing_ServiceOrders_RecheckFloodCertificate`
 
+- **Created by:** `Task_FloodRecheck`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Processing_ServiceOrders_SSVN`
@@ -368,11 +390,14 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 
 ### `QualityAssurance_InitialDocReview`
 
+- **Triggered by:** `Task_QualityAssurance_InitialDocReview_1`, `Task_QualityAssurance_InitialDocReview_2`
 - **Created by:** `Task_InitialDocsRec`
 - **Completed by:** `Task_Cancel_AllAdverse`
+- **Subtasks added by:** `Task_QualityAssurance_InitialDocReview_1`, `Task_QualityAssurance_InitialDocReview_2`
 
 ### `Underwriting_ContractUWApproval`
 
+- **Created by:** `Task_ContractUW_Approval`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Underwriting_Counter_Second`
@@ -410,10 +435,15 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 
 - **Completed by:** `Task_Cancel_AllAdverse`
 
+### `Underwriting_Resubmittal_AppraisalReviewFollow`
+
+- **Created by:** `Task_SSRAvailableFollowUp`
+
 ### `Underwriting_Resubmittal_ReviewAppraisal`
 
+- **Created by:** `Task_AppraisalReview`
 - **Subtasks added by:** `SubTask_AppraisalExternal_Complete`
-- **Subtasks completed by:** `SubTask_AppraisalExternal_Complete`, `Task_AppraisalReview_Complete`
+- **Subtasks completed by:** `SubTask_AppraisalExternal_Complete`, `SubTask_AppraisalReviewForm_Complete`, `SubTask_AppraisalTransfer_Complete`, `Task_AppraisalReview_Complete`
 
 ### `Underwriting_Resubmittal_ReviewAppraisalSecondReview`
 
@@ -437,11 +467,12 @@ Duplicates removed: `Subtask_AppraisalCancel` (05c88082-f863-4132-8f9b-f25f6be09
 
 ### `Underwriting_Resubmittal_TitleOwnershipReport`
 
+- **Created by:** `Title Review`
 - **Completed by:** `Task_Cancel_AllAdverse`
 
 ### `Underwriting_Submittal_Underwrite`
 
-- **Created by:** `CounterOffer_Verdict`, `Processing_DenialReviewRequest`, `Task_ExtendApproval_ClosingDate`, `Task_Underwrite_Expired`
+- **Created by:** `CounterOffer_Verdict`, `Processing_DenialReviewRequest`, `Task_ExtendApproval_ClosingDate`, `Task_Underwrite_Conditions`, `Task_Underwrite_Expired`
 - **Completed by:** `Task_Cancel_AllAdverse`
 - **Subtasks completed by:** `CounterOffer_FirstReview`, `Denial_FirstReview`, `Task_SendApproval`, `Task_UnderwriteCompletion`
 
@@ -507,19 +538,28 @@ Each timer is started by one or more rules; when it completes, the rules in *Fir
   - `SchedulerCompeted_DayRefresh`
     - Set field `CX.TODAYS.DATE` to `today()`
 
-### `File Started Follow Up (15 Days)`
+### `File Started Follow Up (15 Days) - Pre-Approval`
 
 - **Timer id:** `92dbe66e-8c83-474a-bd4d-c9312ec152cd`
-- **Started by:** _none in these exports_
-- **Cancelled by:** `File Live Scheduler Cancel/Create`
-- **Fires:** _no rule listens for it_
+- **Started by:** `Pre-Approval Scheduler Start`
+- **Cancelled by:** `Disclosures_Prequalification`, `File Live Scheduler Cancel/Create`, `File Scheduler Decisioned Cancel`
+- **Fires:** 
+  - `Pre-App Follow Up (15 Days)` (INACTIVE)
+    - Create task `PipelineMgt_PreApp_FollowUp15` (unless one already exists)
+    - Send notification template `371fccaa-80c3-430b-b2c8-f6285346a11d`
+  - `PreApp Follow Up 15`
+    - Create task `PipelineMgt_PreApp_FollowUp15` (unless one already exists)
+    - Send notification template `371fccaa-80c3-430b-b2c8-f6285346a11d`
 
 ### `File Started Follow Up (30 Days) - Pre-Approval`
 
 - **Timer id:** `e6de40c8-2445-4d5e-a586-48ec253abe23`
-- **Started by:** _none in these exports_
-- **Cancelled by:** `File Live Scheduler Cancel/Create`
-- **Fires:** _no rule listens for it_
+- **Started by:** `Pre-Approval Scheduler Start`
+- **Cancelled by:** `Disclosures_Prequalification`, `File Live Scheduler Cancel/Create`, `File Scheduler Decisioned Cancel`
+- **Fires:** 
+  - `Pre-App Follow Up (30 Days)`
+    - Create task `PipelineMgt_PreApp_FollowUp` (unless one already exists)
+    - Send notification template `b6edbd62-b23e-445f-835c-ba552179fffe`
 
 ### `Funding`
 
@@ -536,7 +576,7 @@ Each timer is started by one or more rules; when it completes, the rules in *Fir
 
 - **Timer id:** `81b57b53-76f2-498f-85e2-5d542cfe5d84`
 - **Started by:** `File Live Scheduler Cancel/Create`
-- **Cancelled by:** _none_
+- **Cancelled by:** `File Scheduler Decisioned Cancel`
 - **Fires:** 
   - `Live App Follow Up (15 Days)`
     - Create task `PipelineMgt_PreApp_FollowUp15`
@@ -555,7 +595,7 @@ Each timer is started by one or more rules; when it completes, the rules in *Fir
 ### `Notice of Incomplete Closure`
 
 - **Timer id:** `1b038eaa-51f7-4610-a3d0-5954f2ad56c2`
-- **Started by:** _none in these exports_
+- **Started by:** `NOI_Expiration_Warning`
 - **Cancelled by:** `NOI_DocsRec_Cancel`
 - **Fires:** 
   - `NOI_Expiration_Closure`
@@ -566,11 +606,88 @@ Each timer is started by one or more rules; when it completes, the rules in *Fir
 - **Timer id:** `e15124d6-14d4-4522-8ac9-9af7b7fc9b33`
 - **Started by:** `Disclosures_NOI`
 - **Cancelled by:** `NOI_DocsRec_Cancel`
-- **Fires:** _no rule listens for it_
+- **Fires:** 
+  - `NOI_Expiration_Warning`
+    - Start timer `Notice of Incomplete Closure` (1b038eaa-51f7-4610-a3d0-5954f2ad56c2)
+    - Send notification template `ca4aa6d6-3968-4331-90b9-2442eb7bd8a6`
 
-## Loan field modified (37)
+### `SSR Report(s) Available Scheduler`
+
+- **Timer id:** `c3529162-86b6-40bb-839f-fc823075980c`
+- **Started by:** `Scheduler_SSRReportsAvailable`
+- **Cancelled by:** `Scheduler_SSRReportsAvailable`
+- **Fires:** 
+  - `Task_SSRAvailableFollowUp`
+    - Create task `Underwriting_Resubmittal_AppraisalReviewFollow` (unless one already exists)
+
+## Loan field modified (58)
 
 Event: `urn:elli:encompass:event:loan:field:modified`
+
+### Amortization Type Change Notice and Task
+
+- **Status:** ACTIVE
+- **Trigger:** When field `608` changes to `AdjustableRate`.
+- **Last modified:** 2025-09-29T18:33:29.448Z by calves
+- **File:** [`rules/by_event/field_modified/amortization_type_change_notice_and_task.xml`](../rules/by_event/field_modified/amortization_type_change_notice_and_task.xml)
+- **Trigger conditions:**
+  - Script: `Not IsEmpty([3152]) AND [CX.LASTDISCLOSEDAMORTIZATION] <> [608]`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_ARM_Disclosure` (unless one already exists)
+2. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `0635540d-e250-4d0e-bd4f-20239c78a3c0`
+
+### Appraisal Complete
+
+- **Status:** ACTIVE
+- **Trigger:** When field `CX.APPRAISALSTATUS` changes (any change).
+- **Last modified:** 2025-01-27T22:01:07.16Z by calves
+- **File:** [`rules/by_event/field_modified/appraisal_complete.xml`](../rules/by_event/field_modified/appraisal_complete.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Wholesale`
+  - Script: `[CX.APPRAISALSTATUS]="Completed"`
+
+**Processes**
+
+1. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `509ebd88-2ecc-43fd-8aa8-4ce00059c147`
+
+### Appraisal Initial Review
+
+- **Status:** ACTIVE
+- **Tags:** `Appraisal`, `Review`
+- **Trigger:** When field `CX.APPRAISALSTATUS` changes (any change).
+- **Last modified:** 2025-02-27T17:33:08.174Z by calves
+- **File:** [`rules/by_event/field_modified/appraisal_initial_review.xml`](../rules/by_event/field_modified/appraisal_initial_review.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Wholesale` or `Banked - Retail`
+  - Script: `[CX.APPRAISALSTATUS]="Report Accepted"`
+
+**Processes**
+
+1. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `a64d9397-6ac7-4f5c-ad0f-7b2259ec2f70`
+
+### Archive
+
+- **Status:** ACTIVE
+- **Trigger:** When field `CX.LOANFOLDER` changes to `Archive`.
+- **Last modified:** 2026-04-24T16:25:55.001Z by calves
+- **File:** [`rules/by_event/field_modified/archive.xml`](../rules/by_event/field_modified/archive.xml)
+
+**Processes**
+
+1. **Change Loan's Pipeline Folder** (Change Loan's Pipeline Folder)
+   - *Condition:*
+     - Script: `[65] = "" AND [300] = ""`
+   - Move loan to folder `(Archive)`
 
 ### Branch_Assignment_1
 
@@ -860,6 +977,54 @@ Event: `urn:elli:encompass:event:loan:field:modified`
    - Create task `Processing_Misc_FileClosureDocuments` (unless one already exists)
    - Create task `Processing_Misc_SendDenial` (unless one already exists)
 
+### Disclosures_HELOCImportantTerms_CL
+
+- **Status:** ACTIVE
+- **Tags:** `CL`, `Committment`, `HELOC`, `Important`, `Terms`
+- **Trigger:** When field `REQUEST.X26` changes to `TERMSLETTER`.
+- **Last modified:** 2025-10-29T21:39:45.07Z by calves
+- **File:** [`rules/by_event/field_modified/disclosures_helocimportantterms_cl.xml`](../rules/by_event/field_modified/disclosures_helocimportantterms_cl.xml)
+
+**Processes**
+
+1. **Request/Send Documents** (Request/Send Documents)
+   - *Condition:* none (always runs)
+   - Send document request to borrower pair `All`: HELOC - Important Terms Disclosure (Standard), Commitment Letter - HELOC (Custom)
+
+### Disclosures_PreApproval_CL
+
+- **Status:** ACTIVE
+- **Tags:** `Approval`, `Commitment`, `PreApproval`, `Send`
+- **Trigger:** When field `REQUEST.X26` changes to `PREAPP`.
+- **Last modified:** 2026-03-30T20:40:35.784Z by calves
+- **File:** [`rules/by_event/field_modified/disclosures_preapproval_cl.xml`](../rules/by_event/field_modified/disclosures_preapproval_cl.xml)
+
+**Processes**
+
+1. **Request/Send Documents** (Request/Send Documents)
+   - *Condition:* none (always runs)
+   - Send document request to borrower pair `All`: Commitment Letter (Pre-Approval) (Custom), Commitment Acknowledgment (Custom)
+
+### Disclosures_Prequalification
+
+- **Status:** ACTIVE
+- **Tags:** `Folder`, `Prequal`, `Prequalification`, `Scheduler`
+- **Trigger:** When field `CX.PREQUALIFIED` changes to anything other than ``.
+- **Last modified:** 2026-03-25T16:00:32.136Z by calves
+- **File:** [`rules/by_event/field_modified/disclosures_prequalification.xml`](../rules/by_event/field_modified/disclosures_prequalification.xml)
+
+**Processes**
+
+1. **15 day** (Cancel Scheduler)
+   - *Condition:* none (always runs)
+   - Cancel timer `File Started Follow Up (15 Days) - Pre-Approval` (92dbe66e-8c83-474a-bd4d-c9312ec152cd)
+2. **30 day** (Cancel Scheduler)
+   - *Condition:* none (always runs)
+   - Cancel timer `File Started Follow Up (30 Days) - Pre-Approval` (e6de40c8-2445-4d5e-a586-48ec253abe23)
+3. **Change Loan's Pipeline Folder** (Change Loan's Pipeline Folder)
+   - *Condition:* none (always runs)
+   - Move loan to folder `Prequalified`
+
 ### Federal Flood Notice
 
 - **Status:** ACTIVE
@@ -897,6 +1062,64 @@ Event: `urn:elli:encompass:event:loan:field:modified`
    - *Condition:* none (always runs)
    - Cancel timer `File Started Follow Up (15 Days)` (92dbe66e-8c83-474a-bd4d-c9312ec152cd)
 
+### File Scheduler Decisioned Cancel
+
+- **Status:** ACTIVE
+- **Trigger:** When field `2314` changes to anything other than ``.
+- **Last modified:** 2026-03-16T17:17:45.866Z by calves
+- **File:** [`rules/by_event/field_modified/file_scheduler_decisioned_cancel.xml`](../rules/by_event/field_modified/file_scheduler_decisioned_cancel.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Retail`, `Banked - Wholesale` or `Brokered`
+  - Script: `[@2025] >= #08/19/2024#`
+
+**Processes**
+
+1. **Cancel Scheduler** (Cancel Scheduler)
+   - *Condition:* none (always runs)
+   - Cancel timer `File Started Follow Up (15 Days) - Pre-Approval` (92dbe66e-8c83-474a-bd4d-c9312ec152cd)
+2. **Cancel Scheduler** (Cancel Scheduler)
+   - *Condition:* none (always runs)
+   - Cancel timer `File Started Follow Up (30 Days) - Pre-Approval` (e6de40c8-2445-4d5e-a586-48ec253abe23)
+3. **Cancel Scheduler** (Cancel Scheduler)
+   - *Condition:* none (always runs)
+   - Cancel timer `Live Follow Up (15 Days)` (81b57b53-76f2-498f-85e2-5d542cfe5d84)
+
+### HELOC Initial Docs
+
+- **Status:** ACTIVE
+- **Trigger:** When field `CX.DISCLOSUREREVIEW` changes (any change).
+- **Last modified:** 2025-05-12T17:42:46.513Z by calves
+- **File:** [`rules/by_event/field_modified/heloc_initial_docs.xml`](../rules/by_event/field_modified/heloc_initial_docs.xml)
+- **Trigger conditions:**
+  - Script: `[CX.DISCLOSUREREVIEW] = "Send" AND [1172]="HELOC"`
+
+**Processes**
+
+1. **Initial Disclosure Send** (Send Disclosures)
+   - *Condition:* none (always runs)
+   - Send disclosures (on success: `notificationSend1_1`)
+   - Send notification template `0cb53cdf-0508-40ca-b27f-48b49530c17e`
+2. **AVM Send** (Request/Send Documents)
+   - *Condition:*
+     - Script: `[CX.VALUATONTYPE] = "AVM"`
+   - Send document request to borrower pair `All`: AVM (eFolder), Appraisal Report Acknowledgement (AVM) (Custom)
+
+### Key Pricing Fields Change
+
+- **Status:** ACTIVE
+- **Trigger:** When field `Alert.KeyPricingFieldAlert.AlertCount` changes to anything other than ``.
+- **Last modified:** 2025-09-25T21:01:37.044Z by calves
+- **File:** [`rules/by_event/field_modified/key_pricing_fields_change.xml`](../rules/by_event/field_modified/key_pricing_fields_change.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Retail` or `Banked - Wholesale`
+  - Script: `[1401].Contains("Chase") OR [1401].Contains("Truist") OR [1401].Contains("MassHousing")`
+
+**Processes**
+
+1. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `22b40507-4dc9-4de7-a08b-997aac81335b`
+
 ### MA Flood Notice
 
 - **Status:** ACTIVE
@@ -928,6 +1151,37 @@ Event: `urn:elli:encompass:event:loan:field:modified`
 3. **Cancel Scheduler** (Cancel Scheduler)
    - *Condition:* none (always runs)
    - Cancel timer `Notice of Incomplete Warning` (e15124d6-14d4-4522-8ac9-9af7b7fc9b33)
+
+### OR_Disclosures_HELOCInitialDocs
+
+- **Status:** ACTIVE
+- **Trigger:** When field `REQUEST.X26` changes to `HELOCDOCSPLS`.
+- **Last modified:** 2026-04-08T19:56:53.913Z by calves
+- **File:** [`rules/by_event/field_modified/or_disclosures_helocinitialdocs.xml`](../rules/by_event/field_modified/or_disclosures_helocinitialdocs.xml)
+- **Trigger conditions:**
+  - Script: `[1172]="HELOC"`
+
+**Processes**
+
+1. **AVM Send** (Request/Send Documents)
+   - *Condition:*
+     - Script: `[CX.AVMSENDINITIALDOCS] = "Y"`
+   - Send document request to borrower pair `All`: AVM (eFolder), Appraisal Report Acknowledgement (AVM) (Custom)
+2. **Triggers Product Tracking** (Update Loan Field)
+   - *Condition:* none (always runs)
+   - Set field `CX.DISCLOSEDPRODUCT` to `NEW`
+3. **Initial Disclosure Send** (Send Disclosures)
+   - *Condition:* none (always runs)
+   - Send notification template `0cb53cdf-0508-40ca-b27f-48b49530c17e`
+   - Send disclosures (on failure: `notificationSend1_1`) (on success: `notificationSend2_1`)
+   - Send notification template `8b09da63-466f-4acb-b4a6-74c8f4fa46b3` [Fail]
+4. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Initial Disclosures – Signature Required`
+5. **Mail Initial Docs** (Create Tasks)
+   - *Condition:*
+     - Script: `IsEmpty([3983])`
+   - Create task `Processing_Misc_MailingInitialDisclosures` (unless one already exists)
 
 ### Processing_DenialReviewRequest
 
@@ -1017,6 +1271,24 @@ Event: `urn:elli:encompass:event:loan:field:modified`
    - *Condition:* none (always runs)
    - Start timer `Day Refresh` (eeee014b-677e-4675-8262-ef2a35fb5170)
 
+### Scheduler_SSRReportsAvailable
+
+- **Status:** ACTIVE
+- **Trigger:** When field `cx.appraisalstatus` changes (any change).
+- **Last modified:** 2026-04-17T19:44:41.455Z by calves
+- **File:** [`rules/by_event/field_modified/scheduler_ssrreportsavailable.xml`](../rules/by_event/field_modified/scheduler_ssrreportsavailable.xml)
+
+**Processes**
+
+1. **Cancel Scheduler** (Cancel Scheduler)
+   - *Condition:*
+     - Script: `[CX.APPRAISALSTATUS] = "Report Accepted" OR [CX.APPRAISALSTATUS] = "Revision Requested"`
+   - Cancel timer `SSR Report(s) Available Scheduler` (c3529162-86b6-40bb-839f-fc823075980c)
+2. **Start Scheduler** (Start Scheduler)
+   - *Condition:*
+     - Script: `[CX.APPRAISALSTATUS] = "SSR Report(s) Available"`
+   - Start timer `SSR Report(s) Available Scheduler` (c3529162-86b6-40bb-839f-fc823075980c)
+
 ### Scheduler_UndisclosedDebtCancel
 
 - **Status:** ACTIVE
@@ -1031,6 +1303,26 @@ Event: `urn:elli:encompass:event:loan:field:modified`
 1. **Start Scheduler** (Start Scheduler)
    - *Condition:* none (always runs)
    - Start timer `Cancel Undisclosed Debt Monitoring` (a81ebb74-5fe6-49d5-8abf-9a3fdf8a89d8)
+
+### Service - Flood Order
+
+- **Status:** ACTIVE; high priority
+- **Tags:** `Flood`, `FloodX`, `Xactus`
+- **Trigger:** When field `CX.FLOODAUTOMATE` changes to `Y`.
+- **Last modified:** 2026-03-10T17:32:18.025Z by calves
+- **File:** [`rules/by_event/field_modified/service_flood_order.xml`](../rules/by_event/field_modified/service_flood_order.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Wholesale` or `Banked - Retail`
+  - Script: `[@3142] >= #03/01/2025#`
+
+**Processes**
+
+1. **Complete Task** (Complete Task)
+   - *Condition:* none (always runs)
+   - Complete task `Processing_ServiceOrders_OrderFloodCertificate` with resolution `Complete`
+2. **Order Service** (Order Service)
+   - *Condition:* none (always runs)
+   - Create service order using rule `5d306ccb-d142-4d47-ad01-6c8b97b38cf7`
 
 ### Service - UCD and LCA Order
 
@@ -1089,6 +1381,25 @@ Event: `urn:elli:encompass:event:loan:field:modified`
 1. **Complete Sub-Task** (Complete Sub-Task)
    - *Condition:* none (always runs)
    - Complete subtask `Board Loan – Board Loan via eLink` on task `Funding_Boarding_BoardLoan` with resolution `Done`
+
+### Task_AppraisalReview
+
+- **Status:** ACTIVE
+- **Trigger:** When field `CX.APPRAISALSTATUS` changes (any change).
+- **Last modified:** 2026-04-15T20:53:42.888Z by calves
+- **File:** [`rules/by_event/field_modified/task_appraisalreview.xml`](../rules/by_event/field_modified/task_appraisalreview.xml)
+- **Trigger conditions:**
+  - Script: `[CX.APPRAISALSTATUS] = "Report Accepted"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Underwriting_Resubmittal_ReviewAppraisal` (unless one already exists)
+2. **Update Enhanced Conditions Tracking Status** (Update Enhanced Conditions Tracking Status)
+   - *Condition:*
+     - Script: `[ENHANCEDCOND.X1] = "Y"`
+   - Set `Underwriting` condition `Appraisal` to `Received`
 
 ### Task_AppraisalReview_Complete
 
@@ -1192,6 +1503,21 @@ Event: `urn:elli:encompass:event:loan:field:modified`
    - Complete task `Processing_PostUnderwriting_SendCommitmentLetter` with resolution `NA`, also completing its subtasks as `NA`
    - Complete task `Processing_FileSetup_DislosureAlert` with resolution `NA`, also completing its subtasks as `NA`
 
+### Task_Cancel_Mailed Disclosures
+
+- **Status:** ACTIVE
+- **Trigger:** When field `3983` changes to anything other than ``.
+- **Last modified:** 2026-03-24T13:05:20.743Z by calves
+- **File:** [`rules/by_event/field_modified/task_cancel_mailed_disclosures.xml`](../rules/by_event/field_modified/task_cancel_mailed_disclosures.xml)
+- **Trigger conditions:**
+  - Script: `[@3983] <= [@3143]`
+
+**Processes**
+
+1. **Complete Task** (Complete Task)
+   - *Condition:* none (always runs)
+   - Complete task `Processing_Misc_MailingInitialDisclosures` with resolution `NA`, also completing its subtasks as `NA`
+
 ### Task_ColdStorage_Boarding
 
 - **Status:** ACTIVE
@@ -1226,6 +1552,22 @@ Event: `urn:elli:encompass:event:loan:field:modified`
      - Script: `[@748] > [@2302]`
    - Create task `Underwriting_Submittal_Underwrite`
 
+### Task_FloodCertificateReview_AddressMismatch
+
+- **Status:** ACTIVE
+- **Trigger:** When field `CX.CURRENTADDRESSSTRING` changes (any change).
+- **Last modified:** 2026-03-10T17:21:38.029Z by calves
+- **File:** [`rules/by_event/field_modified/task_floodcertificatereview_addressmismatch.xml`](../rules/by_event/field_modified/task_floodcertificatereview_addressmismatch.xml)
+- **Trigger conditions:**
+  - Script: `[CX.CURRENTADDRESSSTRING] <> [CX.FLOODADDRESS]`
+  - Requires field(s) populated: `CX.FLOODADDRESS` (Address from last flood check)
+
+**Processes**
+
+1. **Create Sub-Task** (Create Sub-Task)
+   - *Condition:* none (always runs)
+   - Add subtask `Flood Certificate Review – Address Mismatch Detected` to task `Processing_ServiceOrders_FloodCertificateReview` (reopens the parent task)
+
 ### Task_Funding_Funding_Approval
 
 - **Status:** ACTIVE
@@ -1258,6 +1600,48 @@ Event: `urn:elli:encompass:event:loan:field:modified`
    - *Condition:* none (always runs)
    - Create task `Funding_Funding_Approval` (unless one already exists)
 
+### Task_Funding_Wire_Approval
+
+- **Status:** ACTIVE
+- **Trigger:** When field `CX.WIREAPPROVED` changes to anything other than ``.
+- **Last modified:** 2026-02-27T18:12:48.968Z by calves
+- **File:** [`rules/by_event/field_modified/task_funding_wire_approval.xml`](../rules/by_event/field_modified/task_funding_wire_approval.xml)
+
+**Processes**
+
+1. **Complete Task** (Complete Task)
+   - *Condition:* none (always runs)
+   - Complete task `Funding_Wire_Approval`
+
+### Task_Funding_Wire_Request
+
+- **Status:** ACTIVE
+- **Trigger:** When field `CX.WIREAPPRREQ` changes to `Y`.
+- **Last modified:** 2026-02-27T18:11:46.846Z by calves
+- **File:** [`rules/by_event/field_modified/task_funding_wire_request.xml`](../rules/by_event/field_modified/task_funding_wire_request.xml)
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Funding_Wire_Approval` (unless one already exists)
+
+### Task_HELOCImportantTermsRedisclosure
+
+- **Status:** ACTIVE
+- **Tags:** `HELOC`, `Important`, `Terms`
+- **Trigger:** When field `1401` changes to anything other than ``.
+- **Last modified:** 2026-03-23T17:47:24.637Z by calves
+- **File:** [`rules/by_event/field_modified/task_helocimportanttermsredisclosure.xml`](../rules/by_event/field_modified/task_helocimportanttermsredisclosure.xml)
+- **Trigger conditions:**
+  - Script: `[CX.DISCLOSEDPRODUCT] <> "" AND ([1172] = "HELOC") AND [CX.TASKPILOT] = "Y" AND [CX.DISCLOSEDPRODUCT] <> [1401]`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_Disclosures_HELOCDisclosure`
+
 ### Task_ICD_Sent
 
 - **Status:** ACTIVE
@@ -1286,6 +1670,21 @@ Event: `urn:elli:encompass:event:loan:field:modified`
 1. **Complete Sub-Task** (Complete Sub-Task)
    - *Condition:* none (always runs)
    - Complete subtask `Request Closing Disclosure – Request CD` on task `Closing_PreClosing_RequestClosingDisclosure` with resolution `NA`
+
+### Task_IntiailDocsAlert
+
+- **Status:** ACTIVE
+- **Trigger:** When field `3142` changes to anything other than ``.
+- **Last modified:** 2026-03-13T13:17:49.666Z by calves
+- **File:** [`rules/by_event/field_modified/task_intiaildocsalert.xml`](../rules/by_event/field_modified/task_intiaildocsalert.xml)
+- **Trigger conditions:**
+  - Script: `[CX.TASKPILOT] = "Y"AND ([1172] = "HELOC")`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_FileSetup_DislosureAlert` (unless one already exists)
 
 ### Task_PARReview2
 
@@ -1371,6 +1770,22 @@ Event: `urn:elli:encompass:event:loan:field:modified`
    - Complete subtask `Underwrite – CounterOffer` on task `Underwriting_Submittal_Underwrite` with resolution `NA`
    - Complete subtask `Underwrite – Deny` on task `Underwriting_Submittal_Underwrite` with resolution `NA`
 
+### Wholesale Disclosure Notice
+
+- **Status:** ACTIVE; high priority
+- **Trigger:** When field `3152` changes (any change).
+- **Last modified:** 2024-08-22T14:08:25.704Z by calves
+- **File:** [`rules/by_event/field_modified/wholesale_disclosure_notice.xml`](../rules/by_event/field_modified/wholesale_disclosure_notice.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Wholesale`
+  - Script: `[@3142] >= #07/08/2024#`
+
+**Processes**
+
+1. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `103d96db-73f7-4173-8de4-e44821fc65a5`
+
 ### Withdraw_TaskCreation
 
 - **Status:** ACTIVE; high priority
@@ -1384,9 +1799,50 @@ Event: `urn:elli:encompass:event:loan:field:modified`
    - *Condition:* none (always runs)
    - Create task `Processing_Misc_WithdrawLoan` (unless one already exists)
 
-## File attached (12)
+## File attached (23)
 
 Event: `urn:elli:encompass:event:loan:file:attached`
+
+### Scheduling Requested
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `Clear to Close Scheduling Sheet`.
+- **Last modified:** 2024-12-04T21:09:08.691Z by calves
+- **File:** [`rules/by_event/file_attached/scheduling_requested.xml`](../rules/by_event/file_attached/scheduling_requested.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Wholesale`
+
+**Processes**
+
+1. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `99c51d21-c39f-452b-8fde-29d56c02d672`
+
+### SubTask_AppraisalReviewForm_Complete
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `Appraisal Review Form`.
+- **Last modified:** 2026-04-17T20:05:01.09Z by calves
+- **File:** [`rules/by_event/file_attached/subtask_appraisalreviewform_complete.xml`](../rules/by_event/file_attached/subtask_appraisalreviewform_complete.xml)
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `Review Appraisal – Attach Appraisal Review Form` on task `Underwriting_Resubmittal_ReviewAppraisal` with resolution `Done`
+
+### SubTask_AppraisalTransfer_Complete
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `Appraisal`.
+- **Last modified:** 2026-04-20T19:39:02.787Z by calves
+- **File:** [`rules/by_event/file_attached/subtask_appraisaltransfer_complete.xml`](../rules/by_event/file_attached/subtask_appraisaltransfer_complete.xml)
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `Review Appraisal – Transfer Appraisal from Value Link` on task `Underwriting_Resubmittal_ReviewAppraisal` with resolution `Done`
 
 ### Subtask_Complete_1003Park
 
@@ -1402,6 +1858,60 @@ Event: `urn:elli:encompass:event:loan:file:attached`
 1. **Complete Sub-Task** (Complete Sub-Task)
    - *Condition:* none (always runs)
    - Complete subtask `File Closure Documents – 1003` on task `Processing_Misc_FileClosureDocuments` with resolution `Done`
+
+### Subtask_Complete_ConvoPark
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `Conversation Log`.
+- **Last modified:** 2026-04-10T18:46:55.369Z by calves
+- **File:** [`rules/by_event/file_attached/subtask_complete_convopark.xml`](../rules/by_event/file_attached/subtask_complete_convopark.xml)
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `File Closure Documents – Conversation Log` on task `Processing_Misc_FileClosureDocuments` with resolution `Done`
+
+### Subtask_Complete_DisclosureTrackingPark
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `Disclosure Tracking Sheet`.
+- **Last modified:** 2026-04-10T18:48:02.454Z by calves
+- **File:** [`rules/by_event/file_attached/subtask_complete_disclosuretrackingpark.xml`](../rules/by_event/file_attached/subtask_complete_disclosuretrackingpark.xml)
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `File Closure Documents – Disclosure Tracking` on task `Processing_Misc_FileClosureDocuments` with resolution `Done`
+
+### Subtask_Complete_eConsetPark
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `eConsent`.
+- **Last modified:** 2026-04-10T18:46:57.917Z by calves
+- **File:** [`rules/by_event/file_attached/subtask_complete_econsetpark.xml`](../rules/by_event/file_attached/subtask_complete_econsetpark.xml)
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `File Closure Documents – eConsent` on task `Processing_Misc_FileClosureDocuments` with resolution `Done`
+
+### Subtask_Complete_InitialDisclosurePark
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `USA Patriot Act Information Disclosure`.
+- **Last modified:** 2026-04-15T14:21:00.539Z by calves
+- **File:** [`rules/by_event/file_attached/subtask_complete_initialdisclosurepark.xml`](../rules/by_event/file_attached/subtask_complete_initialdisclosurepark.xml)
+- **Trigger conditions:**
+  - Script: `([1393] = "Loan Originated" OR [1393] = "Application approved but not accepted" OR [1393] = "Application denied" OR [1393] = "Application withdrawn" OR [1393] = "File Closed for incompleteness" OR [1393] = "Loan purchased by your institution" OR [1393] = "Preapproval request denied by financial institution" OR [1393] = "Preapproval request approved but not accepted")`
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `File Closure Documents – Initial Disclosures` on task `Processing_Misc_FileClosureDocuments` with resolution `Done`
 
 ### SubTask_DocReceipt_eSignBack
 
@@ -1442,6 +1952,21 @@ Event: `urn:elli:encompass:event:loan:file:attached`
    - *Condition:* none (always runs)
    - Complete subtask `Confirm Funding – Add Funding Worksheet to eFolder` on task `Funding_Funding_ConfirmFunding` with resolution `Done`
 
+### SubtTask_OrderAppraisal2
+
+- **Status:** ACTIVE
+- **Tags:** `Intent`, `Invoice`, `Proceed`, `to`
+- **Trigger:** When a file is attached to document `Acknowledgement of Intent to Proceed`.
+- **Last modified:** 2026-03-17T13:44:37.666Z by calves
+- **File:** [`rules/by_event/file_attached/subttask_orderappraisal2.xml`](../rules/by_event/file_attached/subttask_orderappraisal2.xml)
+
+**Processes**
+
+1. **Create Sub-Task** (Create Sub-Task)
+   - *Condition:*
+     - Script: `([1172] <> "HELOC")`
+   - Add subtask `Order Appraisal – Send Invoice` to task `Processing_Appraisal_Order` (reopens the parent task)
+
 ### Task_AVM
 
 - **Status:** ACTIVE
@@ -1456,6 +1981,24 @@ Event: `urn:elli:encompass:event:loan:file:attached`
 1. **Create Tasks** (Create Tasks)
    - *Condition:* none (always runs)
    - Create task `Processing_SendAVM` (unless one already exists)
+
+### Task_ContractUW_Approval
+
+- **Status:** ACTIVE
+- **Tags:** `Auto`, `Conditions`, `Underwrite`
+- **Trigger:** When a file is attached to document `Contract UW Approval`.
+- **Last modified:** 2026-04-09T17:42:11.182Z by calves
+- **File:** [`rules/by_event/file_attached/task_contractuw_approval.xml`](../rules/by_event/file_attached/task_contractuw_approval.xml)
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Underwriting_ContractUWApproval` (unless one already exists)
+2. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:*
+     - Script: `[CX.TASKPILOT] = "Y"`
+   - Create enhanced conditions (no parameters: all applicable conditions)
 
 ### Task_FraudXReview
 
@@ -1590,7 +2133,40 @@ Event: `urn:elli:encompass:event:loan:file:attached`
    - *Condition:* none (always runs)
    - Complete subtask `Send Commitment Letter – Save to eFolder` on task `Processing_PostUnderwriting_SendCommitmentLetter` with resolution `Done`
 
-## Loan created (3)
+### Task_ServiceOrders_FloodCertificateReview
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `Flood Certificate`.
+- **Last modified:** 2026-03-13T13:16:10.02Z by calves
+- **File:** [`rules/by_event/file_attached/task_serviceorders_floodcertificatereview.xml`](../rules/by_event/file_attached/task_serviceorders_floodcertificatereview.xml)
+- **Trigger conditions:**
+  - Script: `[4002] = "Firstimer" OR [CX.TASKPILOT] = "Y"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_ServiceOrders_FloodCertificateReview`
+
+### Title Review
+
+- **Status:** ACTIVE
+- **Trigger:** When a file is attached to document `Title Report`.
+- **Last modified:** 2026-04-02T21:20:06.882Z by calves
+- **File:** [`rules/by_event/file_attached/title_review.xml`](../rules/by_event/file_attached/title_review.xml)
+- **Trigger conditions:**
+  - Script: `[CX.TASKPILOT] = "Y"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Underwriting_Resubmittal_TitleOwnershipReport` (unless one already exists)
+2. **Update Enhanced Conditions Tracking Status** (Update Enhanced Conditions Tracking Status)
+   - *Condition:* none (always runs)
+   - Set `Underwriting` condition `Title Report` to `Received`
+
+## Loan created (5)
 
 Event: `urn:elli:encompass:event:loan:created`
 
@@ -1684,6 +2260,57 @@ Event: `urn:elli:encompass:event:loan:created`
      - Script: `([CX.BCSBBRANCH] = "Taunton - County Street")`
    - Assign `ClosingBranch` role (User id `28`) to `countystreet`
 
+### Pre-Approval Scheduler Start
+
+- **Status:** ACTIVE
+- **Trigger:** When a loan is created.
+- **Last modified:** 2026-03-12T18:13:09.985Z by calves
+- **File:** [`rules/by_event/loan_created/pre_approval_scheduler_start.xml`](../rules/by_event/loan_created/pre_approval_scheduler_start.xml)
+- **Trigger conditions:**
+  - Script: `[@2025] >= #08/19/2024#`
+  - Origination channel: `Banked - Retail` or `Banked - Wholesale`
+
+**Processes**
+
+1. **Start Scheduler** (Start Scheduler)
+   - *Condition:* none (always runs)
+   - Start timer `File Started Follow Up (30 Days) - Pre-Approval` (e6de40c8-2445-4d5e-a586-48ec253abe23)
+2. **Start Scheduler** (Start Scheduler)
+   - *Condition:* none (always runs)
+   - Start timer `File Started Follow Up (15 Days)` (92dbe66e-8c83-474a-bd4d-c9312ec152cd)
+
+### Processor/Underwriter Assign (Retail)
+
+- **Status:** ACTIVE
+- **Tags:** `assign`, `processor`, `retail`, `underwriter`
+- **Trigger:** When a loan is created.
+- **Last modified:** 2025-11-04T13:27:47.723Z by calves
+- **File:** [`rules/by_event/loan_created/processor_underwriter_assign_retail.xml`](../rules/by_event/loan_created/processor_underwriter_assign_retail.xml)
+
+**Processes**
+
+1. **Lizsy Assign** (Assign Role)
+   - *Condition:*
+     - Script: `[LoanTeamMember.Name.Loan Officer].Contains("Galloway") OR  [LoanTeamMember.Name.Loan Officer].Contains("Rojas")`
+   - Assign `Loan Processor` role (User id `5`) to `lgullon`
+2. **Diane Assign Matt and Fadra Equity** (Assign Role)
+   - *Condition:*
+     - Script: `([LoanTeamMember.Name.Loan Officer].Contains("Estrela") OR [LoanTeamMember.Name.Loan Officer].Contains("Northrup")) AND [1401] .Contains("Equity") `
+   - Assign `Underwriter` role (User id `6`) to `daguiar`
+   - Assign `Loan Processor` role (User id `5`) to `daguiar`
+3. **Ade Assign** (Assign Role)
+   - *Condition:*
+     - Script: `[LoanTeamMember.Name.Loan Officer].Contains("Faunce") OR [LoanTeamMember.Name.Loan Officer].Contains("Parker")`
+   - Assign `Loan Processor` role (User no role id) to `atucker`
+4. **Sarah Assign** (Assign Role)
+   - *Condition:*
+     - Script: `[LoanTeamMember.Name.Loan Officer].Contains("Cusanno") OR [LoanTeamMember.Name.Loan Officer].Contains("Litt")`
+   - Assign `Loan Processor` role (User no role id) to `sarahlong`
+5. **Diane Assign** (Assign Role)
+   - *Condition:*
+     - Script: `([LoanTeamMember.Name.Loan Officer].Contains("Estrela") OR [LoanTeamMember.Name.Loan Officer].Contains("Northrup")) AND NOT [1401] .Contains("Equity")`
+   - Assign `Loan Processor` role (User id `5`) to `daguiar`
+
 ### Processor/Underwriter Assign (Wholesale)
 
 - **Status:** ACTIVE
@@ -1701,7 +2328,7 @@ Event: `urn:elli:encompass:event:loan:created`
    - Assign `Underwriter` role (User id `6`) to `pmcnutt`
    - Assign `Loan Processor` role (User id `undefined`) to `sarahlong`
 
-## Milestone completed (5)
+## Milestone completed (15)
 
 Event: `urn:elli:encompass:event:loan:milestone:completed`
 
@@ -1734,6 +2361,20 @@ Event: `urn:elli:encompass:event:loan:milestone:completed`
    - *Condition:* none (always runs)
    - Send notification template `47ec0bc5-ccaf-40dc-b046-5412ba444ce9`
 
+### FolderMove_PreApp
+
+- **Status:** ACTIVE
+- **Tags:** `Folder`, `Move`, `PreApproval`
+- **Trigger:** When milestone `Pre-Qual/App` is finished.
+- **Last modified:** 2026-03-16T17:09:19.599Z by calves
+- **File:** [`rules/by_event/milestone_completed/foldermove_preapp.xml`](../rules/by_event/milestone_completed/foldermove_preapp.xml)
+
+**Processes**
+
+1. **Change Loan's Pipeline Folder** (Change Loan's Pipeline Folder)
+   - *Condition:* none (always runs)
+   - Move loan to folder `Pre Approved`
+
 ### Notifcation_EquityClosingInstructions
 
 - **Status:** ACTIVE
@@ -1746,6 +2387,19 @@ Event: `urn:elli:encompass:event:loan:milestone:completed`
 1. **Send Notification** (Send Notification)
    - *Condition:* none (always runs)
    - Send notification template `a0b0a0a2-457b-4f5f-b02f-1a352b357920`
+
+### Service - HMDA Geocoding
+
+- **Status:** ACTIVE; high priority
+- **Trigger:** When milestone `Doc Prep - E` or `Funding` is finished.
+- **Last modified:** 2026-04-27T12:58:28.44Z by calves
+- **File:** [`rules/by_event/milestone_completed/service_hmda_geocoding.xml`](../rules/by_event/milestone_completed/service_hmda_geocoding.xml)
+
+**Processes**
+
+1. **Order Service** (Order Service)
+   - *Condition:* none (always runs)
+   - Create service order using rule `be13ff9e-f20a-42d2-88af-7528afd965bf`
 
 ### Service_UndisclosedDebtActivate
 
@@ -1761,6 +2415,52 @@ Event: `urn:elli:encompass:event:loan:milestone:completed`
 1. **Order Service** (Order Service)
    - *Condition:* none (always runs)
    - Create service order using rule `5800e6c3-671a-4d2c-8daa-93c03cc330f3`
+
+### Task_CreditReview
+
+- **Status:** ACTIVE
+- **Trigger:** When milestone `Pre Processing`, `Processing` or `Processing - E` is finished.
+- **Last modified:** 2026-03-13T13:17:00.508Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_creditreview.xml`](../rules/by_event/milestone_completed/task_creditreview.xml)
+- **Trigger conditions:**
+  - Script: `[4002] = "Firstimer" OR [CX.TASKPILOT] = "Y"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_FileSetup_ReviewCredit` (unless one already exists)
+
+### Task_Funding_Fund_Complete
+
+- **Status:** ACTIVE
+- **Trigger:** When milestone `Funding` or `Boarding - E` is finished.
+- **Last modified:** 2026-03-20T12:49:52.667Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_funding_fund_complete.xml`](../rules/by_event/milestone_completed/task_funding_fund_complete.xml)
+
+**Processes**
+
+1. **Complete Task** (Complete Task)
+   - *Condition:* none (always runs)
+   - Complete task `Funding_FundLoan` with resolution `Complete`
+
+### Task_HELOCIntiailDocs
+
+- **Status:** ACTIVE
+- **Trigger:** When milestone `Processing - E` is finished.
+- **Last modified:** 2026-03-23T17:33:59.392Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_helocintiaildocs.xml`](../rules/by_event/milestone_completed/task_helocintiaildocs.xml)
+- **Trigger conditions:**
+  - Script: `([4002] = "Firstimer" OR [CX.TASKPILOT] = "Y") AND ([1172] = "HELOC")`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_FileSetup_SendDisclosuresHELOC` (unless one already exists)
+2. **Complete Task** (Complete Task)
+   - *Condition:* none (always runs)
+   - Complete task `Processing_FileSetup_DislosureAlert` with resolution `Complete`
 
 ### Task_ICD_CreateRequest
 
@@ -1778,9 +2478,150 @@ Event: `urn:elli:encompass:event:loan:milestone:completed`
    - *Condition:* none (always runs)
    - Create task `Closing_PreClosing_RequestClosingDisclosure` (unless one already exists)
 
-## Subtask completed (31)
+### Task_OrderAppraisalEquity
+
+- **Status:** ACTIVE
+- **Trigger:** When milestone `Processing - E` is finished.
+- **Last modified:** 2026-03-12T16:26:00.986Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_orderappraisalequity.xml`](../rules/by_event/milestone_completed/task_orderappraisalequity.xml)
+- **Trigger conditions:**
+  - Script: `[#2] > 400000 AND [4002] = "Firstimer"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_Appraisal_Order` (unless one already exists)
+
+### Task_OrderAppraisalFirstMtg
+
+- **Status:** ACTIVE
+- **Trigger:** When milestone `Broker Import` or `Processing` is finished.
+- **Last modified:** 2026-03-13T13:16:46.7Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_orderappraisalfirstmtg.xml`](../rules/by_event/milestone_completed/task_orderappraisalfirstmtg.xml)
+- **Trigger conditions:**
+  - Script: `[4002] = "Firstimer" OR [CX.TASKPILOT] = "Y"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_Appraisal_Order` (unless one already exists)
+
+### Task_PostApprovalEquity
+
+- **Status:** ACTIVE
+- **Trigger:** When milestone `Cond. Approval - E` is finished.
+- **Last modified:** 2026-03-20T13:07:30.393Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_postapprovalequity.xml`](../rules/by_event/milestone_completed/task_postapprovalequity.xml)
+- **Trigger conditions:**
+  - Script: `[4002] = "Firstimer" OR [CX.TASKPILOT] = "Y"`
+
+**Processes**
+
+1. **PAR Order** (Create Tasks)
+   - *Condition:*
+     - Script: `[CX.AVMACCEPTANCE] = "PASS, Sufficient"`
+   - Create task `Processing_ServiceOrders_OrderPAR` (unless one already exists)
+2. **Title Order** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_ServiceOrders_OrderTitle` (unless one already exists)
+
+### Task_PreApp_1003
+
+- **Status:** ACTIVE
+- **Tags:** `1003`, `Pre-Approval`, `Pre-Qualification`, `PreApp`, `Prequal`
+- **Trigger:** When milestone `Pre Processing` is finished.
+- **Last modified:** 2026-02-19T14:56:28.419Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_preapp_1003.xml`](../rules/by_event/milestone_completed/task_preapp_1003.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Retail` or `Banked - Wholesale`
+  - Script: `[11] = "TBD"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `PreDisclosure_PreApproval_1003` (unless one already exists)
+
+### Task_Underwrite_Conditions
+
+- **Status:** ACTIVE
+- **Tags:** `Auto`, `Conditions`, `Underwrite`
+- **Trigger:** When milestone `Submittal - E` is finished.
+- **Last modified:** 2026-03-31T18:54:25.852Z by calves
+- **File:** [`rules/by_event/milestone_completed/task_underwrite_conditions.xml`](../rules/by_event/milestone_completed/task_underwrite_conditions.xml)
+
+**Processes**
+
+1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:*
+     - Script: `[CX.TASKPILOT] = "Y"`
+   - Create enhanced conditions (no parameters: all applicable conditions)
+2. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Underwriting_Submittal_Underwrite` (unless one already exists)
+
+## Subtask completed (48)
 
 Event: `urn:elli:task:event:subtask:completed`
+
+### Appraisal Invoice Notification
+
+- **Status:** ACTIVE
+- **Trigger:** When subtask `Order Appraisal – Send Invoice` on task `Processing_Appraisal_Order` is completed with resolution `Done`.
+- **Last modified:** 2026-04-02T20:15:09.644Z by calves
+- **File:** [`rules/by_event/subtask_completed/appraisal_invoice_notification.xml`](../rules/by_event/subtask_completed/appraisal_invoice_notification.xml)
+- **Trigger conditions:**
+  - Script: `[@3142] >= #07/01/2024#`
+
+**Processes**
+
+1. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `804e096c-fe9c-446a-95ab-a850bf3e095c`
+
+### Condition_CreditReview_Address
+
+- **Status:** ACTIVE
+- **Tags:** `Flag`, `Red`
+- **Trigger:** When subtask `Review Credit – Address Discrepancy` on task `Processing_FileSetup_ReviewCredit` is completed with resolution `Issue`.
+- **Last modified:** 2026-03-31T19:18:09.88Z by calves
+- **File:** [`rules/by_event/subtask_completed/condition_creditreview_address.xml`](../rules/by_event/subtask_completed/condition_creditreview_address.xml)
+
+**Processes**
+
+1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Red Flag Discrepancy (Address)`
+
+### Condition_CreditReview_Fraud
+
+- **Status:** ACTIVE
+- **Tags:** `Flag`, `Frozen`, `Red`
+- **Trigger:** When subtask `Review Credit – Fraud Alerts` on task `Processing_FileSetup_ReviewCredit` is completed with resolution `Issue`.
+- **Last modified:** 2026-03-31T19:21:52.539Z by calves
+- **File:** [`rules/by_event/subtask_completed/condition_creditreview_fraud.xml`](../rules/by_event/subtask_completed/condition_creditreview_fraud.xml)
+
+**Processes**
+
+1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Red Flag Discrepancy (Fraud Alert)`
+
+### Condition_CreditReview_Frozen
+
+- **Status:** ACTIVE
+- **Tags:** `Flag`, `Frozen`, `Red`
+- **Trigger:** When subtask `Review Credit – Frozen Score` on task `Processing_FileSetup_ReviewCredit` is completed with resolution `Issue`.
+- **Last modified:** 2026-03-31T19:18:13.615Z by calves
+- **File:** [`rules/by_event/subtask_completed/condition_creditreview_frozen.xml`](../rules/by_event/subtask_completed/condition_creditreview_frozen.xml)
+
+**Processes**
+
+1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Red Flag Discrepancy (Frozen)`
 
 ### Condition_CreditReview_Inquiry
 
@@ -1795,6 +2636,66 @@ Event: `urn:elli:task:event:subtask:completed`
 1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
    - *Condition:* none (always runs)
    - Create `Underwriting` condition `Credit Inquiry Explanation`
+
+### Condition_CreditReview_Name
+
+- **Status:** ACTIVE
+- **Tags:** `Flag`, `name`, `Red`
+- **Trigger:** When subtask `Review Credit – Name Discrepancy` on task `Processing_FileSetup_ReviewCredit` is completed with resolution `Issue`.
+- **Last modified:** 2026-03-31T19:18:00.332Z by calves
+- **File:** [`rules/by_event/subtask_completed/condition_creditreview_name.xml`](../rules/by_event/subtask_completed/condition_creditreview_name.xml)
+
+**Processes**
+
+1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Red Flag Discrepancy (Name)`
+
+### Condition_CreditReview_OFAC
+
+- **Status:** ACTIVE
+- **Tags:** `Flag`, `Frozen`, `Red`
+- **Trigger:** When subtask `Review Credit – OFAC` on task `Processing_FileSetup_ReviewCredit` is completed with resolution `Issue`.
+- **Last modified:** 2026-03-31T19:21:54.823Z by calves
+- **File:** [`rules/by_event/subtask_completed/condition_creditreview_ofac.xml`](../rules/by_event/subtask_completed/condition_creditreview_ofac.xml)
+
+**Processes**
+
+1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Red Flag Discrepancy (OFAC)`
+
+### Condition_CreditReview_RedFlagForm
+
+- **Status:** ACTIVE
+- **Tags:** `Flag`, `Frozen`, `Red`
+- **Trigger:** When subtask `Review Credit – Red Flag Form` on task `Processing_FileSetup_ReviewCredit` is completed with resolution `Done`.
+- **Last modified:** 2026-04-02T16:18:17.529Z by calves
+- **File:** [`rules/by_event/subtask_completed/condition_creditreview_redflagform.xml`](../rules/by_event/subtask_completed/condition_creditreview_redflagform.xml)
+
+**Processes**
+
+1. **Update Enhanced Conditions Tracking Status** (Update Enhanced Conditions Tracking Status)
+   - *Condition:* none (always runs)
+   - Set `Underwriting` condition `Red Flag Discrepancy (Name)` to `Cleared`
+   - Set `Underwriting` condition `Red Flag Discrepancy (Fraud Alert)` to `Cleared`
+   - Set `Underwriting` condition `Red Flag Discrepancy (Address)` to `Cleared`
+   - Set `Underwriting` condition `Red Flag Discrepancy (Frozen)` to `Cleared`
+   - Set `Underwriting` condition `Red Flag Discrepancy (OFAC)` to `Cleared`
+
+### Condition_CreditReview_SSVN
+
+- **Status:** ACTIVE
+- **Tags:** `Flag`, `Red`, `SSN`
+- **Trigger:** When subtask `Review Credit – SSN Discrepancy` on task `Processing_FileSetup_ReviewCredit` is completed with resolution `Issue`.
+- **Last modified:** 2026-03-31T19:09:49.545Z by calves
+- **File:** [`rules/by_event/subtask_completed/condition_creditreview_ssvn.xml`](../rules/by_event/subtask_completed/condition_creditreview_ssvn.xml)
+
+**Processes**
+
+1. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Social Security Number Verification`
 
 ### ConditionUpdate_TitleOrderEquity
 
@@ -2094,6 +2995,36 @@ Event: `urn:elli:task:event:subtask:completed`
    - *Condition:* none (always runs)
    - Send document request to borrower pair `All`: Notice of Incomplete Letter (Custom)
 
+### Disclosures_PreApp_1003
+
+- **Status:** ACTIVE
+- **Tags:** `1003`, `Authorization`, `Pre-App`
+- **Trigger:** When subtask `Action_1003_QA` on task `PreDisclosure_PreApproval_1003` is completed with resolution `Done`.
+- **Last modified:** 2026-02-25T17:22:56.747Z by calves
+- **File:** [`rules/by_event/subtask_completed/disclosures_preapp_1003.xml`](../rules/by_event/subtask_completed/disclosures_preapp_1003.xml)
+
+**Processes**
+
+1. **Request/Send Documents** (Request/Send Documents)
+   - *Condition:* none (always runs)
+   - Send document request to borrower pair `All`: 1003 - URLA (Standard), Borrower's Certification and Authorization (Custom)
+
+### Disclosures_PreApp_Credit
+
+- **Status:** ACTIVE
+- **Tags:** `Credit`, `Pre-Approval`, `Pre-Qualification`, `PreApp`, `Prequal`, `Scores`
+- **Trigger:** When subtask `FACT Act Disclosure 6` on task `PreDisclosure_PreApproval_Credit` is completed with resolution `Done`.
+- **Last modified:** 2026-04-30T15:23:36.113Z by calves
+- **File:** [`rules/by_event/subtask_completed/disclosures_preapp_credit.xml`](../rules/by_event/subtask_completed/disclosures_preapp_credit.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Retail` or `Banked - Wholesale`
+
+**Processes**
+
+1. **Request/Send Documents** (Request/Send Documents)
+   - *Condition:* none (always runs)
+   - Send document request to borrower pair `All`: Credit Score Disclosure (Standard)
+
 ### Disclosures_Withdrawn_Letter
 
 - **Status:** ACTIVE
@@ -2163,6 +3094,87 @@ Not IsEmpty([Document.DateReceived.AVM]) and
    - Send notification template `8b09da63-466f-4acb-b4a6-74c8f4fa46b3` [Failure Notice]
    - Send document request to borrower pair `All`: Withdrawn Letter (Custom) (on failure: `notificationSend1_1`)
 
+### Fail_Disclosures_PreApp_1003
+
+- **Status:** ACTIVE
+- **Tags:** `1003`, `Authorization`, `Pre-App`
+- **Trigger:** When subtask `1003_QA_10` on task `PreDisclosure_PreApproval_1003` is completed with resolution `Done`.
+- **Last modified:** 2026-02-27T21:17:06.647Z by calves
+- **File:** [`rules/by_event/subtask_completed/fail_disclosures_preapp_1003.xml`](../rules/by_event/subtask_completed/fail_disclosures_preapp_1003.xml)
+- **Trigger conditions:**
+  - Script: `[4002] = "Firstimer"`
+
+**Processes**
+
+1. **Request/Send Documents** (Request/Send Documents)
+   - *Condition:* none (always runs)
+   - Send document request to borrower pair `All`: 1003 - URLA (Standard), Borrower's Certification and Authorization (Custom)
+
+### FloodCertificateReview_Address
+
+- **Status:** ACTIVE
+- **Trigger:** When subtask `Flood Certificate Review – Address Matches System` on task `Processing_ServiceOrders_FloodCertificateReview` is completed with resolution `Done`.
+- **Last modified:** 2026-03-10T17:22:27.115Z by calves
+- **File:** [`rules/by_event/subtask_completed/floodcertificatereview_address.xml`](../rules/by_event/subtask_completed/floodcertificatereview_address.xml)
+
+**Processes**
+
+1. **Update Loan Field** (Update Loan Field)
+   - *Condition:* none (always runs)
+   - Set field `CX.FLOODADDRESSCHECK` to `now()`
+
+### Service - Flood Order Task
+
+- **Status:** ACTIVE
+- **Tags:** `Flood`, `FloodX`, `Xactus`
+- **Trigger:** When subtask `Order Flood Certificate – Submit Order` on task `Processing_ServiceOrders_OrderFloodCertificate` is completed with resolution `Done`.
+- **Last modified:** 2026-03-12T17:01:16.293Z by calves
+- **File:** [`rules/by_event/subtask_completed/service_flood_order_task.xml`](../rules/by_event/subtask_completed/service_flood_order_task.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Wholesale` or `Banked - Retail`
+  - Script: `[@3142] >= #03/01/2025#`
+
+**Processes**
+
+1. **Complete Task** (Complete Task)
+   - *Condition:* none (always runs)
+   - Complete task `Processing_ServiceOrders_OrderFloodCertificate` with resolution `Complete`
+2. **Order Service** (Order Service)
+   - *Condition:* none (always runs)
+   - Create service order using rule `5d306ccb-d142-4d47-ad01-6c8b97b38cf7`
+
+### Service_AppraisalOrder
+
+- **Status:** ACTIVE
+- **Trigger:** When subtask `Order Appraisal – Automated Order` on task `Processing_Appraisal_Ordering` is completed with resolution `Done`.
+- **Last modified:** 2026-04-20T13:44:56.362Z by calves
+- **File:** [`rules/by_event/subtask_completed/service_appraisalorder.xml`](../rules/by_event/subtask_completed/service_appraisalorder.xml)
+
+**Processes**
+
+1. **Update Enhanced Conditions Tracking Status** (Update Enhanced Conditions Tracking Status)
+   - *Condition:* none (always runs)
+   - Set `Underwriting` condition `Appraisal` to `Requested`
+2. **Order Service** (Order Service)
+   - *Condition:* none (always runs)
+   - Create service order using rule `602e8a1c-c507-43c5-af4c-af07bbc83254`
+
+### Service_FraudX
+
+- **Status:** ACTIVE
+- **Trigger:** When subtask `Order FraudX - Order` on task `Processing_ServiceOrders_FraudX` is completed with resolution `Done`.
+- **Last modified:** 2026-04-21T19:35:29.762Z by calves
+- **File:** [`rules/by_event/subtask_completed/service_fraudx.xml`](../rules/by_event/subtask_completed/service_fraudx.xml)
+
+**Processes**
+
+1. **Update Enhanced Conditions Tracking Status** (Update Enhanced Conditions Tracking Status)
+   - *Condition:* none (always runs)
+   - Set `Underwriting` condition `Fraud & OFAC Review` to `Requested`
+2. **Order Service** (Order Service)
+   - *Condition:* none (always runs)
+   - Create service order using rule `a63fd997-9e97-4717-aeed-da04eda84757`
+
 ### SubTask_AVMFailCompletion
 
 - **Status:** ACTIVE
@@ -2186,6 +3198,22 @@ Not IsEmpty([Document.DateReceived.AVM]) and
 4. **Complete Task** (Complete Task)
    - *Condition:* none (always runs)
    - Complete task `Processing_ServiceOrders_OrderAVM` with resolution `Issue`, also completing its subtasks as `NA`
+
+### SubTask_AVMSuccessCompletion
+
+- **Status:** ACTIVE
+- **Trigger:** When subtask `Order AVM – Ready to Send with Initial Docs` on task `Processing_ServiceOrders_OrderAVM` is completed with resolution `Done`.
+- **Last modified:** 2026-03-11T18:32:29.662Z by calves
+- **File:** [`rules/by_event/subtask_completed/subtask_avmsuccesscompletion.xml`](../rules/by_event/subtask_completed/subtask_avmsuccesscompletion.xml)
+
+**Processes**
+
+1. **Complete Task** (Complete Task)
+   - *Condition:* none (always runs)
+   - Complete task `Processing_ServiceOrders_OrderAVM` with resolution `Complete`, also completing its subtasks as `Done`
+2. **Update Loan Field** (Update Loan Field)
+   - *Condition:* none (always runs)
+   - Set field `CX.AVMSENDINITIALDOCS` to `Y`
 
 ### Subtask_CancelFlood
 
@@ -2350,6 +3378,22 @@ Not IsEmpty([Document.DateReceived.AVM]) and
    - Create task `PostClosingQC_DocumentProcessing_DeliverNote` (unless one already exists)
    - Create task `PostClosingQC_DocumentProcessing_DeliverMortgage` (unless one already exists)
 
+### Task_FloodRecheck
+
+- **Status:** ACTIVE
+- **Trigger:** When subtask `Flood Certificate Review – Address Mismatch Detected` on task `Processing_ServiceOrders_FloodCertificateReview` is completed with resolution `Issue`.
+- **Last modified:** 2026-04-03T13:56:15.951Z by calves
+- **File:** [`rules/by_event/subtask_completed/task_floodrecheck.xml`](../rules/by_event/subtask_completed/task_floodrecheck.xml)
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_ServiceOrders_RecheckFloodCertificate` (unless one already exists)
+2. **Apply Enhanced Conditions** (Apply Enhanced Conditions)
+   - *Condition:* none (always runs)
+   - Create `Underwriting` condition `Flood Zone Certification`
+
 ### Task_ICD_Requested
 
 - **Status:** ACTIVE
@@ -2418,7 +3462,7 @@ Not IsEmpty([Document.DateReceived.AVM]) and
    - *Condition:* none (always runs)
    - Create task `Processing_Misc_FileClosureDocuments` (unless one already exists)
 
-## Task completed (7)
+## Task completed (10)
 
 Event: `urn:elli:task:event:task:completed`
 
@@ -2439,6 +3483,35 @@ Event: `urn:elli:task:event:task:completed`
 2. **Order Service** (Order Service)
    - *Condition:* none (always runs)
    - Create service order using rule `a63fd997-9e97-4717-aeed-da04eda84757`
+
+### Task_AVMFailCompletion
+
+- **Status:** ACTIVE
+- **Trigger:** When task `Processing_ServiceOrders_OrderAVM` is completed with resolution `Issue`.
+- **Last modified:** 2026-03-12T16:25:22.719Z by calves
+- **File:** [`rules/by_event/task_completed/task_avmfailcompletion.xml`](../rules/by_event/task_completed/task_avmfailcompletion.xml)
+
+**Processes**
+
+1. **Adds Order Appraisal** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Processing_Appraisal_Order` (unless one already exists)
+2. **Completes AVM subtask on HELOC flow** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `Send Disclosures (HELOC) – Order AVM` on task `Processing_FileSetup_SendDisclosuresHELOC` with resolution `Issue`
+
+### Task_AVMSuccessCompletion
+
+- **Status:** ACTIVE
+- **Trigger:** When task `Processing_ServiceOrders_OrderAVM` is completed with resolution `Complete`.
+- **Last modified:** 2026-03-11T18:28:39.44Z by calves
+- **File:** [`rules/by_event/task_completed/task_avmsuccesscompletion.xml`](../rules/by_event/task_completed/task_avmsuccesscompletion.xml)
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `Send Disclosures (HELOC) – Order AVM` on task `Processing_FileSetup_SendDisclosuresHELOC` with resolution `Done`
 
 ### Task_ClosingDocumentQA
 
@@ -2481,6 +3554,19 @@ Event: `urn:elli:task:event:task:completed`
 1. **Create Tasks** (Create Tasks)
    - *Condition:* none (always runs)
    - Create task `PostClosingQC_DocumentProcessing_TransferToColdStorage` (unless one already exists)
+
+### Task_FloodReviewCompletionInitial
+
+- **Status:** ACTIVE
+- **Trigger:** When task `Processing_ServiceOrders_FloodCertificateReview` is completed.
+- **Last modified:** 2026-03-23T20:08:52.316Z by calves
+- **File:** [`rules/by_event/task_completed/task_floodreviewcompletioninitial.xml`](../rules/by_event/task_completed/task_floodreviewcompletioninitial.xml)
+
+**Processes**
+
+1. **Complete Sub-Task** (Complete Sub-Task)
+   - *Condition:* none (always runs)
+   - Complete subtask `Send Disclosures (HELOC) – Flood Cert` on task `Processing_FileSetup_SendDisclosuresHELOC` with resolution `Done`
 
 ### Task_FraudXReviewComplete
 
@@ -2543,7 +3629,7 @@ Event: `urn:elli:task:event:task:completed`
      - Script: `([1393] = "Application denied" OR [1393] = "Application withdrawn" OR [1393] = "File Closed for incompleteness" OR [1393] = "Application approved but not accepted")`
    - Create task `PostClosingQC_DocumentProcessing_TransferToColdStorage` (unless one already exists)
 
-## Task created (14)
+## Task created (18)
 
 Event: `urn:elli:task:event:task:created`
 
@@ -2806,6 +3892,38 @@ IsEmpty([3983])
      - Script: `IsEmpty([Document.DateReceived.1003 - URLA])`
    - Add subtask `File Closure Documents – 1003` to task `Processing_Misc_FileClosureDocuments`
 
+### Subtask_Processing_PreUndewriting
+
+- **Status:** ACTIVE
+- **Trigger:** When task `Processing_PreUnderwriting_PreUWChecklist` is created.
+- **Last modified:** 2026-03-19T16:11:31.993Z by calves
+- **File:** [`rules/by_event/task_created/subtask_processing_preundewriting.xml`](../rules/by_event/task_created/subtask_processing_preundewriting.xml)
+
+**Processes**
+
+1. **Rental** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[#FM0120] > 0 OR [#FM0220] > 0 OR [#FM0320] > 0 OR [#FM0420] > 0 OR [#FM0520] > 0 OR [#FM0620] > 0 OR [#FM0720] > 0`
+   - Add subtask `Pre-Underwriting Checklist – Rental Income` to task `Processing_PreUnderwriting_PreUWChecklist`
+2. **Purpose/Mortgage Statements** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[1401].Contains("Equity")`
+   - Add subtask `Pre-Underwriting Checklist – Verify Mortgage Statements` to task `Processing_PreUnderwriting_PreUWChecklist`
+   - Add subtask `Pre-Underwriting Checklist – Verify Purpose` to task `Processing_PreUnderwriting_PreUWChecklist`
+3. **Self Employed Income** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[FE0115] = "Y" OR [FE0215] = "Y" OR [FE0315] = "Y" OR [FE0415] = "Y" OR [FE0515] = "Y" OR [FE0615] = "Y" OR [FE0715] = "Y" OR [FE0815] = "Y"`
+   - Add subtask `Pre-Underwriting Checklist – Self-Employed Income` to task `Processing_PreUnderwriting_PreUWChecklist`
+4. **Other Income** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[#URLA.X44] > 0`
+   - Add subtask `Pre-Underwriting Checklist – Non-Traditional Income` to task `Processing_PreUnderwriting_PreUWChecklist`
+5. **Assest/AUS** (Create Sub-Task)
+   - *Condition:*
+     - Script: `NOT [1401].Contains("Equity") OR NOT ([420] = "SecondLien")`
+   - Add subtask `Pre-Underwriting Checklist – Run AUS` to task `Processing_PreUnderwriting_PreUWChecklist`
+   - Add subtask `Pre-Underwriting Checklist – Verify Assets` to task `Processing_PreUnderwriting_PreUWChecklist`
+
 ### SubTask_RecordMortgage
 
 - **Status:** ACTIVE
@@ -2941,7 +4059,96 @@ IsEmpty([3983])
    - Add subtask `Send Initial Closing Disclosure – Enter Closing Date` to task `Closing_PreClosing_SendInitialClosingDisclosure`
    - Add subtask `Send Initial Closing Disclosure – Enter CD Issue Date` to task `Closing_PreClosing_SendInitialClosingDisclosure`
 
-## Timer completed (10)
+### Task_PreApp_1003_GMI
+
+- **Status:** ACTIVE
+- **Tags:** `1003`, `Pre-Approval`, `Pre-Qualification`, `PreApp`, `Prequal`
+- **Trigger:** When task `PreDisclosure_PreApproval_1003` is created.
+- **Last modified:** 2026-02-25T16:56:11.012Z by calves
+- **File:** [`rules/by_event/task_created/task_preapp_1003_gmi.xml`](../rules/by_event/task_created/task_preapp_1003_gmi.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Retail` or `Banked - Wholesale`
+  - Script: `[11] = "TBD"`
+
+**Processes**
+
+1. **Create Sub-Task** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[1401].Contains("Land")`
+   - Add subtask `1003_QA_11` to task `PreDisclosure_PreApproval_1003`
+2. **Create Sub-Task** (Create Sub-Task)
+   - *Condition:*
+     - Script: `NOT [1401].Contains("Land")`
+   - Add subtask `1003_QA_10` to task `PreDisclosure_PreApproval_1003`
+
+### Task_QualityAssurance_InitialDocReview_1
+
+- **Status:** ACTIVE
+- **Trigger:** When task `QualityAssurance_InitialDocReview` is created.
+- **Last modified:** 2026-03-12T20:56:43.886Z by calves
+- **File:** [`rules/by_event/task_created/task_qualityassurance_initialdocreview_1.xml`](../rules/by_event/task_created/task_qualityassurance_initialdocreview_1.xml)
+
+**Processes**
+
+1. **HELOC** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[1172]="HELOC"`
+   - Add subtask `Initial Document Quality Assurance – 1003 – Demographic HELOC` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+   - Add subtask `Initial Document Quality Assurance – HELOC Important Terms Disclosure` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+2. **Non-Equity/RI Requirements** (Create Sub-Task)
+   - *Condition:*
+     - Script: `NOT [1401].Contains("Equity") AND [14]="RI"`
+   - Add subtask `Initial Document Quality Assurance – 2015 Settlement Service List` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+3. **Non-Land/HELOC** (Create Sub-Task)
+   - *Condition:*
+     - Script: `NOT [1401].Contains("Land") AND [1172]<>"HELOC"`
+   - Add subtask `Initial Document Quality Assurance – 1003 – Demographic Info Addendum` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+4. **Land** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[1401].Contains("Land")`
+   - Add subtask `Initial Document Quality Assurance – 1003 – Demographic Info Addendum Signed` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+5. **RI** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[2]="RI"`
+   - Add subtask `Initial Document Quality Assurance – RI Form 2` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+   - Add subtask `Initial Document Quality Assurance – RI Choice of Insurance` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+   - Add subtask `Initial Document Quality Assurance – RI Title Insurance Disclosure` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+   - Add subtask `Initial Document Quality Assurance – RI Appraisal Fee Notice` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+   - Add subtask `Initial Document Quality Assurance – RI Right to Copy of Appraisal` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+   - Add subtask `Initial Document Quality Assurance – RI Notice of Non-Refundability` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+   - Add subtask `Initial Document Quality Assurance – RI Form 1` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+
+### Task_QualityAssurance_InitialDocReview_2
+
+- **Status:** ACTIVE
+- **Trigger:** When task `QualityAssurance_InitialDocReview` is created.
+- **Last modified:** 2026-03-05T20:39:31.71Z by calves
+- **File:** [`rules/by_event/task_created/task_qualityassurance_initialdocreview_2.xml`](../rules/by_event/task_created/task_qualityassurance_initialdocreview_2.xml)
+
+**Processes**
+
+1. **Non-Equity** (Create Sub-Task)
+   - *Condition:*
+     - Script: `NOT [1401].Contains("Equity")`
+   - Add subtask `Initial Document Quality Assurance – Acknowledgement of Intent to Proceed` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+2. **Non-Equity/RI Requirements** (Create Sub-Task)
+   - *Condition:*
+     - Script: `NOT [1401].Contains("Equity") AND [14]="RI"`
+   - Add subtask `Initial Document Quality Assurance – 2015 Settlement Service List` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+3. **Non-Land/HELOC** (Create Sub-Task)
+   - *Condition:*
+     - Script: `NOT [1401].Contains("Land") AND [1172]<>"HELOC"`
+   - Add subtask `Initial Document Quality Assurance – 1003 – Demographic Info Addendum` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+4. **Land** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[1401].Contains("Land")`
+   - Add subtask `Initial Document Quality Assurance – 1003 – Demographic Info Addendum Signed` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+5. **Non-HELOC** (Create Sub-Task)
+   - *Condition:*
+     - Script: `[1172]<>"HELOC"`
+   - Add subtask `Initial Document Quality Assurance – Your Home Loan Toolkit` to task `QualityAssurance_InitialDocReview` (reopens the parent task)
+
+## Timer completed (15)
 
 Event: `urn:elli:timer:event:timer:completed`
 
@@ -3025,6 +4232,79 @@ Event: `urn:elli:timer:event:timer:completed`
    - *Condition:* none (always runs)
    - Create task `Processing_Misc_NOIExpiration` (unless one already exists)
 
+### NOI_Expiration_Warning
+
+- **Status:** ACTIVE
+- **Trigger:** When timer `e15124d6-14d4-4522-8ac9-9af7b7fc9b33` completes.
+- **Last modified:** 2026-05-18T19:09:37.306Z by calves
+- **File:** [`rules/by_event/timer_completed/noi_expiration_warning.xml`](../rules/by_event/timer_completed/noi_expiration_warning.xml)
+
+**Processes**
+
+1. **Start Scheduler** (Start Scheduler)
+   - *Condition:* none (always runs)
+   - Start timer `Notice of Incomplete Closure` (1b038eaa-51f7-4610-a3d0-5954f2ad56c2)
+2. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `ca4aa6d6-3968-4331-90b9-2442eb7bd8a6`
+
+### Pre-App Follow Up (15 Days) — INACTIVE
+
+- **Status:** INACTIVE
+- **Trigger:** When timer `92dbe66e-8c83-474a-bd4d-c9312ec152cd` completes.
+- **Last modified:** 2026-03-18T12:41:55.075Z by calves
+- **File:** [`rules/by_event/timer_completed/pre_app_follow_up_15_days.xml`](../rules/by_event/timer_completed/pre_app_follow_up_15_days.xml)
+- **Trigger conditions:**
+  - Script: `[@2025] >= #08/19/2024#`
+  - Script: `IsEmpty([2301]) AND NOT ([1393] = "Application denied" OR [1393] = "Application withdrawn" OR [1393] = "Preapproval request denied by financial institution" OR [1393] = "Preapproval request approved but not accepted" OR [1393] = "File Closed for incompleteness" OR [1393] = "Application approved but not accepted" OR [1393] = "Loan Originated" OR [1393] = "Loan purchased by your institution") AND [CX.LOANFOLDER] <> "Archive"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `PipelineMgt_PreApp_FollowUp15` (unless one already exists)
+2. **Sends email to LO about started file** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `371fccaa-80c3-430b-b2c8-f6285346a11d`
+
+### Pre-App Follow Up (30 Days)
+
+- **Status:** ACTIVE
+- **Trigger:** When timer `e6de40c8-2445-4d5e-a586-48ec253abe23` completes.
+- **Last modified:** 2026-02-26T14:18:36.954Z by calves
+- **File:** [`rules/by_event/timer_completed/pre_app_follow_up_30_days.xml`](../rules/by_event/timer_completed/pre_app_follow_up_30_days.xml)
+- **Trigger conditions:**
+  - Origination channel: `Banked - Retail` or `Banked - Wholesale`
+  - Script: `[@745] >= #01/20/2026#`
+  - Script: `IsEmpty([2301]) AND NOT ([1393] = "Application denied" OR [1393] = "Application withdrawn" OR [1393] = "Preapproval request denied by financial institution" OR [1393] = "Preapproval request approved but not accepted" OR [1393] = "File Closed for incompleteness" OR [1393] = "Application approved but not accepted" OR [1393] = "Loan Originated" OR [1393] = "Loan purchased by your institution") AND [CX.LOANFOLDER] <> "Archive"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `PipelineMgt_PreApp_FollowUp` (unless one already exists)
+2. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `b6edbd62-b23e-445f-835c-ba552179fffe`
+
+### PreApp Follow Up 15
+
+- **Status:** ACTIVE
+- **Trigger:** When timer `92dbe66e-8c83-474a-bd4d-c9312ec152cd` completes.
+- **Last modified:** 2026-03-26T14:42:13.34Z by calves
+- **File:** [`rules/by_event/timer_completed/preapp_follow_up_15.xml`](../rules/by_event/timer_completed/preapp_follow_up_15.xml)
+- **Trigger conditions:**
+  - Script: `IsEmpty([2301]) AND NOT ([1393] = "Application denied" OR [1393] = "Application withdrawn" OR [1393] = "Preapproval request denied by financial institution" OR [1393] = "Preapproval request approved but not accepted" OR [1393] = "File Closed for incompleteness" OR [1393] = "Application approved but not accepted" OR [1393] = "Loan Originated" OR [1393] = "Loan purchased by your institution") AND [CX.LOANFOLDER] <> "Archive" AND [11]="TBD"`
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `PipelineMgt_PreApp_FollowUp15` (unless one already exists)
+2. **Send Notification** (Send Notification)
+   - *Condition:* none (always runs)
+   - Send notification template `371fccaa-80c3-430b-b2c8-f6285346a11d`
+
 ### SchedulerCompeted_DayRefresh
 
 - **Status:** ACTIVE; high priority
@@ -3085,6 +4365,19 @@ Event: `urn:elli:timer:event:timer:completed`
    - *Condition:* none (always runs)
    - Create task `Funding_Boarding_BoardLoan` (unless one already exists)
    - Create task `Funding_FundLoan` (unless one already exists)
+
+### Task_SSRAvailableFollowUp
+
+- **Status:** ACTIVE
+- **Trigger:** When timer `c3529162-86b6-40bb-839f-fc823075980c` completes.
+- **Last modified:** 2026-04-17T18:19:58.185Z by calves
+- **File:** [`rules/by_event/timer_completed/task_ssravailablefollowup.xml`](../rules/by_event/timer_completed/task_ssravailablefollowup.xml)
+
+**Processes**
+
+1. **Create Tasks** (Create Tasks)
+   - *Condition:* none (always runs)
+   - Create task `Underwriting_Resubmittal_AppraisalReviewFollow` (unless one already exists)
 
 ### Task_Underwrite_Expired
 
