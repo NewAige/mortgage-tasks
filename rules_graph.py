@@ -610,7 +610,7 @@ def build(args):
     def cond_text(c):
         t = c.get("type")
         if t == "script":
-            return humanise_script(c.get("script", ""))
+            return re.sub(r"\s+", " ", humanise_script(c.get("script", ""))).strip()
         if t == "originationChannels":
             return "loan channel is " + join_and(c.get("originationChannels", []), "or")
         if t == "requiredDocuments":
@@ -623,7 +623,7 @@ def build(args):
         return t or "condition"
 
     def cond_raw(c):
-        return c.get("script") if c.get("type") == "script" else cond_text(c)
+        return re.sub(r"\s+", " ", c.get("script") or "").strip() if c.get("type") == "script" else cond_text(c)
 
     # ---- 4. rule nodes ----------------------------------------------------------------------------
     for rid, r in rules_by_id.items():
@@ -757,7 +757,7 @@ def build(args):
                        ruleId=rid, ruleName=r["name"], event=r["eventSlug"], processId=pid, processName=pname,
                        resolution=None, conditions=script, conditionsText=humanise_script(script),
                        via="document" if docfield else "field",
-                       sentence="Encompass checks %s %s (condition: %s)." % (what, where, humanise_script(script)),
+                       sentence="Encompass checks %s %s (condition: %s)." % (what, where, re.sub(r"\s+", " ", humanise_script(script)).strip()),
                        brokenRef=False, inactive=r["status"] != "ACTIVE")
 
     # ---- 8. enters edges (events driven from outside the rules) ---------------------------------------------

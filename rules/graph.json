@@ -466,7 +466,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the DateOrdered date of the 1003 - URLA document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the DateOrdered date of the 1003 - URLA document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "document:1003 - URLA",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "document"
@@ -502,7 +502,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the DateOrdered date of the 1003 - URLA document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the DateOrdered date of the 1003 - URLA document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "document:1003 - URLA",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "document"
@@ -538,7 +538,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the DateOrdered date of the 1003 - URLA document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the DateOrdered date of the 1003 - URLA document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "document:1003 - URLA",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "document"
@@ -592,7 +592,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the DateReceived date of the AVM document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the DateReceived date of the AVM document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "document:AVM",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "document"
@@ -628,7 +628,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the DateReceived date of the AVM document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the DateReceived date of the AVM document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "document:AVM",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "document"
@@ -646,7 +646,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the DateReceived date of the AVM document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the DateReceived date of the AVM document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "document:AVM",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "document"
@@ -754,7 +754,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the DateReceived date of the CreditReport document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the DateReceived date of the CreditReport document before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "document:CreditReport",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "document"
@@ -1150,7 +1150,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 1041 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 1041 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:1041",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -1168,7 +1168,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 1041 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 1041 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:1041",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -1636,7 +1636,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 1172 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 1172 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:1172",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -1672,7 +1672,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 1172 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 1172 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:1172",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -1708,7 +1708,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 1172 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 1172 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:1172",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -1978,7 +1978,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 13 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 13 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:13",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -1996,7 +1996,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 13 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 13 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:13",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2194,7 +2194,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "field:1401",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -2212,7 +2212,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983])).",
+   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])).",
    "source": "field:1401",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -2230,7 +2230,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983]))).",
+   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))).",
    "source": "field:1401",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -2248,7 +2248,7 @@
    "resolution": null,
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))).",
+   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") ))).",
    "source": "field:1401",
    "target": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "via": "field"
@@ -2266,7 +2266,7 @@
    "resolution": null,
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "field:1401",
    "target": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "via": "field"
@@ -2302,7 +2302,7 @@
    "resolution": null,
    "ruleId": "5438f65c-5778-49c8-bb3e-a560d1eedefa",
    "ruleName": "SubTask_TitleOrderEquity",
-   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"SubTask_TitleOrderEquity\" runs (condition: (([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\"))  AND [1401].Contains(\"Equity\")).",
+   "sentence": "Encompass checks the loan field 1401 before the \"Create Sub-Task\" step of the rule \"SubTask_TitleOrderEquity\" runs (condition: (([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\")) AND [1401].Contains(\"Equity\")).",
    "source": "field:1401",
    "target": "rule:5438f65c-5778-49c8-bb3e-a560d1eedefa",
    "via": "field"
@@ -2464,7 +2464,7 @@
    "resolution": null,
    "ruleId": "e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "ruleName": "Processor/Underwriter Assign (Retail)",
-   "sentence": "Encompass checks the loan field 1401 before the \"Assign Role\" step of the rule \"Processor/Underwriter Assign (Retail)\" runs (condition: ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ).",
+   "sentence": "Encompass checks the loan field 1401 before the \"Assign Role\" step of the rule \"Processor/Underwriter Assign (Retail)\" runs (condition: ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")).",
    "source": "field:1401",
    "target": "rule:e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "via": "field"
@@ -2500,7 +2500,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 14 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 14 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:14",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2518,7 +2518,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 14 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 14 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:14",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2590,7 +2590,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 16 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 16 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:16",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2608,7 +2608,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 16 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 16 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:16",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2644,7 +2644,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 1811 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 1811 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:1811",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2662,7 +2662,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 1811 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 1811 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:1811",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2734,7 +2734,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 19 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 19 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:19",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -2752,7 +2752,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field 19 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field 19 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:19",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -3058,7 +3058,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 3152 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 3152 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:3152",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -3094,7 +3094,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 3152 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 3152 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:3152",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -3130,7 +3130,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 3152 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 3152 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:3152",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -3256,7 +3256,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 3983 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983])).",
+   "sentence": "Encompass checks the loan field 3983 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])).",
    "source": "field:3983",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -3274,7 +3274,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 3983 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983]))).",
+   "sentence": "Encompass checks the loan field 3983 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))).",
    "source": "field:3983",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -3526,7 +3526,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "field:420",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -3544,7 +3544,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983])).",
+   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])).",
    "source": "field:420",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -3562,7 +3562,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983]))).",
+   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))).",
    "source": "field:420",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -3580,7 +3580,7 @@
    "resolution": null,
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))).",
+   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") ))).",
    "source": "field:420",
    "target": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "via": "field"
@@ -3598,7 +3598,7 @@
    "resolution": null,
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "Encompass checks the loan field 420 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "field:420",
    "target": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "via": "field"
@@ -3688,7 +3688,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 420 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 420 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:420",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -3724,7 +3724,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 420 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 420 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:420",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -3742,7 +3742,7 @@
    "resolution": null,
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "Encompass checks the loan field 420 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "Encompass checks the loan field 420 before the \"Request/Send Documents\" step of the rule \"Disclosures_Withdrawn_Letter\" runs (condition: Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "field:420",
    "target": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "via": "field"
@@ -4138,7 +4138,7 @@
    "resolution": null,
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "Encompass checks the loan field 748 before the \"Send Notification\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "Encompass checks the loan field 748 before the \"Send Notification\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "field:748",
    "target": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "via": "field"
@@ -4156,7 +4156,7 @@
    "resolution": null,
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "Encompass checks the loan field 748 before the \"Create Tasks\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "Encompass checks the loan field 748 before the \"Create Tasks\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "field:748",
    "target": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "via": "field"
@@ -4318,7 +4318,7 @@
    "resolution": null,
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "Encompass checks the loan field @2302 before the \"Send Notification\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "Encompass checks the loan field @2302 before the \"Send Notification\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "field:@2302",
    "target": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "via": "field"
@@ -4336,7 +4336,7 @@
    "resolution": null,
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "Encompass checks the loan field @2302 before the \"Create Tasks\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "Encompass checks the loan field @2302 before the \"Create Tasks\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "field:@2302",
    "target": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "via": "field"
@@ -4516,7 +4516,7 @@
    "resolution": null,
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "Encompass checks the loan field @748 before the \"Send Notification\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "Encompass checks the loan field @748 before the \"Send Notification\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "field:@748",
    "target": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "via": "field"
@@ -4534,7 +4534,7 @@
    "resolution": null,
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "Encompass checks the loan field @748 before the \"Create Tasks\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "Encompass checks the loan field @748 before the \"Create Tasks\" step of the rule \"Task_Underwrite_Expired\" runs (condition: Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "field:@748",
    "target": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "via": "field"
@@ -4696,7 +4696,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field CX.APPRAISALQUOTE before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field CX.APPRAISALQUOTE before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:CX.APPRAISALQUOTE",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -4714,7 +4714,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field CX.APPRAISALQUOTE before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field CX.APPRAISALQUOTE before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:CX.APPRAISALQUOTE",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -6892,7 +6892,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "field:LE1.X4",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -6910,7 +6910,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983])).",
+   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])).",
    "source": "field:LE1.X4",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -6928,7 +6928,7 @@
    "resolution": null,
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983]))).",
+   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Denial\" runs (condition: NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))).",
    "source": "field:LE1.X4",
    "target": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "via": "field"
@@ -6946,7 +6946,7 @@
    "resolution": null,
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))).",
+   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") ))).",
    "source": "field:LE1.X4",
    "target": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "via": "field"
@@ -6964,7 +6964,7 @@
    "resolution": null,
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "Encompass checks the loan field LE1.X4 before the \"Create Sub-Task\" step of the rule \"Subtask_Counter\" runs (condition: NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "field:LE1.X4",
    "target": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "via": "field"
@@ -7036,7 +7036,7 @@
    "resolution": null,
    "ruleId": "e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "ruleName": "Processor/Underwriter Assign (Retail)",
-   "sentence": "Encompass checks the loan field LoanTeamMember.Name.Loan Officer before the \"Assign Role\" step of the rule \"Processor/Underwriter Assign (Retail)\" runs (condition: [LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR  [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")).",
+   "sentence": "Encompass checks the loan field LoanTeamMember.Name.Loan Officer before the \"Assign Role\" step of the rule \"Processor/Underwriter Assign (Retail)\" runs (condition: [LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")).",
    "source": "field:LoanTeamMember.Name.Loan Officer",
    "target": "rule:e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "via": "field"
@@ -7090,7 +7090,7 @@
    "resolution": null,
    "ruleId": "e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "ruleName": "Processor/Underwriter Assign (Retail)",
-   "sentence": "Encompass checks the loan field LoanTeamMember.Name.Loan Officer before the \"Assign Role\" step of the rule \"Processor/Underwriter Assign (Retail)\" runs (condition: ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ).",
+   "sentence": "Encompass checks the loan field LoanTeamMember.Name.Loan Officer before the \"Assign Role\" step of the rule \"Processor/Underwriter Assign (Retail)\" runs (condition: ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")).",
    "source": "field:LoanTeamMember.Name.Loan Officer",
    "target": "rule:e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "via": "field"
@@ -7108,7 +7108,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field ULDD.X220 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field ULDD.X220 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:ULDD.X220",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -7126,7 +7126,7 @@
    "resolution": null,
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "Encompass checks the loan field ULDD.X220 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "Encompass checks the loan field ULDD.X220 before the \"Create Sub-Task\" step of the rule \"SubTask_AppraisalOrder\" runs (condition: ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "field:ULDD.X220",
    "target": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "via": "field"
@@ -7162,7 +7162,7 @@
    "resolution": null,
    "ruleId": "5438f65c-5778-49c8-bb3e-a560d1eedefa",
    "ruleName": "SubTask_TitleOrderEquity",
-   "sentence": "Encompass checks the loan field URLA.X140 before the \"Create Sub-Task\" step of the rule \"SubTask_TitleOrderEquity\" runs (condition: (([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\"))  AND [1401].Contains(\"Equity\")).",
+   "sentence": "Encompass checks the loan field URLA.X140 before the \"Create Sub-Task\" step of the rule \"SubTask_TitleOrderEquity\" runs (condition: (([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\")) AND [1401].Contains(\"Equity\")).",
    "source": "field:URLA.X140",
    "target": "rule:5438f65c-5778-49c8-bb3e-a560d1eedefa",
    "via": "field"
@@ -14406,8 +14406,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)",
-   "conditionsText": "([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)",
+   "conditions": "([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )",
+   "conditionsText": "([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )",
    "effect": "subtask:create",
    "effectIndex": 0,
    "event": "task_created",
@@ -14422,14 +14422,14 @@
    "ruleConditions": "",
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "When Order Appraisal is created, Encompass adds the subtask Order Appraisal – Manual Order (only if ([ULDD.X220] = \"Y\") OR\nNOT (\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "When Order Appraisal is created, Encompass adds the subtask Order Appraisal – Manual Order (only if ([ULDD.X220] = \"Y\") OR NOT ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "target": "subtask:Processing_Appraisal_Ordering|Order Appraisal – Manual Order"
   },
   {
    "brokenRef": false,
-   "conditions": "([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)",
-   "conditionsText": "([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)",
+   "conditions": "([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )",
+   "conditionsText": "([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )",
    "effect": "subtask:create",
    "effectIndex": 1,
    "event": "task_created",
@@ -14444,7 +14444,7 @@
    "ruleConditions": "",
    "ruleId": "31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "ruleName": "SubTask_AppraisalOrder",
-   "sentence": "When Order Appraisal is created, Encompass adds the subtask Order Appraisal – Automated Order (only if ([ULDD.X220] <> \"Y\") AND\n(\n  (\n    [CX.APPRAISALQUOTE] = \"Yes\"\n    AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND ([19] <> \"Purchase\" OR [#16] = 1)\n  )\n  OR\n  (\n    [CX.APPRAISALQUOTE] <> \"Yes\"\n    AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\"))\n    AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\")\n    AND (\n      (\n        ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] = 1\n        AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\")\n      )\n      OR\n      (\n        ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\")\n        AND [#16] > 1\n      )\n    )\n  )\n)).",
+   "sentence": "When Order Appraisal is created, Encompass adds the subtask Order Appraisal – Automated Order (only if ([ULDD.X220] <> \"Y\") AND ( ( [CX.APPRAISALQUOTE] = \"Yes\" AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ([19] <> \"Purchase\" OR [#16] = 1) ) OR ( [CX.APPRAISALQUOTE] <> \"Yes\" AND ([14] = \"RI\" OR ([14] = \"MA\" AND [13] = \"Bristol\")) AND ([1041] = \"Attached\" OR [1041] = \"Detached\" OR [1041] = \"PUD\") AND ( ( ([19] = \"Purchase\" OR [19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] = 1 AND ([1811] = \"PrimaryResidence\" OR [1811] = \"SecondHome\") ) OR ( ([19] = \"NoCash-Out Refinance\" OR [19] = \"Cash-Out Refinance\") AND [#16] > 1 ) ) ) )).",
    "source": "rule:31abbed8-7d8b-4ded-96bd-039e3ae243c8",
    "target": "subtask:Processing_Appraisal_Ordering|Order Appraisal – Automated Order"
   },
@@ -16052,8 +16052,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983]))",
-   "conditionsText": "NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983]))",
+   "conditions": "NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))",
+   "conditionsText": "NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))",
    "effect": "subtask:create",
    "effectIndex": 0,
    "event": "task_created",
@@ -16068,7 +16068,7 @@
    "ruleConditions": "",
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "When Send Denial is created, Encompass adds the subtask Send Denial – Send Counteroffer Electronically (only if NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983]))).",
+   "sentence": "When Send Denial is created, Encompass adds the subtask Send Denial – Send Counteroffer Electronically (only if NOT((NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983]))).",
    "source": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "target": "subtask:Processing_Misc_SendDenial|Send Denial – Send Counteroffer Electronically"
   },
@@ -16140,8 +16140,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)",
-   "conditionsText": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)",
+   "conditions": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )",
+   "conditionsText": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )",
    "effect": "subtask:create",
    "effectIndex": 4,
    "event": "task_created",
@@ -16156,14 +16156,14 @@
    "ruleConditions": "",
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "When Send Denial is created, Encompass adds the subtask Send Denial – MA Review Board Form (only if NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "When Send Denial is created, Encompass adds the subtask Send Denial – MA Review Board Form (only if NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "target": "subtask:Processing_Misc_SendDenial|Send Denial – MA Review Board Form"
   },
   {
    "brokenRef": false,
-   "conditions": "(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983])",
-   "conditionsText": "(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983])",
+   "conditions": "(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])",
+   "conditionsText": "(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])",
    "effect": "subtask:create",
    "effectIndex": 5,
    "event": "task_created",
@@ -16178,7 +16178,7 @@
    "ruleConditions": "",
    "ruleId": "4e553e1a-4321-468b-be91-76dc624198ad",
    "ruleName": "Subtask_Denial",
-   "sentence": "When Send Denial is created, Encompass adds the subtask Send Denial – Mail Counteroffer (only if (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))\nOR\n\nIsEmpty([3983])).",
+   "sentence": "When Send Denial is created, Encompass adds the subtask Send Denial – Mail Counteroffer (only if (NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )) OR IsEmpty([3983])).",
    "source": "rule:4e553e1a-4321-468b-be91-76dc624198ad",
    "target": "subtask:Processing_Misc_SendDenial|Send Denial – Mail Counteroffer"
   },
@@ -16258,8 +16258,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))",
-   "conditionsText": "[CX.COUNTEROFFER] = \"Y\" and NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))",
+   "conditions": "NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") ))",
+   "conditionsText": "[CX.COUNTEROFFER] = \"Y\" and NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") ))",
    "effect": "subtask:create",
    "effectIndex": 0,
    "event": "task_created",
@@ -16274,14 +16274,14 @@
    "ruleConditions": "[CX.COUNTEROFFER] = \"Y\"",
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "When Send Counteroffer is created, Encompass adds the subtask Send Counteroffer – Send Counteroffer Electronically (only if [CX.COUNTEROFFER] = \"Y\" and NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n))).",
+   "sentence": "When Send Counteroffer is created, Encompass adds the subtask Send Counteroffer – Send Counteroffer Electronically (only if [CX.COUNTEROFFER] = \"Y\" and NOT(NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") ))).",
    "source": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "target": "subtask:Underwriting_Misc_SendCounteroffer|Send Counteroffer – Send Counteroffer Electronically"
   },
   {
    "brokenRef": false,
-   "conditions": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)",
-   "conditionsText": "[CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)",
+   "conditions": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )",
+   "conditionsText": "[CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )",
    "effect": "subtask:create",
    "effectIndex": 1,
    "event": "task_created",
@@ -16296,14 +16296,14 @@
    "ruleConditions": "[CX.COUNTEROFFER] = \"Y\"",
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "When Send Counteroffer is created, Encompass adds the subtask Send Counteroffer – MA Review Form Board Required (only if [CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "When Send Counteroffer is created, Encompass adds the subtask Send Counteroffer – MA Review Form Board Required (only if [CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "target": "subtask:Underwriting_Misc_SendCounteroffer|Send Counteroffer – MA Review Form Board Required"
   },
   {
    "brokenRef": false,
-   "conditions": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)",
-   "conditionsText": "[CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)",
+   "conditions": "NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )",
+   "conditionsText": "[CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )",
    "effect": "subtask:create",
    "effectIndex": 2,
    "event": "task_created",
@@ -16318,7 +16318,7 @@
    "ruleConditions": "[CX.COUNTEROFFER] = \"Y\"",
    "ruleId": "526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "ruleName": "Subtask_Counter",
-   "sentence": "When Send Counteroffer is created, Encompass adds the subtask Send Counteroffer – Mail Counteroffer (only if [CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and\n(\n  NOT [1401].Contains(\"Equity\")\n  or\n  ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\")\n)).",
+   "sentence": "When Send Counteroffer is created, Encompass adds the subtask Send Counteroffer – Mail Counteroffer (only if [CX.COUNTEROFFER] = \"Y\" and NOT ([1401] = \"MassHousing\" and [420] = \"Second Lien\") and ( NOT [1401].Contains(\"Equity\") or ([420] = \"First Lien\" and [1401].Contains(\"Equity\") and [LE1.X4] = \"Refinance\") )).",
    "source": "rule:526333dc-b8bc-493b-92c4-4d20ea0cca6f",
    "target": "subtask:Underwriting_Misc_SendCounteroffer|Send Counteroffer – Mail Counteroffer"
   },
@@ -16370,8 +16370,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "(([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\"))  AND [1401].Contains(\"Equity\")",
-   "conditionsText": "(([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\"))  AND [1401].Contains(\"Equity\")",
+   "conditions": "(([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\")) AND [1401].Contains(\"Equity\")",
+   "conditionsText": "(([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\")) AND [1401].Contains(\"Equity\")",
    "effect": "subtask:create",
    "effectIndex": 0,
    "event": "task_created",
@@ -16386,7 +16386,7 @@
    "ruleConditions": "",
    "ruleId": "5438f65c-5778-49c8-bb3e-a560d1eedefa",
    "ruleName": "SubTask_TitleOrderEquity",
-   "sentence": "When Order Title is created, Encompass adds the subtask Order Title – Order Title Ownership Report – Equity Attorney (Trust) (only if (([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\"))  AND [1401].Contains(\"Equity\")).",
+   "sentence": "When Order Title is created, Encompass adds the subtask Order Title – Order Title Ownership Report – Equity Attorney (Trust) (only if (([URLA.X140] = \"LandTrust\" OR [URLA.X140] = \"LivingTrust\")) AND [1401].Contains(\"Equity\")).",
    "source": "rule:5438f65c-5778-49c8-bb3e-a560d1eedefa",
    "target": "subtask:Processing_ServiceOrders_OrderTitle|Order Title – Order Title Ownership Report – Equity Attorney (Trust)"
   },
@@ -21998,8 +21998,8 @@
   {
    "assignee": "lgullon",
    "brokenRef": false,
-   "conditions": "[LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR  [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")",
-   "conditionsText": "[LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR  [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")",
+   "conditions": "[LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")",
+   "conditionsText": "[LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")",
    "effect": "role:assign",
    "effectIndex": 0,
    "event": "loan_created",
@@ -22017,15 +22017,15 @@
    "ruleConditions": "",
    "ruleId": "e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "ruleName": "Processor/Underwriter Assign (Retail)",
-   "sentence": "When a loan is created, Encompass assigns lgullon to the Loan Processor role (only if [LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR  [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")).",
+   "sentence": "When a loan is created, Encompass assigns lgullon to the Loan Processor role (only if [LoanTeamMember.Name.Loan Officer].Contains(\"Galloway\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Rojas\")).",
    "source": "rule:e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "target": "external:role"
   },
   {
    "assignee": "daguiar",
    "brokenRef": false,
-   "conditions": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ",
-   "conditionsText": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ",
+   "conditions": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")",
+   "conditionsText": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")",
    "effect": "role:assign",
    "effectIndex": 1,
    "event": "loan_created",
@@ -22043,15 +22043,15 @@
    "ruleConditions": "",
    "ruleId": "e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "ruleName": "Processor/Underwriter Assign (Retail)",
-   "sentence": "When a loan is created, Encompass assigns daguiar to the Underwriter role (only if ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ).",
+   "sentence": "When a loan is created, Encompass assigns daguiar to the Underwriter role (only if ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")).",
    "source": "rule:e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "target": "external:role"
   },
   {
    "assignee": "daguiar",
    "brokenRef": false,
-   "conditions": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ",
-   "conditionsText": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ",
+   "conditions": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")",
+   "conditionsText": "([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")",
    "effect": "role:assign",
    "effectIndex": 2,
    "event": "loan_created",
@@ -22069,7 +22069,7 @@
    "ruleConditions": "",
    "ruleId": "e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "ruleName": "Processor/Underwriter Assign (Retail)",
-   "sentence": "When a loan is created, Encompass assigns daguiar to the Loan Processor role (only if ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\") ).",
+   "sentence": "When a loan is created, Encompass assigns daguiar to the Loan Processor role (only if ([LoanTeamMember.Name.Loan Officer].Contains(\"Estrela\") OR [LoanTeamMember.Name.Loan Officer].Contains(\"Northrup\")) AND [1401] .Contains(\"Equity\")).",
    "source": "rule:e1b2333f-0bd2-4d5e-bfda-36da292084f4",
    "target": "external:role"
   },
@@ -22390,8 +22390,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "Not IsEmpty([748]) AND [@748] >=  [@2302]",
-   "conditionsText": "([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >=  [@2302]",
+   "conditions": "Not IsEmpty([748]) AND [@748] >= [@2302]",
+   "conditionsText": "([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >= [@2302]",
    "effect": "notification:send",
    "effectIndex": 0,
    "event": "timer_completed",
@@ -22406,7 +22406,7 @@
    "ruleConditions": "([1393] = \"Active Loan\")",
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "When the Approval Expiration timer runs out, Encompass sends the notification \"Approval expired / extended notice\" (only if ([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "When the Approval Expiration timer runs out, Encompass sends the notification \"Approval expired / extended notice\" (only if ([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "target": "external:notification",
    "targetLabel": "Approval expired / extended notice",
@@ -22414,8 +22414,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "Not IsEmpty([748]) AND [@748] >=  [@2302]",
-   "conditionsText": "([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >=  [@2302]",
+   "conditions": "Not IsEmpty([748]) AND [@748] >= [@2302]",
+   "conditionsText": "([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >= [@2302]",
    "effect": "task:create",
    "effectIndex": 1,
    "event": "timer_completed",
@@ -22431,7 +22431,7 @@
    "ruleConditions": "([1393] = \"Active Loan\")",
    "ruleId": "e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "ruleName": "Task_Underwrite_Expired",
-   "sentence": "When the Approval Expiration timer runs out, Encompass creates the task Underwrite (only if ([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >=  [@2302]).",
+   "sentence": "When the Approval Expiration timer runs out, Encompass creates the task Underwrite (only if ([1393] = \"Active Loan\") and Not IsEmpty([748]) AND [@748] >= [@2302]).",
    "source": "rule:e895e4a8-c4d7-4dab-b014-fd4157e2e23b",
    "target": "task:Underwriting_Submittal_Underwrite"
   },
@@ -22626,8 +22626,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
-   "conditionsText": "IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
+   "conditions": "IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
+   "conditionsText": "IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
    "effect": "notification:send",
    "effectIndex": 0,
    "event": "subtask_completed",
@@ -22642,7 +22642,7 @@
    "ruleConditions": "",
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends the notification (template 8b09da63) (only if IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "target": "external:notification",
    "targetLabel": "",
@@ -22651,8 +22651,8 @@
   {
    "borrowerPair": "All",
    "brokenRef": false,
-   "conditions": "IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
-   "conditionsText": "IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
+   "conditions": "IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
+   "conditionsText": "IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
    "documents": [
     "1003 - URLA",
     "Notice to Right to Copy of Appraisal",
@@ -22672,7 +22672,7 @@
    "ruleConditions": "",
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends 1003 - URLA, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if IsEmpty([Document.DateReceived.AVM]) \nand IsEmpty([Document.DateReceived.CreditReport])\nand [420] = \"FirstLien\" \nand (\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") \n  or \n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends 1003 - URLA, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if IsEmpty([Document.DateReceived.AVM]) and IsEmpty([Document.DateReceived.CreditReport]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "target": "external:docRequest"
   },
@@ -22728,8 +22728,8 @@
   },
   {
    "brokenRef": false,
-   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
-   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
+   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
+   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
    "effect": "notification:send",
    "effectIndex": 2,
    "event": "subtask_completed",
@@ -22744,7 +22744,7 @@
    "ruleConditions": "",
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "target": "external:notification",
    "targetLabel": "",
@@ -22753,8 +22753,8 @@
   {
    "borrowerPair": "All",
    "brokenRef": false,
-   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
-   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
+   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
+   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
    "documents": [
     "1003 - URLA",
     "Appraisal Report Acknowledgement (AVM)",
@@ -22777,14 +22777,14 @@
    "ruleConditions": "",
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends 1003 - URLA, Appraisal Report Acknowledgement (AVM), AVM, Credit Score Disclosure, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and\n[420] = \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends 1003 - URLA, Appraisal Report Acknowledgement (AVM), AVM, Credit Score Disclosure, Notice to Right to Copy of Appraisal and Withdrawn Letter to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] = \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "target": "external:docRequest"
   },
   {
    "brokenRef": false,
-   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
-   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
+   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
+   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
    "effect": "notification:send",
    "effectIndex": 4,
    "event": "subtask_completed",
@@ -22799,7 +22799,7 @@
    "ruleConditions": "",
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends the notification (template 8b09da63) (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "target": "external:notification",
    "targetLabel": "",
@@ -22808,8 +22808,8 @@
   {
    "borrowerPair": "All",
    "brokenRef": false,
-   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
-   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)",
+   "conditions": "Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
+   "conditionsText": "Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )",
    "documents": [
     "1003 - URLA",
     "Credit Score Disclosure",
@@ -22831,7 +22831,7 @@
    "ruleConditions": "",
    "ruleId": "f3783683-5009-49e3-adf8-69c9fed873b6",
    "ruleName": "Disclosures_Withdrawn_Letter",
-   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends 1003 - URLA, Credit Score Disclosure, Withdrawn Letter, AVM and Appraisal Report Acknowledgement (AVM) to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and\n[420] <> \"FirstLien\" and\n(\n  (IsEmpty([3152]) and [1172] <> \"HELOC\") or\n  ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA]))\n)).",
+   "sentence": "When Withdraw Loan – Send Withdrawal Notice is marked Done, Encompass sends 1003 - URLA, Credit Score Disclosure, Withdrawn Letter, AVM and Appraisal Report Acknowledgement (AVM) to the borrower (only if Not IsEmpty([Document.DateReceived.AVM]) and [420] <> \"FirstLien\" and ( (IsEmpty([3152]) and [1172] <> \"HELOC\") or ([1172] = \"HELOC\" and IsEmpty([Document.DateOrdered.1003 - URLA])) )).",
    "source": "rule:f3783683-5009-49e3-adf8-69c9fed873b6",
    "target": "external:docRequest"
   },
