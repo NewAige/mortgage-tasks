@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?><eventTriggers><eventTrigger><id>31abbed8-7d8b-4ded-96bd-039e3ae243c8</id><name>SubTask_AppraisalOrder</name><description>Task Created</description><type>USER</type><createdVia>API</createdVia><triggerEvent>urn:elli:task:event:task:created</triggerEvent><execution>ALL</execution><status>ACTIVE</status><eventName>Task Created</eventName><highPriorityFlag>false</highPriorityFlag><allowManualTrigger>false</allowManualTrigger><isInvalid>false</isInvalid><invalidCategory></invalidCategory><created>2026-07-17T16:40:39.388Z</created><createdBy>calves</createdBy><lastModified>2026-10-14T16:40:59.598Z</lastModified><lastModifiedBy>calves</lastModifiedBy><eventFilters><eventFilter><operator>AND</operator><terms><term><variable>{{event.payload.type}}</variable><operator>EQUAL_TO</operator><value>Processing_Appraisal_Ordering</value></term></terms></eventFilter></eventFilters><workflowProcesses><workflowProcess><processId>af96d62e-b8b1-406a-bb4f-86142c9e0c9c</processId><processKey>process69450aee-0f8d-46f8-b3c3-b803fcd8c2c2</processKey><description>Create Sub-Task</description><configurationDescription>Manual Order</configurationDescription><steps><subtaskCreate1><stepType>action</stepType><supportMultiResults>false</supportMultiResults><invalidCategory></invalidCategory><action>urn:elli:task:action:subtask:create</action><isInvalid>false</isInvalid><parameters><taskTemplateType>Processing_Appraisal_Ordering</taskTemplateType><type>Order Appraisal – Manual Order</type><taskTemplateId>3544a511-d6a1-486c-8588-7c3f95816248</taskTemplateId></parameters></subtaskCreate1></steps><id>af96d62e-b8b1-406a-bb4f-86142c9e0c9c</id><created>2026-07-17T16:58:05.186Z</created><createdBy>calves</createdBy><lastModified>2026-10-14T16:40:58.994Z</lastModified><lastModifiedBy>calves</lastModifiedBy><clientId>3011200828</clientId><isInvalid>false</isInvalid><invalidCategory></invalidCategory><conditions><condition><type>script</type><provider>urn:elli:encompass:decision:provider</provider><parameters><script>([ULDD.X220] = "Y") OR
+NOT (
+  (
+    [CX.APPRAISALQUOTE] = "Yes"
+    AND ([1811] = "PrimaryResidence" OR [1811] = "SecondHome")
+    AND ([1041] = "Attached" OR [1041] = "Detached" OR [1041] = "PUD")
+    AND ([19] &lt;&gt; "Purchase" OR [#16] = 1)
+  )
+  OR
+  (
+    [CX.APPRAISALQUOTE] &lt;&gt; "Yes"
+    AND ([14] = "RI" OR ([14] = "MA" AND [13] = "Bristol"))
+    AND ([1041] = "Attached" OR [1041] = "Detached" OR [1041] = "PUD")
+    AND (
+      (
+        ([19] = "Purchase" OR [19] = "NoCash-Out Refinance" OR [19] = "Cash-Out Refinance")
+        AND [#16] = 1
+        AND ([1811] = "PrimaryResidence" OR [1811] = "SecondHome")
+      )
+      OR
+      (
+        ([19] = "NoCash-Out Refinance" OR [19] = "Cash-Out Refinance")
+        AND [#16] > 1
+      )
+    )
+  )
+)</script></parameters></condition></conditions><initialSteps><initialStep>subtaskCreate1</initialStep></initialSteps></workflowProcess><workflowProcess><processId>bcdd2f82-79be-4744-9cca-987cd4634c54</processId><processKey>process23ac3733-fb8e-498d-8066-d5591a6dc2f3</processKey><description>Create Sub-Task</description><configurationDescription>Auto Order</configurationDescription><steps><subtaskCreate1><stepType>action</stepType><supportMultiResults>false</supportMultiResults><invalidCategory></invalidCategory><action>urn:elli:task:action:subtask:create</action><isInvalid>false</isInvalid><parameters><taskTemplateType>Processing_Appraisal_Ordering</taskTemplateType><type>Order Appraisal – Automated Order</type><taskTemplateId>3544a511-d6a1-486c-8588-7c3f95816248</taskTemplateId></parameters></subtaskCreate1></steps><id>bcdd2f82-79be-4744-9cca-987cd4634c54</id><created>2026-07-17T16:56:27.121Z</created><createdBy>calves</createdBy><lastModified>2026-10-14T16:40:59.021Z</lastModified><lastModifiedBy>calves</lastModifiedBy><clientId>3011200828</clientId><isInvalid>false</isInvalid><invalidCategory></invalidCategory><conditions><condition><type>script</type><provider>urn:elli:encompass:decision:provider</provider><parameters><script>([ULDD.X220] &lt;&gt; "Y") AND
+(
+  (
+    [CX.APPRAISALQUOTE] = "Yes"
+    AND ([1811] = "PrimaryResidence" OR [1811] = "SecondHome")
+    AND ([1041] = "Attached" OR [1041] = "Detached" OR [1041] = "PUD")
+    AND ([19] &lt;&gt; "Purchase" OR [#16] = 1)
+  )
+  OR
+  (
+    [CX.APPRAISALQUOTE] &lt;&gt; "Yes"
+    AND ([14] = "RI" OR ([14] = "MA" AND [13] = "Bristol"))
+    AND ([1041] = "Attached" OR [1041] = "Detached" OR [1041] = "PUD")
+    AND (
+      (
+        ([19] = "Purchase" OR [19] = "NoCash-Out Refinance" OR [19] = "Cash-Out Refinance")
+        AND [#16] = 1
+        AND ([1811] = "PrimaryResidence" OR [1811] = "SecondHome")
+      )
+      OR
+      (
+        ([19] = "NoCash-Out Refinance" OR [19] = "Cash-Out Refinance")
+        AND [#16] > 1
+      )
+    )
+  )
+)</script></parameters></condition></conditions><initialSteps><initialStep>subtaskCreate1</initialStep></initialSteps></workflowProcess><workflowProcess><processId>9a1a7a15-0730-4566-9f3f-5d44c26e13ff</processId><processKey>processff92689c-4f11-48f5-864c-8b139ca33138</processKey><description>Create Sub-Task</description><configurationDescription>Order Assignment</configurationDescription><steps><subtaskCreate1><stepType>action</stepType><supportMultiResults>false</supportMultiResults><invalidCategory></invalidCategory><action>urn:elli:task:action:subtask:create</action><isInvalid>false</isInvalid><parameters><taskTemplateType>Processing_Appraisal_Ordering</taskTemplateType><type>Order Appraisal – Quote Assignment</type><taskTemplateId>3544a511-d6a1-486c-8588-7c3f95816248</taskTemplateId></parameters></subtaskCreate1></steps><id>9a1a7a15-0730-4566-9f3f-5d44c26e13ff</id><created>2026-07-17T16:40:38.982Z</created><createdBy>calves</createdBy><lastModified>2026-07-17T16:56:27.52Z</lastModified><lastModifiedBy>calves</lastModifiedBy><clientId>3011200828</clientId><isInvalid>false</isInvalid><invalidCategory></invalidCategory><conditions><condition><type>script</type><provider>urn:elli:encompass:decision:provider</provider><parameters><script>([CX.APPRAISALQUOTE] = "Yes")</script></parameters></condition></conditions><initialSteps><initialStep>subtaskCreate1</initialStep></initialSteps></workflowProcess></workflowProcesses></eventTrigger></eventTriggers>
